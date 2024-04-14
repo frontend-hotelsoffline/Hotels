@@ -1,0 +1,1 @@
+export const BASE_URL = "https://hotelsoffline.com:8080"
