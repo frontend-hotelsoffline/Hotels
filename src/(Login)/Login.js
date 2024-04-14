@@ -49,18 +49,9 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex flex-row overflow-hidden">
-      <div className="w-full">
-        <img
-          className="w-full h-full overflow-hidden"
-          width={500}
-          height={500}
-          alt="login"
-          src="/Login.jpeg"
-        />
-      </div>
-      <form onSubmit={onSubmit} className="w-full m-auto p-24">
-        <h1 className="logo-title absolute top-2">HotelsOffline</h1>
+    <div style={{backgroundImage: "url(/background.png)"}} className="h-screen flex justify-center items-center overflow-hidden">
+      <form onSubmit={onSubmit} className="w-[600px] h-[500px] bg-white m-auto py-10 px-[120px] rounded-3xl">
+        <h1 className="logo-title ">HotelsOffline</h1>
         <p className="text-black font-semibold">Welcome back</p>
         <h1 className="text-3xl text-blue-800 mb-3">Login to your account</h1>
         <label>Username</label>
@@ -79,15 +70,15 @@ const Login = () => {
           className="mb-3 h-10"
           type="password"
         />
-        <div className="flex justify-between">
-          <Checkbox className="flex mb-6">Remember me</Checkbox>
+        <div className="flex mb-6 items-center justify-between">
+          <Checkbox className="flex">Remember me</Checkbox>
           <Link className="text-blue-600 mb-3 underline font-bold" to="/">
             Forgot password?
           </Link>
         </div>
         <Button
           htmlType="submit"
-          className="w-full mb-20 bg-blue-600 text-white text-lg h-10 font-semibold"
+          className="w-full mb-2 bg-blue-600 text-white text-lg h-10 font-semibold"
         >
           Login
         </Button>
