@@ -76,23 +76,12 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen flex flex-row overflow-hidden">
-      <div className="w-full">
-        <img
-          className="w-full h-full overflow-hidden"
-          width={500}
-          height={500}
-          alt="login"
-          src="/Login.jpeg"
-        />
-      </div>
-      <div className="w-full capitalize">
+    <div style={{backgroundImage: "url(/background.png)"}} className="h-screen flex items-center justify-center overflow-hidden">
         <form
           onSubmit={onSubmit}
-          className="w-full m-auto px-24 space-y-3 overflow-auto"
+          className="w-[600px] h-[550px] bg-white space-y-2 overflow-auto rounded-3xl py-5 px-[120px]"
         >
-          <h1 className="logo-title mt-5">HotelsOffline</h1>
-          <p className="text-black font-semibold">Welcome</p>
+          <h1 className="logo-title">HotelsOffline</h1>
           <h1 className="text-3xl text-blue-800">Create an account</h1>
           <label>
             Account type
@@ -230,7 +219,6 @@ const Register = () => {
             </Link>
           </div>
         </form>
-      </div>
     </div>
   );
 };

@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <div style={{backgroundImage: "url(/background.png)"}} className="h-screen flex justify-center items-center overflow-hidden">
-      <form onSubmit={onSubmit} className="w-[600px] h-[500px] bg-white m-auto py-10 px-[120px] rounded-3xl">
+      <form onSubmit={onSubmit} className="w-[600px] h-[500px] bg-white py-10 px-[120px] rounded-3xl">
         <h1 className="logo-title ">HotelsOffline</h1>
         <p className="text-black font-semibold">Welcome back</p>
         <h1 className="text-3xl text-blue-800 mb-3">Login to your account</h1>
