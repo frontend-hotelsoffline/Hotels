@@ -1,13 +1,19 @@
 
 import { Button, Checkbox, Input, message } from "antd";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
 import { Link, useNavigate, } from "react-router-dom";
+import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
   const router = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
   const { uname, pswd } = formData;
+
+ useEffect(()=>{
+isAuthenticated && router("/Dashboard")
+ }, [isAuthenticated])
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -36,12 +42,12 @@ const Login = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res?.data?.login.message==="success") {
+      if (res?.data?.login?.message==="success") {
         message.success(res.data.login?.message);
         router("/Dashboard");
-        console.log(document.cookie)
+        setIsAuthenticated(localStorage.setItem("isAuthenticated", "success"))
       }
-      else message.error(res?.data?.login)
+      else message.error(res?.data?.login?.message)
     } catch (error) {
       message.error("Failed");
     }
@@ -83,7 +89,7 @@ const Login = () => {
         </Button>
         <div className="flex justify-center">
           <p>Don't have an account?</p>
-          <Link className=" text-blue-500 underline ml-2" to="/Register">
+          <Link className=" text-blue-500 underline ml-2" to="/Dashboard">
             Join free today
           </Link>
         </div>
