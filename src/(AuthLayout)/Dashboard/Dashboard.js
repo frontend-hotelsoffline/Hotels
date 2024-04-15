@@ -79,8 +79,8 @@ const Dashboard = () => {
   const Card = ({ bgcolor, title, color, icon, amount, text }) => (
     <div>
       <h1 className="text-md font-semibold">{title}</h1>
-      <div className={`border-[#E9E9E9] border flex items-center justify-evenly shadow-xl text-white text-xl rounded-xl h-40 w-[17vw]`}>
-        <div className={`p-2 ${bgcolor} flex items-center justify-center rounded-full w-[50px] h-[50px]`}>{icon}</div>
+      <div className={`border-[#E9E9E9] border flex items-center justify-evenly shadow-xl text-white text-xl rounded-xl h-[100px] w-[14vw] m-1`}>
+        <div className={`p-2 ${bgcolor} flex items-center justify-center rounded-full w-[30px] h-[30px]`}>{icon}</div>
        <div  className={`text-center text-sm ${color}`}><h1>{amount}</h1>
         <p>{text}</p></div>
       </div>
@@ -130,11 +130,11 @@ const Dashboard = () => {
           text="Totoal Balance"
         />
       </div>
-      <div className="w-full h-80 my-5">
+      {/* <div className="w-full h-80 my-5">
         <Bar data={data}/>
       </div>
       <h1 className="my-5 text-xl">Recent Bookings</h1>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} /> */}
     </section>
   );
 };

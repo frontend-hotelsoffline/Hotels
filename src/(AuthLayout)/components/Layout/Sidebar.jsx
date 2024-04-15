@@ -84,15 +84,8 @@ const Sidebar = () => {
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "wallet", <FaWallet />),
   ];
   return (
-    <div className="w-full">
-      <div className="w-full flex flex-col items-center space-y-2 mb-3">
-        <div className="super-admin-profile"></div>
-        <span className="">
-          <h1 className="title">Super Admin</h1>
-          <h2 className="sub-title text-center">Moderator</h2>
-        </span>
-      </div>
-      <Menu className="w-full h-[350px] overflow-auto"
+    <div className="w-full p-3">
+      <Menu className="w-full  overflow-auto"
         onClick={getCurrentKey}
         defaultSelectedKeys={[currentPage]}
         defaultOpenKeys={[currentPage]}
@@ -106,8 +99,16 @@ const Sidebar = () => {
         }}
         className="logout cursor-pointer"
       >
-        Log out <LogoutOutlined className="mt-2" />
+        <div className="border border-black mt-2 p-1 rounded-lg">
+      <div className="w-full flex flex-row items-center justify-evenly border-black border rounded-md">
+        <div className="super-admin-profile"></div>
+        <span className="">
+          <h1 className="title">Super Admin</h1>
+          <h2 className="sub-title text-center">Moderator</h2>
+        </span>
       </div>
+        Log out <LogoutOutlined className="mt-2" />
+      </div></div>
     </div>
   );
 };

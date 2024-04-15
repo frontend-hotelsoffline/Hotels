@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import HeaderTitle from "./HeaderTitle";
 import { useNavigate } from "react-router-dom";
+import Search from "antd/es/input/Search";
 const { Header, Content } = Layout;
 
 const MainLayout = ({ children, title }) => {
@@ -40,35 +41,17 @@ const MainLayout = ({ children, title }) => {
   };
   return (
     <Layout className="w-full overflow-auto">
-      <div>
-        <Modal
-          width={180}
-          className="absolute top-20 overflow-hidden "
-          style={{ padding: 0 }}
-          open={isModalOpen}
-          onOk={handleCancel}
-          onCancel={handleCancel}
-          closeIcon={false}
-          footer={false}
-        >
-          <CloseOutlined
-            className="absolute text-xl right-1 top-4"
-            onClick={handleCancel}
-          />
-          <Sidebar />
-        </Modal>
-      </div>
       <Layout>
         <Header
           style={{
             background: "#FFFFFF",
             color: "#000000",
           }}
-          className="w-full p-0 md:px-12 shadow-xl flex justify-between items-center"
+          className="w-full p-0 md:px-12 shadow-sm flex justify-between items-center"
         >
           <h1 className="logo-title">HotelsOffline</h1>
           <div className="md:flex grid grid-cols-2 items-center md:space-x-6 space-x-1">
-            <Button
+            {/* <Button
               className="nav-btn"
               onClick={() => router("/Dashboard")}
             >
@@ -85,11 +68,13 @@ const MainLayout = ({ children, title }) => {
               className="nav-btn"
             >
               Contracts
-            </Button>
+            </Button> */}
+            <Search placeholder="Search"/>
+            
           </div>
           <div className="flex justify-between items-center">
             <BellOutlined className="h-[17px] w-[15px]" />
-            <div onClick={showProfile} className="profile-image m-3 cursor-pointer"></div>
+            {/* <div onClick={showProfile} className="profile-image m-3 cursor-pointer"></div>
             <Modal className="absolute right-2 top-[60px]"
               width={180}
               open={isOpenProfile}
@@ -100,9 +85,11 @@ const MainLayout = ({ children, title }) => {
             >
               <h1>Profile Details</h1>
             </Modal>
-            <CaretDownOutlined />
+            <CaretDownOutlined /> */}
           </div>
         </Header>
+        <div className="flex flex-row ">
+          <div className="w-[200px] border-r-[1px] border-gray-200"><Sidebar/></div>
         <Content
           className="p-0 py-2 md:px-12"
           style={{
@@ -112,10 +99,10 @@ const MainLayout = ({ children, title }) => {
             // padding: "10px 50px",
           }}
         >
-          <HiBars4 className="w-8 h-8 cursor-pointer" onClick={showModal} />
+          {/* <HiBars4 className="w-8 h-8 cursor-pointer" onClick={showModal} /> */}
           <HeaderTitle />
           {children}
-        </Content>
+        </Content></div>
       </Layout>
     </Layout>
   );
