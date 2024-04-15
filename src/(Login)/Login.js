@@ -36,15 +36,14 @@ const Login = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res?.data?.loging?.jwt==="success") {
-        message.success("Login Successfully");
-        localStorage.setItem("isAuthenticated", res?.data?.loging?.jwt)
-        console.log(res?.data?.loging?.jwt)
+      if (res?.data?.login.message==="success") {
+        message.success(res.data.login?.message);
         router("/Dashboard");
+        console.log(document.cookie)
       }
-      else message.error(res?.data?.loging?.jwt)
+      else message.error(res?.data?.login)
     } catch (error) {
-      message.error("Failed, Please check and try again");
+      message.error("Failed");
     }
   };
 
