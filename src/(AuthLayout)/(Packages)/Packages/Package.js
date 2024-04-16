@@ -5,11 +5,11 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import {EditIcon} from "../../components/Customized/EditIcon";
 
 const Packages = () => {
-  const router = useRouter();
+  const router = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const showModal = () => {

@@ -74,7 +74,7 @@ const EditPackage = () => {
   }))
   
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useRouter();
+  const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
   const [imageList, setImagelist] = useState(imageArray || [])
   const [dataSource, setDataSource] = useState();

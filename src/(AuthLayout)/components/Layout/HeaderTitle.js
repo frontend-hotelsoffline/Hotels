@@ -36,7 +36,7 @@ const HeaderTitle = ({ title }) => {
       capitalizedSegments[i] +
       (capitalizedSegments.length - 1 === i ? "" : " / ");
   }
-  return <p className='header-title uppercase my-4'>{finalString}</p>;
+  return <p className='header-title capitalize my-4'>{finalString}</p>;
 };
 
 export default HeaderTitle;

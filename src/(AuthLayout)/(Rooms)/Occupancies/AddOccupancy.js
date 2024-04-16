@@ -1,11 +1,11 @@
 import { Button, Input, message } from "antd";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 
 const AddOccupancy = ({ getOccupancy, handleCancel }) => {
-  const router = useRouter();
+  const router = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     max_adults: 0,

@@ -21,7 +21,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import getAllHotelChains from "../../components/Helper/GetAllHotelChains";
 import getAllPlacesOfInterest from "../../components/Helper/GetAllPlacesOfInterest";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import GetAllFacilities from "../../components/Helper/GetAllFacilities";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import AddPlacesOfInterest from "../Places-of-Interest/AddPlacesOfInterest";
@@ -58,7 +58,7 @@ const AddHotel = ({ address }) => {
   const { facilityValue, getFacility } = GetAllFacilities();
   const { accManager } = GetAllUsers();
   const { MarkUpValue } = GetAllPricingMarkUp();
-  const router = useRouter();
+  const router = useNavigate();
   const [openPlaceOfInterestModal, setOpenPlaceOfInterestModal] =
     useState(false);
   const [openHotelChainModal, setOpenHotelChainModal] = useState(false);

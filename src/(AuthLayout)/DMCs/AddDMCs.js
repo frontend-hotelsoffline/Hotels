@@ -1,13 +1,13 @@
 "use client";
 import { Button, Input, Select, message } from "antd";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
 
 const AddDMCs = ({ getDMCs, handleCancel }) => {
-  const router = useRouter();
+  const router = useNavigate();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const { accManager } = GetAllUsers();
   const [formData, setFormData] = useState({ name: "", status: "" });

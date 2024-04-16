@@ -2,7 +2,7 @@
 import { Button, DatePicker, Input, Modal, Popover, Select, Spin, Table, Upload, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { POST_API } from "../../components/API/PostAPI";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
@@ -50,7 +50,7 @@ const AddPackage = () => {
   };
   
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useRouter();
+  const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
   const [dataSource, setDataSource] = useState([]);
   const [toggle, setToggle] = useState("");

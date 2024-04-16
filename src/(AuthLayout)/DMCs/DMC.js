@@ -1,4 +1,3 @@
-"use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
@@ -8,7 +7,7 @@ import { GET_API } from "../components/API/GetAPI";
 import AddDMCs from "./AddDMCs";
 import PopUpContract from "./PopUpContract";
 import PopUpHotel from "./PopUpHotel";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const DMCs = () => {
   const [rowData, setRowData] = useState({});
@@ -16,9 +15,15 @@ const DMCs = () => {
   const [isModalOpenContract, setIsModalOpenContract] = useState(false);
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const showTable = (type) => {
-    type == "hotels" ? setIsModalOpen(true) : "";
-    type == "contract" ? setIsModalOpenContract(true) : "";
-    type == "dmcs" ? setIsModalOpenDmcs(true) : "";
+    if (type === "hotels") {
+      setIsModalOpen(true);
+    }
+    if (type === "contract") {
+      setIsModalOpenContract(true);
+    }
+    if (type === "dmcs") {
+      setIsModalOpenDmcs(true);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -83,10 +88,8 @@ const DMCs = () => {
           email: item.email || "",
           hotels_of_the_dmc: item.hotels_of_the_dmc || "",
           account_manager: item.account_manager.uname || "",
-          Live_static_contracts:
-            item.Live_static_contracts || [],
-          Live_dynamic_contracts:
-            item.Live_dynamic_contracts || [],
+          Live_static_contracts: item.Live_static_contracts || [],
+          Live_dynamic_contracts: item.Live_dynamic_contracts || [],
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -130,19 +133,19 @@ const DMCs = () => {
       render: (text, record) => (
         <ul>
           {record?.hotels_of_the_dmc?.length > 0 ? (
-              <span className="w-full flex justify-center">
-              <Button onClick={()=>showTable("dmcs")} className="hotel-btn">
+            <span className="w-full flex justify-center">
+              <Button onClick={() => showTable("dmcs")} className="hotel-btn">
                 {record?.hotels_of_the_dmc?.length || ""}
               </Button>
               <Modal
-              footer={false}
-              open={isModalOpenDmcs}
-              onOk={handleCancel}
-              onCancel={handleCancel}
-            >
-              <PopUpHotel record={rowData} />
-            </Modal>
-          </span>
+                footer={false}
+                open={isModalOpenDmcs}
+                onOk={handleCancel}
+                onCancel={handleCancel}
+              >
+                <PopUpHotel record={rowData} />
+              </Modal>
+            </span>
           ) : (
             <Button className="hotel-btn-red">0</Button>
           )}
@@ -155,33 +158,34 @@ const DMCs = () => {
       title: "contracts",
       dataIndex: "number_contract",
       key: "number_contract",
-        render: (text, record) => (
-          <ul>
-            {record.Live_dynamic_contracts?.length +
-                    record.Live_static_contracts?.length > 0 ? (
-              <span className="w-full flex justify-center">
-                <Button
-                  onClick={() => showTable("contract")}
-                  className="hotel-btn"
-                >
-                  {record.Live_dynamic_contracts?.length +
-                    record.Live_static_contracts?.length}
-                </Button>
-                <Modal
-                  footer={false}
-                  open={isModalOpenContract}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <PopUpContract record={rowData} />
-                </Modal>
-              </span>
-            ) : (
-              <Button className="hotel-btn-red">0</Button>
-            )}
-          </ul>
-        ),
-      },
+      render: (text, record) => (
+        <ul>
+          {record.Live_dynamic_contracts?.length +
+            record.Live_static_contracts?.length >
+          0 ? (
+            <span className="w-full flex justify-center">
+              <Button
+                onClick={() => showTable("contract")}
+                className="hotel-btn"
+              >
+                {record.Live_dynamic_contracts?.length +
+                  record.Live_static_contracts?.length}
+              </Button>
+              <Modal
+                footer={false}
+                open={isModalOpenContract}
+                onOk={handleCancel}
+                onCancel={handleCancel}
+              >
+                <PopUpContract record={rowData} />
+              </Modal>
+            </span>
+          ) : (
+            <Button className="hotel-btn-red">0</Button>
+          )}
+        </ul>
+      ),
+    },
     {
       title: "Action",
       dataIndex: "action",
@@ -191,13 +195,11 @@ const DMCs = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button className="action-btn">
-                  edit
-                </Button>
+                <Button className="action-btn">edit</Button>
               </div>
             }
           >
-             {EditIcon}
+            {EditIcon}
           </Popover>
         </span>
       ),
@@ -220,7 +222,7 @@ const DMCs = () => {
           </Button>
         </div>
         <Button
-          onClick={()=>showTable("hotels")}
+          onClick={() => showTable("hotels")}
           className="button-bar"
           icon={<PlusOutlined />}
         >

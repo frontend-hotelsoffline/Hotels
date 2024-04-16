@@ -45,7 +45,7 @@ import GetAllDMCsOfHotel from "../../components/Helper/GetDMCsOfAHotel";
 import GetHotelByID from "../../components/Helper/GetHotelByID";
 
 const StaticContract = () => {
-  const router = useRouter();
+  const router = useNavigate();
   const { Option } = Select;
   const { hotelValue } = GetAllHotels();
   const {regionCountries, getRegionsWithCountries} = RegionsForCountries()

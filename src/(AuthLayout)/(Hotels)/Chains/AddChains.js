@@ -1,10 +1,10 @@
 import { Button, Input, message } from "antd";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 
 const AddChains = ({getChains, handleCancel}) => {
-    const router = useRouter()
+    const router = useNavigate()
     const [formData, setFormData] = useState({name: '', description:''})
     const {name, description} = formData
 

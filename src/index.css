@@ -87,7 +87,7 @@
 .ant-menu-item-selected {
   background: #2A83FF !important;
   color: #ffffff !important;
-  border-radius: 0 !important;
+  border-radius: 3 !important;
   margin: 0 !important;
   width: 100% !important;
   margin-block: 2px !important;
@@ -147,27 +147,27 @@
 
 .header-title {
   color: #000;
-  font-family: Inter !important;
+  font-family: Poppins !important;
   font-size: 25px;
   font-style: normal;
   font-weight: 800 !important;
-  line-height: normal;
-  letter-spacing: 5.6px;
+  line-height: 49.24px;
+  /* letter-spacing: 2.6px; */
 }
 .search-bar {
   display: flex;
-  width: 313px;
+  width: 650px;
   height: 40px;
   padding: 16px 32px 16px 20px;
   align-items: center;
   gap: 20px;
-  border-radius: 40px;
+  border-radius: 10px;
   background: #fff;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25),
     0px -1px 1px 0px rgba(0, 0, 0, 0.25);
   color: #696969;
   font-family: Inter;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
@@ -181,13 +181,13 @@
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  border-radius: 40px;
+  border-radius: 10px;
   border: 1px solid #c9c9c9;
   background: #fff;
   margin-left: 20px;
-  color: #000;
+  color: #32405C;
   font-family: Inter;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
@@ -199,14 +199,14 @@
   padding: 13px 40px;
   justify-content: center;
   align-items: center;
-  border-radius: 40px;
-  background: #fff;
+  border-radius: 10px;
+  background: #128CFC;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
     0px 2px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  color: #000;
+  color: #FFFFFF;
   text-align: center;
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -256,7 +256,7 @@
   min-height: 60px;
   color: #000;
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -271,7 +271,7 @@
   border-radius: 20px;
   color: #000;
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -336,7 +336,7 @@
   text-transform: capitalize;
 }
 
-.button-bar:hover,
+/* .button-bar:hover,
 .list-btn:hover,
 .save-btn:hover,
 .nav-btn:hover,
@@ -344,7 +344,7 @@
 .contract-modal:hover {
   background: #000;
   color: #ffffff !important;
-}
+} */
 
 .hotel-btn {
   border-radius: 30px;
@@ -374,7 +374,7 @@
   border-radius: 20px;
   color: #000;
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 15.7px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

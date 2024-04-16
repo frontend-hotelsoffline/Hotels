@@ -1,6 +1,6 @@
 "use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
@@ -10,8 +10,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import PopUpForContract from "./PopUpForContract";
 import PopUpForDMC from "./PopUpForDMC";
 import PopUpForHotel from "./PopUpForHotel";
-import {EditIcon}from "../components/Customized/EditIcon";
-import Link from "next/link";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const AccountOwners = () => {
   const { accManager, getAllUsers } = GetAllUsers();
@@ -24,10 +23,10 @@ const AccountOwners = () => {
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const [isModalOpenCombine, setIsModalOpenCombine] = useState(false);
   const showTable = (type) => {
-    type == "hotels" ? setIsModalOpen(true) : "";
-    type == "contract" ? setIsModalOpenContract(true) : "";
-    type == "dmcs" ? setIsModalOpenDmcs(true) : "";
-    type == "combine" ? setIsModalOpenCombine(true) : "";
+    if (type == "hotels") setIsModalOpen(true);
+    if (type == "contract") setIsModalOpenContract(true);
+    if (type == "dmcs") setIsModalOpenDmcs(true);
+    if (type == "combine") setIsModalOpenCombine(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -75,7 +74,7 @@ const AccountOwners = () => {
   useEffect(() => {
     getAccountOwners();
   }, [accManager]);
-  const router = useRouter();
+  const router = useNavigate();
   console.log(accManager);
 
   const columns = [
@@ -96,12 +95,17 @@ const AccountOwners = () => {
       dataIndex: "name",
       key: "name",
       sorter: (a, b) => (a.name ? a.name.localeCompare(b.name) : ""),
-      render: (a, record)=><Button className="border-none text-blue-700" onClick={() => {
-        const recordString = encodeURIComponent(
-          JSON.stringify(record)
-        );
-        router(`Account-Managers/Details?record=${recordString}`);
-      }}>{a}</Button>
+      render: (a, record) => (
+        <Button
+          className="border-none text-blue-700"
+          onClick={() => {
+            const recordString = encodeURIComponent(JSON.stringify(record));
+            router(`Account-Managers/Details?record=${recordString}`);
+          }}
+        >
+          {a}
+        </Button>
+      ),
     },
     {
       title: "Commission",

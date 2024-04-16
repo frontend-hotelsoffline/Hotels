@@ -10,7 +10,7 @@ import AddDMCs from "../../DMCs/AddDMCs";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 
 const Rooms = () => {
-  const router = useRouter();
+  const router = useNavigate();
   const searchParams = useSearchParams();
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;

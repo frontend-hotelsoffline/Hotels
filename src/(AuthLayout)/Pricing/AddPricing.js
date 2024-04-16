@@ -1,11 +1,11 @@
 import { Button, Input, message } from "antd";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
 const AddPricing = ({ getPricing, handleCancel }) => {
-  const router = useRouter();
+  const router = useNavigate();
   const [formData, setFormData] = useState({ name: "", status: "" });
   const { name, markup } = formData;
 

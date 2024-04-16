@@ -1,11 +1,11 @@
 import { Button, Input, Select, message } from "antd";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { countryList } from "../../components/Helper/ListOfAllCountries";
 
 const AddPlacesOfInterest = ({getPlacesOfInterest, handleCancel}) => {
-    const router = useRouter()
+    const router = useNavigate()
     const [formData, setFormData] = useState({name: '', description:''})
     const {name, country} = formData
 

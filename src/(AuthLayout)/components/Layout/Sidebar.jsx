@@ -85,6 +85,8 @@ const Sidebar = () => {
   ];
   return (
     <div className="w-full p-3">
+    <h1 className="logo-title">HotelsOffline</h1>
+    <hr className="my-2 w-full"/>
       <Menu className="w-full  overflow-auto"
         onClick={getCurrentKey}
         defaultSelectedKeys={[currentPage]}

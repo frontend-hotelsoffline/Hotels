@@ -5,12 +5,12 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { formatDate } from "../../components/Helper/FormatDate";
 import {EditIcon}from "../../components/Customized/EditIcon";
 
 const Contracts = () => {
-  const router = useRouter();
+  const router = useNavigate();
   const [activeItem, setActiveItem] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {

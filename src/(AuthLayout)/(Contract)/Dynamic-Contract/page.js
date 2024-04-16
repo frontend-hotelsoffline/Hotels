@@ -18,7 +18,7 @@ import GetHotelByID from "../../components/Helper/GetHotelByID";
 
 const DynamicContract = () => {
   const timestamp = new Date().toLocaleDateString();
-  const router = useRouter();
+  const router = useNavigate();
   const { hotelValue } = GetAllHotels();
   const [activeItem, setActiveItem] = useState(0);
   

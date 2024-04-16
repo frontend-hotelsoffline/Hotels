@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
-import { GET_API } from "../../components/API/GetAPI";
-import { useRouter } from "next/navigation";
-import { formatDate } from "../../components/Helper/FormatDate";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { GET_API } from "../components/API/GetAPI";
+import { useNavigate, } from "react-router-dom";
+import { formatDate } from "../components/Helper/FormatDate";
+import {EditIcon}from "../components/Customized/EditIcon";
 
 const Services = () => {
-  const router = useRouter();
+  const router = useNavigate();
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");

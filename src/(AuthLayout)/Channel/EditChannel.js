@@ -1,11 +1,11 @@
 import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 
 const EditChannel = ({ getChannel, handleCancel, record }) => {
-  const router = useRouter();
+  const router = useNavigate();
   const [formData, setFormData] = useState({
     name: record.name,
     description: record.description,

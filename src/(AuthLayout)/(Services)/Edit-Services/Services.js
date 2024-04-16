@@ -51,7 +51,7 @@ const EditServices = () => {
   };
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useRouter();
+  const router = useNavigate();
   const { userUnderHotel, usersUnderDMC, userAgent } = GetAllUsers();
   const [activeItem, setActiveItem] = useState(0);
   const [formData, setFormData] = useState({

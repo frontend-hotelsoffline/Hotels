@@ -15,25 +15,31 @@ import {
   PlusOutlined,
   UserOutlined,
   SearchOutlined,
-  CalendarOutlined
+  CalendarOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { POST_API } from "../components/API/PostAPI";
 import { date_to_pass } from "../components/Helper/FrontendTimezone";
-import { formatDate } from "../components/Helper/FormatDate";
-const ButtonGroup = Button.Group;
-const timestamp = new Date().toLocaleDateString();
-const minDate = new Date(timestamp);
 import dayjs from "dayjs";
 import { countryList } from "../components/Helper/ListOfAllCountries";
 import getAllPlacesOfInterest from "../components/Helper/GetAllPlacesOfInterest";
 import getAllRoomView from "../components/Helper/GetAllRoomView";
 import GetAllDMCs from "../components/Helper/GetAllDMCs";
+import { formatDate } from "../components/Helper/FormatDate";
+
+const timestamp = new Date().toLocaleDateString();
+const minDate = new Date(timestamp);
+const ButtonGroup = Button.Group;
 
 const SearchCard = ({ imageUrl, facility, price, description }) => (
   <div className="flex bg-[#e9e9e9] w-full my-2">
-    <Image className="rounded-md" width={300} height={300} src={imageUrl} />
+    <img
+      className="rounded-md"
+      width={300}
+      height={300}
+      src={imageUrl}
+      alt={imageUrl}
+    />
     <div className="p-5 w-full min-w-[150px]">
       <h1 className="text-lg">{facility}</h1>
       <p className="text-sm">{description}</p>
@@ -44,11 +50,11 @@ const SearchCard = ({ imageUrl, facility, price, description }) => (
 
 const Search = () => {
   const { placeOfInterestValue } = getAllPlacesOfInterest();
-  const {DMCsValue} = GetAllDMCs()
+  const { DMCsValue } = GetAllDMCs();
   const { roomViewValue, getAllRoomV } = getAllRoomView();
-const [adultCount, setadultCount] = useState(0);
-const [childrenCount, setChildrenCount] = useState(0);
-const [roomsCount, setRoomsCount] = useState(0);
+  const [adultCount, setadultCount] = useState(0);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [roomsCount, setRoomsCount] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -56,19 +62,24 @@ const [roomsCount, setRoomsCount] = useState(0);
   });
   const {
     city_hotel,
-              checkin,
-              checkout,
-              meal,
-              children,
-              rooms,
-              nationality, id_of_place_of_intrst, view_id, dmc_id
+    checkin,
+    checkout,
+    meal,
+    children,
+    rooms,
+    nationality,
+    id_of_place_of_intrst,
+    view_id,
+    dmc_id,
   } = formData;
 
   const filteredPlaceOfInterest = placeOfInterestValue
-  ?.filter((item) => item.country === nationality)
-  .map((item) => ({ value: item.id ? item.id : '', label: item.name ? item.name : '' }));
+    ?.filter((item) => item.country === nationality)
+    .map((item) => ({
+      value: item.id ? item.id : "",
+      label: item.name ? item.name : "",
+    }));
 
-  
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -144,26 +155,21 @@ const [roomsCount, setRoomsCount] = useState(0);
     } catch (error) {
       message.error("Failed");
       console.error(error);
-    }}
-
+    }
+  };
 
   const increase = (category) => {
-    category == "adult"
-      ? setadultCount(adultCount + 1)
-      : category == "children"
-      ? setChildrenCount(childrenCount < 10 ? childrenCount + 1 : childrenCount)
-      : category == "rooms"
-      ? setRoomsCount(roomsCount + 1)
-      : null;
+    if (category == "adult") setadultCount(adultCount + 1);
+    else if (category == "children")
+      setChildrenCount(childrenCount < 10 ? childrenCount + 1 : childrenCount);
+    else if (category == "rooms") setRoomsCount(roomsCount + 1);
   };
   const decrease = (category) => {
-    category == "adult"
-      ? setadultCount(adultCount > 0 ? adultCount - 1 : 0)
-      : category == "children"
-      ? setChildrenCount(childrenCount > 0 ? childrenCount - 1 : 0)
-      : category == "rooms"
-      ? setRoomsCount(roomsCount > 0 ? roomsCount - 1 : 0)
-      : null;
+    if (category == "adult") setadultCount(adultCount > 0 ? adultCount - 1 : 0);
+    else if (category == "children")
+      setChildrenCount(childrenCount > 0 ? childrenCount - 1 : 0);
+    else if (category == "rooms")
+      setRoomsCount(roomsCount > 0 ? roomsCount - 1 : 0);
   };
   const content = () => (
     <div className="w-80 p-4 space-y-2">
@@ -206,9 +212,9 @@ const [roomsCount, setRoomsCount] = useState(0);
   );
   const { RangePicker } = DatePicker;
 
-  useEffect(()=>{
+  useEffect(() => {
     // fecthSearchData()
-  },[])
+  }, []);
   return (
     <section>
       <div className="flex mb-5 filter-section items-center gap-5 px-2 justify-between md:flex-row flex-col">
@@ -221,27 +227,26 @@ const [roomsCount, setRoomsCount] = useState(0);
           onChange={onChange}
         />
         <RangePicker
-        format={formatDate}
-        value={[checkin ? dayjs(checkin) : null, checkout? dayjs(checkout) : null]}
+          format={formatDate}
+          value={[
+            checkin ? dayjs(checkin) : null,
+            checkout ? dayjs(checkout) : null,
+          ]}
           placeholder={["Check-In Date", "Check-Out Date"]}
           className="w-full min-w-[270px] border-black inputfildinsearch h-[40px]"
-          suffixIcon={<CalendarOutlined style={{color: "black"}}/>}    
+          suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           onChange={(value, dateString) => {
-            console.log(dateString[0])
-            const dateObject = new Date(
-              dateString ? dateString[0] : null
-            );
-            const dateObject1 = new Date(
-              dateString ? dateString[1] : null
-            );
+            console.log(dateString[0]);
+            const dateObject = new Date(dateString ? dateString[0] : null);
+            const dateObject1 = new Date(dateString ? dateString[1] : null);
             const isoString = dateObject.toISOString();
             const isoString1 = dateObject1.toISOString();
             setFormData((prev) => ({
               ...prev,
               checkin: isoString,
-              checkout: isoString1
+              checkout: isoString1,
             }));
-          }}        
+          }}
         />
         <Popover placement="bottom" content={content} trigger="click">
           <Button
@@ -252,22 +257,23 @@ const [roomsCount, setRoomsCount] = useState(0);
             <p>{roomsCount} rooms</p>
           </Button>
         </Popover>
-          <Select
+        <Select
           value={nationality}
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label?.toLowerCase() ?? "").includes(
-                input?.toLowerCase()
-              )
-            }
-            onChange={(value) =>
-              setFormData((prev) => ({ ...prev, nationality: value }))
-            }
-            options={countryList}
-            className="h-[40px] inputfildinsearch w-full"
-            placeholder = "Country"
-          />
-        <Button onClick={fecthSearchData} className="list-btn border-black md:w-auto w-full">
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label?.toLowerCase() ?? "").includes(input?.toLowerCase())
+          }
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, nationality: value }))
+          }
+          options={countryList}
+          className="h-[40px] inputfildinsearch w-full"
+          placeholder="Country"
+        />
+        <Button
+          onClick={fecthSearchData}
+          className="list-btn border-black md:w-auto w-full"
+        >
           Search
         </Button>
       </div>
@@ -275,7 +281,14 @@ const [roomsCount, setRoomsCount] = useState(0);
         <div className="w-80 pr-5">
           <h1 className="title">Filter by:</h1>
           <p className="sub-title">Hotel Stars </p>
-          <Rate defaultValue={3} style={{border: "1px black solid", padding: "3px 10px", width: "100%"}}/>
+          <Rate
+            defaultValue={3}
+            style={{
+              border: "1px black solid",
+              padding: "3px 10px",
+              width: "100%",
+            }}
+          />
           <div className="p-1 shadow-sm shadow-black my-3 gap-4">
             <h1 className="sub-title">Price Range</h1>
             Your Budget Per night
@@ -284,83 +297,80 @@ const [roomsCount, setRoomsCount] = useState(0);
             <Slider min={50} max={2000} />
           </div>
           <h1>Place of interest</h1>
-          <Select className="w-full mb-2"
-              showSearch
-              value={id_of_place_of_intrst}
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              options={filteredPlaceOfInterest}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  id_of_place_of_intrst: value,
-                }));
-              }}
-            />
+          <Select
+            className="w-full mb-2"
+            showSearch
+            value={id_of_place_of_intrst}
+            filterOption={(input, option) =>
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+            }
+            options={filteredPlaceOfInterest}
+            onChange={(value) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                id_of_place_of_intrst: value,
+              }));
+            }}
+          />
           <h1>Room view</h1>
           <Select
-              showSearch
-              value={view_id}
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              className="input-style w-full"
-              options={roomViewValue}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  view_id: value,
-                }));
-              }}
-            />
-          <h1>Meals</h1><Select
-          value={meal}
-          options= {[
-            // { value: "N/A", label: "N/A" },
-            { value: "ROOM ONLY", label: "ROOM ONLY" },
-            { value: "BREAKFAST", label: "BREAKFAST" },
-            { value: "HB", label: "HB" },
-            { value: "FB", label: "FB" },
-            { value: "SOFT ALL INC", label: "SOFT ALL INC" },
-            { value: "ALL INC", label: "ALL INC" },
-            { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
-          ]}
-
-          onChange={(value) => {
-            setFormData((prevData) => ({
-              ...prevData,
-              meal: value,
-            }));
-          }}
-          className="w-full border-black"
-        />
-        <h1>Supplier</h1>
-        <Select
-      value={dmc_id}
-        showSearch
-        filterOption={(input, option) =>
-          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-        }
-        className="input-style w-full"
-        options={DMCsValue.map((item) => ({
-          value: item.id ? item.id : "",
-          label: item.name ? item.name : "",
-        }))}
-        onChange={(value) => {
-          setFormData((prevData) => ({
-            ...prevData,
-            dmc_id: value,
-          }));
-        }}
-      />
+            showSearch
+            value={view_id}
+            filterOption={(input, option) =>
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+            }
+            className="input-style w-full"
+            options={roomViewValue}
+            onChange={(value) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                view_id: value,
+              }));
+            }}
+          />
+          <h1>Meals</h1>
+          <Select
+            value={meal}
+            options={[
+              // { value: "N/A", label: "N/A" },
+              { value: "ROOM ONLY", label: "ROOM ONLY" },
+              { value: "BREAKFAST", label: "BREAKFAST" },
+              { value: "HB", label: "HB" },
+              { value: "FB", label: "FB" },
+              { value: "SOFT ALL INC", label: "SOFT ALL INC" },
+              { value: "ALL INC", label: "ALL INC" },
+              { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
+            ]}
+            onChange={(value) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                meal: value,
+              }));
+            }}
+            className="w-full border-black"
+          />
+          <h1>Supplier</h1>
+          <Select
+            value={dmc_id}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+            }
+            className="input-style w-full"
+            options={DMCsValue.map((item) => ({
+              value: item.id ? item.id : "",
+              label: item.name ? item.name : "",
+            }))}
+            onChange={(value) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                dmc_id: value,
+              }));
+            }}
+          />
         </div>
         <div className="w-full">
-        {/*will map the results here
+          {/*will map the results here
          <SearchCard
           facility="Nice Hotel in Dubai"
           description="This is very beautiful and Cheap lajfl aljlfdla lahlfasd l aie"

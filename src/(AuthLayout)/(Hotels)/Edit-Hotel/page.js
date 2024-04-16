@@ -55,7 +55,7 @@ const AddHotel = ({ address }) => {
   const { placeOfInterestValue } = getAllPlacesOfInterest();
   const { facilityValue } = GetAllFacilities();
   const { accManager } = GetAllUsers();
-  const router = useRouter();
+  const router = useNavigate();
 
   const searchParams = useSearchParams();
   const record = searchParams.get("record");

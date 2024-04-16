@@ -1,6 +1,6 @@
 "use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
@@ -22,10 +22,10 @@ const Hotels = () => {
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const [isModalOpenCombine, setIsModalOpenCombine] = useState(false);
   const showTable = (type) => {
-    type == "room" ? setIsModalOpen(true) : "";
-    type == "contract" ? setIsModalOpenContract(true) : "";
-    type == "dmcs" ? setIsModalOpenDmcs(true) : "";
-    type == "combine" ? setIsModalOpenCombine(true) : "";
+    if(type == "room"){setIsModalOpen(true)};
+    if(type == "contract"){setIsModalOpenContract(true)};
+    if(type == "dmcs"){setIsModalOpenDmcs(true)};
+    if(type == "combine"){setIsModalOpenCombine(true)};
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -183,7 +183,7 @@ const Hotels = () => {
   useEffect(() => {
     getHotels();
   }, []);
-  const router = useRouter();
+  const router = useNavigate();
 
   const columns = [
     {

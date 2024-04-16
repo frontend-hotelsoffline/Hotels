@@ -2,10 +2,10 @@ import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 
 const EditAmenity = ({ getAmenities, handleCancel, record }) => {
-  const router = useRouter();
+  const router = useNavigate();
   const [formData, setFormData] = useState({
     name: record.amenity,
     description: record.description,

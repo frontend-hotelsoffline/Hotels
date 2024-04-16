@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter } from "next/navigation";
+import { useNavigate, } from "react-router-dom";
 import { CalendarOutlined } from "@ant-design/icons";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
@@ -47,7 +47,7 @@ const AddServices = () => {
   };
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useRouter();
+  const router = useNavigate();
   const { userUnderHotel, usersUnderDMC, userAgent } = GetAllUsers();
   const [activeItem, setActiveItem] = useState(0);
   const [formData, setFormData] = useState({
