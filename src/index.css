@@ -17,6 +17,7 @@
   position: sticky !important;
   top: 0 !important;
   z-index: 1000;
+  height: 50px !important;
 }
 
 .title {
@@ -56,6 +57,10 @@
   border: 2px solid #000;
 }
 
+.lightORDark{
+  color: #1B2644 !important;
+  text-align: center;
+}
 
 .ant-menu-item {
   color: #1B2644 !important;
@@ -66,7 +71,7 @@
   line-height: normal;
   display: flex !important;
   width: 150px;
-  height: 25px !important;
+  height: 24px !important;
   align-items: center !important;
   flex-shrink: 0;
 }

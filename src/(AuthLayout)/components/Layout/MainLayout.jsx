@@ -3,7 +3,6 @@ import { Button, Layout, Modal, Select } from "antd";
 import Sidebar from "./Sidebar";
 import { LuBellDot } from "react-icons/lu";
 import HeaderTitle from "./HeaderTitle";
-import { useNavigate } from "react-router-dom";
 const { Header, Content } = Layout;
 
 const MainLayout = ({ children, title }) => {
@@ -34,7 +33,6 @@ const MainLayout = ({ children, title }) => {
             // padding: "10px 50px",
           }}
         >
-          {/* <HiBars4 className="w-8 h-8 cursor-pointer" onClick={showModal} /> */}
           {children}
         </Content>
       </div>
