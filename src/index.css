@@ -6,7 +6,7 @@
   height: 100%;
 }
 
-.ant-layout{
+.ant-layout {
   position: relative !important;
   height: 100svh !important;
   background: #ffffff;
@@ -57,13 +57,13 @@
   border: 2px solid #000;
 }
 
-.lightORDark{
-  color: #1B2644 !important;
+.lightORDark {
+  color: #1b2644 !important;
   text-align: center;
 }
 
 .ant-menu-item {
-  color: #1B2644 !important;
+  color: #1b2644 !important;
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
@@ -90,7 +90,7 @@
 }
 
 .ant-menu-item-selected {
-  background: #2A83FF !important;
+  background: #2a83ff !important;
   color: #ffffff !important;
   border-radius: 3 !important;
   margin: 0 !important;
@@ -190,7 +190,7 @@
   border: 1px solid #c9c9c9;
   background: #fff;
   margin-left: 20px;
-  color: #32405C;
+  color: #32405c;
   font-family: Inter;
   font-size: 15.7px;
   font-style: normal;
@@ -201,14 +201,14 @@
 .button-bar {
   height: 40px;
   display: inline-flex;
-  padding: 13px 40px;
+  padding: 7px 15px;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background: #128CFC;
+  background: #128cfc;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
     0px 2px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   font-family: Poppins;
   font-size: 15.7px;
@@ -232,10 +232,12 @@
   border: 1px solid black !important;
   border-radius: 7px !important;
 }
-.ant-checkbox, .ant-select {
+.ant-checkbox,
+.ant-select {
   border: 1px solid black !important;
 }
-.ant-select, .ant-input {
+.ant-select,
+.ant-input {
   border: 1px solid black;
   border-radius: 6px;
 }
@@ -243,7 +245,7 @@
   color: #000 !important;
 }
 
-.inactive{
+.inactive {
   border: 1px solid #000 !important;
   background: #eee !important;
 }
@@ -394,10 +396,10 @@ table {
   border-spacing: 0 5px !important;
 }
 
-.ant-table-container{
+.ant-table-container {
   position: relative;
   overflow-y: auto;
-  max-height: 400px 
+  max-height: 400px;
 }
 
 thead {
@@ -443,12 +445,13 @@ td {
   line-height: normal;
   text-align: center !important;
 }
-td ul{
+td ul {
   display: flex !important;
   justify-content: center !important;
   width: 100% !important;
 }
-td li, .borderedRow{
+td li,
+.borderedRow {
   border: 1px solid black !important;
   height: 25px;
   border-radius: 5px;
@@ -460,7 +463,7 @@ td li, .borderedRow{
   width: 69px;
   /* background-color: #eee; */
 }
-.ant-picker-dropdown{
+.ant-picker-dropdown {
   top: 20% !important;
 }
 
@@ -469,7 +472,7 @@ td li, .borderedRow{
   background-color: transparent;
 } */
 
-.active{
+.active {
   background-color: #fff;
   text-align: center;
 }
@@ -495,14 +498,11 @@ td li, .borderedRow{
   background: #e9e9e9 !important;
 }
 
-
 .horizontal-calendar {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-
 
 .calendar-day {
   padding: 10px;
@@ -551,9 +551,8 @@ td li, .borderedRow{
   justify-content: space-around;
 }
 
-
 @media (min-width: 1460px) {
-  .calendar-month{
+  .calendar-month {
     width: 1400px;
   }
   .calendar-day {
@@ -564,7 +563,6 @@ td li, .borderedRow{
   }
 }
 @media (max-width: 1460px) {
-  
   .calendar-day {
     width: 32px !important;
   }

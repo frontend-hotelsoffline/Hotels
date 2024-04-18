@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { GET_API } from "../API/GetAPI";
 
-const getAllPlacesOfInterest = () => {
+const GetAllPlacesOfInterest = () => {
   const [placeOfInterestValue, setPlaceOfInterestValue] = useState([]);
-  
+
   const getAllPlaces = async () => {
     const GET_ALL_CATEGORIES = `{
         get_all_places_of_interest {
@@ -19,8 +19,8 @@ const getAllPlacesOfInterest = () => {
       const res = await GET_API(path, { params: { query } });
       // console.log('places',res)
       if (Array.isArray(res.data.get_all_places_of_interest)) {
-        const dataArray = res.data.get_all_places_of_interest
-        setPlaceOfInterestValue(dataArray)
+        const dataArray = res.data.get_all_places_of_interest;
+        setPlaceOfInterestValue(dataArray);
       }
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ const getAllPlacesOfInterest = () => {
     getAllPlaces();
   }, []);
 
-  return { placeOfInterestValue, getAllPlaces};
+  return { placeOfInterestValue, getAllPlaces };
 };
 
-export default getAllPlacesOfInterest;
+export default GetAllPlacesOfInterest;

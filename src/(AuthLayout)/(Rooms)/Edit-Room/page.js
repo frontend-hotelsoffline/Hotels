@@ -1,12 +1,21 @@
 "use client";
-import { Button, Checkbox, Input, Modal, Select, Spin, Upload, message } from "antd";
+import {
+  Button,
+  Checkbox,
+  Input,
+  Modal,
+  Select,
+  Spin,
+  Upload,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import useCategories from "../../components/Helper/GetAllCategories";
-import getAllRoomView from "../../components/Helper/GetAllRoomView";
+import GetAllRoomView from "../../components/Helper/GetAllRoomView";
 import { useRouter, useSearchParams } from "next/navigation";
 import GetAllAmenities from "../../components/Helper/GetAllAmenities";
 import AddAmenity from "../Amenities/AddAmenity";
@@ -27,7 +36,7 @@ const getBase64 = (file) =>
   });
 const EditRoom = () => {
   const { categoryValue, getAllCategories } = useCategories();
-  const { roomViewValue, getAllRoomV } = getAllRoomView();
+  const { roomViewValue, getAllRoomV } = GetAllRoomView();
   const { amenityValue, getAllAmenity } = GetAllAmenities();
   const { hotelValue } = GetAllHotels();
 
@@ -53,8 +62,8 @@ const EditRoom = () => {
   const parsedRecord = record ? JSON.parse(record) : null;
 
   const { Option } = Select;
-  const [loading, setLoading] = useState(false)
-  const [imageList, setImagelist] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [imageList, setImagelist] = useState([]);
   const [FormData, setFormData] = useState({
     id: parsedRecord.id || "",
     name: parsedRecord.name || "",
@@ -128,14 +137,14 @@ const EditRoom = () => {
           name: `image_${image.id}.jpeg`,
           status: "done",
           url: `${BASE_URL}${image.link_for_image}`,
-        }))
+        }));
         setImagelist(tableArray);
         setLoading(false);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
-      message.error("Failed")
+      message.error("Failed");
     }
   };
 
@@ -180,7 +189,7 @@ const EditRoom = () => {
     } }
 `;
     const path = "";
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await POST_API(
         path,
@@ -190,7 +199,7 @@ const EditRoom = () => {
         headers
       );
       if (res.data && !res.errors) {
-        setLoading(false)
+        setLoading(false);
         router("/Rooms");
         message.success("Room has been added Successfully");
       } else {
@@ -328,8 +337,13 @@ const EditRoom = () => {
       ),
     }));
   };
-  
-  const allImageList = [...imageList, ...fileList.filter(file => !imageList.find(image => image.uid === file.uid))];
+
+  const allImageList = [
+    ...imageList,
+    ...fileList.filter(
+      (file) => !imageList.find((image) => image.uid === file.uid)
+    ),
+  ];
 
   useEffect(() => {
     getImages();
@@ -337,57 +351,60 @@ const EditRoom = () => {
 
   return (
     <section className="capitalize">
-     { loading ? <Spin /> : <form onSubmit={onSubmit}>
-        <div className="flex justify-between mt-2">
-          <div className="w-full relative">
-            <label className="block font-semibold">Room Name</label>
-            <Input
-              name="name"
-              value={name}
-              onChange={onChange}
-              className="input-style"
-              placeholder="start typing room name"
-            />
-            <span className="labelStyle mt-1">
-              Category
-              <Button
-                className="border-none capitalize"
-                onClick={showCategoryModal}
-              >
-                create category
-              </Button>
-              <Modal
-                open={openCategoryModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddCategory
-                  getCategory={getAllCategories}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </span>
-            <Select
-              value={category_id}
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              className="input-style w-full"
-              options={categoryValue}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  category_id: value,
-                }));
-              }}
-            />
-            <span className="labelStyle mt-1">
-              Occupancy
-              {/* <Button
+      {loading ? (
+        <Spin />
+      ) : (
+        <form onSubmit={onSubmit}>
+          <div className="flex justify-between mt-2">
+            <div className="w-full relative">
+              <label className="block font-semibold">Room Name</label>
+              <Input
+                name="name"
+                value={name}
+                onChange={onChange}
+                className="input-style"
+                placeholder="start typing room name"
+              />
+              <span className="labelStyle mt-1">
+                Category
+                <Button
+                  className="border-none capitalize"
+                  onClick={showCategoryModal}
+                >
+                  create category
+                </Button>
+                <Modal
+                  open={openCategoryModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddCategory
+                    getCategory={getAllCategories}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </span>
+              <Select
+                value={category_id}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                className="input-style w-full"
+                options={categoryValue}
+                onChange={(value) => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    category_id: value,
+                  }));
+                }}
+              />
+              <span className="labelStyle mt-1">
+                Occupancy
+                {/* <Button
               className="border-none capitalize"
               onClick={showOccupancyModal}
             >
@@ -404,214 +421,217 @@ const EditRoom = () => {
                 handleCancel={cancelModal}
               />
             </Modal> */}
-              <Checkbox.Group
-                className="grid grid-cols-2 capitalize font-normal"
-                style={{ width: "100%" }}
-                options={occupancyOptions}
-                onChange={handleCheckboxChange}
-                value={Object.keys(FormData).filter((key) => FormData[key])}
+                <Checkbox.Group
+                  className="grid grid-cols-2 capitalize font-normal"
+                  style={{ width: "100%" }}
+                  options={occupancyOptions}
+                  onChange={handleCheckboxChange}
+                  value={Object.keys(FormData).filter((key) => FormData[key])}
+                />
+              </span>
+              <label className="labelStyle mt-1">Room Order</label>
+              <Input
+                name="priority"
+                value={priority}
+                onChange={onChange}
+                className="input-style"
+                onKeyPress={handleKeyPress}
               />
-            </span>
-            <label className="labelStyle mt-1">Room Order</label>
-            <Input
-              name="priority"
-              value={priority}
-              onChange={onChange}
-              className="input-style"
-              onKeyPress={handleKeyPress}
-            />
-            <span className="labelStyle mt-1">
-              Room View
-              <Button
-                className="border-none capitalize"
-                onClick={showRoomViewModal}
-              >
-                create Room View
-              </Button>
-              <Modal
-                open={openRoomViewModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddRoomView
-                  getAllRoomView={getAllRoomV}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </span>
-            <Select
-              showSearch
-              value={view_id}
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              className="input-style w-full"
-              options={roomViewValue}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  view_id: value,
-                }));
-              }}
-            />
-            <label className="labelStyle mt-1">
-              Room size m<sup>2</sup>
-            </label>
-            <Input
-              name="room_size"
-              value={room_size}
-              onChange={onChange}
-              className="input-style"
-              onKeyPress={handleKeyPress}
-              placeholder=""
-            />
-            <label className="labelStyle mt-1">Number of Units</label>
-            <Input
-              name="no_of_units"
-              value={no_of_units}
-              onChange={onChange}
-              className="input-style"
-              onKeyPress={handleKeyPress}
-            />
-            <label className="labelStyle mt-1">Room Status</label>
-            <Select
-              value={room_status}
-              onChange={(value) =>
-                setFormData((prev) => ({ ...prev, room_status: value }))
-              }
-              options={[
-                { value: "Active", label: "Active" },
-                { value: "Inactive", label: "Inactive" },
-              ]}
-              className="input-style w-full"
-            />
-            <label className="labelStyle mt-1 w-full">hotel Name</label>
-            <Select
-              value={hotel_id}
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              className="input-style w-full"
-              options={hotelValue.map((item) => ({
-                value: item.id ? item.id : "",
-                label: item.name ? item.name : "",
-              }))}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  hotel_id: value,
-                }));
-              }}
-            />
-            <label className="labelStyle mt-1 w-full">giata ID</label>
-            <Input
-              name="giataId"
-              value={giataId}
-              onChange={onChange}
-              className="input-style"
-            />
-            <p className="mt-5">
-              Choose Amenities
-              <Button
-                className="border-none capitalize"
-                onClick={showAmenityModal}
-              >
-                create Amenities
-              </Button>
-              <Modal
-                open={openAmenityModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddAmenity
-                  getAmenities={getAllAmenity}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </p>
-            <Checkbox.Group
-              value={amenity_ids}
-              className="grid grid-cols-2 capitalize "
-              style={{ width: "100%" }}
-              onChange={(value) => {
-                setFormData((prev) => ({ ...prev, amenity_ids: value }));
-              }}
-            >
-              {amenityValue
-                ? amenityValue.map((item) => (
-                    <Checkbox key={item.id} value={Number(item.id)}>
-                      {item.name}
-                    </Checkbox>
-                  ))
-                : ""}
-            </Checkbox.Group>
-            <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
-              Update
-            </Button>
-          </div>
-          <div className="w-full">
-            <label className="labelStyle">Description</label>
-            <TextArea
-              name="description"
-              value={description}
-              onChange={onChange}
-              className="w-full mb-5"
-              style={{ height: 110 }}
-            />
-            <div className="mt-4">
-              <h1 className="calendar-head my-3">Room Images</h1>
-              <Upload
-                beforeUpload={() => false}
-                listType="picture-card"
-                fileList={allImageList}
-                customRequest={(file, onSuccess) => {
-                  setTimeout(() => {
-                    onSuccess("ok");
-                  }, 0);
+              <span className="labelStyle mt-1">
+                Room View
+                <Button
+                  className="border-none capitalize"
+                  onClick={showRoomViewModal}
+                >
+                  create Room View
+                </Button>
+                <Modal
+                  open={openRoomViewModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddRoomView
+                    GetAllRoomView={getAllRoomV}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </span>
+              <Select
+                showSearch
+                value={view_id}
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                className="input-style w-full"
+                options={roomViewValue}
+                onChange={(value) => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    view_id: value,
+                  }));
                 }}
-                onPreview={handlePreview}
-                onChange={handleChange}
-                onRemove={DeleteImg}
+              />
+              <label className="labelStyle mt-1">
+                Room size m<sup>2</sup>
+              </label>
+              <Input
+                name="room_size"
+                value={room_size}
+                onChange={onChange}
+                className="input-style"
+                onKeyPress={handleKeyPress}
+                placeholder=""
+              />
+              <label className="labelStyle mt-1">Number of Units</label>
+              <Input
+                name="no_of_units"
+                value={no_of_units}
+                onChange={onChange}
+                className="input-style"
+                onKeyPress={handleKeyPress}
+              />
+              <label className="labelStyle mt-1">Room Status</label>
+              <Select
+                value={room_status}
+                onChange={(value) =>
+                  setFormData((prev) => ({ ...prev, room_status: value }))
+                }
+                options={[
+                  { value: "Active", label: "Active" },
+                  { value: "Inactive", label: "Inactive" },
+                ]}
+                className="input-style w-full"
+              />
+              <label className="labelStyle mt-1 w-full">hotel Name</label>
+              <Select
+                value={hotel_id}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                className="input-style w-full"
+                options={hotelValue.map((item) => ({
+                  value: item.id ? item.id : "",
+                  label: item.name ? item.name : "",
+                }))}
+                onChange={(value) => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    hotel_id: value,
+                  }));
+                }}
+              />
+              <label className="labelStyle mt-1 w-full">giata ID</label>
+              <Input
+                name="giataId"
+                value={giataId}
+                onChange={onChange}
+                className="input-style"
+              />
+              <p className="mt-5">
+                Choose Amenities
+                <Button
+                  className="border-none capitalize"
+                  onClick={showAmenityModal}
+                >
+                  create Amenities
+                </Button>
+                <Modal
+                  open={openAmenityModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddAmenity
+                    getAmenities={getAllAmenity}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </p>
+              <Checkbox.Group
+                value={amenity_ids}
+                className="grid grid-cols-2 capitalize "
+                style={{ width: "100%" }}
+                onChange={(value) => {
+                  setFormData((prev) => ({ ...prev, amenity_ids: value }));
+                }}
               >
-                {fileList.length >= 8 ? null : (
-                  <div>
-                    <PlusOutlined />
-                    <div
-                      style={{
-                        marginTop: 8,
-                      }}
-                    >
-                      Upload
-                    </div>
-                  </div>
-                )}
-              </Upload>
-              <Modal
-                open={previewOpen}
-                title={previewTitle}
-                footer={null}
-                onCancel={handleCancel}
-              >
-                <img
-                  alt="example"
-                  style={{
-                    width: "100%",
-                  }}
-                  src={previewImage}
-                />
-              </Modal>
+                {amenityValue
+                  ? amenityValue.map((item) => (
+                      <Checkbox key={item.id} value={Number(item.id)}>
+                        {item.name}
+                      </Checkbox>
+                    ))
+                  : ""}
+              </Checkbox.Group>
+              <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
+                Update
+              </Button>
             </div>
-            <Button className="action-btn w-40" onClick={onSubmitImg}>Update Images</Button>
+            <div className="w-full">
+              <label className="labelStyle">Description</label>
+              <TextArea
+                name="description"
+                value={description}
+                onChange={onChange}
+                className="w-full mb-5"
+                style={{ height: 110 }}
+              />
+              <div className="mt-4">
+                <h1 className="calendar-head my-3">Room Images</h1>
+                <Upload
+                  beforeUpload={() => false}
+                  listType="picture-card"
+                  fileList={allImageList}
+                  customRequest={(file, onSuccess) => {
+                    setTimeout(() => {
+                      onSuccess("ok");
+                    }, 0);
+                  }}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                  onRemove={DeleteImg}
+                >
+                  {fileList.length >= 8 ? null : (
+                    <div>
+                      <PlusOutlined />
+                      <div
+                        style={{
+                          marginTop: 8,
+                        }}
+                      >
+                        Upload
+                      </div>
+                    </div>
+                  )}
+                </Upload>
+                <Modal
+                  open={previewOpen}
+                  title={previewTitle}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{
+                      width: "100%",
+                    }}
+                    src={previewImage}
+                  />
+                </Modal>
+              </div>
+              <Button className="action-btn w-40" onClick={onSubmitImg}>
+                Update Images
+              </Button>
+            </div>
           </div>
-        </div>
-      </form>}
+        </form>
+      )}
     </section>
   );
 };

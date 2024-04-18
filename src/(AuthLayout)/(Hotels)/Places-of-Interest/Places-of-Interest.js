@@ -2,12 +2,12 @@
 import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
-import { BsFilter} from "react-icons/bs";
-import { HiDotsVertical} from "react-icons/hi";
+import { BsFilter } from "react-icons/bs";
+import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
 import AddPlacesOfInterest from "./AddPlacesOfInterest";
 import EditPlacesOfInterest from "./EditPlacesOfInterest";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const PlacesOfInterest = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,24 +15,27 @@ const PlacesOfInterest = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
   const filteredData = dataSource.filter((item) => {
-    return item.PlacesOfInterest.toLowerCase().includes(nameFilter.toLocaleLowerCase());
+    return item.PlacesOfInterest.toLowerCase().includes(
+      nameFilter.toLocaleLowerCase()
+    );
   });
   const getPlacesOfInterest = async () => {
     const GET_ALL = `{
-      get_all_places_of_interest {
+      getP_interest {
         id
         name
+        city
         country
     }
   }`;
@@ -43,11 +46,12 @@ const PlacesOfInterest = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_places_of_interest.map((item) => ({
-          key: item.id||"",
-          id: item.id||"",
-          PlacesOfInterest: item.name||"",
-          country: item.country||""
+        const tableArray = res.data.getP_interest.map((item) => ({
+          key: item.id || "",
+          id: item.id || "",
+          PlacesOfInterest: item.name || "",
+          city: item.city || "",
+          country: item.country || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -73,47 +77,53 @@ const PlacesOfInterest = () => {
       dataIndex: "PlacesOfInterest",
       key: "PlacesOfInterest",
       sorter: (a, b) =>
-        a.PlacesOfInterest ? a.PlacesOfInterest.localeCompare(b.PlacesOfInterest) : "",
+        a.PlacesOfInterest
+          ? a.PlacesOfInterest.localeCompare(b.PlacesOfInterest)
+          : "",
+    },
+    {
+      title: "city",
+      dataIndex: "city",
+      key: "city",
+      sorter: (a, b) => (a.city ? a.city.localeCompare(b.city) : ""),
     },
     {
       title: "country",
       dataIndex: "country",
       key: "country",
-      sorter: (a, b) =>
-        a.country ? a.country.localeCompare(b.country) : "",
+      sorter: (a, b) => (a.country ? a.country.localeCompare(b.country) : ""),
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-                <Modal
-                  className=""
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                  >
-                  <EditPlacesOfInterest record={record}
-                    getPlacesOfInterest={getPlacesOfInterest}
-                    handleCancel={handleCancel}
-                    />
-                </Modal>
-                    </span>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            className=""
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditPlacesOfInterest
+              record={record}
+              getPlacesOfInterest={getPlacesOfInterest}
+              handleCancel={handleCancel}
+            />
+          </Modal>
+        </span>
       ),
     },
   ];

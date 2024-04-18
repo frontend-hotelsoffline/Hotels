@@ -7,7 +7,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import AddRoomView from "./AddRoomView";
 import { GET_API } from "../../components/API/GetAPI";
 import EditRoomView from "./EditRoomView";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const RoomView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,12 +15,12 @@ const RoomView = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ const RoomView = () => {
   const filteredData = dataSource.filter((a) =>
     a.roomview.toLowerCase().includes(nameFilter.toLowerCase())
   );
-  const getAllRoomView = async () => {
+  const GetAllRoomView = async () => {
     const GET_ALL = `{
       get_all_Room_views {
         id
@@ -59,7 +59,7 @@ const RoomView = () => {
   };
 
   useEffect(() => {
-    getAllRoomView();
+    GetAllRoomView();
   }, []);
   const columns = [
     {
@@ -87,32 +87,31 @@ const RoomView = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-         {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditRoomView record={record}
-                    getAllRoomView={getAllRoomView}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditRoomView
+              record={record}
+              GetAllRoomView={GetAllRoomView}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },
@@ -147,7 +146,7 @@ const RoomView = () => {
           onCancel={handleCancel}
         >
           <AddRoomView
-            getAllRoomView={getAllRoomView}
+            GetAllRoomView={GetAllRoomView}
             handleCancel={handleCancel}
           />
         </Modal>

@@ -22,8 +22,8 @@ import { POST_API } from "../components/API/PostAPI";
 import { date_to_pass } from "../components/Helper/FrontendTimezone";
 import dayjs from "dayjs";
 import { countryList } from "../components/Helper/ListOfAllCountries";
-import getAllPlacesOfInterest from "../components/Helper/GetAllPlacesOfInterest";
-import getAllRoomView from "../components/Helper/GetAllRoomView";
+import GetAllPlacesOfInterest from "../components/Helper/GetAllPlacesOfInterest";
+import GetAllRoomView from "../components/Helper/GetAllRoomView";
 import GetAllDMCs from "../components/Helper/GetAllDMCs";
 import { formatDate } from "../components/Helper/FormatDate";
 
@@ -49,9 +49,9 @@ const SearchCard = ({ imageUrl, facility, price, description }) => (
 );
 
 const Search = () => {
-  const { placeOfInterestValue } = getAllPlacesOfInterest();
+  const { placeOfInterestValue } = GetAllPlacesOfInterest();
   const { DMCsValue } = GetAllDMCs();
-  const { roomViewValue, getAllRoomV } = getAllRoomView();
+  const { roomViewValue, getAllRoomV } = GetAllRoomView();
   const [adultCount, setadultCount] = useState(0);
   const [childrenCount, setChildrenCount] = useState(0);
   const [roomsCount, setRoomsCount] = useState(0);

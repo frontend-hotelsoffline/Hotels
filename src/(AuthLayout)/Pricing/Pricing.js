@@ -8,7 +8,7 @@ import AddPricing from "./AddPricing";
 import { GET_API } from "../components/API/GetAPI";
 import { formatDate } from "../components/Helper/FormatDate";
 import EditPricing from "./EditPricing";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const Pricing = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const Pricing = () => {
   });
   const getPricing = async () => {
     const GET_ALL = `{
-        get_all_pricing_markups {
+      getmarkups {
           id
           createdAt
           name
@@ -45,12 +45,12 @@ const Pricing = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_pricing_markups.map((item) => ({
-          key: item.id ||"",
-          id: item.id||"",
-          name: item.name||"",
-          markup: item.markup && (item.markup* 1).toFixed(2) + "%"||"",
-          createdAt: formatDate(item.createdAt)||""
+        const tableArray = res.data.getmarkups.map((item) => ({
+          key: item.id || "",
+          id: item.id || "",
+          name: item.name || "",
+          markup: (item.markup && (item.markup * 1).toFixed(2) + "%") || "",
+          createdAt: formatDate(item.createdAt) || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -91,7 +91,7 @@ const Pricing = () => {
       sorter: (a, b) =>
         a.createdAt ? a.createdAt.localeCompare(b.createdAt) : "",
     },
-   
+
     {
       title: "Action",
       dataIndex: "action",
@@ -107,19 +107,20 @@ const Pricing = () => {
               </div>
             }
           >
-             {EditIcon}
+            {EditIcon}
           </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditPricing record={record}
-                    getPricing={getPricing}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditPricing
+              record={record}
+              getPricing={getPricing}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },

@@ -1,6 +1,6 @@
 "use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
@@ -10,7 +10,7 @@ import TablePopUpContract from "./TablePopUpContract";
 import TablePopupDmc from "./TablePopupDmc";
 import CombineDmcHotel from "../../Account-Managers/CombineDmcHotel";
 import { GET_API } from "../../components/API/GetAPI";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Hotels = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -22,10 +22,18 @@ const Hotels = () => {
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const [isModalOpenCombine, setIsModalOpenCombine] = useState(false);
   const showTable = (type) => {
-    if(type == "room"){setIsModalOpen(true)};
-    if(type == "contract"){setIsModalOpenContract(true)};
-    if(type == "dmcs"){setIsModalOpenDmcs(true)};
-    if(type == "combine"){setIsModalOpenCombine(true)};
+    if (type == "room") {
+      setIsModalOpen(true);
+    }
+    if (type == "contract") {
+      setIsModalOpenContract(true);
+    }
+    if (type == "dmcs") {
+      setIsModalOpenDmcs(true);
+    }
+    if (type == "combine") {
+      setIsModalOpenCombine(true);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -41,7 +49,7 @@ const Hotels = () => {
     setLoading(true);
 
     const GET_ALL_HOTELS = `{
-      get_all_hotels {
+      getrhotels {
         id
         createdAt
         google_place_id
@@ -142,7 +150,7 @@ const Hotels = () => {
       console.log(res);
       if (res.data && !res.errors) {
         setLoading(false);
-        const tableArray = res?.data?.get_all_hotels?.map((item) => ({
+        const tableArray = res?.data?.getrhotels?.map((item) => ({
           key: item.id ? item.id : "",
           hotelid: item.id ? item.id : "",
           name: item.name ? item.name : "",
@@ -278,7 +286,7 @@ const Hotels = () => {
                 {record?.room?.length || ""}
               </Button>
               <Modal
-              maskStyle={{ opacity: 0.2 }}
+                maskStyle={{ opacity: 0.2 }}
                 width={800}
                 footer={false}
                 open={isModalOpen}
@@ -307,7 +315,7 @@ const Hotels = () => {
                 {record?.dmcs?.length || ""}
               </Button>
               <Modal
-              maskStyle={{ opacity: 0.2 }}
+                maskStyle={{ opacity: 0.2 }}
                 width={800}
                 footer={false}
                 open={isModalOpenDmcs}
@@ -393,18 +401,15 @@ const Hotels = () => {
           >
             {EditIcon}
           </Popover>
-                <Modal
-                maskStyle={{ opacity: 0.2 }}
-                  footer={false}
-                  open={isModalOpenCombine}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <CombineDmcHotel
-                    record={rowData}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+          <Modal
+            maskStyle={{ opacity: 0.2 }}
+            footer={false}
+            open={isModalOpenCombine}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <CombineDmcHotel record={rowData} handleCancel={handleCancel} />
+          </Modal>
         </span>
       ),
     },

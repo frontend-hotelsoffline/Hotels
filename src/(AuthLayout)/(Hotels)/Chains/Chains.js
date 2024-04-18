@@ -7,7 +7,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
 import AddChains from "./AddChains";
 import EditChains from "./EditChains";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Chains = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,12 +15,12 @@ const Chains = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ const Chains = () => {
   });
   const getChains = async () => {
     const GET_ALL = `{
-        get_all_hotel_chains {
+      getchains {
         id
         name
     }
@@ -42,7 +42,7 @@ const Chains = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_hotel_chains.map((item) => ({
+        const tableArray = res.data.getchains?.map((item) => ({
           key: item.id,
           id: item.id,
           name: item.name,
@@ -72,40 +72,38 @@ const Chains = () => {
       title: "Chains",
       dataIndex: "name",
       key: "Chains",
-      sorter: (a, b) =>
-        a.Chains ? a.Chains.localeCompare(b.Chains) : "",
+      sorter: (a, b) => (a.Chains ? a.Chains.localeCompare(b.Chains) : ""),
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-                <Modal
-                  className=""
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditChains record={record}
-                    getChains={getChains}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            className=""
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditChains
+              record={record}
+              getChains={getChains}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },
@@ -140,10 +138,7 @@ const Chains = () => {
           onOk={handleCancel}
           onCancel={handleCancel}
         >
-          <AddChains
-            getChains={getChains}
-            handleCancel={handleCancel}
-          />
+          <AddChains getChains={getChains} handleCancel={handleCancel} />
         </Modal>
       </div>
       <Table

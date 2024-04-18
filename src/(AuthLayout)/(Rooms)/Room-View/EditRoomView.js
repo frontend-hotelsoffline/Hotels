@@ -2,9 +2,9 @@ import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const EditRoomView = ({ getAllRoomView, handleCancel, record }) => {
+const EditRoomView = ({ GetAllRoomView, handleCancel, record }) => {
   const router = useNavigate();
   const [formData, setFormData] = useState({
     name: record.roomview,
@@ -45,7 +45,7 @@ const EditRoomView = ({ getAllRoomView, handleCancel, record }) => {
       console.log(res);
       if (res) {
         message.success("Room View has been Edited Successfully");
-        getAllRoomView();
+        GetAllRoomView();
         handleCancel();
       }
     } catch (error) {

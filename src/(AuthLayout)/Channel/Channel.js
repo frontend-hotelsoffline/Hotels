@@ -7,7 +7,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import AddChannel from "./AddChannel";
 import EditChannel from "./EditChannel";
 import { GET_API } from "../components/API/GetAPI";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const Channel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,25 +15,25 @@ const Channel = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
   const filteredData = dataSource.filter((item) => {
-    return item.name.toLowerCase().includes(nameFilter.toLocaleLowerCase());
+    return item.name?.toLowerCase().includes(nameFilter?.toLocaleLowerCase());
   });
   const getChannel = async () => {
     const GET_ALL = `{
-        get_all_channels {
+      getChannels {
             id
             name
-            description
+            type
         }
   }`;
     const query = GET_ALL;
@@ -43,11 +43,11 @@ const Channel = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_channels.map((item) => ({
+        const tableArray = res.data.getChannels?.map((item) => ({
           key: item.id,
           id: item.id,
           name: item.name,
-          description: item.description,
+          description: item.type,
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -73,11 +73,10 @@ const Channel = () => {
       title: "Channel",
       dataIndex: "name",
       key: "Channel",
-      sorter: (a, b) =>
-        a.Channel ? a.Channel.localeCompare(b.Channel) : "",
+      sorter: (a, b) => (a.Channel ? a.Channel.localeCompare(b.Channel) : ""),
     },
     {
-      title: "Description",
+      title: "Type",
       dataIndex: "description",
       key: "Description",
       sorter: (a, b) =>
@@ -87,32 +86,31 @@ const Channel = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditChannel record={record}
-                    getChannel={getChannel}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditChannel
+              record={record}
+              getChannel={getChannel}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },
@@ -146,17 +144,14 @@ const Channel = () => {
           onOk={handleCancel}
           onCancel={handleCancel}
         >
-          <AddChannel
-            getChannel={getChannel}
-            handleCancel={handleCancel}
-          />
+          <AddChannel getChannel={getChannel} handleCancel={handleCancel} />
         </Modal>
       </div>
       <Table
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
+        // pagination={false}
         loading={loading}
       />
     </section>

@@ -1,6 +1,6 @@
 import { Button, Input, message } from "antd";
 import React, { useState } from "react";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
@@ -20,13 +20,11 @@ const AddPricing = ({ getPricing, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        create_a_pricing_markups(
+        addPmarkup(
             name: "${name}"
             markup: ${markup}
         )  {
-          id
-          name
-          markup
+          message
         }
       }
     `;
@@ -40,7 +38,7 @@ const AddPricing = ({ getPricing, handleCancel }) => {
       );
       console.log(res);
       if (res) {
-        message.success("Pricing has been Added Successfully");
+        message.success(res.data.addPmarkup?.message);
         getPricing();
         handleCancel();
         setFormData({});

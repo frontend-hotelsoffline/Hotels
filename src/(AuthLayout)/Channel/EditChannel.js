@@ -1,11 +1,9 @@
 import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
-import { useNavigate, } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 
 const EditChannel = ({ getChannel, handleCancel, record }) => {
-  const router = useNavigate();
   const [formData, setFormData] = useState({
     name: record.name,
     description: record.description,
@@ -23,10 +21,10 @@ const EditChannel = ({ getChannel, handleCancel, record }) => {
     };
     const mutation = `
       mutation {
-        edit_a_channel(
+        edit_Channels(
           id: ${record.id},
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          type: "${description ? description : ""}",
         ) {
           id,
           description
@@ -64,12 +62,11 @@ const EditChannel = ({ getChannel, handleCancel, record }) => {
         placeholder="type Channel name here"
         className="w-full border-black"
       />
-      <label className="labelStyle mt-6">Description</label>
+      <label className="labelStyle mt-6">Type</label>
       <TextArea
         name="description"
         value={description}
         onChange={onChange}
-        placeholder="type description here"
         className="border-black"
         style={{ height: 150 }}
       />

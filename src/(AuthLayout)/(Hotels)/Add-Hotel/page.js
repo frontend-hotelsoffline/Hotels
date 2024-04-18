@@ -20,8 +20,8 @@ import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import getAllHotelChains from "../../components/Helper/GetAllHotelChains";
-import getAllPlacesOfInterest from "../../components/Helper/GetAllPlacesOfInterest";
-import { useNavigate, } from "react-router-dom";
+import GetAllPlacesOfInterest from "../../components/Helper/GetAllPlacesOfInterest";
+import { useNavigate } from "react-router-dom";
 import GetAllFacilities from "../../components/Helper/GetAllFacilities";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import AddPlacesOfInterest from "../Places-of-Interest/AddPlacesOfInterest";
@@ -54,7 +54,7 @@ export default function PlaceSearchAutocomplete() {
 
 const AddHotel = ({ address }) => {
   const { hotelChainValue, getAllChains } = getAllHotelChains();
-  const { placeOfInterestValue, getAllPlaces } = getAllPlacesOfInterest();
+  const { placeOfInterestValue, getAllPlaces } = GetAllPlacesOfInterest();
   const { facilityValue, getFacility } = GetAllFacilities();
   const { accManager } = GetAllUsers();
   const { MarkUpValue } = GetAllPricingMarkUp();
@@ -63,7 +63,7 @@ const AddHotel = ({ address }) => {
     useState(false);
   const [openHotelChainModal, setOpenHotelChainModal] = useState(false);
   const [openFacilityModal, setOpenFacilityModal] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const showPlaceOfInterestModal = () => {
     setOpenPlaceOfInterestModal(true);
@@ -127,7 +127,8 @@ const AddHotel = ({ address }) => {
       !id_of_place_of_intrst ||
       !id_of_hotel_chain ||
       !facility_ids ||
-      !giataId || !fileList.length>0
+      !giataId ||
+      !fileList.length > 0
     ) {
       message.error("Please fill required fields");
       return;
@@ -175,7 +176,7 @@ const AddHotel = ({ address }) => {
   }
 `;
     const path = "";
-    setLoading(true)
+    setLoading(true);
     try {
       formData2.delete("operations");
       formData2.delete("map");
@@ -207,11 +208,11 @@ const AddHotel = ({ address }) => {
 
       const res = await POST_API(path, formData2, headers);
       if (res && !res.errors) {
-        setLoading(false)
+        setLoading(false);
         message.success("Hotel has been Added Successfully");
         router("/Hotels");
-      }else{
-        message.error(res?.errors?.message)
+      } else {
+        message.error(res?.errors?.message);
       }
     } catch (error) {
       message.error("Failed to Add Hotel, Please check and try again");
@@ -336,385 +337,389 @@ const AddHotel = ({ address }) => {
 
   return (
     <section className="capitalize">
-     {loading ? <Spin/> : <form onSubmit={onSubmit}>
-        <div className="flex justify-between mt-2">
-          <div className="w-full">
-            <label className="block font-semibold">Hotel Name</label>
-            <PlacesAutocomplete
-              value={userLocation}
-              onChange={handleChangeAddress}
-              onSelect={handleSelectAddress}
-            >
-              {({
-                getInputProps,
-                suggestions,
-                getSuggestionItemProps,
-                loading,
-              }) => (
-                <div>
-                  <Input
-                    {...getInputProps({
-                      placeholder: "start typing hotel name",
-                      className: "input-style",
-                    })}
-                  />
-                  <div className="autocomplete-dropdown-container">
-                    {loading && <div>Loading...</div>}
-                    {suggestions.map((suggestion) => {
-                      const className = suggestion.active
-                        ? "h-full bg-black"
-                        : "bg-white";
-                      // Inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                        : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return (
-                        <div
-                          key={suggestion.placeId}
-                          {...getSuggestionItemProps(suggestion, {
-                            className,
-                            style,
-                            onClick: () => handleSuggestionClick(suggestion),
-                          })}
-                        >
-                          <span>{suggestion.description}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </PlacesAutocomplete>
-            <label className="label-style mt-1">Country</label>
-            <Input
-              name="country"
-              value={country}
-              onChange={onChange}
-              className="input-style-bg"
-              placeholder=""
-            />
-            <label className="label-style mt-1">City</label>
-            <Input
-              name="city"
-              value={city}
-              onChange={onChange}
-              className="input-style-bg"
-              placeholder=""
-            />
-            <label className="label-style mt-1">Street</label>
-            <Input
-              name="street"
-              value={street}
-              onChange={onChange}
-              className="input-style-bg"
-              placeholder=""
-            />
-            <label className="label-style mt-1">place id</label>
-            <Input
-              name="placeId"
-              value={google_place_id}
-              onChange={onChange}
-              className="input-style-bg"
-              placeholder=""
-              readOnly
-            />
-            <label className="label-style mt-1">Giata ID</label>
-            <Input
-              name="giataId"
-              value={giataId}
-              onChange={onChange}
-              className="input-style"
-              placeholder=""
-            />
-            <label className="label-style mt-1">
-            default selling markup
-            </label>
-            <Select
-              name="default_markup_id"
-              value={default_markup_id}
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              onChange={(value) =>
-                setFormData((prev) => ({ ...prev, default_markup_id: value }))
-              }
-              options={
-                MarkUpValue
-                  ? MarkUpValue?.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: Number(item.id),
-                    }))
-                  : ""
-              }
-              className="input-style w-[500px]"
-            />
-            <span className="labelStyle mt-1">
-              Area / Place of interest
-              <Button
-                className="border-none capitalize"
-                onClick={showPlaceOfInterestModal}
+      {loading ? (
+        <Spin />
+      ) : (
+        <form onSubmit={onSubmit}>
+          <div className="flex justify-between mt-2">
+            <div className="w-full">
+              <label className="block font-semibold">Hotel Name</label>
+              <PlacesAutocomplete
+                value={userLocation}
+                onChange={handleChangeAddress}
+                onSelect={handleSelectAddress}
               >
-                create Place of interest
-              </Button>
-              <Modal
-                open={openPlaceOfInterestModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddPlacesOfInterest
-                  getPlacesOfInterest={getAllPlaces}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </span>
-            <Select
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              style={{ width: 500 }}
-              options={filteredPlaceOfInterest}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  id_of_place_of_intrst: Number(value),
-                }));
-              }}
-            />
-            <span className="labelStyle mt-1">
-              Hotel Chain
-              <Button
-                className="border-none capitalize"
-                onClick={showHotelChainModal}
-              >
-                create Hotel Chain
-              </Button>
-              <Modal
-                open={openHotelChainModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddChains
-                  getChains={getAllChains}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </span>
-            <Select
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              className="w-[500px]"
-              options={hotelChainValue}
-              onChange={(value) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  id_of_hotel_chain: Number(value),
-                }));
-              }}
-            />
-            <label className="labelStyle mt-1">Phone Number</label>
-            <Input
-              name="phone_no"
-              value={phone_no}
-              onChange={onChange}
-              className="input-style"
-              onKeyPress={handleKeyPress}
-              placeholder=""
-            />
-            <label className="labelStyle mt-1">Account Manager</label>
-            <Select
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              value={id_acc_mngr}
-              onChange={(value) =>
-                setFormData((prev) => ({ ...prev, id_acc_mngr: value }))
-              }
-              options={
-                accManager
-                  ? accManager?.map((item) => ({
-                      key: item.id,
-                      label: item.uname,
-                      value: Number(item.id),
-                    }))
-                  : ""
-              }
-              className="input-style w-[500px]"
-            />
-            <label className="labelStyle mt-1">Email</label>
-            <Input
-              name="email"
-              value={email}
-              onChange={onChange}
-              className="input-style"
-              type="email"
-              placeholder="start typing an email"
-            />
-            <label className="labelStyle mt-1">
-              Website <span className=" text-blue-800">(Optional)</span>
-            </label>
-            <Input
-              name="website"
-              value={website}
-              onChange={onChange}
-              className="input-style"
-              placeholder="start typing a website"
-            />
-            <label className="labelStyle">Description</label>
-            <TextArea
-              name="description"
-              value={description}
-              onChange={onChange}
-              className="w-[500px] mb-5"
-              style={{ height: 110 }}
-            />
-            <p>Star Rating</p>
-            <Rate
-              name="star_rating"
-              onChange={(value) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  star_rating: value,
-                }))
-              }
-              defaultValue={0}
-              allowHalf 
-              // character="★" 
-              style={{ border: "1px black solid", padding: "2px 5px" }}
-            />
-            <p className="mt-5">
-              Choose Facilities{" "}
-              <Button
-                className="border-none capitalize"
-                onClick={showFacilityModal}
-              >
-                create Facilities
-              </Button>
-              <Modal
-                open={openFacilityModal}
-                onCancel={cancelModal}
-                onOk={cancelModal}
-                footer={false}
-              >
-                <AddFacility
-                  getFacilities={getFacility}
-                  handleCancel={cancelModal}
-                />
-              </Modal>
-            </p>
-            <Checkbox.Group
-              className="grid grid-cols-2 capitalize "
-              style={{ width: "100%" }}
-              onChange={(value) => {
-                setFormData((prev) => ({ ...prev, facility_ids: value }));
-              }}
-            >
-              {facilityValue
-                ? facilityValue.map((item) => (
-                    <Checkbox key={item.id} value={Number(item.id)}>
-                      {item.name}
-                    </Checkbox>
-                  ))
-                : ""}
-            </Checkbox.Group>
-            <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
-              Submit
-            </Button>
-          </div>
-          <div className="w-full mt-[20px] flex flex-col">
-            <div className="w-[600px] h-[300px] object-contain">
-              <GoogleMap
-                slot="action"
-                center={{ lat: latitude, lng: longtude }}
-                zoom={userLocation ? 16 : 4}
-                map-id="gmpid"
-                mapContainerClassName="map-container"
-                // onClick={handleMapClick}
-              >
-                <MarkerF position={{ lat: latitude, lng: longtude }}></MarkerF>
-              </GoogleMap>
-            </div>
-
-            <div className="flex justify-between mt-2">
-              <span>
-                <label>Longitude</label>
-                <Input
-                  name="longtude"
-                  readOnly
-                  value={longtude}
-                  onChange={onChange}
-                />
-              </span>
-              <span>
-                <label>Latitude</label>
-                <Input
-                  name="latitude"
-                  readOnly
-                  value={latitude}
-                  onChange={onChange}
-                />
-              </span>
-            </div>
-            <div className="mt-4">
-              <h1 className="calendar-head my-3">Hotel Images</h1>
-              <Upload
-                beforeUpload={() => false}
-                listType="picture-card"
-                fileList={fileList}
-                customRequest={(file, onSuccess) => {
-                  setTimeout(() => {
-                    onSuccess("ok");
-                  }, 0);
-                }}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length >= 8 ? null : (
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading,
+                }) => (
                   <div>
-                    <PlusOutlined />
-                    <div
-                      style={{
-                        marginTop: 8,
-                      }}
-                    >
-                      Upload
+                    <Input
+                      {...getInputProps({
+                        placeholder: "start typing hotel name",
+                        className: "input-style",
+                      })}
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "h-full bg-black"
+                          : "bg-white";
+                        // Inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            key={suggestion.placeId}
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                              onClick: () => handleSuggestionClick(suggestion),
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
-              </Upload>
-              <Modal
-                open={previewOpen}
-                title={previewTitle}
-                footer={null}
-                onCancel={handleCancel}
+              </PlacesAutocomplete>
+              <label className="label-style mt-1">Country</label>
+              <Input
+                name="country"
+                value={country}
+                onChange={onChange}
+                className="input-style-bg"
+                placeholder=""
+              />
+              <label className="label-style mt-1">City</label>
+              <Input
+                name="city"
+                value={city}
+                onChange={onChange}
+                className="input-style-bg"
+                placeholder=""
+              />
+              <label className="label-style mt-1">Street</label>
+              <Input
+                name="street"
+                value={street}
+                onChange={onChange}
+                className="input-style-bg"
+                placeholder=""
+              />
+              <label className="label-style mt-1">place id</label>
+              <Input
+                name="placeId"
+                value={google_place_id}
+                onChange={onChange}
+                className="input-style-bg"
+                placeholder=""
+                readOnly
+              />
+              <label className="label-style mt-1">Giata ID</label>
+              <Input
+                name="giataId"
+                value={giataId}
+                onChange={onChange}
+                className="input-style"
+                placeholder=""
+              />
+              <label className="label-style mt-1">default selling markup</label>
+              <Select
+                name="default_markup_id"
+                value={default_markup_id}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                onChange={(value) =>
+                  setFormData((prev) => ({ ...prev, default_markup_id: value }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue?.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="input-style w-[500px]"
+              />
+              <span className="labelStyle mt-1">
+                Area / Place of interest
+                <Button
+                  className="border-none capitalize"
+                  onClick={showPlaceOfInterestModal}
+                >
+                  create Place of interest
+                </Button>
+                <Modal
+                  open={openPlaceOfInterestModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddPlacesOfInterest
+                    getPlacesOfInterest={getAllPlaces}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </span>
+              <Select
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                style={{ width: 500 }}
+                options={filteredPlaceOfInterest}
+                onChange={(value) => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    id_of_place_of_intrst: Number(value),
+                  }));
+                }}
+              />
+              <span className="labelStyle mt-1">
+                Hotel Chain
+                <Button
+                  className="border-none capitalize"
+                  onClick={showHotelChainModal}
+                >
+                  create Hotel Chain
+                </Button>
+                <Modal
+                  open={openHotelChainModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddChains
+                    getChains={getAllChains}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </span>
+              <Select
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                className="w-[500px]"
+                options={hotelChainValue}
+                onChange={(value) => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    id_of_hotel_chain: Number(value),
+                  }));
+                }}
+              />
+              <label className="labelStyle mt-1">Phone Number</label>
+              <Input
+                name="phone_no"
+                value={phone_no}
+                onChange={onChange}
+                className="input-style"
+                onKeyPress={handleKeyPress}
+                placeholder=""
+              />
+              <label className="labelStyle mt-1">Account Manager</label>
+              <Select
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label.toLowerCase() ?? "").includes(
+                    input.toLowerCase()
+                  )
+                }
+                value={id_acc_mngr}
+                onChange={(value) =>
+                  setFormData((prev) => ({ ...prev, id_acc_mngr: value }))
+                }
+                options={
+                  accManager
+                    ? accManager?.map((item) => ({
+                        key: item.id,
+                        label: item.uname,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="input-style w-[500px]"
+              />
+              <label className="labelStyle mt-1">Email</label>
+              <Input
+                name="email"
+                value={email}
+                onChange={onChange}
+                className="input-style"
+                type="email"
+                placeholder="start typing an email"
+              />
+              <label className="labelStyle mt-1">
+                Website <span className=" text-blue-800">(Optional)</span>
+              </label>
+              <Input
+                name="website"
+                value={website}
+                onChange={onChange}
+                className="input-style"
+                placeholder="start typing a website"
+              />
+              <label className="labelStyle">Description</label>
+              <TextArea
+                name="description"
+                value={description}
+                onChange={onChange}
+                className="w-[500px] mb-5"
+                style={{ height: 110 }}
+              />
+              <p>Star Rating</p>
+              <Rate
+                name="star_rating"
+                onChange={(value) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    star_rating: value,
+                  }))
+                }
+                defaultValue={0}
+                allowHalf
+                // character="★"
+                style={{ border: "1px black solid", padding: "2px 5px" }}
+              />
+              <p className="mt-5">
+                Choose Facilities{" "}
+                <Button
+                  className="border-none capitalize"
+                  onClick={showFacilityModal}
+                >
+                  create Facilities
+                </Button>
+                <Modal
+                  open={openFacilityModal}
+                  onCancel={cancelModal}
+                  onOk={cancelModal}
+                  footer={false}
+                >
+                  <AddFacility
+                    getFacilities={getFacility}
+                    handleCancel={cancelModal}
+                  />
+                </Modal>
+              </p>
+              <Checkbox.Group
+                className="grid grid-cols-2 capitalize "
+                style={{ width: "100%" }}
+                onChange={(value) => {
+                  setFormData((prev) => ({ ...prev, facility_ids: value }));
+                }}
               >
-                <img
-                  alt="example"
-                  style={{
-                    width: "100%",
+                {facilityValue
+                  ? facilityValue.map((item) => (
+                      <Checkbox key={item.id} value={Number(item.id)}>
+                        {item.name}
+                      </Checkbox>
+                    ))
+                  : ""}
+              </Checkbox.Group>
+              <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
+                Submit
+              </Button>
+            </div>
+            <div className="w-full mt-[20px] flex flex-col">
+              <div className="w-[600px] h-[300px] object-contain">
+                <GoogleMap
+                  slot="action"
+                  center={{ lat: latitude, lng: longtude }}
+                  zoom={userLocation ? 16 : 4}
+                  map-id="gmpid"
+                  mapContainerClassName="map-container"
+                  // onClick={handleMapClick}
+                >
+                  <MarkerF
+                    position={{ lat: latitude, lng: longtude }}
+                  ></MarkerF>
+                </GoogleMap>
+              </div>
+
+              <div className="flex justify-between mt-2">
+                <span>
+                  <label>Longitude</label>
+                  <Input
+                    name="longtude"
+                    readOnly
+                    value={longtude}
+                    onChange={onChange}
+                  />
+                </span>
+                <span>
+                  <label>Latitude</label>
+                  <Input
+                    name="latitude"
+                    readOnly
+                    value={latitude}
+                    onChange={onChange}
+                  />
+                </span>
+              </div>
+              <div className="mt-4">
+                <h1 className="calendar-head my-3">Hotel Images</h1>
+                <Upload
+                  beforeUpload={() => false}
+                  listType="picture-card"
+                  fileList={fileList}
+                  customRequest={(file, onSuccess) => {
+                    setTimeout(() => {
+                      onSuccess("ok");
+                    }, 0);
                   }}
-                  src={previewImage}
-                />
-              </Modal>
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                >
+                  {fileList.length >= 8 ? null : (
+                    <div>
+                      <PlusOutlined />
+                      <div
+                        style={{
+                          marginTop: 8,
+                        }}
+                      >
+                        Upload
+                      </div>
+                    </div>
+                  )}
+                </Upload>
+                <Modal
+                  open={previewOpen}
+                  title={previewTitle}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{
+                      width: "100%",
+                    }}
+                    src={previewImage}
+                  />
+                </Modal>
+              </div>
             </div>
           </div>
-        </div>
-      </form>}
+        </form>
+      )}
     </section>
   );
 };
