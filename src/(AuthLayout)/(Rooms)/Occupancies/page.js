@@ -7,7 +7,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import AddOccupancy from "./AddOccupancy";
 import { GET_API } from "../../components/API/GetAPI";
 import EditOccupancy from "./EditOccupancy";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Occupancies = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,17 +15,17 @@ const Occupancies = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
-  const filteredData = dataSource.filter((item) =>
+  const filteredData = dataSource?.filter((item) =>
     item.occupancy.toLowerCase().includes(nameFilter.toLowerCase())
   );
   const getOccupancy = async () => {
@@ -45,17 +45,17 @@ const Occupancies = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res)
+      console.log(res);
       if (res.data) {
         const tableArray = res.data.get_all_Occupancies.map((item) => ({
-          key: item.id ||"",
-          id: item.id ||"",
-          occupancy: item.name ||"",
-          maxadult: item.max_adults ||"",
-          maxchild: item.max_children ||"",
-          numberofbeds: item.no_of_beds ||"",
-          numberofextrabeds: item.no_of_extra_beds ||"",
-        max_age_for_free_extra_bed: item.max_age_for_free_extra_bed||""
+          key: item.id || "",
+          id: item.id || "",
+          occupancy: item.name || "",
+          maxadult: item.max_adults || "",
+          maxchild: item.max_children || "",
+          numberofbeds: item.no_of_beds || "",
+          numberofextrabeds: item.no_of_extra_beds || "",
+          max_age_for_free_extra_bed: item.max_age_for_free_extra_bed || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -105,44 +105,47 @@ const Occupancies = () => {
       title: "number of extra beds",
       dataIndex: "numberofextrabeds",
       key: "numberofextrabeds",
-      sorter: (a, b) => (a.numberofextrabeds ? a.numberofextrabeds - b.numberofextrabeds : ""),
+      sorter: (a, b) =>
+        a.numberofextrabeds ? a.numberofextrabeds - b.numberofextrabeds : "",
     },
     {
       title: "max age for free extra bed",
       dataIndex: "max_age_for_free_extra_bed",
       key: "max_age_for_free_extra_bed",
-      sorter: (a, b) => (a.max_age_for_free_extra_bed ? a.max_age_for_free_extra_bed - b.max_age_for_free_extra_bed : ""),
+      sorter: (a, b) =>
+        a.max_age_for_free_extra_bed
+          ? a.max_age_for_free_extra_bed - b.max_age_for_free_extra_bed
+          : "",
     },
     {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditOccupancy record={record}
-                    getOccupancy={getOccupancy}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditOccupancy
+              record={record}
+              getOccupancy={getOccupancy}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },

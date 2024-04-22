@@ -1,10 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import {
-  CaretRightOutlined,
-  LogoutOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import React, { useContext, useState } from "react";
+import { LogoutOutlined, SearchOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 import {
   MdOutlineHomeWork,
@@ -16,19 +12,19 @@ import {
 } from "react-icons/md";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FiUsers, FiUser } from "react-icons/fi";
-import { FaHandshake, FaMinus, FaRegMoon } from "react-icons/fa";
+import { FaHandshake, FaMinus } from "react-icons/fa";
 import { FaUsersGear, FaGift, FaWallet } from "react-icons/fa6";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { CiLight } from "react-icons/ci";
+import { Link, useLocation } from "react-router-dom";
 import { IoMoonOutline } from "react-icons/io5";
+import { AuthContext } from "../../../AuthProvider";
 
 const Sidebar = () => {
+  const { lightOrDark, setLightOrDark } = useContext(AuthContext);
   const location = useLocation();
   const pathname = location.pathname.split("/");
   const currentKey = pathname.pop();
 
   const [currentPage, setCurrentPage] = useState(currentKey);
-  const [lightOrDark, setLightOrDark] = useState("light");
 
   function getItem(label, key, icon, children, type) {
     return {
@@ -102,22 +98,43 @@ const Sidebar = () => {
   ];
   return (
     <div className="w-full p-3">
-      <h1 className="logo-title">HotelsOffline</h1>
+      <h1 className={`${lightOrDark === "dark" && "dark-mode"} logo-title`}>
+        HotelsOffline
+      </h1>
       <hr className="mb-1 -mt-2 w-full" />
       <Menu
+        style={{
+          background: lightOrDark === "dark" ? "#151718 " : "",
+          // color: lightOrDark === "dark" ? "#FFFFFF" : "",
+        }}
         className="w-full  overflow-auto"
         onClick={getCurrentKey}
         defaultSelectedKeys={[currentPage]}
         defaultOpenKeys={[currentPage]}
-        // mode="inline"
         items={items}
       />
-      <div className="border border-black mt-2 p-1 rounded-lg">
-        <div className="w-full flex flex-row items-center justify-evenly border-black border rounded-md">
+      <div
+        className={`${
+          lightOrDark === "dark" && "dark-mode border-white"
+        } border border-black mt-2 p-1 rounded-lg`}
+      >
+        <div
+          className={`${
+            lightOrDark === "dark" && "dark-mode border-white"
+          } w-full flex flex-row items-center justify-evenly border rounded-md`}
+        >
           <div className="super-admin-profile"></div>
           <span className="">
-            <h1 className="title">Super Admin</h1>
-            <h2 className="sub-title text-center">Moderator</h2>
+            <h1 className={`${lightOrDark === "dark" && "dark-mode"} title`}>
+              Super Admin
+            </h1>
+            <h2
+              className={`${
+                lightOrDark === "dark" && "dark-mode"
+              } sub-title text-center`}
+            >
+              Moderator
+            </h2>
           </span>
         </div>
         <div

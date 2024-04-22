@@ -12,19 +12,19 @@ const Corporate = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
 
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [nameFilter, setnameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.name?.toLowerCase().includes(nameFilter.toLowerCase());
   });
 
@@ -51,7 +51,9 @@ const Corporate = () => {
           id: item.id,
           name: item.name,
           status: item.status,
-          markup: item.buying_markup.markup && (item.buying_markup.markup* 1).toFixed(2) + "%"
+          markup:
+            item.buying_markup.markup &&
+            (item.buying_markup.markup * 1).toFixed(2) + "%",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -76,24 +78,20 @@ const Corporate = () => {
       title: "Corporate",
       dataIndex: "name",
       key: "name",
-      sorter: (a, b) =>
-        a.name ? a.name.localeCompare(b.name) : "",
+      sorter: (a, b) => (a.name ? a.name.localeCompare(b.name) : ""),
     },
     {
       title: "markup",
       dataIndex: "markup",
       key: "markup",
-      sorter: (a, b) =>
-        a.markup ? a.markup.localeCompare(b.markup) : "",
+      sorter: (a, b) => (a.markup ? a.markup.localeCompare(b.markup) : ""),
     },
     {
       title: "status",
       dataIndex: "status",
       key: "status",
-      sorter: (a, b) =>
-        a.status ? a.status.localeCompare(b.status) : "",
+      sorter: (a, b) => (a.status ? a.status.localeCompare(b.status) : ""),
     },
-
   ];
 
   return (
@@ -124,7 +122,10 @@ const Corporate = () => {
           onOk={handleCancel}
           onCancel={handleCancel}
         >
-          <AddCorporate getCorporate={getCorporate} handleCancel={handleCancel} />
+          <AddCorporate
+            getCorporate={getCorporate}
+            handleCancel={handleCancel}
+          />
         </Modal>
       </div>
       <Table

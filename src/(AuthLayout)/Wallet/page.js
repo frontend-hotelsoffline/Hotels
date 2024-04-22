@@ -5,7 +5,7 @@ import { SearchOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../components/API/GetAPI";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const Wallet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,18 +13,18 @@ const Wallet = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
   const [activeItem, setActiveItem] = useState(0);
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.Wallet.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getWallet = async () => {
@@ -61,10 +61,7 @@ const Wallet = () => {
   }, []);
 
   // Handling switching tabs
-  const items = ["All",
-   " Fund",
-   " Withdraw",
-    "Settings"];
+  const items = ["All", " Fund", " Withdraw", "Settings"];
   const handleItemClick = (index) => {
     setActiveItem(index);
   };
@@ -81,8 +78,7 @@ const Wallet = () => {
       title: "Wallet",
       dataIndex: "Wallet",
       key: "Wallet",
-      sorter: (a, b) =>
-        a.Wallet ? a.Wallet.localeCompare(b.Wallet) : "",
+      sorter: (a, b) => (a.Wallet ? a.Wallet.localeCompare(b.Wallet) : ""),
     },
     {
       title: "Description",
@@ -95,32 +91,30 @@ const Wallet = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-         {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  {/* <EditWallet record={record}
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            {/* <EditWallet record={record}
                     getWallet={getWallet}
                     handleCancel={handleCancel}
                   /> */}
-                </Modal>
+          </Modal>
         </span>
       ),
     },
@@ -141,13 +135,29 @@ const Wallet = () => {
             Filter
           </Button>
         </div>
-       {activeItem>0 && <Button
-          onClick={showModal}
-          className="button-bar"
-          icon={activeItem == 1 ? <PlusOutlined />: activeItem==2 ?<MinusOutlined /> : ""}
-        >
-          {activeItem==1 ? "Fund Wallet": activeItem==2 ? "Withdraw": activeItem==3? "Transfer": ""}
-        </Button>}
+        {activeItem > 0 && (
+          <Button
+            onClick={showModal}
+            className="button-bar"
+            icon={
+              activeItem == 1 ? (
+                <PlusOutlined />
+              ) : activeItem == 2 ? (
+                <MinusOutlined />
+              ) : (
+                ""
+              )
+            }
+          >
+            {activeItem == 1
+              ? "Fund Wallet"
+              : activeItem == 2
+              ? "Withdraw"
+              : activeItem == 3
+              ? "Transfer"
+              : ""}
+          </Button>
+        )}
         <Modal
           footer={false}
           open={isModalOpen}

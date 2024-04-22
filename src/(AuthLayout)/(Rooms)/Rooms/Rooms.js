@@ -5,8 +5,8 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
-import { useNavigate, } from "react-router-dom";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { useNavigate } from "react-router-dom";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Rooms = () => {
   const router = useNavigate();
@@ -14,7 +14,7 @@ const Rooms = () => {
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
 
-  const filteredData = dataSource.filter((a) =>
+  const filteredData = dataSource?.filter((a) =>
     a.name?.toLowerCase().includes(nameFilter.toLowerCase())
   );
   const getRooms = async () => {
@@ -204,7 +204,7 @@ const Rooms = () => {
               </div>
             }
           >
-             {EditIcon}
+            {EditIcon}
           </Popover>
         </span>
       ),

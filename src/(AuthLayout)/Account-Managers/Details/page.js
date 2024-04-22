@@ -22,15 +22,14 @@ const Rooms = () => {
   });
   const { id } = formData;
 
-
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
   const [AddDMCPopup, setAddDMCPopup] = useState(false);
-  const handleCancel = () =>{
-    setAddDMCPopup(false)
-  }
+  const handleCancel = () => {
+    setAddDMCPopup(false);
+  };
 
-  const filteredData = dataSource.filter((a) =>
+  const filteredData = dataSource?.filter((a) =>
     a.name?.toLowerCase().includes(nameFilter.toLowerCase())
   );
   const getRooms = async () => {
@@ -65,14 +64,16 @@ const Rooms = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       if (res.data.get_user_by_id) {
-        const tableArray = [{
-          key: res.data.get_user_by_id?.id || "",
-          id: res.data.get_user_by_id?.id || "",
-          name: res.data.get_user_by_id?.name || "",
-          country: res.data.get_user_by_id?.country || "",
-          hotel: res.data.get_user_by_id?.hotels_if_acc_mngr?.name || "",
-          dmc: res.data.get_user_by_id?.dmcs_if_acc_mngr?.name || "",
-        }];
+        const tableArray = [
+          {
+            key: res.data.get_user_by_id?.id || "",
+            id: res.data.get_user_by_id?.id || "",
+            name: res.data.get_user_by_id?.name || "",
+            country: res.data.get_user_by_id?.country || "",
+            hotel: res.data.get_user_by_id?.hotels_if_acc_mngr?.name || "",
+            dmc: res.data.get_user_by_id?.dmcs_if_acc_mngr?.name || "",
+          },
+        ];
         setDataSource(tableArray);
         setLoading(false);
       }
@@ -119,25 +120,25 @@ const Rooms = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                 <Button
-             onClick={() => {
-                const recordString = encodeURIComponent(
-                  JSON.stringify(record)
-                );
-                router(`/Add-Hotel?record=${recordString}`);
-              }}
-            className="action-btn"
-            icon={<PlusOutlined />}
-          >
-            Assign hotel to Account manager
-          </Button>
-          <Button
-            onClick={() => setAddDMCPopup(true)}
-            className="action-btn"
-            icon={<PlusOutlined />}
-          >
-           Assign DMC to Account manager
-          </Button>
+                <Button
+                  onClick={() => {
+                    const recordString = encodeURIComponent(
+                      JSON.stringify(record)
+                    );
+                    router(`/Add-Hotel?record=${recordString}`);
+                  }}
+                  className="action-btn"
+                  icon={<PlusOutlined />}
+                >
+                  Assign hotel to Account manager
+                </Button>
+                <Button
+                  onClick={() => setAddDMCPopup(true)}
+                  className="action-btn"
+                  icon={<PlusOutlined />}
+                >
+                  Assign DMC to Account manager
+                </Button>
                 <Button className="action-btn">edit</Button>
               </div>
             }
@@ -164,37 +165,35 @@ const Rooms = () => {
           </Button>
         </div>
         <div>
-        <label className="labelStyle">Account Manager</label>
-            <Select
-              showSearch
-              filterOption={(input, option) =>
-                (option?.label.toLowerCase() ?? "").includes(
-                  input.toLowerCase()
-                )
-              }
-              value={id}
-              onChange={(value) =>
-                setFormData((prev) => ({ ...prev, id: value }))
-              }
-              options={
-                accManager
-                  ? accManager?.map((item) => ({
-                      key: item.id,
-                      label: item.uname,
-                      value: Number(item.id),
-                    }))
-                  : ""
-              }
-              className="input-style min-w-[200px]"
-            />
+          <label className="labelStyle">Account Manager</label>
+          <Select
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+            }
+            value={id}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, id: value }))
+            }
+            options={
+              accManager
+                ? accManager?.map((item) => ({
+                    key: item.id,
+                    label: item.uname,
+                    value: Number(item.id),
+                  }))
+                : ""
+            }
+            className="input-style min-w-[200px]"
+          />
           <Modal
-                footer={false}
-                open={AddDMCPopup}
-                onOk={handleCancel}
-                onCancel={handleCancel}
-              >
-                <AddDMCs handleCancel={handleCancel} />
-              </Modal>
+            footer={false}
+            open={AddDMCPopup}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <AddDMCs handleCancel={handleCancel} />
+          </Modal>
         </div>
       </div>
       <Table

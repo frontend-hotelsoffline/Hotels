@@ -2,12 +2,12 @@
 import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
-import { BsFilter} from "react-icons/bs";
-import { HiDotsVertical} from "react-icons/hi";
+import { BsFilter } from "react-icons/bs";
+import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
 import AddAmenity from "./AddAmenity";
 import EditAmenity from "./EditAmenity";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Amenities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,17 +15,17 @@ const Amenities = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setnameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.amenity.toLowerCase().includes(nameFilter.toLowerCase());
   });
 
@@ -87,32 +87,31 @@ const Amenities = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditAmenity record={record}
-                    getAmenities={getAmenities}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditAmenity
+              record={record}
+              getAmenities={getAmenities}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },

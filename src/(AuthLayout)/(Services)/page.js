@@ -5,16 +5,16 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../components/API/GetAPI";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "../components/Helper/FormatDate";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const Services = () => {
   const router = useNavigate();
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.services.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getServices = async () => {
@@ -194,12 +194,16 @@ const Services = () => {
             content={
               <div className="flex flex-col gap-3">
                 <Button
-                 onClick={() => {
-                  const recordString = encodeURIComponent(
-                    JSON.stringify(record)
-                  );
-                  router(`/Edit-Services?record=${recordString}`);
-                }} className="action-btn">edit</Button>
+                  onClick={() => {
+                    const recordString = encodeURIComponent(
+                      JSON.stringify(record)
+                    );
+                    router(`/Edit-Services?record=${recordString}`);
+                  }}
+                  className="action-btn"
+                >
+                  edit
+                </Button>
               </div>
             }
           >

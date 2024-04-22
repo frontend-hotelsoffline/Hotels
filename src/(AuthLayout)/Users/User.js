@@ -6,7 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { PlusOutlined } from "@ant-design/icons";
 import AddUser from "./AddUser";
 import { formatDate } from "../components/Helper/FormatDate";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const User = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,7 +78,7 @@ const User = () => {
 
   useEffect(() => {
     getUser();
-    const updatedFilteredData = dataSource.filter(
+    const updatedFilteredData = dataSource?.filter(
       (item) => item.ulevel == nameFilter
     );
     setFilteredData(updatedFilteredData);
@@ -139,20 +139,26 @@ const User = () => {
               </div>
             }
           >
-             {EditIcon}
+            {EditIcon}
           </Popover>
-            <Modal
-              footer={false}
-              open={isModalOpenEdit}
-              onOk={handleCancel}
-              onCancel={handleCancel}
-            ></Modal>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          ></Modal>
         </span>
       ),
     },
   ];
 
-  const items = ["DMCS", "ACCOUNT MANAGERS", " HOTELS", "TRAVELLERS", "CORPORATE"];
+  const items = [
+    "DMCS",
+    "ACCOUNT MANAGERS",
+    " HOTELS",
+    "TRAVELLERS",
+    "CORPORATE",
+  ];
 
   const handleItemClick = (index) => {
     setActiveItem(index);

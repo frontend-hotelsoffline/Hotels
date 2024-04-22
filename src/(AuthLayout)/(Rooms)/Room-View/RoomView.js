@@ -26,7 +26,7 @@ const RoomView = () => {
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
 
-  const filteredData = dataSource.filter((a) =>
+  const filteredData = dataSource?.filter((a) =>
     a.roomview.toLowerCase().includes(nameFilter.toLowerCase())
   );
   const GetAllRoomView = async () => {

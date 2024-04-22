@@ -5,9 +5,9 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../components/Helper/FormatDate";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Contracts = () => {
   const router = useNavigate();
@@ -23,7 +23,7 @@ const Contracts = () => {
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return (
       item.contract.toLowerCase().includes(nameFilter.toLocaleLowerCase()) &&
       item.status.toLowerCase().includes(statusFilter.toLocaleLowerCase())
@@ -111,7 +111,10 @@ const Contracts = () => {
                 : item.owner_type === 9
                 ? "Corporate"
                 : "",
-            markup: item.price_markup && (item.price_markup?.markup* 1).toFixed(2) + "%" || "",
+            markup:
+              (item.price_markup &&
+                (item.price_markup?.markup * 1).toFixed(2) + "%") ||
+              "",
           })
         );
         setDataSource(tableArray);

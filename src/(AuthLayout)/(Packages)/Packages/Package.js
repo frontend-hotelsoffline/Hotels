@@ -5,8 +5,8 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { GET_API } from "../../components/API/GetAPI";
-import { useNavigate, } from "react-router-dom";
-import {EditIcon} from "../../components/Customized/EditIcon";
+import { useNavigate } from "react-router-dom";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Packages = () => {
   const router = useNavigate();
@@ -25,7 +25,7 @@ const Packages = () => {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.name.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getPackages = async () => {
@@ -94,8 +94,10 @@ const Packages = () => {
           sharing_link: item.sharing_link ? item.sharing_link : "",
           youtube_link: item.youtube_link ? item.youtube_link : "",
           links_of_images: item.links_of_images || [],
-          rooms_under_package_grouped_by_date: item.rooms_under_package_grouped_by_date || [],
-          services_under_package_grouped_by_date: item.services_under_package_grouped_by_date || [],
+          rooms_under_package_grouped_by_date:
+            item.rooms_under_package_grouped_by_date || [],
+          services_under_package_grouped_by_date:
+            item.services_under_package_grouped_by_date || [],
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -169,18 +171,21 @@ const Packages = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button  onClick={() => {
+                <Button
+                  onClick={() => {
                     const recordString = encodeURIComponent(
                       JSON.stringify(record)
                     );
                     router(`/Edit-Package?record=${recordString}`);
-                  }} className="action-btn">
+                  }}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
             }
           >
-           {EditIcon}
+            {EditIcon}
           </Popover>
         </span>
       ),
@@ -203,7 +208,7 @@ const Packages = () => {
           </Button>
         </div>
         <Button
-          onClick={()=>router("/Add-Package")}
+          onClick={() => router("/Add-Package")}
           className="button-bar"
           icon={<PlusOutlined />}
         >

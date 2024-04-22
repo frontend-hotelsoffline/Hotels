@@ -7,7 +7,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import AddCategory from "./AddCategory";
 import { GET_API } from "../../components/API/GetAPI";
 import EditCategory from "./EditCategory";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 
 const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,19 +15,19 @@ const Categories = () => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = ()=>{
-    setIsModalOpenEdit(true)
-  }
+  const showModalEdit = () => {
+    setIsModalOpenEdit(true);
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
-    setIsModalOpenEdit(false)
+    setIsModalOpenEdit(false);
   };
 
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [nameFilter, setnameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.category.toLowerCase().includes(nameFilter.toLowerCase());
   });
 
@@ -89,32 +89,31 @@ const Categories = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (<span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={showModalEdit}
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-          {EditIcon}
-        </Popover>
-                <Modal
-                  footer={false}
-                  open={isModalOpenEdit}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditCategory record={record}
-                    getCategory={getCategory}
-                    handleCancel={handleCancel}
-                  />
-                </Modal>
+      render: (text, record) => (
+        <span className="w-full flex justify-center">
+          <Popover
+            content={
+              <div className="flex flex-col gap-3">
+                <Button onClick={showModalEdit} className="action-btn">
+                  edit
+                </Button>
+              </div>
+            }
+          >
+            {EditIcon}
+          </Popover>
+          <Modal
+            footer={false}
+            open={isModalOpenEdit}
+            onOk={handleCancel}
+            onCancel={handleCancel}
+          >
+            <EditCategory
+              record={record}
+              getCategory={getCategory}
+              handleCancel={handleCancel}
+            />
+          </Modal>
         </span>
       ),
     },

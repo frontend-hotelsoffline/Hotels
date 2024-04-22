@@ -58,8 +58,8 @@
 }
 
 .lightORDark {
-  color: #1b2644 !important;
   text-align: center;
+  background: #151718 !important;
 }
 
 .ant-menu-item {
@@ -585,4 +585,9 @@ td li,
     margin-top: 10px;
     margin-left: 10px;
   }
+}
+
+.dark-mode {
+  background: #151718 !important;
+  color: #ffffff !important;
 }

@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../../../AuthProvider";
 
 const HeaderTitle = ({ title }) => {
   const location = useLocation();
-  const segments = location.pathname.split('/')
+  const segments = location.pathname.split("/");
+  const { lightOrDark } = useContext(AuthContext);
 
   const capitalizedSegments = segments.map((segment) => {
     let subStr;
@@ -36,7 +39,15 @@ const HeaderTitle = ({ title }) => {
       capitalizedSegments[i] +
       (capitalizedSegments.length - 1 === i ? "" : " / ");
   }
-  return <p className='header-title capitalize my-4'>{finalString}</p>;
+  return (
+    <p
+      className={`${
+        lightOrDark === "dark" && "dark-mode"
+      } header-title capitalize my-4`}
+    >
+      {finalString}
+    </p>
+  );
 };
 
 export default HeaderTitle;

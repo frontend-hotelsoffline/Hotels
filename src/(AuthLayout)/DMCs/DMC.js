@@ -33,7 +33,7 @@ const DMCs = () => {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
-  const filteredData = dataSource.filter((item) => {
+  const filteredData = dataSource?.filter((item) => {
     return item.name.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getDMCs = async () => {
