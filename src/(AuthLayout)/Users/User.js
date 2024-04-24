@@ -1,12 +1,12 @@
 "use client";
-import { Button, Modal, Popover, Table } from "antd";
+import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { GET_API } from "../components/API/GetAPI";
-import { HiDotsVertical } from "react-icons/hi";
-import { PlusOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import AddUser from "./AddUser";
 import { formatDate } from "../components/Helper/FormatDate";
 import { EditIcon } from "../components/Customized/EditIcon";
+import { BsFilter } from "react-icons/bs";
 
 const User = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -178,21 +178,35 @@ const User = () => {
   };
   return (
     <div className="w-full relative">
-      <Button
-        onClick={showModal}
-        className="button-bar absolute right-3 -top-6"
-        icon={<PlusOutlined />}
-      >
-        Add User
-      </Button>
-      <Modal
-        footer={false}
-        open={isModalOpen}
-        onOk={handleCancel}
-        onCancel={handleCancel}
-      >
-        <AddUser getUser={getUser} handleCancel={handleCancel} />
-      </Modal>
+      <div className="flex justify-between mb-2 items-center flex-row">
+        <div className="flex">
+          <Input
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            className="search-bar"
+            prefix={<SearchOutlined />}
+            placeholder="Search Name"
+          />
+          <Button className="filter-bar" icon={<BsFilter />}>
+            Filter
+          </Button>
+        </div>
+        <Button
+          onClick={showModal}
+          className="button-bar"
+          icon={<PlusOutlined />}
+        >
+          Add User
+        </Button>
+        <Modal
+          footer={false}
+          open={isModalOpen}
+          onOk={handleCancel}
+          onCancel={handleCancel}
+        >
+          <AddUser getUser={getUser} handleCancel={handleCancel} />
+        </Modal>
+      </div>
       <div>
         <ul className="list-none text-[#A6A6A6]  flex justify-between my-2 max-w-[500px]">
           <li

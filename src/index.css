@@ -90,7 +90,7 @@
 }
 
 .ant-menu-item-selected {
-  background: #2a83ff !important;
+  background: #1b2644 !important;
   color: #ffffff !important;
   border-radius: 3 !important;
   margin: 0 !important;
@@ -444,6 +444,7 @@ td {
   font-weight: 500;
   line-height: normal;
   text-align: center !important;
+  background: #151718 !important;
 }
 td ul {
   display: flex !important;
@@ -466,11 +467,6 @@ td li,
 .ant-picker-dropdown {
   top: 20% !important;
 }
-
-/* td li:not(:empty),
-.borderedRow:not(:empty) {
-  background-color: transparent;
-} */
 
 .active {
   background-color: #fff;

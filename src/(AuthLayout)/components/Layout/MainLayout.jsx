@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../AuthProvider";
 const { Header, Content } = Layout;
 
-const MainLayout = ({ children, title }) => {
+const MainLayout = ({ children }) => {
   const [closeSidebar, setCloseSidebar] = useState(false);
   const { lightOrDark } = useContext(AuthContext);
   return (
@@ -24,7 +24,7 @@ const MainLayout = ({ children, title }) => {
       </div>
       <div
         className={`${lightOrDark === "dark" && "dark-mode"}
-      w-full h-full overflow-auto`}
+      w-full h-full`}
       >
         <Header
           style={{
@@ -47,7 +47,7 @@ const MainLayout = ({ children, title }) => {
         <Content
           className="p-0 mt py-2 md:px-5 w-full h-full"
           style={{
-            marginTop: "1px",
+            marginTop: "8px",
             minHeight: 280,
             background: lightOrDark === "dark" ? "#151718" : "#FFFFFF",
           }}

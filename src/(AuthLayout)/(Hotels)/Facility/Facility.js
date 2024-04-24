@@ -30,10 +30,10 @@ const Facility = () => {
   });
   const getFacilities = async () => {
     const GET_ALL = `{
-      get_all_Facilities {
+      getfacilities {
         id
         name
-        description
+        desc
     }
   }`;
     const query = GET_ALL;
@@ -43,11 +43,11 @@ const Facility = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_Facilities.map((item) => ({
+        const tableArray = res.data.getfacilities?.map((item) => ({
           key: item.id,
           id: item.id,
           facility: item.name,
-          description: item.description,
+          description: item.desc,
         }));
         setDataSource(tableArray);
         setLoading(false);
