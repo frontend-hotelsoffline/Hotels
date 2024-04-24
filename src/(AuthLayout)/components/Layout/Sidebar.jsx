@@ -147,20 +147,20 @@ const Sidebar = () => {
           Log out <LogoutOutlined className="mt-1" />
         </div>
       </div>
-      <div className="w-full group flex justify-between rounded-md bg-[#2A83FF] mt-2 p-1 px-2">
+      <div className="w-full group flex justify-between rounded-md bg-[#1b2644] mt-2 p-1 px-2">
         <span
           onClick={() => setLightOrDark("light")}
           className={`${
-            lightOrDark === "light" ? "bg-white lightORDark" : ""
-          } flex gap-2 items-center justify-center text-white w-[70px] rounded-md cursor-pointer`}
+            lightOrDark === "light" ? "bg-white" : ""
+          } flex gap-2 items-center justify-center w-[70px] rounded-md cursor-pointer`}
         >
           <MdOutlineLightMode /> Light
         </span>
         <span
           onClick={() => setLightOrDark("dark")}
           className={`${
-            lightOrDark === "dark" ? "bg-white lightORDark" : ""
-          } flex gap-2 items-center justify-center  text-white w-[70px] rounded-md cursor-pointer`}
+            lightOrDark === "dark" ? "dark-mode border-white border" : ""
+          } flex gap-2 items-center text-white justify-center w-[70px] rounded-md cursor-pointer`}
         >
           <IoMoonOutline /> Dark
         </span>
