@@ -444,7 +444,6 @@ td {
   font-weight: 500;
   line-height: normal;
   text-align: center !important;
-  background: #151718 !important;
 }
 td ul {
   display: flex !important;
@@ -584,6 +583,11 @@ td li,
 }
 
 .dark-mode {
+  background: #151718 !important;
+  color: #ffffff !important;
+}
+
+.dark-mode .ant-table-tbody td {
   background: #151718 !important;
   color: #ffffff !important;
 }
