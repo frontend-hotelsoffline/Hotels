@@ -31,10 +31,10 @@ const Amenities = () => {
 
   const getAmenities = async () => {
     const GET_ALL = `{
-      get_all_Amenities {
+      getAmenities {
         id
         name
-        description
+        desc
     }
   }`;
     const query = GET_ALL;
@@ -44,11 +44,11 @@ const Amenities = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_Amenities.map((item) => ({
+        const tableArray = res.data.getAmenities.map((item) => ({
           key: item.id,
           id: item.id,
           amenity: item.name,
-          description: item.description,
+          description: item.desc,
         }));
         setDataSource(tableArray);
         setLoading(false);

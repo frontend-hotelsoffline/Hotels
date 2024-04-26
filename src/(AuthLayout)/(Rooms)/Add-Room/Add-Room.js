@@ -10,19 +10,18 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import Image from "next/image";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import useCategories from "../../components/Helper/GetAllCategories";
 import GetAllRoomView from "../../components/Helper/GetAllRoomView";
-import { useRouter, useSearchParams } from "next/navigation";
 import GetAllAmenities from "../../components/Helper/GetAllAmenities";
 import AddAmenity from "../Amenities/AddAmenity";
 import AddRoomView from "../Room-View/AddRoomView";
 import AddCategory from "../Categories/AddCategory";
 import GetAllHotels from "../../components/Helper/GetAllHotels";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
+import { useLocation, useNavigate } from "react-router-dom";
 const formData2 = new FormData();
 
 const getBase64 = (file) =>
@@ -56,7 +55,8 @@ const AddRoom = () => {
   };
 
   const router = useNavigate();
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 
@@ -115,8 +115,8 @@ const AddRoom = () => {
       "Content-Type": "multipart/form-data",
     };
     const amenityVariables = {
-      amenity_ids: amenity_ids
-        ? amenity_ids.map((item) => ({ amenity_id: item }))
+      amenityIds: amenity_ids
+        ? amenity_ids.map((item) => ({ amenity_ids: item }))
         : "",
     };
     const images = fileList.map((item) => item.originFileObj);
@@ -124,19 +124,19 @@ const AddRoom = () => {
   mutation (  $images: [Upload]){
     add_a_room(
         name: "${name ? name : ""}"
-        is_SGL: ${SGL}
-        is_DBL: ${DBL}
-        is_TWN: ${TWN}
-        is_TRPL: ${TRPL}
-        is_QUAD: ${QUAD}
-        is_UNIT: ${UNIT}
-        category_id: ${category_id ? category_id : ""},
-        view_id: ${view_id ? view_id : ""},
-        room_size: ${room_size ? room_size : ""},
-        no_of_units: ${no_of_units ? no_of_units : ""},
-        description: "${description ? description : ""}",
-        room_status: "${room_status}"
-        hotel_id: ${hotel_id ?? 0}
+        SGL: ${SGL}
+        DBL: ${DBL}
+        TWN: ${TWN}
+        TRPL: ${TRPL}
+        QUAD: ${QUAD}
+        UNIT: ${UNIT}
+        catId: ${category_id ? category_id : ""},
+        viewId: ${view_id ? view_id : ""},
+        size_sqm: ${room_size ? room_size : ""},
+        no_units: ${no_of_units ? no_of_units : ""},
+        desc: "${description ? description : ""}",
+        status: "${room_status}"
+        hId: ${hotel_id ?? 0}
         giataId: "${giataId ?? 0}"
         priority: ${priority ?? 0}
         images: $images
@@ -144,10 +144,7 @@ const AddRoom = () => {
           .replace(/"([^(")"]+)":/g, "$1:")
           .replace(/^\s*{|\}\s*$/g, "")}
     ) {
-        id
-        name
-        room_size
-        no_of_units
+       message
     }}
 `;
 
@@ -238,7 +235,7 @@ const AddRoom = () => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between gap-5 mt-2 pb-5">
             <div className="w-full relative">
               <label className="block font-semibold">Room Name</label>
               <Input

@@ -31,10 +31,10 @@ const RoomView = () => {
   );
   const GetAllRoomView = async () => {
     const GET_ALL = `{
-      get_all_Room_views {
+      getRViews {
         id
         name
-        description
+        desc
     }
   }`;
     const query = GET_ALL;
@@ -44,11 +44,11 @@ const RoomView = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_Room_views.map((item) => ({
+        const tableArray = res.data.getRViews.map((item) => ({
           key: item.id,
           id: item.id,
           roomview: item.name,
-          description: item.description,
+          description: item.desc,
         }));
         setDataSource(tableArray);
         setLoading(false);

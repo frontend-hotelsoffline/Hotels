@@ -20,63 +20,46 @@ const Rooms = () => {
   const getRooms = async () => {
     setLoading(true);
     const GET_ALL_ROOMS = `{
-      get_all_Rooms {
+      getRooms {
         id
         name
-        room_size
-        no_of_units
-        description
-        room_status
-        is_SGL
-        is_DBL
-        is_TWN
-        is_TRPL
-        is_QUAD
-        is_UNIT
-        giataId
-        priority
+        size
+        units
+        SGL
+        DBL
+        TWN
+        TRPL
+        QUAD
+        UNIT
+        desc
+        status
+        prio
+        hId
+        catId
+        viewId
         category {
-            name
             id
-        } images {
-          id
-          link_for_image
-      }
+            name
+            desc
+        }
         view {
             id
             name
-            description
+            desc
         }
         amenities {
             id
-            room {
-                id
-                name
-                room_size
-                no_of_units
-                description
-                room_status
-            }
+            rId
+            aId
             amenity {
                 id
                 name
-                description
             }
         }
-        hotel {
+        images {
             id
-            createdAt
-            name
-            country
-            city
-            street
-            latitude
-            longtude
-            description
-            star_rating
-            hotel_status
-            phone_no
-            email
+            rId
+            img_url
         }
     }
   }`;
@@ -85,8 +68,8 @@ const Rooms = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
-      if (res.data.get_all_Rooms) {
-        const tableArray = res?.data.get_all_Rooms?.map((item) => ({
+      if (res.data.getRooms) {
+        const tableArray = res?.data.getRooms?.map((item) => ({
           key: item?.id,
           id: item?.id,
           name: item?.name || "",

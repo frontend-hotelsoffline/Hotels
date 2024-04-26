@@ -315,10 +315,10 @@
 }
 
 .input-style {
-  max-width: 500px;
+  max-width: 100%;
 }
 .input-style-bg {
-  max-width: 500px;
+  max-width: 100%;
   background: #eee;
 }
 

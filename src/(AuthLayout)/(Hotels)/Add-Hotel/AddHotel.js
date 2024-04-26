@@ -15,11 +15,10 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import Image from "next/image";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
-import getAllHotelChains from "../../components/Helper/GetAllHotelChains";
+import GetAllHotelChains from "../../components/Helper/GetAllHotelChains";
 import GetAllPlacesOfInterest from "../../components/Helper/GetAllPlacesOfInterest";
 import { useNavigate } from "react-router-dom";
 import GetAllFacilities from "../../components/Helper/GetAllFacilities";
@@ -53,7 +52,7 @@ export default function PlaceSearchAutocomplete() {
 }
 
 const AddHotel = ({ address }) => {
-  const { hotelChainValue, getAllChains } = getAllHotelChains();
+  const { hotelChainValue, getAllChains } = GetAllHotelChains();
   const { placeOfInterestValue, getAllPlaces } = GetAllPlacesOfInterest();
   const { facilityValue, getFacility } = GetAllFacilities();
   const { accManager } = GetAllUsers();
@@ -144,34 +143,30 @@ const AddHotel = ({ address }) => {
     const images = fileList.map((item) => item.originFileObj);
     const mutation = `
     mutation (  $images: [Upload]) {
-      add_a_hotel(
-        google_place_id: "${google_place_id}",
+      addHotel(
+        g_place: "${google_place_id}",
         name: "${name ? name : ""}",
       country: "${country ? country : ""}",
       city: "${city ? city : ""}",
       street: "${street ? street : ""}",
-      latitude: "${latitude ? latitude : ""}",
-      longtude: "${longtude ? longtude : ""}",
-      description: "${description ? description : ""}",
+      lat: "${latitude ? latitude : ""}",
+      lon: "${longtude ? longtude : ""}",
+      desc: "${description ? description : ""}",
       star_rating: ${star_rating},
-      hotel_status: "${hotel_status}",
-      phone_no: "${phone_no ? phone_no : ""}",
+      status: "${hotel_status}",
+      phone: "${phone_no ? phone_no : ""}",
       email: "${email ? email : ""}",
-      id_acc_mngr: ${id_acc_mngr ? id_acc_mngr : ""},
-      id_of_place_of_intrst: ${
-        id_of_place_of_intrst ? id_of_place_of_intrst : ""
-      },
-      id_of_hotel_chain: ${id_of_hotel_chain ? id_of_hotel_chain : ""},
+      a_mngr_id: ${id_acc_mngr ? id_acc_mngr : ""},
+      p_inte_id: ${id_of_place_of_intrst ? id_of_place_of_intrst : ""},
+      chainId: ${id_of_hotel_chain ? id_of_hotel_chain : ""},
       giataId: "${giataId}",
-      default_selling_markup_id_if_hotel_makes_contract_for_itself : ${
-        default_markup_id || 0
-      }
+      SM_id: ${default_markup_id || 0}
       ${JSON.stringify(FacilityVariables)
         .replace(/"([^(")"]+)":/g, "$1:")
         .replace(/^\s*{|\}\s*$/g, "")}
       images: $images
     ) {
-      id
+      message
     }
   }
 `;
@@ -341,7 +336,7 @@ const AddHotel = ({ address }) => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between mt-2 gap-5">
             <div className="w-full">
               <label className="block font-semibold">Hotel Name</label>
               <PlacesAutocomplete
@@ -452,7 +447,7 @@ const AddHotel = ({ address }) => {
                       }))
                     : ""
                 }
-                className="input-style w-[500px]"
+                className="input-style w-full"
               />
               <span className="labelStyle mt-1">
                 Area / Place of interest
@@ -517,7 +512,7 @@ const AddHotel = ({ address }) => {
                     input.toLowerCase()
                   )
                 }
-                className="w-[500px]"
+                className="w-full"
                 options={hotelChainValue}
                 onChange={(value) => {
                   setFormData((prevData) => ({
@@ -556,7 +551,7 @@ const AddHotel = ({ address }) => {
                       }))
                     : ""
                 }
-                className="input-style w-[500px]"
+                className="input-style w-full"
               />
               <label className="labelStyle mt-1">Email</label>
               <Input
@@ -582,7 +577,7 @@ const AddHotel = ({ address }) => {
                 name="description"
                 value={description}
                 onChange={onChange}
-                className="w-[500px] mb-5"
+                className="w-full mb-5"
                 style={{ height: 110 }}
               />
               <p>Star Rating</p>
@@ -639,7 +634,7 @@ const AddHotel = ({ address }) => {
               </Button>
             </div>
             <div className="w-full mt-[20px] flex flex-col">
-              <div className="w-[600px] h-[300px] object-contain">
+              <div className="w-full h-[300px] object-contain">
                 <GoogleMap
                   slot="action"
                   center={{ lat: latitude, lng: longtude }}

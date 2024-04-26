@@ -45,7 +45,7 @@ const MainLayout = ({ children }) => {
           <Select placeholder={<LuBellDot className="h-[17px] w-[15px]" />} />
         </Header>
         <Content
-          className="p-0 mt py-2 md:px-5 w-full h-full"
+          className="p-0 mt py-2 md:px-5 w-full h-full overflow-auto"
           style={{
             marginTop: "8px",
             minHeight: 280,

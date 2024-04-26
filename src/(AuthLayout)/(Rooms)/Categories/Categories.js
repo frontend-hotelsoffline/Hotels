@@ -33,10 +33,10 @@ const Categories = () => {
 
   const getCategory = async () => {
     const GET_ALL = `{
-      get_all_Categories {
+      getCtgories {
         id
         name
-        description
+        desc
     }
   }`;
     const query = GET_ALL;
@@ -45,11 +45,11 @@ const Categories = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       if (res.data) {
-        const tableArray = res.data.get_all_Categories.map((item) => ({
+        const tableArray = res.data.getCtgories.map((item) => ({
           key: item.id,
           id: item.id,
           category: item.name,
-          description: item.description,
+          description: item.desc,
         }));
         setDataSource(tableArray);
         setLoading(false);

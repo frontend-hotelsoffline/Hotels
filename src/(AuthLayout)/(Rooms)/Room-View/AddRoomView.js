@@ -20,13 +20,11 @@ const AddRoomView = ({ GetAllRoomView, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        add_a_room_view(
+        addRView(
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          desc: "${description ? description : ""}",
         ) {
-          id,
-          name,
-          description
+          message
         }
       }
     `;

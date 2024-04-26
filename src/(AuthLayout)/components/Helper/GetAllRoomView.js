@@ -6,10 +6,9 @@ const GetAllRoomView = () => {
 
   const getAllRoomV = async () => {
     const GET_ALL_CATEGORIES = `{
-        get_all_Room_views {
+        getRViews {
             id
             name
-            description
         }
     }`;
     const query = GET_ALL_CATEGORIES;
@@ -18,8 +17,8 @@ const GetAllRoomView = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_Room_views)) {
-        const dataArray = res.data.get_all_Room_views.map((item) => ({
+      if (Array.isArray(res.data.getRViews)) {
+        const dataArray = res.data.getRViews.map((item) => ({
           value: item.id ? item.id : "",
           label: item.name ? item.name : "",
         }));

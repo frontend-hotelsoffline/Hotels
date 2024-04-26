@@ -19,6 +19,7 @@ import Chains from "./(AuthLayout)/(Hotels)/Chains/Chains";
 import PlacesOfInterest from "./(AuthLayout)/(Hotels)/Places-of-Interest/Places-of-Interest";
 import Facility from "./(AuthLayout)/(Hotels)/Facility/Facility";
 import Hotels from "./(AuthLayout)/(Hotels)/Hotels/Hotels";
+import AddHotel from "./(AuthLayout)/(Hotels)/Add-Hotel/AddHotel";
 import Search from "./(AuthLayout)/Search/Search";
 import RoomView from "./(AuthLayout)/(Rooms)/Room-View/RoomView";
 import Amenities from "./(AuthLayout)/(Rooms)/Amenities/Amenities";
@@ -26,12 +27,14 @@ import Categories from "./(AuthLayout)/(Rooms)/Categories/Categories";
 import Rooms from "./(AuthLayout)/(Rooms)/Rooms/Rooms";
 import Corporate from "./(AuthLayout)/Corporate/Corporate";
 import AccountOwners from "./(AuthLayout)/Account-Managers/AccountManagers";
+import AddRoom from "./(AuthLayout)/(Rooms)/Add-Room/Add-Room";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  useEffect(()=>{
-    !isAuthenticated && setIsAuthenticated(localStorage.getItem("isAuthenticated"))
-     }, [isAuthenticated])
+  useEffect(() => {
+    !isAuthenticated &&
+      setIsAuthenticated(localStorage.getItem("isAuthenticated"));
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -110,6 +113,30 @@ function App() {
             }
           />
           <Route
+            path="/Add-Room"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AddRoom />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Edit-Room"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <Rooms />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
             path="/Categories"
             element={
               isAuthenticated ? (
@@ -159,6 +186,30 @@ function App() {
           />
           <Route
             path="/Hotels"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <Hotels />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Add-Hotel"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AddHotel />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Edit-Hotel"
             element={
               isAuthenticated ? (
                 <MainLayout>
@@ -279,9 +330,7 @@ function App() {
           />
           <Route
             path="/"
-            element={
-              isAuthenticated ? <Navigate to="/Dashboard" /> :<Login />
-            }
+            element={isAuthenticated ? <Navigate to="/Dashboard" /> : <Login />}
           />
           <Route
             path="/Register"
@@ -289,7 +338,7 @@ function App() {
               isAuthenticated ? <Navigate to="/Dashboard" /> : <Register />
             }
           />
-          </Routes>
+        </Routes>
       </Router>
     </div>
   );

@@ -2,7 +2,7 @@ import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddAmenity = ({ getAmenities, handleCancel }) => {
   const router = useNavigate();
@@ -20,13 +20,11 @@ const AddAmenity = ({ getAmenities, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        add_an_amenity(
+        addAmenity(
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          desc: "${description ? description : ""}",
         ) {
-          id,
-          name,
-          description
+          message
         }
       }
     `;
@@ -42,7 +40,7 @@ const AddAmenity = ({ getAmenities, handleCancel }) => {
         message.success("Amenity has been Added Successfully");
         getAmenities();
         handleCancel();
-        setFormData({})
+        setFormData({});
       }
     } catch (error) {
       message.error("Failed to Add Amenity, Please check and try again");

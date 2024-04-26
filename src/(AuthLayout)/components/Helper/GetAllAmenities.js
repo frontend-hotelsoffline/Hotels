@@ -6,10 +6,9 @@ const GetAllAmenities = () => {
 
   const getAllAmenity = async () => {
     const GET_ALL = `{
-      get_all_Amenities {
+      getAmenities {
         id
         name
-        description
       }
     }`;
     const query = GET_ALL;
@@ -18,8 +17,8 @@ const GetAllAmenities = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_Amenities)) {
-        const dataArray = res.data.get_all_Amenities;
+      if (Array.isArray(res.data.getAmenities)) {
+        const dataArray = res.data.getAmenities;
         setamenityValue(dataArray);
       }
     } catch (error) {
