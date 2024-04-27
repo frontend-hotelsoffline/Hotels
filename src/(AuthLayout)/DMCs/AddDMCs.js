@@ -1,7 +1,7 @@
 "use client";
 import { Button, Input, Select, message } from "antd";
 import React, { useState } from "react";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
@@ -11,7 +11,14 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
   const { MarkUpValue } = GetAllPricingMarkUp();
   const { accManager } = GetAllUsers();
   const [formData, setFormData] = useState({ name: "", status: "" });
-  const { name, status, acc_mnger_id, default_markup_id, email, buying_markup_id } = formData;
+  const {
+    name,
+    status,
+    acc_mnger_id,
+    default_markup_id,
+    email,
+    buying_markup_id,
+  } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -24,17 +31,15 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        create_a_dmc(
+        addDMC(
           name: "${name ? name : ""}",
-          status: "${status ? status : ""}",
-          acc_mnger_id: ${acc_mnger_id},
-          default_selling_markup_id: ${default_markup_id}
-          buying_markup_id: ${buying_markup_id}
+          status: ${status ? status : ""},
+          a_mngrId: ${acc_mnger_id},
+          SMid: ${default_markup_id}
+          BMid: ${buying_markup_id}
           email: "${email}"
         ) {
-          id,
-          name,
-          status
+          message
         }
       }
     `;
@@ -46,10 +51,8 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
       if (res) {
-        message.success("DMCs has been Added Successfully");
-        router("/DMCs");
+        message.success(res.data.addDMC?.message);
         getDMCs();
         handleCancel();
         setFormData({});
@@ -59,7 +62,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
       console.error(error);
     }
   };
-  
+
   return (
     <form onSubmit={onSubmit} className="w-full h-full p-4">
       <h1 className="title capitalize">add DMCs</h1>
@@ -94,7 +97,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
           accManager
             ? accManager?.map((item) => ({
                 key: item.id,
-                label: item.uname,
+                label: item.name,
                 value: Number(item.id),
               }))
             : ""

@@ -6,10 +6,9 @@ const GetAllFacilities = () => {
 
   const getFacility = async () => {
     const GET_ALL = `{
-      get_all_Facilities {
+      getfacilities {
         id
         name
-        description
       }
     }`;
     const query = GET_ALL;
@@ -18,8 +17,8 @@ const GetAllFacilities = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_Facilities)) {
-        const dataArray = res.data.get_all_Facilities;
+      if (Array.isArray(res.data.getfacilities)) {
+        const dataArray = res.data.getfacilities;
         setfacilityValue(dataArray);
       }
     } catch (error) {

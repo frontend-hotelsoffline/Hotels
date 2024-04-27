@@ -6,9 +6,9 @@ const GetAllPricingMarkUp = () => {
 
   const getAllPricingMarkup = async () => {
     const GET_ALL = `{
-        get_all_pricing_markups {
+        getmarkups {
             id
-            createdAt
+            CRT
             name
             markup
         }
@@ -17,12 +17,11 @@ const GetAllPricingMarkUp = () => {
     const path = "";
     try {
       const res = await GET_API(path, { params: { query } });
-      if (Array.isArray(res.data.get_all_pricing_markups)) {
-        const dataArray = res.data.get_all_pricing_markups;
+      if (Array.isArray(res.data.getmarkups)) {
+        const dataArray = res.data.getmarkups;
         setMarkUpValue(dataArray);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

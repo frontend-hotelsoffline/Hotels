@@ -13,7 +13,18 @@ const AddUser = ({ getUser, handleCancel }) => {
   const { CorporatesValue } = GetAllCorporates();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const [formData, setFormData] = useState({});
-  const { uname, pswd, ulevel, comp_id, country, buying_markup_id_if_agent_or_traveller, Commission_if_acc_mngr } = formData;
+  const {
+    uname,
+    phone,
+    email,
+    s_markup_id_if_acc_mngr,
+    b_markup_id_if_acc_mngr,
+    pswd,
+    ulevel,
+    comp_id,
+    country,
+    buying_markup_id_if_agent_or_traveller,
+  } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -23,29 +34,24 @@ const AddUser = ({ getUser, handleCancel }) => {
       "Content-Type": "application/json",
     };
     const mutation = `
-      mutation {
-        add_a_new_user(
-          uname: "${uname}"
-          pswd: "${pswd}"
-          ulevel: ${ulevel}
-          comp_id: ${comp_id || 0}
-          buying_markup_id_if_agent_or_traveller: ${buying_markup_id_if_agent_or_traveller || 0}
-          country: "${country}"
-        Commission_if_acc_mngr: ${Commission_if_acc_mngr||0}
-          is_demo_user: true
-      ) {
-          id
-          createdAt
-          is_first_login_chng_pswd
-          uname
-          ulevel
-          comp_id
-          is_blocked
-          country
-          is_demo_user
-      }
-      }
-    `;
+  mutation {
+    addUser(
+      name: "${uname}"
+      pswd: "${pswd}"
+      ulevel: ${ulevel}
+      comp_id: ${comp_id || 0}
+      phone: "${phone || 0}"
+      email: "${email || ""}"
+      b_markup_id_if_agent: ${buying_markup_id_if_agent_or_traveller || 0}
+      s_markup_id_if_acc_mngr: ${s_markup_id_if_acc_mngr || 0}
+      b_markup_id_if_acc_mngr: ${b_markup_id_if_acc_mngr || 0}
+      country: "${country}"
+  ) {
+      message
+  }
+  }
+`;
+
     const path = "";
     try {
       const res = await POST_API(
@@ -53,13 +59,11 @@ const AddUser = ({ getUser, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
-      if (res.data && !res.errors) {
-        message.success("User created Successfully");
-        handleCancel();
+      if (res?.data?.addUser?.message === "success") {
+        message.success(res.data.addUser?.message);
         getUser();
-        setFormData({})
-      }
+        handleCancel();
+      } else message.error(res?.data?.addUser?.message);
     } catch (error) {
       message.error("Failed, Please check and try again");
     }
@@ -74,7 +78,6 @@ const AddUser = ({ getUser, handleCancel }) => {
         <label>
           Account type
           <Select
-          value={ulevel}
             className=" w-full"
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, ulevel: value, comp_id: 0 }))
@@ -94,11 +97,11 @@ const AddUser = ({ getUser, handleCancel }) => {
           <label>
             Company
             <Select
-            value={comp_id}
               className=" w-full"
               onChange={(value) =>
                 setFormData((prev) => ({ ...prev, comp_id: value }))
               }
+              type="text"
               options={
                 ulevel == 4
                   ? DMCsValue.map((item) => ({
@@ -123,7 +126,6 @@ const AddUser = ({ getUser, handleCancel }) => {
         <label>
           country
           <Select
-          value={country}
             showSearch
             filterOption={(input, option) =>
               (option?.label?.toLowerCase() ?? "").includes(
@@ -137,22 +139,16 @@ const AddUser = ({ getUser, handleCancel }) => {
             className="h-[34px] inputfildinsearch"
           />
         </label>
-        {ulevel==2 && <label>
-          Commission
-            <Input
-              value={Commission_if_acc_mngr}
-              name="Commission_if_acc_mngr"
-              onChange={onChange}
-              className=""
-              type="text"
-            />
-          </label>}
-        {ulevel==10 && <label>
-          buying markup
-              <Select className="w-full"
+        {ulevel == 10 && (
+          <label>
+            Buying markup
+            <Select
               value={buying_markup_id_if_agent_or_traveller}
               onChange={(value) =>
-                setFormData((prev) => ({ ...prev, buying_markup_id_if_agent_or_traveller: value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  buying_markup_id_if_agent_or_traveller: value,
+                }))
               }
               options={
                 MarkUpValue
@@ -163,8 +159,58 @@ const AddUser = ({ getUser, handleCancel }) => {
                     }))
                   : ""
               }
+              className="w-full"
             />
-          </label>}
+          </label>
+        )}
+        {ulevel == 2 && (
+          <span className="flex justify-between">
+            <label>
+              Buying markup
+              <Select
+                value={b_markup_id_if_acc_mngr}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    b_markup_id_if_acc_mngr: value,
+                  }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
+            <label>
+              Selling markup
+              <Select
+                value={s_markup_id_if_acc_mngr}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    s_markup_id_if_acc_mngr: value,
+                  }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
+          </span>
+        )}
         <label>
           Username
           <Input
@@ -175,13 +221,35 @@ const AddUser = ({ getUser, handleCancel }) => {
             type="text"
           />
         </label>
+        <span className="flex justify-between gap-2">
+          <label>
+            Email
+            <Input
+              value={email}
+              name="email"
+              onChange={onChange}
+              className=""
+              type="email"
+            />
+          </label>
+          <label>
+            Phone
+            <Input
+              value={phone}
+              name="phone"
+              onChange={onChange}
+              className=""
+              type="phone"
+            />
+          </label>
+        </span>
         <label htmlFor="password">
           Password
           <Input.Password
             value={pswd}
             name="pswd"
             onChange={onChange}
-            className=""
+            className="w-full border border-black"
             type="password"
           />
         </label>

@@ -29,7 +29,7 @@ import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import { BASE_URL } from "../../components/API/APIURL";
 import { GET_API } from "../../components/API/GetAPI";
-const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
+const apiKey = process.env.REACT_APP_PUBLIC_MAPS_API_KEY;
 const formData2 = new FormData();
 
 const getBase64 = (file) =>
@@ -42,15 +42,15 @@ const getBase64 = (file) =>
 
 export default function PlaceSearchAutocomplete() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
+    googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
     libraries: ["places"],
   });
 
   if (!isLoaded) return <div>Loading...</div>;
-  return <AddHotel />;
+  return <EditHotel />;
 }
 
-const AddHotel = ({ address }) => {
+export const EditHotel = ({ address }) => {
   const { hotelChainValue } = getAllHotelChains();
   const { placeOfInterestValue } = GetAllPlacesOfInterest();
   const { facilityValue } = GetAllFacilities();

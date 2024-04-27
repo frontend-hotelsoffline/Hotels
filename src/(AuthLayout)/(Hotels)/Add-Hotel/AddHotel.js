@@ -29,7 +29,6 @@ import AddFacility from "../Facility/AddFacility";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import GetAllPricingMarkUp from "../../components/Helper/GetAllPricingMarkUp";
-const apiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
 
 const formData2 = new FormData();
 
@@ -43,7 +42,7 @@ const getBase64 = (file) =>
 
 export default function PlaceSearchAutocomplete() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
+    googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
     libraries: ["places"],
   });
 
@@ -336,7 +335,7 @@ const AddHotel = ({ address }) => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2 gap-5">
+          <div className="flex justify-between mt-2 pb-5 gap-5">
             <div className="w-full">
               <label className="block font-semibold">Hotel Name</label>
               <PlacesAutocomplete

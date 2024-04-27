@@ -33,7 +33,7 @@ const Pricing = () => {
     const GET_ALL = `{
       getmarkups {
           id
-          createdAt
+          CRT
           name
           markup
         }
@@ -50,7 +50,7 @@ const Pricing = () => {
           id: item.id || "",
           name: item.name || "",
           markup: (item.markup && (item.markup * 1).toFixed(2) + "%") || "",
-          createdAt: formatDate(item.createdAt) || "",
+          createdAt: formatDate(item.CRT) || "",
         }));
         setDataSource(tableArray);
         setLoading(false);

@@ -46,7 +46,8 @@ const AccountOwners = () => {
         const tableArray = accManager?.map((item) => ({
           key: item.id ? item.id : "",
           id: item.id ? item.id : "",
-          name: item.uname ? item.uname : "",
+          name: item.name ? item.name : "",
+          email: item.uname ? item.uname : "",
           type: item.ulevel || "",
           country: item.country || "",
           commission: item.Commission_if_acc_mngr || "",
@@ -203,11 +204,11 @@ const AccountOwners = () => {
         </ul>
       ),
     },
-    // {
-    //   title: "email",
-    //   dataIndex: "email",
-    //   key: "email",
-    // },
+    {
+      title: "email",
+      dataIndex: "email",
+      key: "email",
+    },
     {
       title: "Action",
       dataIndex: "action",

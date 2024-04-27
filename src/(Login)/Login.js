@@ -1,8 +1,7 @@
-
 import { Button, Checkbox, Input, message } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
@@ -11,9 +10,9 @@ const Login = () => {
   const [formData, setFormData] = useState({});
   const { uname, pswd } = formData;
 
- useEffect(()=>{
-isAuthenticated && router("/Dashboard")
- }, [isAuthenticated])
+  useEffect(() => {
+    isAuthenticated && router("/Dashboard");
+  }, [isAuthenticated]);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -42,20 +41,25 @@ isAuthenticated && router("/Dashboard")
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res?.data?.login?.message==="success") {
+      if (res?.data?.login?.message === "success") {
         message.success(res.data.login?.message);
         router("/Dashboard");
-        setIsAuthenticated(localStorage.setItem("isAuthenticated", "success"))
-      }
-      else message.error(res?.data?.login?.message)
+        setIsAuthenticated(localStorage.setItem("isAuthenticated", "success"));
+      } else message.error(res?.data?.login?.message);
     } catch (error) {
       message.error("Failed");
     }
   };
 
   return (
-    <div style={{backgroundImage: "url(/background.png)"}} className="h-screen flex justify-center items-center overflow-hidden">
-      <form onSubmit={onSubmit} className="w-[600px] h-[500px] bg-white py-10 px-[120px] rounded-3xl">
+    <div
+      style={{ backgroundImage: "url(/background.png)" }}
+      className="h-screen flex justify-center items-center overflow-hidden"
+    >
+      <form
+        onSubmit={onSubmit}
+        className="w-[600px] h-[500px] bg-white py-10 px-[120px] rounded-3xl"
+      >
         <h1 className="logo-title ">HotelsOffline</h1>
         <p className="text-black font-semibold">Welcome back</p>
         <h1 className="text-3xl text-blue-800 mb-3">Login to your account</h1>
@@ -89,7 +93,7 @@ isAuthenticated && router("/Dashboard")
         </Button>
         <div className="flex justify-center">
           <p>Don't have an account?</p>
-          <Link className=" text-blue-500 underline ml-2" to="/Dashboard">
+          <Link className=" text-blue-500 underline ml-2" to="/Register">
             Join free today
           </Link>
         </div>

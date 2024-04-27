@@ -28,16 +28,16 @@ const User = () => {
   const [nameFilter, setNameFilter] = useState("");
   const getUser = async () => {
     const GET_ALL = `{
-        get_all_users {
-            id
-            createdAt
-            is_first_login_chng_pswd
-            uname
-            ulevel
-            comp_id
-            is_blocked
-            country
-            is_demo_user
+        getUsers {
+          id
+          CRT
+          f_log
+          uname
+          lev
+          country
+          cID
+          name
+          phone
         }
     }`;
     const query = GET_ALL;
@@ -47,25 +47,26 @@ const User = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data && !res.errors) {
-        const tableArray = res.data.get_all_users.map((item) => ({
+        const tableArray = res.data.getUsers.map((item) => ({
           key: item.id ? item.id : "",
           id: item.id ? item.id : "",
           dateadded: formatDate(item.createdAt || null) || "",
-          username: item.uname ? item.uname : "",
-          ulevel: item.ulevel || "",
+          username: item.name ? item.name : "",
+          email: item.uname ? item.uname : "",
+          ulevel: item.lev || "",
           accounttype:
-            item.ulevel === 1
+            item.lev === 1
               ? "Super Admin"
-              : item.ulevel === 2
+              : item.lev === 2
               ? "Account manager"
-              : item.ulevel === 4
+              : item.lev === 4
               ? "DMC"
-              : item.ulevel === 6
+              : item.lev === 6
               ? "Hotel"
-              : item.ulevel === 9
+              : item.lev === 9
               ? "Corporate"
               : "",
-          compid: item.comp_id ? item.comp_id : "",
+          compid: item.cID ? item.cID : "",
           country: item.country ? item.country : "",
         }));
         setDataSource(tableArray);
@@ -93,11 +94,17 @@ const User = () => {
     },
 
     {
-      title: "username",
+      title: "user name",
       dataIndex: "username",
       key: "username",
       sorter: (a, b) =>
         a.username ? a.username.localeCompare(b.username) : "",
+    },
+    {
+      title: "email",
+      dataIndex: "email",
+      key: "email",
+      sorter: (a, b) => (a.email ? a.email.localeCompare(b.email) : ""),
     },
     {
       title: "account type",

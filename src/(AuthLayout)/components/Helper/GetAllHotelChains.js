@@ -6,7 +6,7 @@ const GetAllHotelChains = () => {
 
   const getAllChains = async () => {
     const GET_ALL_CATEGORIES = `{
-        get_all_hotel_chains {
+        getchains {
             id
             name
         }
@@ -17,8 +17,8 @@ const GetAllHotelChains = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_hotel_chains)) {
-        const dataArray = res.data.get_all_hotel_chains.map((item) => ({
+      if (Array.isArray(res.data.getchains)) {
+        const dataArray = res.data.getchains.map((item) => ({
           value: item.id ? item.id : "",
           label: item.name ? item.name : "",
         }));

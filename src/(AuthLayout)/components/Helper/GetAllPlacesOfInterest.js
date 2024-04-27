@@ -6,7 +6,7 @@ const GetAllPlacesOfInterest = () => {
 
   const getAllPlaces = async () => {
     const GET_ALL_CATEGORIES = `{
-        get_all_places_of_interest {
+        getP_interest {
             id
             name
             country
@@ -18,8 +18,8 @@ const GetAllPlacesOfInterest = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       // console.log('places',res)
-      if (Array.isArray(res.data.get_all_places_of_interest)) {
-        const dataArray = res.data.get_all_places_of_interest;
+      if (Array.isArray(res.data.getP_interest)) {
+        const dataArray = res.data.getP_interest;
         setPlaceOfInterestValue(dataArray);
       }
     } catch (error) {

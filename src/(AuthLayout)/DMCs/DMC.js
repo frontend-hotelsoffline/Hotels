@@ -38,58 +38,42 @@ const DMCs = () => {
   });
   const getDMCs = async () => {
     const GET_ALL = `{
-        get_all_dmcs {
+      getDMCs {
+        id
+        name
+        status
+        email
+        rate
+        SM
+        BM
+        a_mngr
+        ac_mngr {
             id
             name
-            status
-            email
-            account_manager {
-              id
-              uname
-          }
-          hotels_of_the_dmc {
+        }
+        buyM {
+            markup
+            name
             id
-            hotel {
-                id
-                name
-                hotel_status
-            }
         }
-          Live_static_contracts {
-              id
-              name
-              status
-          }
-          Live_dynamic_contracts {
-              id
-              name
-              status
-          }
-            default_markup {
-              id
-              createdAt
-              name
-              markup
-          }
-        }
+    }
   }`;
     const query = GET_ALL;
     const path = "";
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_dmcs.map((item) => ({
+        const tableArray = res.data.getDMCs.map((item) => ({
           key: item.id || "",
           id: item.id || "",
           name: item.name || "",
           status: item.status || "",
           email: item.email || "",
-          hotels_of_the_dmc: item.hotels_of_the_dmc || "",
-          account_manager: item.account_manager.uname || "",
-          Live_static_contracts: item.Live_static_contracts || [],
-          Live_dynamic_contracts: item.Live_dynamic_contracts || [],
+          hotels_of_the_dmc: item?.hotels_of_the_dmc || "",
+          account_manager: item?.ac_mngr?.name || "",
+          Live_static_contracts: item?.Live_static_contracts || [],
+          Live_dynamic_contracts: item?.Live_dynamic_contracts || [],
         }));
         setDataSource(tableArray);
         setLoading(false);
