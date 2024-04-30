@@ -89,6 +89,20 @@ const AddRoom = () => {
     QUAD,
     UNIT,
     priority,
+    tPax,
+    minA,
+    maxA,
+    maxC,
+    Beds,
+    sBed,
+    ssType,
+    ss,
+    mcas,
+    ebeds,
+    mInc,
+    ebs,
+    est,
+    maieb,
   } = FormData;
 
   const onChange = (e) => {
@@ -140,6 +154,20 @@ const AddRoom = () => {
         giataId: "${giataId ?? 0}"
         priority: ${priority ?? 0}
         images: $images
+        tPax: ${tPax || -1}
+        minA: ${minA || -1}
+        maxA: ${maxA || -1}
+        maxC: ${maxC || -1}
+        Beds: ${Beds || ""}
+        sBed: ${sBed || false}
+        ssType: ${ssType || ""}
+        ss: ${ss || ""}
+        mcas: ${mcas || ""}
+        ebeds: ${ebeds || ""}
+        mInc: ${mInc || ""}
+        ebs: ${ebs || ""}
+        est: ${est || ""}
+        maieb: ${maieb || ""}
         ${JSON.stringify(amenityVariables)
           .replace(/"([^(")"]+)":/g, "$1:")
           .replace(/^\s*{|\}\s*$/g, "")}

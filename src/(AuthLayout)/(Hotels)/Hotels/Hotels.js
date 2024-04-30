@@ -49,98 +49,50 @@ const Hotels = () => {
     setLoading(true);
 
     const GET_ALL_HOTELS = `{
-      getrhotels {
+      getrhotels(page: 1) {
         id
-        createdAt
-        google_place_id
+        CRT
         name
+        address
         country
         city
         street
-        latitude
-        longtude
-        description
-        star_rating
-        hotel_status
-        phone_no
-        email
-        giataId
-        facilities {
-          id
-          facility {
-              id
-              name
-              description
-          }
-      }  image_urls {
-        id
-        link_for_image
-    }
-        default_markup_if_hotel_makes_contract_for_itself {
-          id
-      } place_of_intrst {
-        id
-        name
-        country
-    } hotel_chain {
-      id
-      name
-  }        rooms {
-          id
-          name
-          room_status
-          hotel {
-              id
-              name
-          } category {
-            id
-            name
-            description
+        lat
+        lon
+        categ
+        HB {
+            c_id
         }
-      }
-        account_mngr {
-            id
-            createdAt
-            is_first_login_chng_pswd
-            uname
+        exp {
+            c_id
         }
-        dmcs_of_the_hotel {
+        jp {
+            c_id
+        }
+        Imgs {
             id
-            dmc {
+            img_url
+        }
+        hotlFac {
+            id
+            hId
+            fId
+            facs {
                 id
                 name
-                status  
-                Live_static_contracts {
-                  id
-                  createdAt
-                  name
-              }              Live_dynamic_contracts {
-                  id
-                  createdAt
-                  name
-              }
             }
-        }  Live_dynamic_contracts {
-          id
-          createdAt
-          name
-          status
-      }      Live_static_contracts {
-          id
-          createdAt
-          name
-          status
-      }        all_the_direct_Live_static_contracts {
-            id
-            createdAt
-            name
-            owner_type
-        }        all_the_direct_Live_dynamic_contracts {
-            id
-            createdAt
-            name
-            owner_type
         }
+        HotelBody {
+          ac_mngr {
+              id
+              name
+          }
+          email
+          phone
+          desc
+          chainId
+          status
+      }
     }
     }`;
     const query = GET_ALL_HOTELS;
@@ -148,7 +100,7 @@ const Hotels = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
-      if (res.data && !res.errors) {
+      if (res.data) {
         setLoading(false);
         const tableArray = res?.data?.getrhotels?.map((item) => ({
           key: item.id ? item.id : "",
@@ -159,13 +111,13 @@ const Hotels = () => {
           street: item.street ? item.street : "",
           latitude: item.latitude ? item.latitude : "",
           longtude: item.longtude ? item.longtude : "",
-          accountmanager: item?.account_mngr?.uname || "",
-          id_acc_mngr: item?.account_mngr || "",
+          accountmanager: item.HotelBody.ac_mngr?.name || "",
+          id_acc_mngr: item.HotelBody.ac_mngr?.id || "",
           image_urls: item?.image_urls || "",
-          description: item.description ? item.description : "",
-          star_rating: item.star_rating ? item.star_rating : "",
-          hotel_status: item.hotel_status ? item.hotel_status : "",
-          phone_no: item.phone_no ? item.phone_no : "",
+          description: item.HotelBody.desc || "",
+          star_rating: item.categ || "",
+          hotel_status: item.HotelBody?.status || "",
+          phone_no: item.HotelBody?.phone || "",
           email: item.email ? item.email : "",
           google_place_id: item.google_place_id || "",
           place_of_intrst: item.place_of_intrst?.id || "",

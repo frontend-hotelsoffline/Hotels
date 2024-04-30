@@ -50,7 +50,7 @@ export default function PlaceSearchAutocomplete() {
   return <AddHotel />;
 }
 
-const AddHotel = ({ address }) => {
+const AddHotel = () => {
   const { hotelChainValue, getAllChains } = GetAllHotelChains();
   const { placeOfInterestValue, getAllPlaces } = GetAllPlacesOfInterest();
   const { facilityValue, getFacility } = GetAllFacilities();
@@ -102,7 +102,7 @@ const AddHotel = ({ address }) => {
     id_of_place_of_intrst,
     id_of_hotel_chain,
     facility_ids,
-    giataId,
+    address,
     google_place_id,
     default_markup_id,
   } = FormData;
@@ -125,7 +125,6 @@ const AddHotel = ({ address }) => {
       !id_of_place_of_intrst ||
       !id_of_hotel_chain ||
       !facility_ids ||
-      !giataId ||
       !fileList.length > 0
     ) {
       message.error("Please fill required fields");
@@ -135,8 +134,8 @@ const AddHotel = ({ address }) => {
       "Content-Type": "multipart/form-data",
     };
     const FacilityVariables = {
-      facility_ids: facility_ids
-        ? facility_ids.map((item) => ({ facility_id: item }))
+      facIdList: facility_ids
+        ? facility_ids.map((item) => ({ fid: item }))
         : "",
     };
     const images = fileList.map((item) => item.originFileObj);
@@ -148,17 +147,17 @@ const AddHotel = ({ address }) => {
       country: "${country ? country : ""}",
       city: "${city ? city : ""}",
       street: "${street ? street : ""}",
-      lat: "${latitude ? latitude : ""}",
-      lon: "${longtude ? longtude : ""}",
+      lat: ${latitude ? latitude : ""},
+      lon: ${longtude ? longtude : ""},
       desc: "${description ? description : ""}",
-      star_rating: ${star_rating},
-      status: "${hotel_status}",
+      categ: "${star_rating}",
+      status: ${hotel_status},
+      address: "${address || ""}",
       phone: "${phone_no ? phone_no : ""}",
       email: "${email ? email : ""}",
       a_mngr_id: ${id_acc_mngr ? id_acc_mngr : ""},
       p_inte_id: ${id_of_place_of_intrst ? id_of_place_of_intrst : ""},
       chainId: ${id_of_hotel_chain ? id_of_hotel_chain : ""},
-      giataId: "${giataId}",
       SM_id: ${default_markup_id || 0}
       ${JSON.stringify(FacilityVariables)
         .replace(/"([^(")"]+)":/g, "$1:")
@@ -170,7 +169,7 @@ const AddHotel = ({ address }) => {
   }
 `;
     const path = "";
-    setLoading(true);
+    // setLoading(true);
     try {
       formData2.delete("operations");
       formData2.delete("map");
@@ -201,12 +200,12 @@ const AddHotel = ({ address }) => {
       }
 
       const res = await POST_API(path, formData2, headers);
-      if (res && !res.errors) {
+      if (res.data.addHotel?.message === "success") {
         setLoading(false);
         message.success("Hotel has been Added Successfully");
         router("/Hotels");
       } else {
-        message.error(res?.errors?.message);
+        message.error(res.data.addHotel?.message);
       }
     } catch (error) {
       message.error("Failed to Add Hotel, Please check and try again");
@@ -416,10 +415,10 @@ const AddHotel = ({ address }) => {
                 placeholder=""
                 readOnly
               />
-              <label className="label-style mt-1">Giata ID</label>
+              <label className="label-style mt-1">Address</label>
               <Input
-                name="giataId"
-                value={giataId}
+                name="address"
+                value={address}
                 onChange={onChange}
                 className="input-style"
                 placeholder=""
@@ -545,7 +544,7 @@ const AddHotel = ({ address }) => {
                   accManager
                     ? accManager?.map((item) => ({
                         key: item.id,
-                        label: item.uname,
+                        label: item.name,
                         value: Number(item.id),
                       }))
                     : ""
