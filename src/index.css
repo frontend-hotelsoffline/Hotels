@@ -587,7 +587,9 @@ td li,
   color: #ffffff !important;
 }
 
-.dark-mode .ant-table-tbody td {
+.dark-mode .ant-table-tbody td,
+.dark-mode .ant-menu-item,
+.dark-mode .ant-menu-submenu-title {
   background: #151718 !important;
   color: #ffffff !important;
 }
