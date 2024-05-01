@@ -140,20 +140,20 @@ const Wallet = () => {
             onClick={showModal}
             className="button-bar"
             icon={
-              activeItem == 1 ? (
+              activeItem === 1 ? (
                 <PlusOutlined />
-              ) : activeItem == 2 ? (
+              ) : activeItem === 2 ? (
                 <MinusOutlined />
               ) : (
                 ""
               )
             }
           >
-            {activeItem == 1
+            {activeItem === 1
               ? "Fund Wallet"
-              : activeItem == 2
+              : activeItem === 2
               ? "Withdraw"
-              : activeItem == 3
+              : activeItem === 3
               ? "Transfer"
               : ""}
           </Button>
@@ -187,7 +187,6 @@ const Wallet = () => {
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
         loading={loading}
       />
     </section>

@@ -1,8 +1,19 @@
 "use client";
-import { Button, DatePicker, Input, Modal, Popover, Select, Spin, Table, Upload, message } from "antd";
+import {
+  Button,
+  DatePicker,
+  Input,
+  Modal,
+  Popover,
+  Select,
+  Spin,
+  Table,
+  Upload,
+  message,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { POST_API } from "../../components/API/PostAPI";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
@@ -14,7 +25,7 @@ import { formatDate } from "../../components/Helper/FormatDate";
 import { CalendarOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import GetPackageByID from "../../components/Helper/GetPackageByID";
-import {EditIcon}from "../../components/Customized/EditIcon";
+import { EditIcon } from "../../components/Customized/EditIcon";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -46,21 +57,23 @@ const AddPackage = () => {
     setPreviewOpen(true);
     setPreviewTitle(
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-      );
+    );
   };
-  
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
   const [dataSource, setDataSource] = useState([]);
   const [toggle, setToggle] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     youtube_link: "",
   });
-  const {child_age_from, child_age_to,
+  const {
+    child_age_from,
+    child_age_to,
     name,
     package_id,
     owner_id,
@@ -68,7 +81,11 @@ const AddPackage = () => {
     is_this_created_by_owner,
     description,
     youtube_link,
-    discount, from_date, to_date, fixed_price_adult, fixed_price_child,
+    discount,
+    from_date,
+    to_date,
+    fixed_price_adult,
+    fixed_price_child,
     meal,
     room_id,
     contract_id,
@@ -76,17 +93,17 @@ const AddPackage = () => {
     service_id,
     rooms_day,
   } = formData;
-  
+
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const { PackgeByID, fetchPackgeByID } = GetPackageByID(package_id)
-  
+  const { PackgeByID, fetchPackgeByID } = GetPackageByID(package_id);
+
   const onSubmitImg = async () => {
     if (fileList.length === 0) {
-    return;
-  }
-    setLoading(true)
+      return;
+    }
+    setLoading(true);
     const headers = {
       "Content-Type": "multipart/form-data",
     };
@@ -101,7 +118,7 @@ const AddPackage = () => {
   }
    }
 `;
-console.log(rowData)
+    console.log(rowData);
 
     const path = "";
     try {
@@ -135,14 +152,14 @@ console.log(rowData)
 
       const res = await POST_API(path, formData2, headers);
       if (res.data) {
-        setLoading(false)
+        setLoading(false);
         message.success(res.data.add_images_of_packages?.respmessage);
       }
     } catch (error) {
       message.error("Failed");
     }
   };
-  
+
   const onSubmitRoom = async () => {
     if (!package_id || !room_id || !contract_id) {
       message.error("Please fill in all required fields.");
@@ -166,7 +183,7 @@ console.log(rowData)
     `;
 
     const path = "";
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await POST_API(
         path,
@@ -174,8 +191,8 @@ console.log(rowData)
         headers
       );
       if (res) {
-        setLoading(false)
-        fetchPackgeByID()
+        setLoading(false);
+        fetchPackgeByID();
         message.success(res.data.add_rooms_under_package?.respmessage);
       }
     } catch (error) {
@@ -183,7 +200,6 @@ console.log(rowData)
     }
   };
 
-  
   const onSubmitServices = async () => {
     if (!package_id || !service_id || !rooms_day) {
       message.error("Please fill in all required fields.");
@@ -204,7 +220,7 @@ console.log(rowData)
     `;
 
     const path = "";
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await POST_API(
         path,
@@ -212,8 +228,8 @@ console.log(rowData)
         headers
       );
       if (res) {
-        setLoading(false)
-        fetchPackgeByID()
+        setLoading(false);
+        fetchPackgeByID();
         message.success(res.data.add_services_under_package?.respmessage);
       }
     } catch (error) {
@@ -245,7 +261,7 @@ console.log(rowData)
     `;
 
     const path = "";
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await POST_API(
         path,
@@ -255,7 +271,7 @@ console.log(rowData)
         headers
       );
       if (res.data && !res.errors) {
-        setLoading(false)
+        setLoading(false);
         message.success("Successful");
         setFormData((prev) => ({
           ...prev,
@@ -305,32 +321,35 @@ console.log(rowData)
     },
   ];
 
- 
   const dataArray = [
     {
       key: "dataary",
-      itemtype: <Select
-      value={toggle}
-      className="w-[120px]"
-      onChange={(value) => setToggle(value)}
-      options={[
-        { value: "hotel", label: "Hotel" },
-        { value: "service", label: "Service" },
-      ]}
-    />,
+      itemtype: (
+        <Select
+          value={toggle}
+          className="w-[120px]"
+          onChange={(value) => setToggle(value)}
+          options={[
+            { value: "hotel", label: "Hotel" },
+            { value: "service", label: "Service" },
+          ]}
+        />
+      ),
       meal: (
         <Select
           value={meal}
-          options= {toggle === "hotel" && [
-            // { value: "N/A", label: "N/A" },
-            { value: "ROOM ONLY", label: "ROOM ONLY" },
-            { value: "BREAKFAST", label: "BREAKFAST" },
-            { value: "HB", label: "HB" },
-            { value: "FB", label: "FB" },
-            { value: "SOFT ALL INC", label: "SOFT ALL INC" },
-            { value: "ALL INC", label: "ALL INC" },
-            { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
-          ]}
+          options={
+            toggle === "hotel" && [
+              // { value: "N/A", label: "N/A" },
+              { value: "ROOM ONLY", label: "ROOM ONLY" },
+              { value: "BREAKFAST", label: "BREAKFAST" },
+              { value: "HB", label: "HB" },
+              { value: "FB", label: "FB" },
+              { value: "SOFT ALL INC", label: "SOFT ALL INC" },
+              { value: "ALL INC", label: "ALL INC" },
+              { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
+            ]
+          }
           onChange={(value) => {
             setFormData((prevData) => ({
               ...prevData,
@@ -349,10 +368,9 @@ console.log(rowData)
           }
           className="input-style w-[200px] inputfildinsearch-bg"
           options={hotelById?.rooms?.map((item) => ({
-              value: item.id ? item.id : "",
-              label: item.name ? item.name : "",
-            })
-          )}
+            value: item.id ? item.id : "",
+            label: item.name ? item.name : "",
+          }))}
           onChange={(value) => {
             setFormData((prevData) => ({
               ...prevData,
@@ -394,7 +412,7 @@ console.log(rowData)
               [toggle === "service" ? "service_id" : "hotel_id"]: value,
             }));
             const hotelValueById = hotelValue.find((item) => item.id === value);
-        setHotelById(hotelValueById);
+            setHotelById(hotelValueById);
           }}
         />
       ),
@@ -407,10 +425,9 @@ console.log(rowData)
           }
           className="input-style w-[200px]  inputfildinsearch-bg"
           options={hotelById?.Live_static_contracts?.map((item) => ({
-              value: item.id ? item.id : "",
-              label: item.name ? item.name : "",
-            })
-          )}
+            value: item.id ? item.id : "",
+            label: item.name ? item.name : "",
+          }))}
           onChange={(value) => {
             setFormData((prevData) => ({
               ...prevData,
@@ -437,94 +454,96 @@ console.log(rowData)
     },
   ];
 
-  const packageServices = PackgeByID.services_under_package_grouped_by_date || [];
-  const roomLength = PackgeByID.rooms_under_package_grouped_by_date?.length || 0;
-  
+  const packageServices =
+    PackgeByID.services_under_package_grouped_by_date || [];
+  const roomLength =
+    PackgeByID.rooms_under_package_grouped_by_date?.length || 0;
+
   // Calculate the difference in lengths
   const serviceAndRoomDifference = roomLength - packageServices.length;
-  
+
   // Add empty items to packageServices to match the length of PackgeByID.rooms_under_package_grouped_by_date
-  const updatedPackageServices = packageServices.concat(Array.from({ length: serviceAndRoomDifference }, () => ""));
-  
+  const updatedPackageServices = packageServices.concat(
+    Array.from({ length: serviceAndRoomDifference }, () => "")
+  );
 
   const renderTables = () => {
     if (
-      PackgeByID.length==0 && !PackgeByID.services_under_package_grouped_by_date &&
+      PackgeByID.length === 0 &&
+      !PackgeByID.services_under_package_grouped_by_date &&
       !PackgeByID.rooms_under_package_grouped_by_date
     ) {
-      return (
-       null
-      );
+      return null;
     }
-  
+
     return updatedPackageServices?.map((entry, index) => {
       const servicesUnderPackage = entry?.services?.map((item, subIndex) => ({
         key: subIndex,
         itemtype: "Service",
         hotelOrService: item.service?.name || "",
-        action: <span className="w-full flex justify-center">
-        <Popover
-          content={
-            <div className="flex flex-col gap-3">
-              <Button
-                className="action-btn"
-              >
-                edit
-              </Button>
-            </div>
-          }
-        >
-           {EditIcon}
-        </Popover>
-      </span>
+        action: (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button className="action-btn">edit</Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+          </span>
+        ),
       }));
-  
-      const roomsUnderPackage = PackgeByID.rooms_under_package_grouped_by_date?.[index]?.rooms?.map(
-        (item, subIndex) => ({
-          key:`${ item.room?.id + "package"}`,
-          room: item.room?.name || "",
-          contract: item.contract?.name || "",
-          meal: item.meal || "",
-          hotelOrService: item.hotel?.name || "",
-          itemtype: "Hotel",
-          action:  <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button
-                  className="action-btn"
+
+      const roomsUnderPackage =
+        PackgeByID.rooms_under_package_grouped_by_date?.[index]?.rooms?.map(
+          (item, subIndex) => ({
+            key: `${item.room?.id + "package"}`,
+            room: item.room?.name || "",
+            contract: item.contract?.name || "",
+            meal: item.meal || "",
+            hotelOrService: item.hotel?.name || "",
+            itemtype: "Hotel",
+            action: (
+              <span className="w-full flex justify-center">
+                <Popover
+                  content={
+                    <div className="flex flex-col gap-3">
+                      <Button className="action-btn">edit</Button>
+                    </div>
+                  }
                 >
-                  edit
-                </Button>
-              </div>
-            }
-          >
-             {EditIcon}
-          </Popover>
-        </span>,
-        })
-      );
-  
+                  {EditIcon}
+                </Popover>
+              </span>
+            ),
+          })
+        );
+
       const roomAndServiceArray = [
         ...(Array.isArray(roomsUnderPackage) ? roomsUnderPackage : []),
         ...(Array.isArray(servicesUnderPackage) ? servicesUnderPackage : []),
       ];
-  
+
       return (
         <div className="w-full mb-6" key={`day-${index}`}>
           <label className="labelStyle w-40">
-            Day  {/* Display the day number */}
+            Day {/* Display the day number */}
             <Input
               onKeyPress={handleKeyPress}
               name="rooms_day"
-              value={entry?.day || PackgeByID.rooms_under_package_grouped_by_date?.[index]?.day}
+              value={
+                entry?.day ||
+                PackgeByID.rooms_under_package_grouped_by_date?.[index]?.day
+              }
               readOnly
               className="w-full border-black"
             />
           </label>
-          <Table className="package-table"
+          <Table
+            className="package-table"
             size="small"
-            pagination={false}
             dataSource={roomAndServiceArray}
             columns={Columns}
             onRow={(record) => {
@@ -539,10 +558,11 @@ console.log(rowData)
       );
     });
   };
-  
-  
-  return (
-   loading ? <Spin/> : <div>
+
+  return loading ? (
+    <Spin />
+  ) : (
+    <div>
       <ul className="list-none text-[#A6A6A6]  flex justify-between my-2 max-w-[180px]">
         {items.map((item, index) => (
           <li
@@ -556,10 +576,8 @@ console.log(rowData)
           </li>
         ))}
       </ul>
-      {activeItem == 0 && (
-        <div
-          className="w-full capitalize flex gap-5 md:gap-10"
-        >
+      {activeItem === 0 && (
+        <div className="w-full capitalize flex gap-5 md:gap-10">
           <span className="w-full space-y-2 relative">
             <label className="labelStyle w-full">
               Package
@@ -582,50 +600,46 @@ console.log(rowData)
               />
             </label>
             <span className="flex gap-3 mt-2">
-                <label className="labelStyle w-full">
-                  from date
-                  <DatePicker
-                    format={formatDate}
-                    value={from_date ? dayjs(from_date) : null}
-                    disabledDate={(current) =>
-                      current && current < new Date(minDate)
-                    }
-                    className="w-full border-black"
-                    placeholder="From Date:"
-                    onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
-                      setFormData((prev) => ({
-                        ...prev,
-                        from_date: isoString,
-                      }));
-                    }}
-                    suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
-                  />
-                </label>
-                <label className="labelStyle w-full">
-                  to date
-                  <DatePicker
-                    format={formatDate}
-                    value={to_date ? dayjs(to_date) : null}
-                    disabledDate={(current) =>
-                      current && current < new Date(from_date)
-                    }
-                    className="w-full border-black"
-                    placeholder="To Date:"
-                    onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
-                      setFormData((prev) => ({ ...prev, to_date: isoString }));
-                    }}
-                    suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
-                  />
-                </label>
-              </span>
+              <label className="labelStyle w-full">
+                from date
+                <DatePicker
+                  format={formatDate}
+                  value={from_date ? dayjs(from_date) : null}
+                  disabledDate={(current) =>
+                    current && current < new Date(minDate)
+                  }
+                  className="w-full border-black"
+                  placeholder="From Date:"
+                  onChange={(value, dateString) => {
+                    const dateObject = new Date(dateString ? dateString : null);
+                    const isoString = dateObject.toISOString();
+                    setFormData((prev) => ({
+                      ...prev,
+                      from_date: isoString,
+                    }));
+                  }}
+                  suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
+                />
+              </label>
+              <label className="labelStyle w-full">
+                to date
+                <DatePicker
+                  format={formatDate}
+                  value={to_date ? dayjs(to_date) : null}
+                  disabledDate={(current) =>
+                    current && current < new Date(from_date)
+                  }
+                  className="w-full border-black"
+                  placeholder="To Date:"
+                  onChange={(value, dateString) => {
+                    const dateObject = new Date(dateString ? dateString : null);
+                    const isoString = dateObject.toISOString();
+                    setFormData((prev) => ({ ...prev, to_date: isoString }));
+                  }}
+                  suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
+                />
+              </label>
+            </span>
             <span className="flex justify-between w-full">
               <label className="labelStyle w-[170px]">
                 owner type
@@ -654,12 +668,12 @@ console.log(rowData)
                     setFormData((prev) => ({ ...prev, owner_id: value }))
                   }
                   options={
-                    owner_type == 4
+                    owner_type === 4
                       ? usersUnderDMC?.map((item) => ({
                           value: item.id ? item.id : "",
                           label: item.uname ? item.uname : "",
                         }))
-                      : owner_type == 6
+                      : owner_type === 6
                       ? userUnderHotel.map((item) => ({
                           value: item.id ? item.id : "",
                           label: item.uname ? item.uname : "",
@@ -686,16 +700,16 @@ console.log(rowData)
                 />
               </label>
             </span>
-              <Button
-                onClick={(e)=>{
-                  e.preventDefault()
-                  onSubmit()
-                  onSubmitImg()
-                }}
-                className="list-btn absolute -bottom-16 right-0"
-              >
-                Save Package
-              </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                onSubmit();
+                onSubmitImg();
+              }}
+              className="list-btn absolute -bottom-16 right-0"
+            >
+              Save Package
+            </Button>
           </span>
           <span className="w-full space-y-2 -mt-2">
             <label className="labelStyle">Description</label>
@@ -752,58 +766,68 @@ console.log(rowData)
           </span>
         </div>
       )}
-      {activeItem == 1 && (
+      {activeItem === 1 && (
         <div className="w-full">
-           <div className="mb-5">
-          <label className="labelStyle w-40">
-            Day 
-            <Input
-              onKeyPress={handleKeyPress}
-              name="rooms_day"
-              value={rooms_day}
-              onChange={onChange}
-              className="w-full border-black"
-            />
-          </label>
-          <Table
-            size="small"
-            pagination={false}
-            dataSource={dataArray}
-            columns={Columns}
-          />
-        </div>
+          <div className="mb-5">
+            <label className="labelStyle w-40">
+              Day
+              <Input
+                onKeyPress={handleKeyPress}
+                name="rooms_day"
+                value={rooms_day}
+                onChange={onChange}
+                className="w-full border-black"
+              />
+            </label>
+            <Table size="small" dataSource={dataArray} columns={Columns} />
+          </div>
           {renderTables()}
         </div>
       )}
-      {activeItem == 2 && <div className="flex flex-col w-[800px]">
-        <span className="flex gap-3 mt-2">
-                <label className="labelStyle w-full">
-                  Fixed Price (Adult)
-                 <Input name="fixed_price_adult" value={fixed_price_adult} className="w-full"/>
-                </label>
-                <label className="labelStyle w-full">
-                  Fixed Price (Child)
-                 <Input name="fixed_price_child" value={fixed_price_child} className="w-full"/>
-                </label>
-              </span>
-        <span className="flex gap-3 mt-2">
-                <label className="labelStyle w-full">
-                  Child Age From
-                 <Input name="child_age_from" value={child_age_from} className="w-full"/>
-                </label>
-                <label className="labelStyle w-full">
-                  Child Age To
-                 <Input name="child_age_to" value={child_age_to} className="w-full"/>
-                </label>
-              </span>
-              
-                <label className="labelStyle mt-2">
-                  discount
-                </label>
-                 <Input name="discount" value={discount} className="w-[50%]"/>
-                 <Button className="list-btn mt-5 w-80">Save Price</Button>
+      {activeItem === 2 && (
+        <div className="flex flex-col w-[800px]">
+          <span className="flex gap-3 mt-2">
+            <label className="labelStyle w-full">
+              Fixed Price (Adult)
+              <Input
+                name="fixed_price_adult"
+                value={fixed_price_adult}
+                className="w-full"
+              />
+            </label>
+            <label className="labelStyle w-full">
+              Fixed Price (Child)
+              <Input
+                name="fixed_price_child"
+                value={fixed_price_child}
+                className="w-full"
+              />
+            </label>
+          </span>
+          <span className="flex gap-3 mt-2">
+            <label className="labelStyle w-full">
+              Child Age From
+              <Input
+                name="child_age_from"
+                value={child_age_from}
+                className="w-full"
+              />
+            </label>
+            <label className="labelStyle w-full">
+              Child Age To
+              <Input
+                name="child_age_to"
+                value={child_age_to}
+                className="w-full"
+              />
+            </label>
+          </span>
 
-        </div>}
+          <label className="labelStyle mt-2">discount</label>
+          <Input name="discount" value={discount} className="w-[50%]" />
+          <Button className="list-btn mt-5 w-80">Save Price</Button>
+        </div>
+      )}
     </div>
   );
 };

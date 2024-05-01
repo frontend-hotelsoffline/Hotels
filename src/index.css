@@ -399,7 +399,7 @@ table {
 .ant-table-container {
   position: relative;
   overflow-y: auto;
-  max-height: 400px;
+  /* max-height: 400px; */
 }
 
 thead {
@@ -588,6 +588,10 @@ td li,
 }
 
 .dark-mode .ant-table-tbody td,
+.dark-mode .label-style,
+.dark-mode .labelStyle,
+.dark-mode h1,
+.dark-mode p,
 .dark-mode .ant-menu-item,
 .dark-mode .ant-menu-submenu-title {
   background: #151718 !important;

@@ -22,16 +22,16 @@ const Hotels = () => {
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const [isModalOpenCombine, setIsModalOpenCombine] = useState(false);
   const showTable = (type) => {
-    if (type == "room") {
+    if (type === "room") {
       setIsModalOpen(true);
     }
-    if (type == "contract") {
+    if (type === "contract") {
       setIsModalOpenContract(true);
     }
-    if (type == "dmcs") {
+    if (type === "dmcs") {
       setIsModalOpenDmcs(true);
     }
-    if (type == "combine") {
+    if (type === "combine") {
       setIsModalOpenCombine(true);
     }
   };
@@ -392,7 +392,6 @@ const Hotels = () => {
       </div>
       <Table
         size="small"
-        pagination={false}
         dataSource={filteredData}
         columns={columns}
         loading={loading}

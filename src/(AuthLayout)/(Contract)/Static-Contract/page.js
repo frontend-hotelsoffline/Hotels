@@ -48,9 +48,10 @@ const StaticContract = () => {
   const router = useNavigate();
   const { Option } = Select;
   const { hotelValue } = GetAllHotels();
-  const {regionCountries, getRegionsWithCountries} = RegionsForCountries()
-  const [Occupancy_and_category_cross, setOccupancy_and_category_cross] = useState([])
-  const {  userAgent } = GetAllUsers();
+  const { regionCountries, getRegionsWithCountries } = RegionsForCountries();
+  const [Occupancy_and_category_cross, setOccupancy_and_category_cross] =
+    useState([]);
+  const { userAgent } = GetAllUsers();
   const [categoryData, setCategoryData] = useState([]);
   const [rowData, setRowData] = useState({});
   const { DMCsValue } = GetAllDMCs();
@@ -59,7 +60,7 @@ const StaticContract = () => {
   const minDate = new Date(timestamp);
   const [activeItem, setActiveItem] = useState(0);
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [showRegionPopUp, setShowRegionPopUp] = useState(false)
+  const [showRegionPopUp, setShowRegionPopUp] = useState(false);
   const searchParams = useSearchParams();
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
@@ -115,8 +116,13 @@ const StaticContract = () => {
     is_this_created_by_owner,
   } = formDataHeader;
 
-  const {room_id_0_if_All,is_non_refundable, is_non_refundable_offer,
-    price_markup_id, user_level,user_id_0_if_All_in_level,
+  const {
+    room_id_0_if_All,
+    is_non_refundable,
+    is_non_refundable_offer,
+    price_markup_id,
+    user_level,
+    user_id_0_if_All_in_level,
     offer,
     room_category_id,
     stay_from,
@@ -180,12 +186,12 @@ const StaticContract = () => {
   };
 
   // seting type for Select for offer and supplement amount and %
-  const [discountType, setDiscountType] = useState('amount');
-  const [supplementType, setSupplementType] = useState('');
-  const [supplementChildType, setSupplementChildType] = useState('');
+  const [discountType, setDiscountType] = useState("amount");
+  const [supplementType, setSupplementType] = useState("");
+  const [supplementChildType, setSupplementChildType] = useState("");
 
   const handleSelectChange = (value) => {
-    setDiscountType(value); 
+    setDiscountType(value);
   };
 
   const onSubmitHeader = async (e) => {
@@ -275,9 +281,11 @@ const StaticContract = () => {
         max_stay: parseFloat(formData.max_stay[index]) || -1,
       };
     });
-  const pricesFiltered  = pricesArray.filter(entry =>
-    Object.entries(entry).slice(1).some(([, value]) => value !== -1)
-);
+    const pricesFiltered = pricesArray.filter((entry) =>
+      Object.entries(entry)
+        .slice(1)
+        .some(([, value]) => value !== -1)
+    );
 
     const numericPricesArray = pricesFiltered.map((entry) => {
       return Object.fromEntries(
@@ -315,7 +323,7 @@ const StaticContract = () => {
         message.success("Price has been Added Successfully");
         getAllContractData();
         setFormData(initialData);
-      }else {
+      } else {
         message.error(res.data?.respmessage);
       }
     } catch (error) {
@@ -325,7 +333,7 @@ const StaticContract = () => {
 
   const onSubmitMeals = async (e) => {
     e.preventDefault();
-    if ( !id_from_contract_id) {
+    if (!id_from_contract_id) {
       message.error("Please fill in all required fields.");
       return;
     }
@@ -337,10 +345,18 @@ const StaticContract = () => {
       create_a_static_contract_body_meals_of_contract(
         id_from_contracts: ${id_from_contract_id}
          from_date :"${meals_from_date}",  to_date:"${meals_to_date}", room_only_adult:${room_only_adult},  
-          room_only_child:${room_only_child || -1}, breakfast_adult:${breakfast_adult || -1}, breakfast_child:${breakfast_child || -1}, 
-          hb_adult:${hb_adult || -1},  hb_child:${hb_child || -1}, fb_adult:${fb_adult || -1}, fb_child:${fb_child || -1}, 
-          soft_all_inc_adult:${soft_all_inc_adult || -1}, soft_all_inc_child:${soft_all_inc_child || -1}, all_inc_adult:${all_inc_adult || -1}, 
-          all_inc_child:${all_inc_child || -1}, ultra_all_inc_adult:${ultra_all_inc_adult || -1}, ultra_all_inc_child:${ultra_all_inc_child || -1},
+          room_only_child:${room_only_child || -1}, breakfast_adult:${
+      breakfast_adult || -1
+    }, breakfast_child:${breakfast_child || -1}, 
+          hb_adult:${hb_adult || -1},  hb_child:${hb_child || -1}, fb_adult:${
+      fb_adult || -1
+    }, fb_child:${fb_child || -1}, 
+          soft_all_inc_adult:${soft_all_inc_adult || -1}, soft_all_inc_child:${
+      soft_all_inc_child || -1
+    }, all_inc_adult:${all_inc_adult || -1}, 
+          all_inc_child:${all_inc_child || -1}, ultra_all_inc_adult:${
+      ultra_all_inc_adult || -1
+    }, ultra_all_inc_child:${ultra_all_inc_child || -1},
           
         ) {
           respmessage
@@ -356,7 +372,9 @@ const StaticContract = () => {
         headers
       );
       if (res.data) {
-        message.success(res.data.create_a_static_contract_body_meals_of_contract?.respmessage);
+        message.success(
+          res.data.create_a_static_contract_body_meals_of_contract?.respmessage
+        );
         getAllContractData();
         setFormData(initialData);
       }
@@ -379,11 +397,15 @@ const StaticContract = () => {
         id_from_contracts: ${id_from_contract_id}
            offer: "${offer}", room_id :${room_category_id},  stay_from: "${offer_stay_from}",  stay_to: "${offer_stay_to}", 
            booking_window_from: "${booking_window_from}",  booking_window_to: "${booking_window_to}",  
-          discount_amount : ${discount_amount || -1},  discount_rate  : ${discount_rate || -1},  source_country_0_if_All: ${JSON.stringify(
-            source_country?.length > 0 ? source_country.map((item) => ({
-                source_country: item,
-              })) : "source_country_0_if_All: 0"
-            ).replace(/"([^"]+)":/g, "$1:")},  
+          discount_amount : ${discount_amount || -1},  discount_rate  : ${
+      discount_rate || -1
+    },  source_country_0_if_All: ${JSON.stringify(
+      source_country?.length > 0
+        ? source_country.map((item) => ({
+            source_country: item,
+          }))
+        : "source_country_0_if_All: 0"
+    ).replace(/"([^"]+)":/g, "$1:")},  
           is_linked : ${is_linked},  is_room   : ${is_room},  is_meals: ${is_meals}, 
            is_supp: ${is_supp}, is_non_refundable: ${is_non_refundable_offer}  order : ${order} 
         ) {
@@ -400,7 +422,9 @@ const StaticContract = () => {
         headers
       );
       if (res.data.create_a_static_contract_body_offers_of_contract) {
-        message.success(res.data.create_a_static_contract_body_offers_of_contract?.respmessage);
+        message.success(
+          res.data.create_a_static_contract_body_offers_of_contract?.respmessage
+        );
         getAllContractData();
         setFormData(initialData);
       }
@@ -424,10 +448,22 @@ const StaticContract = () => {
         supplements_of_contract: [
           { service :"${service}", supplement :"${supplement}", type :"${supp_type}", room_id:${supp_room_category_id},  
           stay_from:"${stay_from}", stay_to:"${stay_to}",
-               price_adult :${price_adult || -1}, price_child : ${price_child || -1},  P_in_Half_Double_adult_amount : ${P_in_Half_Double_adult_amount || -1},  
-               P_in_Half_Double_adult_rate : ${P_in_Half_Double_adult_rate || -1},  
-               P_in_Half_Double_child_amount : ${P_in_Half_Double_child_amount || -1}, P_in_Half_Double_child_rate : ${P_in_Half_Double_child_rate || -1},  
-               child_age_from : ${supp_child_age_from || -1}, child_age_to : ${supp_child_age_to || -1} 
+               price_adult :${price_adult || -1}, price_child : ${
+      price_child || -1
+    },  P_in_Half_Double_adult_amount : ${
+      P_in_Half_Double_adult_amount || -1
+    },  
+               P_in_Half_Double_adult_rate : ${
+                 P_in_Half_Double_adult_rate || -1
+               },  
+               P_in_Half_Double_child_amount : ${
+                 P_in_Half_Double_child_amount || -1
+               }, P_in_Half_Double_child_rate : ${
+      P_in_Half_Double_child_rate || -1
+    },  
+               child_age_from : ${supp_child_age_from || -1}, child_age_to : ${
+      supp_child_age_to || -1
+    } 
           }]
         ) {
         id
@@ -446,7 +482,7 @@ const StaticContract = () => {
         message.success("Supplement has been Added Successfully");
         getAllContractData();
         setFormData(initialData);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -456,7 +492,10 @@ const StaticContract = () => {
   const onSubmitCancellation = async (e) => {
     e.preventDefault();
     if (
-      !cancellation_days || !type|| !date_from|| !date_to||
+      !cancellation_days ||
+      !type ||
+      !date_from ||
+      !date_to ||
       !cancellation_panelty_rate ||
       !id_from_contract_id
     ) {
@@ -474,7 +513,9 @@ const StaticContract = () => {
         room_id_0_if_All:${room_id_0_if_All} 
         cancellation_of_contract: [
           { date_from : "${date_from}",  date_to : "${date_to}",  type : "${type}", 
-          cancellation_days  : ${cancellation_days || -1},  cancellation_panelty_rate : ${cancellation_panelty_rate || -1 } 
+          cancellation_days  : ${
+            cancellation_days || -1
+          },  cancellation_panelty_rate : ${cancellation_panelty_rate || -1} 
           is_non_refundable: ${is_non_refundable || false}
         },
       ]
@@ -492,7 +533,10 @@ const StaticContract = () => {
         headers
       );
       if (res.data) {
-        message.success(res.data.create_a_static_contract_body_cancellation_of_contract?.respmessage);
+        message.success(
+          res.data.create_a_static_contract_body_cancellation_of_contract
+            ?.respmessage
+        );
         getAllContractData();
         setFormData(initialData);
       }
@@ -515,24 +559,32 @@ const StaticContract = () => {
       create_a_static_contract_body_distribution_of_contract(
         id_from_contracts: ${id_from_contract_id}          
         countrie_names_for_distribution_of_contract: ${JSON.stringify(
-         selectedCountries?.length>0 ? selectedCountries?.map((item) => ({
-            country_All_if_all: item,
-          })) : "country_All_if_all: 0"
+          selectedCountries?.length > 0
+            ? selectedCountries?.map((item) => ({
+                country_All_if_all: item,
+              }))
+            : "country_All_if_all: 0"
         ).replace(/"([^"]+)":/g, "$1:")}        
         dmc_ids_for_distribution_of_contract: ${JSON.stringify(
-        dmc_id_0_if_all?.length>0 ? dmc_id_0_if_all.map((item) => ({
-            dmc_id_0_if_all: item,
-          })) : "dmc_id_0_if_all: 0"
+          dmc_id_0_if_all?.length > 0
+            ? dmc_id_0_if_all.map((item) => ({
+                dmc_id_0_if_all: item,
+              }))
+            : "dmc_id_0_if_all: 0"
         ).replace(/"([^"]+)":/g, "$1:")}
         corporate_ids_for_distribution_of_contract: ${JSON.stringify(
-         corporates_id_0_if_all?.length>0? corporates_id_0_if_all?.map((item) => ({
-            corporates_id_0_if_all: item,
-          })) : "corporates_id_0_if_all: 0"
+          corporates_id_0_if_all?.length > 0
+            ? corporates_id_0_if_all?.map((item) => ({
+                corporates_id_0_if_all: item,
+              }))
+            : "corporates_id_0_if_all: 0"
         ).replace(/"([^"]+)":/g, "$1:")}
         agent_ids_for_distribution_of_contract: ${JSON.stringify(
-        agent_id_0_if_all?.length>0 ? agent_id_0_if_all?.map((item) => ({
-            agent_id_0_if_all: item,
-          })): "agent_id_0_if_all: 0"
+          agent_id_0_if_all?.length > 0
+            ? agent_id_0_if_all?.map((item) => ({
+                agent_id_0_if_all: item,
+              }))
+            : "agent_id_0_if_all: 0"
         ).replace(/"([^"]+)":/g, "$1:")}
     ) {
         id
@@ -552,7 +604,7 @@ const StaticContract = () => {
         message.success("Successful");
         getAllContractData();
         setFormData(initialData);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -574,9 +626,11 @@ const StaticContract = () => {
       create_a_static_contract_body_buyer_markup(
         id_from_contracts: ${id_from_contract_id}
         user_level: ${user_level}
-        user_ids: ${JSON.stringify(user_id_0_if_All_in_level.map(item=>({
-          user_id_0_if_All_in_level: Number(item)
-        }))).replace(/"([^"]+)":/g, "$1:")}
+        user_ids: ${JSON.stringify(
+          user_id_0_if_All_in_level.map((item) => ({
+            user_id_0_if_All_in_level: Number(item),
+          }))
+        ).replace(/"([^"]+)":/g, "$1:")}
         buyer_markup: ${price_markup_id}
     ) {
         id
@@ -594,7 +648,7 @@ const StaticContract = () => {
         message.success("Successful");
         getAllContractData();
         setFormData(initialData);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -610,17 +664,17 @@ const StaticContract = () => {
     "Room setup",
     "Cancellations",
     "Distribution",
-    "Mark-up", "Availability"
+    "Mark-up",
+    "Availability",
   ];
   const handleItemClick = (index) => {
     setActiveItem(index);
   };
 
-  
   const { DMCsOfHotelValue } = GetAllDMCsOfHotel(hotel_id);
   const { HotelByIDValue } = GetHotelByID(hotel_id);
   useEffect(() => {
-    getRegionsWithCountries()
+    getRegionsWithCountries();
     const hotelRooms =
       hotelValue.find((item) => item.id === hotel_id)?.rooms || [];
 
@@ -639,8 +693,8 @@ const StaticContract = () => {
     const occupancyAndCategory = hotelRooms.reduce((acc, room) => {
       const { category } = room;
       const category_id = category.id;
-      
-      ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach(occupancyType => {
+
+      ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach((occupancyType) => {
         if (room[`is_${occupancyType}`]) {
           const occupancy = `is_${occupancyType}`;
           const occupancyObj = { category_id, occupancy };
@@ -650,17 +704,17 @@ const StaticContract = () => {
           }
         }
       });
-      
+
       return acc;
     }, []);
-  
+
     const sortedOccupancyData = filteredCategoryData.map(({ category }) => ({
       category_id: category.id,
       array_of_occupancies: occupancyAndCategory
-        .filter(item => item.category_id === category.id)
-        .map(item => item.occupancy),
+        .filter((item) => item.category_id === category.id)
+        .map((item) => item.occupancy),
     }));
-  
+
     setOccupancy_and_category_cross(sortedOccupancyData);
 
     setCategoryData(filteredCategoryData);
@@ -676,18 +730,20 @@ const StaticContract = () => {
     return (
       categoryData.length > 0 &&
       Array.from({ length: categoryData.length }, (_, index) => (
-       <div key={index} className="flex justify-center"> <Input
-          key={index}
-          onChange={(e) => onChangePrice(e, dataIndex, index)}
-          className="borderedRow active"
-          onKeyPress={handleKeyPress}
-          value={formData[dataIndex][index]}
-          min={0}
-        /></div>
+        <div key={index} className="flex justify-center">
+          {" "}
+          <Input
+            key={index}
+            onChange={(e) => onChangePrice(e, dataIndex, index)}
+            className="borderedRow active"
+            onKeyPress={handleKeyPress}
+            value={formData[dataIndex][index]}
+            min={0}
+          />
+        </div>
       ))
     );
   };
-
 
   const renderInputs_for_occupancy = (dataIndex, occupancy) => {
     return (
@@ -1015,23 +1071,26 @@ const StaticContract = () => {
       ),
       offer: (
         <Input
-        value={offer}
-        name="offer"
+          value={offer}
+          name="offer"
           onChange={onChange}
           className="w-[200px]"
         />
       ),
       roomcategory: (
         <Select
-        value={room_category_id}
+          value={room_category_id}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, room_category_id: value }))
           }
-          options={[{value: 0, label: "All rooms"}, ...categoryData.map((item) => ({
-            key: item.id,
-            value: item.id,
-            label: item.name,
-          }))]}
+          options={[
+            { value: 0, label: "All rooms" },
+            ...categoryData.map((item) => ({
+              key: item.id,
+              value: item.id,
+              label: item.name,
+            })),
+          ]}
           className="w-[140px]"
         />
       ),
@@ -1071,9 +1130,7 @@ const StaticContract = () => {
         <span className="w-[110px] uppercase flex flex-col">
           <DatePicker
             format={formatDate}
-            value={
-              booking_window_from ? dayjs(booking_window_from) : null
-            }
+            value={booking_window_from ? dayjs(booking_window_from) : null}
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
@@ -1108,53 +1165,57 @@ const StaticContract = () => {
         </span>
       ),
       discount: (
-       <span>
-         <Select
-      value={discountType}
-      onChange={handleSelectChange}
-      className="w-[100px] mb-1"
-    >
-      <Option value="amount">Amount</Option>
-      <Option value="percentage">%</Option>
-    </Select>
-    {discountType === 'amount' && (
-      <Input
-      className="w-[100px]"
-        value={discount_amount}
-        name="discount_amount"
-        onChange={onChange}
-        onKeyPress={handleKeyPress}
-      />
-    )}
-    {discountType === 'percentage' && (
-      <Input
-      className="w-[100px]"
-        value={discount_rate}
-        name="discount_rate"
-        onChange={onChange}
-        onKeyPress={handleKeyPress}
-      />
-    )}
-       </span>
+        <span>
+          <Select
+            value={discountType}
+            onChange={handleSelectChange}
+            className="w-[100px] mb-1"
+          >
+            <Option value="amount">Amount</Option>
+            <Option value="percentage">%</Option>
+          </Select>
+          {discountType === "amount" && (
+            <Input
+              className="w-[100px]"
+              value={discount_amount}
+              name="discount_amount"
+              onChange={onChange}
+              onKeyPress={handleKeyPress}
+            />
+          )}
+          {discountType === "percentage" && (
+            <Input
+              className="w-[100px]"
+              value={discount_rate}
+              name="discount_rate"
+              onChange={onChange}
+              onKeyPress={handleKeyPress}
+            />
+          )}
+        </span>
       ),
       source: (
-          <Select
+        <Select
           value={source_country}
-        mode={source_country?.includes(0) ? null : "multiple"}
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-            }
-            onChange={(value) =>{
-              const selectedValues = Array.isArray(value) ? value : [value];
-              setFormData((prev) => ({ ...prev, source_country: selectedValues }))
-            }}
-            options={[{ value: 0, label: "All" }, ...countryList]}
-            className="w-[200px] h-[70px]"
-          />
+          mode={source_country?.includes(0) ? null : "multiple"}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+          }
+          onChange={(value) => {
+            const selectedValues = Array.isArray(value) ? value : [value];
+            setFormData((prev) => ({
+              ...prev,
+              source_country: selectedValues,
+            }));
+          }}
+          options={[{ value: 0, label: "All" }, ...countryList]}
+          className="w-[200px] h-[70px]"
+        />
       ),
       linked: (
-        <Checkbox value={is_linked}
+        <Checkbox
+          value={is_linked}
           onChange={(value) =>
             setFormData((prev) => ({
               ...prev,
@@ -1165,7 +1226,8 @@ const StaticContract = () => {
         />
       ),
       room: (
-        <Checkbox value={is_room}
+        <Checkbox
+          value={is_room}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, is_room: value.target.checked }))
           }
@@ -1173,7 +1235,8 @@ const StaticContract = () => {
         />
       ),
       meals: (
-        <Checkbox value={is_meals}
+        <Checkbox
+          value={is_meals}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, is_meals: value.target.checked }))
           }
@@ -1181,7 +1244,8 @@ const StaticContract = () => {
         />
       ),
       supp: (
-        <Checkbox value={is_supp}
+        <Checkbox
+          value={is_supp}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, is_supp: value.target.checked }))
           }
@@ -1189,7 +1253,8 @@ const StaticContract = () => {
         />
       ),
       order: (
-        <Select value={order}
+        <Select
+          value={order}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, order: value }))
           }
@@ -1202,11 +1267,17 @@ const StaticContract = () => {
           className="w-[52px]"
         />
       ),
-      nonrefundable: <Checkbox value={is_non_refundable_offer}
-      onChange={(value) =>
-        setFormData((prev) => ({ ...prev, is_non_refundable_offer: value.target.checked }))
-      }
-    />,
+      nonrefundable: (
+        <Checkbox
+          value={is_non_refundable_offer}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              is_non_refundable_offer: value.target.checked,
+            }))
+          }
+        />
+      ),
       action: (
         <Button onClick={onSubmitOffers} className="save-btn">
           Save
@@ -1259,11 +1330,14 @@ const StaticContract = () => {
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, supp_room_category_id: value }))
           }
-          options={[{value: 0, label: "All Room"}, ...categoryData.map((item) => ({
-            key: item.id,
-            value: item.id,
-            label: item.name,
-          }))]}
+          options={[
+            { value: 0, label: "All Room" },
+            ...categoryData.map((item) => ({
+              key: item.id,
+              value: item.id,
+              label: item.name,
+            })),
+          ]}
           className="w-[140px] h-[25px]"
         />
       ),
@@ -1318,64 +1392,64 @@ const StaticContract = () => {
         </span>
       ),
       supplementbased: (
-      //   <span className="items-center text-center">  
-      //   <label className="labelStyle mt-2">Adult</label>
-      //   <Select
-      //   value={supplementType}
-      //   onChange={(value)=>setSupplementType(value)}
-      //   className="w-[100px] h-[25px]"
-      // >
-      //   <Option value="amountForSupplement">Amount</Option>
-      //   <Option value="percentageForSupplement">%</Option>
-      // </Select>
-      //       {supplementType === "amountForSupplement" &&  <Input
-      //           value={P_in_Half_Double_adult_amount}
-      //           name="P_in_Half_Double_adult_amount"
-      //           onChange={onChange}
-      //           className="w-[70px] h-[25px]"
-      //           onKeyPress={handleKeyPress}
-      //         />}
-      //       {supplementType === "percentageForSupplement" && <Input
-      //           value={P_in_Half_Double_adult_rate}
-      //           name="P_in_Half_Double_adult_rate"
-      //           onChange={onChange}
-      //           className="w-[70px] h-[25px]"
-      //           onKeyPress={handleKeyPress}
-      //         />}
-      //     <label className="labelStyle mt-2"> child</label>
-      //     <span> 
-      //     <Select
-      //   value={supplementChildType}
-      //   onChange={(value)=>{setSupplementChildType(value)}}
-      //   className="w-[100px] h-[25px]"
-      // >
-      //   <Option value="amountForSupplementChild">Amount</Option>
-      //   <Option value="percentageForSupplementChild">%</Option>
-      // </Select>
-      //       {supplementChildType === "amountForSupplementChild" && <Input
-      //           value={P_in_Half_Double_child_amount}
-      //           name="P_in_Half_Double_child_amount"
-      //           onChange={onChange}
-      //           className="w-[70px] h-[25px]"
-      //           onKeyPress={handleKeyPress}
-      //         />}
+        //   <span className="items-center text-center">
+        //   <label className="labelStyle mt-2">Adult</label>
+        //   <Select
+        //   value={supplementType}
+        //   onChange={(value)=>setSupplementType(value)}
+        //   className="w-[100px] h-[25px]"
+        // >
+        //   <Option value="amountForSupplement">Amount</Option>
+        //   <Option value="percentageForSupplement">%</Option>
+        // </Select>
+        //       {supplementType === "amountForSupplement" &&  <Input
+        //           value={P_in_Half_Double_adult_amount}
+        //           name="P_in_Half_Double_adult_amount"
+        //           onChange={onChange}
+        //           className="w-[70px] h-[25px]"
+        //           onKeyPress={handleKeyPress}
+        //         />}
+        //       {supplementType === "percentageForSupplement" && <Input
+        //           value={P_in_Half_Double_adult_rate}
+        //           name="P_in_Half_Double_adult_rate"
+        //           onChange={onChange}
+        //           className="w-[70px] h-[25px]"
+        //           onKeyPress={handleKeyPress}
+        //         />}
+        //     <label className="labelStyle mt-2"> child</label>
+        //     <span>
+        //     <Select
+        //   value={supplementChildType}
+        //   onChange={(value)=>{setSupplementChildType(value)}}
+        //   className="w-[100px] h-[25px]"
+        // >
+        //   <Option value="amountForSupplementChild">Amount</Option>
+        //   <Option value="percentageForSupplementChild">%</Option>
+        // </Select>
+        //       {supplementChildType === "amountForSupplementChild" && <Input
+        //           value={P_in_Half_Double_child_amount}
+        //           name="P_in_Half_Double_child_amount"
+        //           onChange={onChange}
+        //           className="w-[70px] h-[25px]"
+        //           onKeyPress={handleKeyPress}
+        //         />}
 
-      //        {supplementChildType === "percentageForSupplementChild" && <Input
-      //           value={P_in_Half_Double_child_rate}
-      //           name="P_in_Half_Double_child_rate"
-      //           onChange={onChange}
-      //           className="w-[70px] h-[25px]"
-      //           onKeyPress={handleKeyPress}
-      //         />}
-      //     </span>
-      //   </span>
-      <Input
-            value={P_in_Half_Double_adult_rate}
-            name="P_in_Half_Double_adult_rate"
-            onChange={onChange}
-            className="w-[70px] h-[25px]"
-            onKeyPress={handleKeyPress}
-          />
+        //        {supplementChildType === "percentageForSupplementChild" && <Input
+        //           value={P_in_Half_Double_child_rate}
+        //           name="P_in_Half_Double_child_rate"
+        //           onChange={onChange}
+        //           className="w-[70px] h-[25px]"
+        //           onKeyPress={handleKeyPress}
+        //         />}
+        //     </span>
+        //   </span>
+        <Input
+          value={P_in_Half_Double_adult_rate}
+          name="P_in_Half_Double_adult_rate"
+          onChange={onChange}
+          className="w-[70px] h-[25px]"
+          onKeyPress={handleKeyPress}
+        />
       ),
       childage: (
         <span className="gap-y-2 ">
@@ -1471,21 +1545,22 @@ const StaticContract = () => {
           onKeyPress={handleKeyPress}
         />
       ),
-      room:  <Select
-      value={room_id_0_if_All}
-      onChange={(value) =>
-        setFormData((prev) => ({ ...prev, room_id_0_if_All: value }))
-      }
-      options={[
-        { value: 0, label: "All Rooms" },
-        ...categoryData.map((item) => ({
-          value: item.id,
-          label: item.name,
-        })),
-      ]}
-      className="w-[140px] h-[25px]"
-    />
-    ,
+      room: (
+        <Select
+          value={room_id_0_if_All}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, room_id_0_if_All: value }))
+          }
+          options={[
+            { value: 0, label: "All Rooms" },
+            ...categoryData.map((item) => ({
+              value: item.id,
+              label: item.name,
+            })),
+          ]}
+          className="w-[140px] h-[25px]"
+        />
+      ),
       bookingpolicy: (
         <TextArea
           value={booking_policy}
@@ -1493,11 +1568,17 @@ const StaticContract = () => {
           onChange={onChange}
         />
       ),
-      refundable: <Checkbox value={is_non_refundable}
-      onChange={(value) =>
-        setFormData((prev) => ({ ...prev, is_non_refundable: value.target.checked }))
-      }
-    />,
+      refundable: (
+        <Checkbox
+          value={is_non_refundable}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              is_non_refundable: value.target.checked,
+            }))
+          }
+        />
+      ),
       action: (
         <Button onClick={onSubmitCancellation} className="save-btn">
           Save
@@ -1506,90 +1587,97 @@ const StaticContract = () => {
     },
   ];
 
-
   const defaultRegions = [
     { region: "All", countries: [] },
     {
       region: "GCC",
       countries: [
-        'Bahrain', 'Kuwait', 'Oman', 'Qatar', 'Saudi Arabia', 'United Arab Emirates'
-      ]
-    }
+        "Bahrain",
+        "Kuwait",
+        "Oman",
+        "Qatar",
+        "Saudi Arabia",
+        "United Arab Emirates",
+      ],
+    },
   ];
-  
+
   // Remove duplicate entries based on the "region" property
   const uniqueRegionCountries = regionCountries.filter(
-    (item, index, self) => index === self.findIndex((t) => t.region === item.region)
+    (item, index, self) =>
+      index === self.findIndex((t) => t.region === item.region)
   );
 
-  
   const regions = [...defaultRegions, ...uniqueRegionCountries];
-  
 
-    const handleCountryChange = (country) => {
-            setSelectedCountries([...selectedCountries, country]);
-    };
+  const handleCountryChange = (country) => {
+    setSelectedCountries([...selectedCountries, country]);
+  };
 
-    const onCheckAllChange = (e, countries) => {
-        setSelectedCountries(e.target.checked ? countries : []);
-    };
+  const onCheckAllChange = (e, countries) => {
+    setSelectedCountries(e.target.checked ? countries : []);
+  };
 
-    const handleCancel=()=>{setShowRegionPopUp(false)
-    }
+  const handleCancel = () => {
+    setShowRegionPopUp(false);
+  };
 
   const distributionDataSource = [
     {
       key: "distribudat",
       chooseacountry: (
-        <div className='h-[400px] overflow-y-auto w-full'>
-           <Modal
-          footer={false}
-          open={showRegionPopUp}
-          onOk={handleCancel}
-          onCancel={handleCancel}
-        >
-          <AddRegion handleCancel={handleCancel} />
-        </Modal>
-        {regions.map((list) => (
-  <div className='mb-4 flex flex-col' key={list.region}>
-    <Checkbox
-      className="calendar-head"
-      onChange={(e) => onCheckAllChange(e, list.countries)}
-      checked={selectedCountries.length === list.countries.length}       
-    >
-      {list.region}
-    </Checkbox>
-    <div className='grid grid-cols-4 items-start gap-2 text-start'>
-      {Array.isArray(list.countries) && list.countries.map(country => (
-        <div className='w-full whitespace-nowrap' key={country}>
-          <Checkbox
-            className="sub-title"
-            checked={selectedCountries.includes(country)} // Check if country is selected
-            onChange={() => handleCountryChange(country)}
+        <div className="h-[400px] overflow-y-auto w-full">
+          <Modal
+            footer={false}
+            open={showRegionPopUp}
+            onOk={handleCancel}
+            onCancel={handleCancel}
           >
-            {country}
-          </Checkbox>
+            <AddRegion handleCancel={handleCancel} />
+          </Modal>
+          {regions.map((list) => (
+            <div className="mb-4 flex flex-col" key={list.region}>
+              <Checkbox
+                className="calendar-head"
+                onChange={(e) => onCheckAllChange(e, list.countries)}
+                checked={selectedCountries.length === list.countries.length}
+              >
+                {list.region}
+              </Checkbox>
+              <div className="grid grid-cols-4 items-start gap-2 text-start">
+                {Array.isArray(list.countries) &&
+                  list.countries.map((country) => (
+                    <div className="w-full whitespace-nowrap" key={country}>
+                      <Checkbox
+                        className="sub-title"
+                        checked={selectedCountries.includes(country)} // Check if country is selected
+                        onChange={() => handleCountryChange(country)}
+                      >
+                        {country}
+                      </Checkbox>
+                    </div>
+                  ))}
+              </div>
+              <i className="bg-black w-full h-[2px] my-1" />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-<i className="bg-black w-full h-[2px] my-1"/>
-  </div>
-))}
-
-    </div>
       ),
       dmc_id: (
         <Select
-        mode={dmc_id_0_if_all?.includes(0) ? null : "multiple"}
+          mode={dmc_id_0_if_all?.includes(0) ? null : "multiple"}
           showSearch
           filterOption={(input, option) =>
             (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
           }
           className="h-[70px] w-[150px]"
-          options={[{ value: 0, label: "All" }, ...DMCsValue.map((item) => ({
-            value: item.id ? item.id : "",
-            label: item.name ? item.name : "",
-          }))]}
+          options={[
+            { value: 0, label: "All" },
+            ...DMCsValue.map((item) => ({
+              value: item.id ? item.id : "",
+              label: item.name ? item.name : "",
+            })),
+          ]}
           onChange={(value) => {
             const selectedValues = Array.isArray(value) ? value : [value];
             setFormData((prevData) => ({
@@ -1601,16 +1689,19 @@ const StaticContract = () => {
       ),
       corporates_id: (
         <Select
-        mode={corporates_id_0_if_all?.includes(0) ? null : "multiple"}
+          mode={corporates_id_0_if_all?.includes(0) ? null : "multiple"}
           showSearch
           filterOption={(input, option) =>
             (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
           }
           className="h-[70px] w-[150px]"
-          options={[{ value: 0, label: "All" }, ...CorporatesValue?.map((item) => ({
-            value: item.id ? item.id : "",
-            label: item.name ? item.name : "",
-          }))]}
+          options={[
+            { value: 0, label: "All" },
+            ...CorporatesValue?.map((item) => ({
+              value: item.id ? item.id : "",
+              label: item.name ? item.name : "",
+            })),
+          ]}
           onChange={(value) => {
             const selectedValues = Array.isArray(value) ? value : [value];
             setFormData((prevData) => ({
@@ -1622,16 +1713,19 @@ const StaticContract = () => {
       ),
       agent_id: (
         <Select
-        mode={agent_id_0_if_all?.includes(0) ? null : "multiple"}
+          mode={agent_id_0_if_all?.includes(0) ? null : "multiple"}
           showSearch
           filterOption={(input, option) =>
             (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
           }
           className="h-[70px] w-[150px]"
-          options={[{ value: 0, label: "All" }, ...userAgent.map((item) => ({
-            value: item.id ? item.id : "",
-            label: item.uname ? item.uname : "",
-          }))]}
+          options={[
+            { value: 0, label: "All" },
+            ...userAgent.map((item) => ({
+              value: item.id ? item.id : "",
+              label: item.uname ? item.uname : "",
+            })),
+          ]}
           onChange={(value) => {
             const selectedValues = Array.isArray(value) ? value : [value];
             setFormData((prevData) => ({
@@ -1654,37 +1748,39 @@ const StaticContract = () => {
       key: "markupDataSourz",
       userLevel: (
         <Select
-              className="inputfildinsearch"
-              value={user_level}
-              onChange={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  user_level: value,
-                  user_id_0_if_All_in_level: 0,
-                }))
-              }
-              options={[
-                { value: 4, label: "DMC" },
-                { value: 6, label: "Hotel" },
-              ]}
-            />
+          className="inputfildinsearch"
+          value={user_level}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              user_level: value,
+              user_id_0_if_All_in_level: 0,
+            }))
+          }
+          options={[
+            { value: 4, label: "DMC" },
+            { value: 6, label: "Hotel" },
+          ]}
+        />
       ),
       userid: (
         <Select
-        mode={
-          Array.isArray(user_id_0_if_All_in_level) && user_id_0_if_All_in_level.includes(0) ? 
-          null : 
-          "multiple"
-        }
-        
-        value={user_id_0_if_All_in_level}
-        className="w-[200px] capitalize font-normal"
-        onChange={(value) => {
-          const selectedValues = Array.isArray(value) ? value : [value];
-          setFormData((prev) => ({ ...prev, user_id_0_if_All_in_level: selectedValues }));
-        }}
-        options={
-          [
+          mode={
+            Array.isArray(user_id_0_if_All_in_level) &&
+            user_id_0_if_All_in_level.includes(0)
+              ? null
+              : "multiple"
+          }
+          value={user_id_0_if_All_in_level}
+          className="w-[200px] capitalize font-normal"
+          onChange={(value) => {
+            const selectedValues = Array.isArray(value) ? value : [value];
+            setFormData((prev) => ({
+              ...prev,
+              user_id_0_if_All_in_level: selectedValues,
+            }));
+          }}
+          options={[
             { value: 0, label: "All" },
             ...(user_level === 4
               ? DMCsOfHotelValue.dmc?.map((item) => ({
@@ -1696,10 +1792,9 @@ const StaticContract = () => {
                   value: item.id ? item.id : "",
                   label: item.uname ? item.uname : "",
                 }))
-              : [])
-          ]
-        }
-      />
+              : []),
+          ]}
+        />
       ),
       markup: (
         <Select
@@ -1716,7 +1811,8 @@ const StaticContract = () => {
                   value: Number(item.id),
                 }))
               : ""
-          }/>
+          }
+        />
       ),
       timestamp: formatDate(timestamp),
       action: (
@@ -1739,7 +1835,13 @@ const StaticContract = () => {
     getAllContractData,
     compressData,
     rawPriceData,
-  } = GetAllContracts(id_from_contract_id, rowData, hotel_id,  Occupancy_and_category_cross, hotelValue);
+  } = GetAllContracts(
+    id_from_contract_id,
+    rowData,
+    hotel_id,
+    Occupancy_and_category_cross,
+    hotelValue
+  );
   const { roomSetupDataSource } = RoomSetup({
     categoryData,
     hotel_id,
@@ -1748,68 +1850,71 @@ const StaticContract = () => {
   });
 
   const columnsData =
-    activeItem == 0
+    activeItem === 0
       ? columns
-      : activeItem == 1
+      : activeItem === 1
       ? measlColumns
-      : activeItem == 2
+      : activeItem === 2
       ? offersColumns
-      : activeItem == 3
+      : activeItem === 3
       ? supplementsColumns
-      : activeItem == 4
+      : activeItem === 4
       ? roomSetupColums
-      : activeItem == 5
+      : activeItem === 5
       ? cancellationsColumns
-      : activeItem == 6
+      : activeItem === 6
       ? distributionColumns
-      : activeItem == 7
+      : activeItem === 7
       ? markupColumns
       : null;
 
   const firstTableData =
-    activeItem == 0
+    activeItem === 0
       ? dataSource
-      : activeItem == 1
+      : activeItem === 1
       ? mealsDataSource
-      : activeItem == 2
+      : activeItem === 2
       ? offersDataSource
-      : activeItem == 3
+      : activeItem === 3
       ? supplementsDataSource
-      : activeItem == 4
+      : activeItem === 4
       ? roomSetupDataSource
-      : activeItem == 5
+      : activeItem === 5
       ? cancellationsDataSource
-      : activeItem == 6
+      : activeItem === 6
       ? distributionDataSource
-      : activeItem == 7
+      : activeItem === 7
       ? markupDataSource
       : null;
 
   const secondTableData =
-    activeItem == 0
+    activeItem === 0
       ? priceData
-      : activeItem == 1
+      : activeItem === 1
       ? mealsData
-      : activeItem == 2
+      : activeItem === 2
       ? OffersData
-      : activeItem == 3
+      : activeItem === 3
       ? supplementsData
-      : activeItem == 4
+      : activeItem === 4
       ? roomSetupData
-      : activeItem == 5
+      : activeItem === 5
       ? cancellationData
-      : activeItem == 6
+      : activeItem === 6
       ? distributionData
-      : activeItem == 7
+      : activeItem === 7
       ? priceMarkupData
       : null;
 
   // Check if firstTableData is iterable, if not, provide a default value (an empty array in this case)
-const combinedDataSource = [
-  ...(firstTableData && Symbol.iterator in Object(firstTableData) ? firstTableData : []),
-  ...(secondTableData && Symbol.iterator in Object(secondTableData) ? secondTableData : []),
-];
-
+  const combinedDataSource = [
+    ...(firstTableData && Symbol.iterator in Object(firstTableData)
+      ? firstTableData
+      : []),
+    ...(secondTableData && Symbol.iterator in Object(secondTableData)
+      ? secondTableData
+      : []),
+  ];
 
   return (
     <section className="w-full h-[700px] space-y-2 capitalize">
@@ -2053,12 +2158,12 @@ const combinedDataSource = [
                 setFormDataHeader((prev) => ({ ...prev, owner_id: value }))
               }
               options={
-                owner_type == 4
+                owner_type === 4
                   ? DMCsOfHotelValue.dmc?.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.name ? item.name : "",
                     }))
-                  : owner_type == 6
+                  : owner_type === 6
                   ? HotelByIDValue.users_under_hotel?.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.uname ? item.uname : "",
@@ -2116,18 +2221,32 @@ const combinedDataSource = [
           >
             Availability
           </li> */}
-         {activeItem===6 && <Button className="action-btn absolute right-20" onClick={()=>setShowRegionPopUp(true)}>Add Region</Button>}
+          {activeItem === 6 && (
+            <Button
+              className="action-btn absolute right-20"
+              onClick={() => setShowRegionPopUp(true)}
+            >
+              Add Region
+            </Button>
+          )}
         </ul>
       </div>
       <div className="w-full">
         <div>
           {activeItem === 8 ? (
-            <AvailabilityCalendar  record={rawPriceData} compressData={compressData} loading={loading} getAllContractData={getAllContractData} id={id_from_contract_id} categoryData={categoryData} hotel_id={hotel_id} />
-          ) :  (
+            <AvailabilityCalendar
+              record={rawPriceData}
+              compressData={compressData}
+              loading={loading}
+              getAllContractData={getAllContractData}
+              id={id_from_contract_id}
+              categoryData={categoryData}
+              hotel_id={hotel_id}
+            />
+          ) : (
             <Table
               columns={columnsData}
               dataSource={combinedDataSource}
-              pagination={false}
               loading={loading}
               onRow={(record) => {
                 return {

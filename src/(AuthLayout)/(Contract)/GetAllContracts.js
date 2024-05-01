@@ -8,7 +8,7 @@ import { FaCheck } from "react-icons/fa";
 import { formatDate } from "../components/Helper/FormatDate";
 import EditPrice from "./Static-Contract/EditStaticContract/EditPrice";
 import AssignDistribution from "./Static-Contract/EditStaticContract/AssignDistribution";
-import {EditIcon}from "../components/Customized/EditIcon";
+import { EditIcon } from "../components/Customized/EditIcon";
 
 const GetAllContracts = (
   id_from_contract_id,
@@ -30,22 +30,23 @@ const GetAllContracts = (
   const [roomSetupData, setRoomSetupData] = useState([]);
 
   const [isModalOpenPrice, setIsModalOpenPrice] = useState(false);
-  const [isOpenAssignDistribution, setIsOpenAssignDistribution] = useState(false)
+  const [isOpenAssignDistribution, setIsOpenAssignDistribution] =
+    useState(false);
   const [isModalOpenMeal, setIsModalOpenMeal] = useState(false);
   const [isModalOpenRoomSetup, setIsModalOpenRoomSetup] = useState(false);
   const [isModalOpenOffer, setIsModalOpenOffer] = useState(false);
   const showTable = (type) => {
-    type == "price" ? setIsModalOpenPrice(true) : "";
-    type == "meal" ? setIsModalOpenMeal(true) : "";
-    type == "roomsetup" ? setIsModalOpenRoomSetup(true) : "";
-    type == "offer" ? setIsModalOpenOffer(true) : "";
+    type === "price" ? setIsModalOpenPrice(true) : "";
+    type === "meal" ? setIsModalOpenMeal(true) : "";
+    type === "roomsetup" ? setIsModalOpenRoomSetup(true) : "";
+    type === "offer" ? setIsModalOpenOffer(true) : "";
   };
   const handleCancel = () => {
     setIsModalOpenPrice(false);
     setIsModalOpenMeal(false);
     setIsModalOpenRoomSetup(false);
     setIsModalOpenOffer(false);
-    setIsOpenAssignDistribution(false)
+    setIsOpenAssignDistribution(false);
   };
 
   const selectedDate = new Date();
@@ -443,13 +444,20 @@ const GetAllContracts = (
               <p>{formatDate(item.stay_to) || ""}</p>
             </span>
           ),
-          roomcategory: item.room?.name==0 ? "All" : item.room?.name || "",
+          roomcategory: item.room?.name == 0 ? "All" : item.room?.name || "",
           offer: item.offer || "",
-          discount: item.discount_amount > 0 ? item.discount_amount : item.discount_rate > 0 ? item.discount_rate + "%" : "",
-          source: item.source_countries.map(item=><p>{item.country || ""}</p>),
+          discount:
+            item.discount_amount > 0
+              ? item.discount_amount
+              : item.discount_rate > 0
+              ? item.discount_rate + "%"
+              : "",
+          source: item.source_countries.map((item) => (
+            <p>{item.country || ""}</p>
+          )),
           linked: (
             <span className="float-right">
-              {item.is_linked == true ? (
+              {item.is_linked === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -458,7 +466,7 @@ const GetAllContracts = (
           ),
           room: (
             <span className="float-right">
-              {item.is_room == true ? (
+              {item.is_room === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -467,7 +475,7 @@ const GetAllContracts = (
           ),
           meals: (
             <span className="float-right">
-              {item.is_meals == true ? (
+              {item.is_meals === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -476,7 +484,7 @@ const GetAllContracts = (
           ),
           supp: (
             <span className="float-right">
-              {item.is_supp == true ? (
+              {item.is_supp === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -596,8 +604,17 @@ const GetAllContracts = (
           key: index || "",
           timestamp: formatDate(item.createdAt || null),
           bookingpolicy: item.booking_cancellation_policy || "",
-          room: item.room && item.room?.name || "",
-          refundable: item.is_non_refundable && item.is_non_refundable==true? <span className="flex items-center justify-center"><FaCheck className="text-blue-800" /></span> :  <span className="flex items-center justify-center"><ImCross className="text-red-500" /></span>,
+          room: (item.room && item.room?.name) || "",
+          refundable:
+            item.is_non_refundable && item.is_non_refundable == true ? (
+              <span className="flex items-center justify-center">
+                <FaCheck className="text-blue-800" />
+              </span>
+            ) : (
+              <span className="flex items-center justify-center">
+                <ImCross className="text-red-500" />
+              </span>
+            ),
           type: item.type || "",
           penaltyrate: item.cancellation_panelty_rate || "",
           cancellationdays: item.cancellation_days || "",
@@ -621,7 +638,6 @@ const GetAllContracts = (
             </span>
           ),
         }));
-
 
         const PriceFinal = PricesDataArray.map((item, index) => {
           const addedOn = item.price_group_of_categories;
@@ -658,7 +674,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`dbl-${list}-${listIndex}`}
                   >
-                    {list.dbl == 0 ? 0 : list.dbl > 0 ? list.dbl : ""}
+                    {list.dbl === 0 ? 0 : list.dbl > 0 ? list.dbl : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -686,7 +702,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`"qud"-${list}-${listIndex}`}
                   >
-                    {list.qud == 0 ? 0 : list.qud > 0 ? list.qud : ""}
+                    {list.qud === 0 ? 0 : list.qud > 0 ? list.qud : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -702,7 +718,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`"sgl"-${list}-${listIndex}`}
                   >
-                    {list.sgl == 0 ? 0 : list.sgl > 0 ? list.sgl : ""}
+                    {list.sgl === 0 ? 0 : list.sgl > 0 ? list.sgl : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -718,7 +734,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`"trl"-${list}-${listIndex}`}
                   >
-                    {list.trl == 0 ? 0 : list.trl > 0 ? list.trl : ""}
+                    {list.trl === 0 ? 0 : list.trl > 0 ? list.trl : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -734,7 +750,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`"twn"-${list}-${listIndex}`}
                   >
-                    {list.twn == 0 ? 0 : list.twn > 0 ? list.twn : ""}
+                    {list.twn === 0 ? 0 : list.twn > 0 ? list.twn : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -750,7 +766,7 @@ const GetAllContracts = (
                     className="borderedRow active"
                     key={`"unit"-${list}-${listIndex}`}
                   >
-                    {list.unit == 0 ? 0 : list.unit > 0 ? list.unit : ""}
+                    {list.unit === 0 ? 0 : list.unit > 0 ? list.unit : ""}
                   </li>
                 ) : (
                   <li className="borderedRow inactive"></li>
@@ -760,7 +776,7 @@ const GetAllContracts = (
             minstay: sortedData.map((list, listIndex) => (
               <ul key={`"min"-${list.id}-${listIndex}`}>
                 <li key={`"minst"-${list}-${listIndex}`}>
-                  {list.min_stay == 0
+                  {list.min_stay === 0
                     ? 0
                     : list.min_stay > 0
                     ? list.min_stay
@@ -771,7 +787,7 @@ const GetAllContracts = (
             maxstay: sortedData.map((list, listIndex) => (
               <ul key={`"max"-${list.id}-${listIndex}`}>
                 <li key={`"max"-${list}-${listIndex}`}>
-                  {list.max_stay == 0
+                  {list.max_stay === 0
                     ? 0
                     : list.max_stay > 0
                     ? list.max_stay
@@ -939,63 +955,79 @@ const GetAllContracts = (
         setOffersData(offersFinal);
         setSupplementsData(supplementFinal);
         setCancellationData(cancellationFinal);
-        const distributionArray = corporates_for_distribution_of_contract.map((item, index) => ({
-          key: index,
-          chooseacountry: <p className="grid grid-cols-3">{countrie_names.map(list=><span>{list.country}</span>)}</p>,
-          dmc_id: dmcs_for_distribution_of_contract[index]?.id || "",
-          corporates_id:item?.id || "",
-          agent_id: agents_for_distribution_of_contract[index]?.id || "",
-        }));
+        const distributionArray = corporates_for_distribution_of_contract.map(
+          (item, index) => ({
+            key: index,
+            chooseacountry: (
+              <p className="grid grid-cols-3">
+                {countrie_names.map((list) => (
+                  <span>{list.country}</span>
+                ))}
+              </p>
+            ),
+            dmc_id: dmcs_for_distribution_of_contract[index]?.id || "",
+            corporates_id: item?.id || "",
+            agent_id: agents_for_distribution_of_contract[index]?.id || "",
+          })
+        );
         setDistributionData(distributionArray);
 
-        const priceMarkupArray = [{
-          key: PricesMarkUp.id,
-          markup: PricesMarkUp.markup && (PricesMarkUp.markup).toFixed(2) + "%" || "",
-          timestamp: formatDate(contractData.createdAt)
-        }]
+        const priceMarkupArray = [
+          {
+            key: PricesMarkUp.id,
+            markup:
+              (PricesMarkUp.markup && PricesMarkUp.markup.toFixed(2) + "%") ||
+              "",
+            timestamp: formatDate(contractData.createdAt),
+          },
+        ];
 
-        const buyMarkupArray =
-          BuyerMarkUp.map((item) => ({
-            key: item.id,
-            markup: item.buyer_markup && (item.buyer_markup * 1).toFixed(2) + "%" || "",
-            userid: item.user?.uname || "",
-            userLevel: item.user_level==4 ? "DMC": item.user_level==6 ? "Hotel" : "",
-            timestamp: formatDate(item.createdAt || null),
-            action: <span className="w-full flex justify-center">
-            <Popover
-              content={
-                <div className="flex flex-col gap-3">
-                  <Button
-                    onClick={() => setIsOpenAssignDistribution(true)}
-                    className="action-btn"
-                  >
-                    edit
-                  </Button>
-                </div>
-              }
-            >
-              {EditIcon}
-            </Popover>
-            <Modal
-              footer={false}
-              open={isOpenAssignDistribution}
-              onOk={handleCancel}
-              onCancel={handleCancel}
-            >
-              <AssignDistribution
-                rowData={rowData}
-                getAllContractData={getAllContractData}
-                handleCancel={handleCancel}
-                id={id_from_contract_id}
-              />
-            </Modal>
-          </span>
-          }))
-          const combinedMarkup = [...priceMarkupArray, ...buyMarkupArray]
-          setPriceMarkupData(combinedMarkup)
+        const buyMarkupArray = BuyerMarkUp.map((item) => ({
+          key: item.id,
+          markup:
+            (item.buyer_markup && (item.buyer_markup * 1).toFixed(2) + "%") ||
+            "",
+          userid: item.user?.uname || "",
+          userLevel:
+            item.user_level == 4 ? "DMC" : item.user_level == 6 ? "Hotel" : "",
+          timestamp: formatDate(item.createdAt || null),
+          action: (
+            <span className="w-full flex justify-center">
+              <Popover
+                content={
+                  <div className="flex flex-col gap-3">
+                    <Button
+                      onClick={() => setIsOpenAssignDistribution(true)}
+                      className="action-btn"
+                    >
+                      edit
+                    </Button>
+                  </div>
+                }
+              >
+                {EditIcon}
+              </Popover>
+              <Modal
+                footer={false}
+                open={isOpenAssignDistribution}
+                onOk={handleCancel}
+                onCancel={handleCancel}
+              >
+                <AssignDistribution
+                  rowData={rowData}
+                  getAllContractData={getAllContractData}
+                  handleCancel={handleCancel}
+                  id={id_from_contract_id}
+                />
+              </Modal>
+            </span>
+          ),
+        }));
+        const combinedMarkup = [...priceMarkupArray, ...buyMarkupArray];
+        setPriceMarkupData(combinedMarkup);
         setRawPriceData(calendarDataArray);
         setCompressedData(CompressedDataArray);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -1006,7 +1038,8 @@ const GetAllContracts = (
   useEffect(() => {
     id_from_contract_id ? getAllContractData() : null;
   }, [
-    isModalOpenPrice, isOpenAssignDistribution,
+    isModalOpenPrice,
+    isOpenAssignDistribution,
     hotelValue,
     hotel_id,
     Occupancy_and_category_cross,

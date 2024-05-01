@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CalendarOutlined } from "@ant-design/icons";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
@@ -203,7 +203,7 @@ const AddServices = () => {
         ))}
       </ul>
       <form onSubmit={onSubmit} className="w-full capitalize">
-        {activeItem == 0 ? (
+        {activeItem === 0 ? (
           <div className="flex gap-5 md:gap-10">
             <div className="w-full space-y-3">
               <label className="labelStyle">
@@ -404,7 +404,7 @@ const AddServices = () => {
               </label>
             </div>
           </div>
-        ) : activeItem == 1 ? (
+        ) : activeItem === 1 ? (
           <div className="flex gap-5 md:gap-10">
             <span className="flex flex-col gap-3 w-full">
               <label className="labelStyle">
@@ -555,12 +555,12 @@ const AddServices = () => {
                       setFormData((prev) => ({ ...prev, owner_id: value }))
                     }
                     options={
-                      owner_type == 4
+                      owner_type === 4
                         ? usersUnderDMC?.map((item) => ({
                             value: item.id ? item.id : "",
                             label: item.uname ? item.uname : "",
                           }))
-                        : owner_type == 6
+                        : owner_type === 6
                         ? userUnderHotel.map((item) => ({
                             value: item.id ? item.id : "",
                             label: item.uname ? item.uname : "",

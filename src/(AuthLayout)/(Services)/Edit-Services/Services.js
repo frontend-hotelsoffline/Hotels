@@ -30,9 +30,9 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 const EditServices = () => {
-    const searchParams = useSearchParams();
-    const record = searchParams.get("record");
-    const parsedRecord = record ? JSON.parse(record) : null;
+  const searchParams = useSearchParams();
+  const record = searchParams.get("record");
+  const parsedRecord = record ? JSON.parse(record) : null;
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -211,7 +211,7 @@ const EditServices = () => {
         ))}
       </ul>
       <form onSubmit={onSubmit} className="w-full capitalize">
-        {activeItem == 0 ? (
+        {activeItem === 0 ? (
           <div className="flex gap-5 md:gap-10">
             <div className="w-full space-y-3">
               <label className="labelStyle">
@@ -412,7 +412,7 @@ const EditServices = () => {
               </label>
             </div>
           </div>
-        ) : activeItem == 1 ? (
+        ) : activeItem === 1 ? (
           <div className="flex gap-5 md:gap-10">
             <span className="flex flex-col gap-3 w-full">
               <label className="labelStyle">
@@ -563,12 +563,12 @@ const EditServices = () => {
                       setFormData((prev) => ({ ...prev, owner_id: value }))
                     }
                     options={
-                      owner_type == 4
+                      owner_type === 4
                         ? usersUnderDMC?.map((item) => ({
                             value: item.id ? item.id : "",
                             label: item.uname ? item.uname : "",
                           }))
-                        : owner_type == 6
+                        : owner_type === 6
                         ? userUnderHotel.map((item) => ({
                             value: item.id ? item.id : "",
                             label: item.uname ? item.uname : "",

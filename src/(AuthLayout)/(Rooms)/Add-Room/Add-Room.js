@@ -80,7 +80,6 @@ const AddRoom = () => {
     description,
     room_status,
     hotel_id,
-    giataId,
     amenity_ids,
     SGL,
     DBL,
@@ -129,14 +128,12 @@ const AddRoom = () => {
       "Content-Type": "multipart/form-data",
     };
     const amenityVariables = {
-      amenityIds: amenity_ids
-        ? amenity_ids.map((item) => ({ amenity_ids: item }))
-        : "",
+      amenityIds: amenity_ids ? amenity_ids.map((item) => ({ aid: item })) : "",
     };
     const images = fileList.map((item) => item.originFileObj);
     const mutation = `
   mutation (  $images: [Upload]){
-    add_a_room(
+    addRoom(
         name: "${name ? name : ""}"
         SGL: ${SGL}
         DBL: ${DBL}
@@ -149,10 +146,9 @@ const AddRoom = () => {
         size_sqm: ${room_size ? room_size : ""},
         no_units: ${no_of_units ? no_of_units : ""},
         desc: "${description ? description : ""}",
-        status: "${room_status}"
+        status: ${room_status}
         hId: ${hotel_id ?? 0}
-        giataId: "${giataId ?? 0}"
-        priority: ${priority ?? 0}
+        prio: ${priority ?? 0}
         images: $images
         tPax: ${tPax || -1}
         minA: ${minA || -1}
@@ -177,7 +173,7 @@ const AddRoom = () => {
 `;
 
     const path = "";
-    setLoading(true);
+    // setLoading(true);
     try {
       formData2.delete("operations");
       formData2.delete("map");
@@ -207,7 +203,16 @@ const AddRoom = () => {
         formData2.append(i.toString(), images[i]);
       }
 
-      const res = await POST_API(path, formData2, headers);
+      const res = await POST_API(
+        path,
+        JSON.stringify({
+          query: mutation,
+          variables: {
+            images: array,
+          },
+        }),
+        headers
+      );
       if (res.data && !res.errors) {
         setLoading(false);
         message.success("Room has been added Successfully");
@@ -257,6 +262,32 @@ const AddRoom = () => {
       ),
     }));
   };
+  const options = [];
+  options.push(
+    <Option key={0} value={0}>
+      N/A
+    </Option>
+  );
+  for (let i = 1; i <= 20; i++) {
+    options.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
+  }
+  const options1000 = [];
+  options1000.push(
+    <Option key={0} value={0}>
+      N/A
+    </Option>
+  );
+  for (let i = 1; i <= 1000; i++) {
+    options1000.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
+  }
   return (
     <section className="capitalize">
       {loading ? (
@@ -414,13 +445,6 @@ const AddRoom = () => {
                   }));
                 }}
               />
-              <label className="labelStyle mt-1 w-full">giata ID</label>
-              <Input
-                name="giataId"
-                value={giataId}
-                onChange={onChange}
-                className="input-style"
-              />
               <p className="mt-5">
                 Choose Amenities
                 <Button
@@ -461,6 +485,185 @@ const AddRoom = () => {
               </Button>
             </div>
             <div className="w-full">
+              <span className="w-full grid grid-cols-2">
+                <label className="labelStyle">
+                  total persons
+                  <Select
+                    value={tPax}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, tPax: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  min adult:
+                  <Select
+                    value={minA}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, minA: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max adult
+                  <Select
+                    value={maxA}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maxA: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max child
+                  <Select
+                    value={maxC}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maxC: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  shared bed
+                  <Select
+                    value={sBed}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, sBed: value }))
+                    }
+                    options={[
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ]}
+                    className="relative w-[60px] h-[25px]"
+                  />
+                </label>
+                <label className="labelStyle">
+                  shared supliment type
+                  <Select
+                    value={ssType}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, ssType: value }))
+                    }
+                    options={[
+                      { value: "N/A", label: "N/A" },
+                      { value: "%", label: "%" },
+                      { value: "Amout", label: "Amount" },
+                    ]}
+                    className="relative w-[80px] h-[25px]"
+                  />
+                </label>
+                <label className="labelStyle">
+                  shared suppliment
+                  <Input
+                    value={ss}
+                    name="ss"
+                    onChange={onChange}
+                    className="relative w-[70px] h-[25px]"
+                    onKeyPress={handleKeyPress}
+                    readOnly={ssType === "N/A"}
+                  />
+                </label>
+                <label className="labelStyle">
+                  max child age in shared
+                  <Select
+                    value={mcas}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, mcas: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  beds
+                  <Select
+                    value={Beds}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, Beds: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options1000}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  no of extra beds
+                  <Select
+                    value={ebs}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, ebs: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options1000}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max age in extra bed
+                  <Select
+                    value={maieb}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maieb: value }))
+                    }
+                    className="relative w-[50px] h-[25px]"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  extra_suppliment_type
+                  <Select
+                    value={est}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, est: value }))
+                    }
+                    options={[
+                      { value: "N/A", label: "N/A" },
+                      { value: "%", label: "%" },
+                      { value: "Amout", label: "Amount" },
+                    ]}
+                    className="w-full"
+                  />
+                </label>
+                <label className="labelStyle">
+                  extra bed suppliment:
+                  <Input
+                    value={ebeds}
+                    name="ebeds"
+                    onChange={onChange}
+                    className="w-full"
+                    onKeyPress={handleKeyPress}
+                    readOnly={est === "N/A"}
+                  />
+                </label>
+                <label className="labelStyle">
+                  meals included
+                  <Select
+                    value={mInc}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, mInc: value }))
+                    }
+                    options={[
+                      { value: "N/A", label: "N/A" },
+                      { value: "true", label: "Yes" },
+                      { value: "false", label: "No" },
+                    ]}
+                    className="w-full"
+                  />
+                </label>
+              </span>
               <label className="labelStyle">Description</label>
               <TextArea
                 name="description"

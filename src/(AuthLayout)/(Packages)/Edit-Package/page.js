@@ -62,41 +62,41 @@ const EditPackage = () => {
     setPreviewOpen(true);
     setPreviewTitle(
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
-      );
+    );
   };
-  
+
   const imageArray = parsedRecord.links_of_images.map((image) => ({
     id: image.id,
     uid: image.link,
     name: `image_${image.id}.jpeg`,
     status: "done",
     url: `${BASE_URL}${image.link}`,
-  }))
-  
+  }));
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
-  const [imageList, setImagelist] = useState(imageArray || [])
+  const [imageList, setImagelist] = useState(imageArray || []);
   const [dataSource, setDataSource] = useState();
   const [toggle, setToggle] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    child_age_from : parsedRecord?.child_age_from ?? "",
-    child_age_to : parsedRecord?.child_age_to ?? "",
-    name : parsedRecord?.name ?? "",
-    package_id : parsedRecord?.id ?? "",
-    owner_id : parsedRecord?.owner_id ?? "",
-    owner_type : parsedRecord?.owner_type ?? "",
-    is_this_created_by_owner : parsedRecord?.is_this_created_by_owner ?? "",
-    description : parsedRecord?.description ?? "",
-    youtube_link : parsedRecord?.youtube_link ?? "",
-    price_if_fixed : parsedRecord?.price_if_fixed ?? "",
-    profit_of_seller : parsedRecord?.profit_of_seller ?? "",
-    discount : parsedRecord?.discount ?? "",
-    from_date : parsedRecord?.from_date ?? "",
-    to_date : parsedRecord?.to_date ?? "",
-    fixed_price_adult : parsedRecord?.fixed_price_adult ?? "",
-    fixed_price_child : parsedRecord?.fixed_price_child ?? "",
+    child_age_from: parsedRecord?.child_age_from ?? "",
+    child_age_to: parsedRecord?.child_age_to ?? "",
+    name: parsedRecord?.name ?? "",
+    package_id: parsedRecord?.id ?? "",
+    owner_id: parsedRecord?.owner_id ?? "",
+    owner_type: parsedRecord?.owner_type ?? "",
+    is_this_created_by_owner: parsedRecord?.is_this_created_by_owner ?? "",
+    description: parsedRecord?.description ?? "",
+    youtube_link: parsedRecord?.youtube_link ?? "",
+    price_if_fixed: parsedRecord?.price_if_fixed ?? "",
+    profit_of_seller: parsedRecord?.profit_of_seller ?? "",
+    discount: parsedRecord?.discount ?? "",
+    from_date: parsedRecord?.from_date ?? "",
+    to_date: parsedRecord?.to_date ?? "",
+    fixed_price_adult: parsedRecord?.fixed_price_adult ?? "",
+    fixed_price_child: parsedRecord?.fixed_price_child ?? "",
   });
   const {
     child_age_from,
@@ -365,17 +365,18 @@ const EditPackage = () => {
       meal: (
         <Select
           value={meal}
-          options= {toggle === "hotel" && [
-            // { value: "N/A", label: "N/A" },
-            { value: "ROOM ONLY", label: "ROOM ONLY" },
-            { value: "BREAKFAST", label: "BREAKFAST" },
-            { value: "HB", label: "HB" },
-            { value: "FB", label: "FB" },
-            { value: "SOFT ALL INC", label: "SOFT ALL INC" },
-            { value: "ALL INC", label: "ALL INC" },
-            { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
-          ]}
-
+          options={
+            toggle === "hotel" && [
+              // { value: "N/A", label: "N/A" },
+              { value: "ROOM ONLY", label: "ROOM ONLY" },
+              { value: "BREAKFAST", label: "BREAKFAST" },
+              { value: "HB", label: "HB" },
+              { value: "FB", label: "FB" },
+              { value: "SOFT ALL INC", label: "SOFT ALL INC" },
+              { value: "ALL INC", label: "ALL INC" },
+              { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
+            ]
+          }
           onChange={(value) => {
             setFormData((prevData) => ({
               ...prevData,
@@ -495,7 +496,7 @@ const EditPackage = () => {
 
   const renderTables = () => {
     if (
-      PackgeByID.length == 0 &&
+      PackgeByID.length === 0 &&
       !PackgeByID.services_under_package_grouped_by_date &&
       !PackgeByID.rooms_under_package_grouped_by_date
     ) {
@@ -559,7 +560,10 @@ const EditPackage = () => {
             <Input
               onKeyPress={handleKeyPress}
               name="rooms_day"
-              value={entry?.day || PackgeByID.rooms_under_package_grouped_by_date?.[index]?.day}
+              value={
+                entry?.day ||
+                PackgeByID.rooms_under_package_grouped_by_date?.[index]?.day
+              }
               readOnly
               className="w-full border-black"
             />
@@ -567,7 +571,6 @@ const EditPackage = () => {
           <Table
             className="package-table"
             size="small"
-            pagination={false}
             dataSource={roomAndServiceArray}
             columns={Columns}
             onRow={(record) => {
@@ -583,8 +586,12 @@ const EditPackage = () => {
     });
   };
 
-  
-  const allImageList = [...imageList, ...fileList.filter(file => !imageList.find(image => image.uid === file.uid))];
+  const allImageList = [
+    ...imageList,
+    ...fileList.filter(
+      (file) => !imageList.find((image) => image.uid === file.uid)
+    ),
+  ];
 
   return loading ? (
     <Spin />
@@ -603,7 +610,7 @@ const EditPackage = () => {
           </li>
         ))}
       </ul>
-      {activeItem == 0 && (
+      {activeItem === 0 && (
         <div className="w-full capitalize flex gap-5 md:gap-10">
           <span className="w-full space-y-2 relative">
             <label className="labelStyle w-full">
@@ -695,12 +702,12 @@ const EditPackage = () => {
                     setFormData((prev) => ({ ...prev, owner_id: value }))
                   }
                   options={
-                    owner_type == 4
+                    owner_type === 4
                       ? usersUnderDMC?.map((item) => ({
                           value: item.id ? item.id : "",
                           label: item.uname ? item.uname : "",
                         }))
-                      : owner_type == 6
+                      : owner_type === 6
                       ? userUnderHotel.map((item) => ({
                           value: item.id ? item.id : "",
                           label: item.uname ? item.uname : "",
@@ -793,7 +800,7 @@ const EditPackage = () => {
           </span>
         </div>
       )}
-      {activeItem == 1 && (
+      {activeItem === 1 && (
         <div className="w-full">
           <div className="mb-5">
             <label className="labelStyle w-40">
@@ -806,17 +813,12 @@ const EditPackage = () => {
                 className="w-full border-black"
               />
             </label>
-            <Table
-              size="small"
-              pagination={false}
-              dataSource={dataArray}
-              columns={Columns}
-            />
+            <Table size="small" dataSource={dataArray} columns={Columns} />
           </div>
           {renderTables()}
         </div>
       )}
-      {activeItem == 2 && (
+      {activeItem === 2 && (
         <div className="flex flex-col w-[800px]">
           <span className="flex gap-3 mt-2">
             <label className="labelStyle w-full">

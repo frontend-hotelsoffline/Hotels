@@ -9,50 +9,50 @@ const GetAllHotels = () => {
 
   const getAllCategories = async () => {
     const GET_ALL = `{
-      get_all_hotels {
+      getrhotels(page: 1) {
         id
-        createdAt
-        google_place_id
+        CRT
         name
+        address
         country
         city
         street
-        latitude
-        longtude
-        description
-        star_rating
-        hotel_status
-        phone_no
-        email
-        giataId
-        Live_dynamic_contracts {
-          id
-          name
-      }
-      Live_static_contracts {
-          id
-          name
-          meals_of_contract(frontend_timezone_to_cal_date_range : "${date_to_pass}") {
-            id
-            room_only_adult
-            room_only_child
+        lat
+        lon
+        categ
+        HB {
+            c_id
         }
-      }
-        rooms {
-            id 
-            name
-            is_SGL
-            is_DBL
-            is_TWN
-            is_TRPL
-            is_QUAD
-            is_UNIT
-            priority
-            category {
+        exp {
+            c_id
+        }
+        jp {
+            c_id
+        }
+        Imgs {
+            id
+            img_url
+        }
+        hotlFac {
+            id
+            hId
+            fId
+            facs {
+                id
+                name
+            }
+        }
+        HotelBody {
+          ac_mngr {
               id
               name
-              description
-          }}
+          }
+          email
+          phone
+          desc
+          chainId
+          status
+      }
     }
     }`;
     const query = GET_ALL;
@@ -61,8 +61,8 @@ const GetAllHotels = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_hotels)) {
-        const dataArray = res.data.get_all_hotels
+      if (Array.isArray(res.data?.getrhotels)) {
+        const dataArray = res.data?.getrhotels;
         sethotelValue(dataArray);
       }
     } catch (error) {

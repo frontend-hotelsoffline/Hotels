@@ -37,30 +37,20 @@ const Rooms = () => {
         hId
         catId
         viewId
-        category {
-            id
-            name
-            desc
-        }
-        view {
-            id
-            name
-            desc
-        }
-        amenities {
-            id
-            rId
-            aId
-            amenity {
-                id
-                name
-            }
-        }
-        images {
-            id
-            rId
-            img_url
-        }
+        tPax
+        minA
+        maxA
+        maxC
+        Beds
+        sBed
+        ssType
+        ss
+        mcas
+        ebeds
+        maieb
+        est
+        ebs
+        mInc
     }
   }`;
     const query = GET_ALL_ROOMS;
@@ -73,33 +63,33 @@ const Rooms = () => {
           key: item?.id,
           id: item?.id,
           name: item?.name || "",
-          hotel: item?.hotel.name || "",
+          hotel: item?.hotel?.name || "",
           hotels: item?.hotel || "",
           no_of_units: item?.no_of_units || "",
           view: item?.view || "",
-          priority: item?.priority || "",
+          priority: item?.prio || "",
           amenities: item?.amenities || "",
           occupancy:
             item.occupancies?.map((item) => (
               <ul>
-                <li key={item.occupancy.id}>{item.occupancy.name}</li>
+                <li key={item.occupancy?.id}>{item.occupancy?.name}</li>
               </ul>
             )) || [],
           occupancies: item.occupancies || [],
-          room_size: item?.room_size ? item?.room_size : "",
+          room_size: item?.size || "",
           giataId: item?.giataId ? item?.giataId : "",
           room_status: item?.room_status ? item?.room_status : "",
-          category: item?.category.name || "",
+          category: item?.category?.name || "",
           categories: item?.category || "",
           description: item?.description || "",
-          room_status: item.room_status || "",
-          images: item.images || "",
-          is_SGL: item.is_SGL || "",
-          is_DBL: item.is_DBL || "",
-          is_TWN: item.is_TWN || "",
-          is_TRPL: item.is_TRPL || "",
-          is_QUAD: item.is_QUAD || "",
-          is_UNIT: item.is_UNIT || "",
+          room_status: item?.status || "",
+          images: item?.images || "",
+          is_SGL: item?.is_SGL || "",
+          is_DBL: item?.is_DBL || "",
+          is_TWN: item?.is_TWN || "",
+          is_TRPL: item?.is_TRPL || "",
+          is_QUAD: item?.is_QUAD || "",
+          is_UNIT: item?.is_UNIT || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -220,7 +210,6 @@ const Rooms = () => {
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
         loading={loading}
       />
     </section>

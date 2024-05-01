@@ -132,7 +132,6 @@ const Corporate = () => {
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
         loading={loading}
       />
     </section>

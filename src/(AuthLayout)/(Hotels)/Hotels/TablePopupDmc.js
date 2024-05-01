@@ -47,12 +47,7 @@ const TablePopupDmc = ({ record }) => {
   return (
     <div className="p-5">
       <h1 className="title">DMCs</h1>
-      <Table
-        size="small"
-        pagination={false}
-        dataSource={popDataSource}
-        columns={popColumn}
-      />
+      <Table size="small" dataSource={popDataSource} columns={popColumn} />
     </div>
   );
 };

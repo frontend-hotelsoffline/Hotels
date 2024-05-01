@@ -159,16 +159,17 @@ const Search = () => {
   };
 
   const increase = (category) => {
-    if (category == "adult") setadultCount(adultCount + 1);
-    else if (category == "children")
+    if (category === "adult") setadultCount(adultCount + 1);
+    else if (category === "children")
       setChildrenCount(childrenCount < 10 ? childrenCount + 1 : childrenCount);
-    else if (category == "rooms") setRoomsCount(roomsCount + 1);
+    else if (category === "rooms") setRoomsCount(roomsCount + 1);
   };
   const decrease = (category) => {
-    if (category == "adult") setadultCount(adultCount > 0 ? adultCount - 1 : 0);
-    else if (category == "children")
+    if (category === "adult")
+      setadultCount(adultCount > 0 ? adultCount - 1 : 0);
+    else if (category === "children")
       setChildrenCount(childrenCount > 0 ? childrenCount - 1 : 0);
-    else if (category == "rooms")
+    else if (category === "rooms")
       setRoomsCount(roomsCount > 0 ? roomsCount - 1 : 0);
   };
   const content = () => (

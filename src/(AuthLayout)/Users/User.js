@@ -80,7 +80,7 @@ const User = () => {
   useEffect(() => {
     getUser();
     const updatedFilteredData = dataSource?.filter(
-      (item) => item.ulevel == nameFilter
+      (item) => item.ulevel === nameFilter
     );
     setFilteredData(updatedFilteredData);
   }, [activeItem, nameFilter]);
@@ -243,7 +243,6 @@ const User = () => {
       <Table
         columns={columns}
         dataSource={activeItem === "" ? dataSource : filteredData}
-        pagination={false}
       />
     </div>
   );

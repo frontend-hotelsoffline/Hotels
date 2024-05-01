@@ -1,11 +1,5 @@
 "use client";
-import {
-  Button,
-  DatePicker,
-  Input,
-  Select,
-  message,
-} from "antd";
+import { Button, DatePicker, Input, Select, message } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,7 +15,7 @@ const DynamicContract = () => {
   const router = useNavigate();
   const { hotelValue } = GetAllHotels();
   const [activeItem, setActiveItem] = useState(0);
-  
+
   const searchParams = useSearchParams();
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
@@ -108,7 +102,7 @@ const DynamicContract = () => {
         // setFormData((prev) => ({ ...prev, id_from_contract_id: res.id }));
         console.log(res);
         console.log(res.id);
-      }else {
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -135,7 +129,7 @@ const DynamicContract = () => {
     <section className="w-full space-y-6 capitalize">
       <div className="w-full md:flex justify-between gap-10">
         <span className="flex flex-col">
-        <span className="flex gap-2">
+          <span className="flex gap-2">
             <label className="label-style">
               country
               <Select
@@ -375,12 +369,12 @@ const DynamicContract = () => {
                 setFormData((prev) => ({ ...prev, owner_id: value }))
               }
               options={
-                owner_type == 4
+                owner_type === 4
                   ? DMCsOfHotelValue.dmc?.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.name ? item.name : "",
                     }))
-                  : owner_type == 6
+                  : owner_type === 6
                   ? HotelByIDValue.users_under_hotel?.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.uname ? item.uname : "",
@@ -412,7 +406,7 @@ const DynamicContract = () => {
         </Button>
       </div>
       <div>
-      <ul className="list-none text-[#A6A6A6]  flex justify-between max-w-4xl my-6">
+        <ul className="list-none text-[#A6A6A6]  flex justify-between max-w-4xl my-6">
           {items.map((item, index) => (
             <li
               key={index}
@@ -424,7 +418,7 @@ const DynamicContract = () => {
               {item}
             </li>
           ))}
-           <li
+          <li
             className={`cursor-pointer ${
               activeItem === "" ? "font-bold underline text-[#000000]" : ""
             }`}

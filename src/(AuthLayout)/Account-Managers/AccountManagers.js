@@ -23,10 +23,10 @@ const AccountOwners = () => {
   const [isModalOpenDmcs, setIsModalOpenDmcs] = useState(false);
   const [isModalOpenCombine, setIsModalOpenCombine] = useState(false);
   const showTable = (type) => {
-    if (type == "hotels") setIsModalOpen(true);
-    if (type == "contract") setIsModalOpenContract(true);
-    if (type == "dmcs") setIsModalOpenDmcs(true);
-    if (type == "combine") setIsModalOpenCombine(true);
+    if (type === "hotels") setIsModalOpen(true);
+    if (type === "contract") setIsModalOpenContract(true);
+    if (type === "dmcs") setIsModalOpenDmcs(true);
+    if (type === "combine") setIsModalOpenCombine(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -262,7 +262,6 @@ const AccountOwners = () => {
       </div>
       <Table
         size="small"
-        pagination={false}
         dataSource={filteredData}
         columns={columns}
         loading={loading}

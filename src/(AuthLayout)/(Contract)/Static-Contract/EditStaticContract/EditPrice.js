@@ -13,7 +13,8 @@ const EditPrice = ({
   id,
   hotel_id,
 }) => {
-  const {Occupancy_and_category_cross, hotelValue} = ControlInputValue(hotel_id)
+  const { Occupancy_and_category_cross, hotelValue } =
+    ControlInputValue(hotel_id);
   const [dataSource, setDataSource] = useState([]);
   const [editedData, setEditedData] = useState(
     rowData?.price_group_of_categories
@@ -80,20 +81,19 @@ const EditPrice = ({
   const editedDataArray = editedData.map((item, index) => ({
     key: index,
     category: item.room?.name,
-    SGL: item.sgl == 0 ? 0 : item.sgl > 0 ? item.sgl : "",
-    DBL: item.dbl == 0 ? 0 : item.dbl > 0 ? item.dbl : "",
-    TWN: item.twn == 0 ? 0 : item.twn > 0 ? item.twn : "",
-    TRPL: item.trl == 0 ? 0 : item.trl > 0 ? item.trl : "",
-    QUAD: item.qud == 0 ? 0 : item.qud > 0 ? item.qud : "",
-    unit: item.unit == 0 ? 0 : item.unit > 0 ? item.unit : "",
-    minstay: item.min_stay == 0 ? 0 : item.min_stay > 0 ? item.min_stay : "",
-    maxstay: item.max_stay == 0 ? 0 : item.max_stay > 0 ? item.max_stay : "",
+    SGL: item.sgl === 0 ? 0 : item.sgl > 0 ? item.sgl : "",
+    DBL: item.dbl === 0 ? 0 : item.dbl > 0 ? item.dbl : "",
+    TWN: item.twn === 0 ? 0 : item.twn > 0 ? item.twn : "",
+    TRPL: item.trl === 0 ? 0 : item.trl > 0 ? item.trl : "",
+    QUAD: item.qud === 0 ? 0 : item.qud > 0 ? item.qud : "",
+    unit: item.unit === 0 ? 0 : item.unit > 0 ? item.unit : "",
+    minstay: item.min_stay === 0 ? 0 : item.min_stay > 0 ? item.min_stay : "",
+    maxstay: item.max_stay === 0 ? 0 : item.max_stay > 0 ? item.max_stay : "",
   }));
 
-  
   useEffect(() => {
     setDataSource(editedDataArray);
-  }, [rowData, editedData, hotel_id,hotelValue]);
+  }, [rowData, editedData, hotel_id, hotelValue]);
 
   const columns = [
     {
@@ -105,8 +105,10 @@ const EditPrice = ({
       title: "SGL",
       dataIndex: "SGL",
       key: "SGL",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_SGL") ? (
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_SGL"
+        ) ? (
           <Input
             className="borderedRow active"
             value={text}
@@ -114,90 +116,93 @@ const EditPrice = ({
           />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
-    
 
     {
       title: "DBL",
       dataIndex: "DBL",
       key: "DBL",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_DBL") ? (
-        <Input
-          className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "dbl")}
-        />
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_DBL"
+        ) ? (
+          <Input
+            className="borderedRow active"
+            value={text}
+            onChange={(e) => handleChange(e.target.value, index, "dbl")}
+          />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
     {
       title: "TWN",
       dataIndex: "TWN",
       key: "TWN",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_TWN") ? (
-        <Input
-          className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "twn")}
-        />
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_TWN"
+        ) ? (
+          <Input
+            className="borderedRow active"
+            value={text}
+            onChange={(e) => handleChange(e.target.value, index, "twn")}
+          />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
     {
       title: "TRPL",
       dataIndex: "TRPL",
       key: "TRPL",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_TRPL") ? (
-        <Input
-          className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "trl")}
-        />
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_TRPL"
+        ) ? (
+          <Input
+            className="borderedRow active"
+            value={text}
+            onChange={(e) => handleChange(e.target.value, index, "trl")}
+          />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
     {
       title: "QUAD",
       dataIndex: "QUAD",
       key: "QUAD",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_QUAD") ? (
-        <Input
-          className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "qud")}
-        />
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_QUAD"
+        ) ? (
+          <Input
+            className="borderedRow active"
+            value={text}
+            onChange={(e) => handleChange(e.target.value, index, "qud")}
+          />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
     {
       title: "unit",
       dataIndex: "unit",
       key: "unit",
-      render: (text, record, index) => (
-        Occupancy_and_category_cross[index]?.array_of_occupancies.includes("is_UNIT") ? (
-        <Input
-          className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "unit")}
-        />
+      render: (text, record, index) =>
+        Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
+          "is_UNIT"
+        ) ? (
+          <Input
+            className="borderedRow active"
+            value={text}
+            onChange={(e) => handleChange(e.target.value, index, "unit")}
+          />
         ) : (
           <Input readOnly className="borderedRow inactive" />
-        )
-      ),
+        ),
     },
 
     {
@@ -234,12 +239,7 @@ const EditPrice = ({
       </span>
 
       <div className="h-[200px]">
-        <Table
-          size="small"
-          pagination={false}
-          columns={columns}
-          dataSource={dataSource}
-        />
+        <Table size="small" columns={columns} dataSource={dataSource} />
       </div>
       <button
         className="absolute bottom-0 right-10 bg-[#cecece] px-3 py-1 rounded-lg"

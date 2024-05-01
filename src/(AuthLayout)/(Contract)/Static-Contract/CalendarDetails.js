@@ -12,12 +12,13 @@ const CalendarDetails = ({
   id,
   handleCancel,
   getAllContractData,
-  hotel_id
+  hotel_id,
 }) => {
   const [formData, setFormData] = useState({});
   const [overrideData, setOverrideData] = useState([]);
-  const [catIndex, setCatIndex] = useState(0)
-  const [Occupancy_and_category_cross, setOccupancy_and_category_cross] = useState([]);
+  const [catIndex, setCatIndex] = useState(0);
+  const [Occupancy_and_category_cross, setOccupancy_and_category_cross] =
+    useState([]);
   const { hotelValue } = GetAllHotels();
   const initialData = {
     from_date: new Date(allotmentData?.clickedDate).toISOString() || null,
@@ -25,19 +26,58 @@ const CalendarDetails = ({
     clickedDate: allotmentData?.clickedDate ?? null,
     category_id: Number(allotmentData?.room?.id) || "",
     allotment:
-      allotmentData?.allotment == 0 ? 0 : allotmentData?.allotment || "",
-    rel: allotmentData?.rel == 0 ? 0 : allotmentData?.rel || "",
+      allotmentData?.allotment === 0 ? 0 : allotmentData?.allotment || "",
+    rel: allotmentData?.rel === 0 ? 0 : allotmentData?.rel || "",
     sgl:
-      overrideData?.sgl == 0 ? 0 : overrideData?.sgl > 0 ? overrideData?.sgl : "",
-    dbl: overrideData?.dbl == 0 ? 0 : overrideData?.dbl > 0 ? overrideData?.dbl : "",
-    unit: overrideData?.unit == 0 ? 0 :overrideData?.unit > 0 ? overrideData?.unit : "",
-    qud: overrideData?.quad == 0 ? 0 : overrideData?.quad > 0 ? overrideData?.quad : "",
-    trl: overrideData?.trl == 0 ? 0 : overrideData?.trl > 0 ? overrideData?.trl : "",
-    twn: overrideData?.twn == 0 ? 0 : overrideData?.twn > 0 ? overrideData?.twn : "",
-    min_stay: overrideData?.min_stay == 0 ? 0 : overrideData?.min_stay > 0 ? overrideData?.min_stay : "",
-    max_stay: overrideData?.max_stay == 0 ? 0 : overrideData?.max_stay > 0 ? overrideData?.max_stay : "",
+      overrideData?.sgl === 0
+        ? 0
+        : overrideData?.sgl > 0
+        ? overrideData?.sgl
+        : "",
+    dbl:
+      overrideData?.dbl === 0
+        ? 0
+        : overrideData?.dbl > 0
+        ? overrideData?.dbl
+        : "",
+    unit:
+      overrideData?.unit === 0
+        ? 0
+        : overrideData?.unit > 0
+        ? overrideData?.unit
+        : "",
+    qud:
+      overrideData?.quad === 0
+        ? 0
+        : overrideData?.quad > 0
+        ? overrideData?.quad
+        : "",
+    trl:
+      overrideData?.trl === 0
+        ? 0
+        : overrideData?.trl > 0
+        ? overrideData?.trl
+        : "",
+    twn:
+      overrideData?.twn === 0
+        ? 0
+        : overrideData?.twn > 0
+        ? overrideData?.twn
+        : "",
+    min_stay:
+      overrideData?.min_stay === 0
+        ? 0
+        : overrideData?.min_stay > 0
+        ? overrideData?.min_stay
+        : "",
+    max_stay:
+      overrideData?.max_stay === 0
+        ? 0
+        : overrideData?.max_stay > 0
+        ? overrideData?.max_stay
+        : "",
   };
- 
+
   const {
     from_date,
     to_date,
@@ -57,7 +97,6 @@ const CalendarDetails = ({
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -152,67 +191,76 @@ const CalendarDetails = ({
     pricesOverride &&
       category_id &&
       pricesOverride.forEach((item) => {
-        console.log(new Date(from_date))
-        if (new Date(item.from_date).getDay() == new Date(from_date).getDay()) {
+        console.log(new Date(from_date));
+        if (
+          new Date(item.from_date).getDay() === new Date(from_date).getDay()
+        ) {
           pricesOverrideCategory = item;
-        }else if (new Date(item.from_date) <= new Date(from_date)) {
+        } else if (new Date(item.from_date) <= new Date(from_date)) {
           pricesOverrideCategory = item;
-          
         } else {
-          null
+          null;
         }
       });
 
     setOverrideData(pricesOverrideCategory);
 
-    
-      const hotelRooms =
-        hotelValue.find((item) => item.id === hotel_id)?.rooms || [];
-  
-      // Use Set to keep track of unique category names
-      const uniqueCategoryNames = new Set();
-  
-      // Filter out duplicates and update categoryData
-      const filteredCategoryData = hotelRooms.filter((item) => {
-        if (!uniqueCategoryNames.has(item?.name)) {
-          uniqueCategoryNames.add(item?.name);
-          return true;
-        }
-        return false;
-      });
-  
-      const occupancyAndCategory = hotelRooms.reduce((acc, room) => {
-        const { category } = room;
-        const category_id = category.id;
-        
-        ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach(occupancyType => {
-          if (room[`is_${occupancyType}`]) {
-            const occupancy = `is_${occupancyType}`;
-            const occupancyObj = { category_id, occupancy };
-            if (!uniqueCategoryNames.has(JSON.stringify(occupancyObj))) {
-              uniqueCategoryNames.add(JSON.stringify(occupancyObj));
-              acc.push(occupancyObj);
-            }
+    const hotelRooms =
+      hotelValue.find((item) => item.id === hotel_id)?.rooms || [];
+
+    // Use Set to keep track of unique category names
+    const uniqueCategoryNames = new Set();
+
+    // Filter out duplicates and update categoryData
+    const filteredCategoryData = hotelRooms.filter((item) => {
+      if (!uniqueCategoryNames.has(item?.name)) {
+        uniqueCategoryNames.add(item?.name);
+        return true;
+      }
+      return false;
+    });
+
+    const occupancyAndCategory = hotelRooms.reduce((acc, room) => {
+      const { category } = room;
+      const category_id = category.id;
+
+      ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach((occupancyType) => {
+        if (room[`is_${occupancyType}`]) {
+          const occupancy = `is_${occupancyType}`;
+          const occupancyObj = { category_id, occupancy };
+          if (!uniqueCategoryNames.has(JSON.stringify(occupancyObj))) {
+            uniqueCategoryNames.add(JSON.stringify(occupancyObj));
+            acc.push(occupancyObj);
           }
-        });
-        
-        return acc;
-      }, []);
-    
-      const sortedOccupancyData = filteredCategoryData.map(({ category }) => ({
-        category_id: category.id,
-        array_of_occupancies: occupancyAndCategory
-          .filter(item => item.category_id === category.id)
-          .map(item => item.occupancy),
-        }));
-        
-        setOccupancy_and_category_cross(sortedOccupancyData);
+        }
+      });
 
-        const CategoryIndex = filteredCategoryData.findIndex(item => item.id == category_id)
-        setCatIndex(CategoryIndex !== -1 ? CategoryIndex : -1);
-  
-  }, [allotmentData, overrideData, getAllContractData, hotelValue, hotel_id, catIndex, category_id, from_date]);
+      return acc;
+    }, []);
 
+    const sortedOccupancyData = filteredCategoryData.map(({ category }) => ({
+      category_id: category.id,
+      array_of_occupancies: occupancyAndCategory
+        .filter((item) => item.category_id === category.id)
+        .map((item) => item.occupancy),
+    }));
+
+    setOccupancy_and_category_cross(sortedOccupancyData);
+
+    const CategoryIndex = filteredCategoryData.findIndex(
+      (item) => item.id === category_id
+    );
+    setCatIndex(CategoryIndex !== -1 ? CategoryIndex : -1);
+  }, [
+    allotmentData,
+    overrideData,
+    getAllContractData,
+    hotelValue,
+    hotel_id,
+    catIndex,
+    category_id,
+    from_date,
+  ]);
 
   return (
     <div className="p-5 relative mb-10">
@@ -273,29 +321,48 @@ const CalendarDetails = ({
       <div className="grid grid-cols-4 gap-2 mt-14 relative">
         <label className="labelStyle">
           SGL
-         { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_SGL") ? <Input
-            onChange={onChange}
-            value={sgl}
-            name="sgl" className="w-full"
-          /> : <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_SGL") ? (
+            <Input
+              onChange={onChange}
+              value={sgl}
+              name="sgl"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           TWN
-          { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_TWN") ?  <Input
-            onChange={onChange}
-            value={twn}
-            name="twn"
-            className="w-full"
-          />: <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_TWN") ? (
+            <Input
+              onChange={onChange}
+              value={twn}
+              name="twn"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           QUAD
-          { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_QUAD") ?   <Input
-            onChange={onChange}
-            value={qud}
-            name="qud"
-            className="w-full"
-          /> : <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_QUAD") ? (
+            <Input
+              onChange={onChange}
+              value={qud}
+              name="qud"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           min stay
@@ -308,30 +375,48 @@ const CalendarDetails = ({
         </label>
         <label className="labelStyle">
           DBL
-          { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_DBL") ?  <Input
-            onChange={onChange}
-            value={dbl}
-            name="dbl"
-            className="w-full"
-          />: <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_DBL") ? (
+            <Input
+              onChange={onChange}
+              value={dbl}
+              name="dbl"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           TRPL
-          { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_TRPL") ?  <Input
-            onChange={onChange}
-            value={trl}
-            name="trl"
-            className="w-full"
-          />: <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_TRPL") ? (
+            <Input
+              onChange={onChange}
+              value={trl}
+              name="trl"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           unit
-          { Occupancy_and_category_cross[catIndex]?.array_of_occupancies.includes("is_UNIT") ?  <Input
-            onChange={onChange}
-            value={unit}
-            name="unit"
-            className="w-full"
-          />: <Input readOnly className="bg-[#eee] w-full" />}
+          {Occupancy_and_category_cross[
+            catIndex
+          ]?.array_of_occupancies.includes("is_UNIT") ? (
+            <Input
+              onChange={onChange}
+              value={unit}
+              name="unit"
+              className="w-full"
+            />
+          ) : (
+            <Input readOnly className="bg-[#eee] w-full" />
+          )}
         </label>
         <label className="labelStyle">
           max stay

@@ -226,7 +226,6 @@ const DMCs = () => {
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
         loading={loading}
         onRow={(record) => {
           return {

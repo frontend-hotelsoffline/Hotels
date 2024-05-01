@@ -172,11 +172,11 @@ const Contracts = () => {
       render: (item) => (
         <span
           className={`${
-            item == "Renewed"
+            item === "Renewed"
               ? "text-[#FFC700]"
-              : item == "Closed"
+              : item === "Closed"
               ? "text-[#E40B0B]"
-              : item == "Live"
+              : item === "Live"
               ? "text-[#008405]"
               : null
           }`}
@@ -337,7 +337,6 @@ const Contracts = () => {
         size="small"
         dataSource={filteredData}
         columns={columns}
-        pagination={false}
         loading={loading}
       />
     </section>

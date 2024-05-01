@@ -125,7 +125,7 @@ const Register = () => {
             ]}
           />
         </label>
-        {ulevel == 4 || ulevel == 6 || ulevel == 9 ? (
+        {ulevel === 4 || ulevel === 6 || ulevel === 9 ? (
           <label>
             Company
             <Select
@@ -135,17 +135,17 @@ const Register = () => {
               }
               type="text"
               options={
-                ulevel == 4
+                ulevel === 4
                   ? DMCsValue.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.name ? item.name : "",
                     }))
-                  : ulevel == 6
+                  : ulevel === 6
                   ? hotelValue.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.name ? item.name : "",
                     }))
-                  : ulevel == 9
+                  : ulevel === 9
                   ? CorporatesValue?.map((item) => ({
                       value: item.id ? item.id : "",
                       label: item.name ? item.name : "",
@@ -171,7 +171,7 @@ const Register = () => {
             className="h-[34px] inputfildinsearch"
           />
         </label>
-        {/* {ulevel == 2 && (
+        {/* {ulevel ===2 && (
           <label>
             Commission
             <Input
@@ -183,7 +183,7 @@ const Register = () => {
             />
           </label>
         )} */}
-        {ulevel == 10 && (
+        {ulevel === 10 && (
           <label>
             Buying markup
             <Select
@@ -207,7 +207,7 @@ const Register = () => {
             />
           </label>
         )}
-        {ulevel == 2 && (
+        {ulevel === 2 && (
           <span className="flex justify-between">
             <label>
               Buying markup
