@@ -1,8 +1,6 @@
-"use client";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
-  geocodeByPlaceId,
 } from "react-places-autocomplete";
 import {
   Button,
@@ -16,19 +14,18 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import getAllHotelChains from "../../components/Helper/GetAllHotelChains";
 import GetAllPlacesOfInterest from "../../components/Helper/GetAllPlacesOfInterest";
-import { useRouter, useSearchParams } from "next/navigation";
 import GetAllFacilities from "../../components/Helper/GetAllFacilities";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import { BASE_URL } from "../../components/API/APIURL";
 import { GET_API } from "../../components/API/GetAPI";
+import { useLocation, useNavigate } from "react-router-dom";
 const apiKey = process.env.REACT_APP_PUBLIC_MAPS_API_KEY;
 const formData2 = new FormData();
 
@@ -42,7 +39,7 @@ const getBase64 = (file) =>
 
 export default function PlaceSearchAutocomplete() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
+    googleMapsApiKey: apiKey,
     libraries: ["places"],
   });
 
@@ -57,7 +54,8 @@ export const EditHotel = ({ address }) => {
   const { accManager } = GetAllUsers();
   const router = useNavigate();
 
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 

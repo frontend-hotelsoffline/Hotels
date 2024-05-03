@@ -1,4 +1,3 @@
-"use client";
 import {
   Button,
   Checkbox,
@@ -12,7 +11,6 @@ import {
 import dayjs from "dayjs";
 import { CalendarOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { POST_API } from "../../components/API/PostAPI";
 import {
   columns,
@@ -43,9 +41,9 @@ import AddRegion from "./AddRegion";
 import RegionsForCountries from "../../components/Helper/RegionsForCountries";
 import GetAllDMCsOfHotel from "../../components/Helper/GetDMCsOfAHotel";
 import GetHotelByID from "../../components/Helper/GetHotelByID";
+import { useLocation } from "react-router-dom";
 
 const StaticContract = () => {
-  const router = useNavigate();
   const { Option } = Select;
   const { hotelValue } = GetAllHotels();
   const { regionCountries, getRegionsWithCountries } = RegionsForCountries();
@@ -61,9 +59,12 @@ const StaticContract = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [showRegionPopUp, setShowRegionPopUp] = useState(false);
-  const searchParams = useSearchParams();
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
+
   const [formDataHeader, setFormDataHeader] = useState({
     id_from_contract_id: parsedRecord?.id || "",
     city: parsedRecord?.city || "",

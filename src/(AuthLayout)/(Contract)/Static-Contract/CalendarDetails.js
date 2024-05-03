@@ -198,8 +198,6 @@ const CalendarDetails = ({
           pricesOverrideCategory = item;
         } else if (new Date(item.from_date) <= new Date(from_date)) {
           pricesOverrideCategory = item;
-        } else {
-          null;
         }
       });
 

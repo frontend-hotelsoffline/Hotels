@@ -27,6 +27,9 @@ import Rooms from "./(AuthLayout)/(Rooms)/Rooms/Rooms";
 import Corporate from "./(AuthLayout)/Corporate/Corporate";
 import AccountOwners from "./(AuthLayout)/Account-Managers/AccountManagers";
 import AddRoom from "./(AuthLayout)/(Rooms)/Add-Room/Add-Room";
+import StaticContract from "./(AuthLayout)/(Contract)/Static-Contract/StaticContract";
+import { EditHotel } from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
+import EditRoom from "./(AuthLayout)/(Rooms)/Edit-Room/EditRoom";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -128,7 +131,7 @@ function App() {
             element={
               isAuthenticated ? (
                 <MainLayout>
-                  <Rooms />
+                  <EditRoom />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />
@@ -212,7 +215,7 @@ function App() {
             element={
               isAuthenticated ? (
                 <MainLayout>
-                  <Hotels />
+                  <EditHotel />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />
@@ -261,6 +264,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <Contracts />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Static-Contract"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <StaticContract />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

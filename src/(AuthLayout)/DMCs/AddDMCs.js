@@ -66,7 +66,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
   return (
     <form onSubmit={onSubmit} className="w-full h-full p-4">
       <h1 className="title capitalize">add DMCs</h1>
-      <label className="labelStyle mt-4">DMCs</label>
+      <label className="labelStyle">DMCs</label>
       <Input
         name="name"
         value={name}
@@ -74,7 +74,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         placeholder="type DMCs name here"
         className="w-full border-black"
       />
-      <label className="labelStyle mt-2">status</label>
+      <label className="labelStyle">status</label>
       <Select
         name="status"
         value={status}
@@ -87,7 +87,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         ]}
         className="border-black w-full"
       />
-      <label className="labelStyle mt-2">account manager</label>
+      <label className="labelStyle">account manager</label>
       <Select
         value={acc_mnger_id}
         onChange={(value) =>
@@ -104,7 +104,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         }
         className="border-black w-full"
       />
-      <label className="labelStyle mt-2">default selling markup</label>
+      <label className="labelStyle">default selling markup</label>
       <Select
         value={default_markup_id}
         onChange={(value) =>
@@ -121,7 +121,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         }
         className="border-black w-full"
       />
-      <label className="labelStyle mt-2">default buying markup</label>
+      <label className="labelStyle">default buying markup</label>
       <Select
         value={buying_markup_id}
         onChange={(value) =>
@@ -138,7 +138,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         }
         className="border-black w-full"
       />
-      <label className="labelStyle mt-2">email</label>
+      <label className="labelStyle">email</label>
       <Input
         name="email"
         value={email}

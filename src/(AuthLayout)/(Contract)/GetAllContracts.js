@@ -1,5 +1,4 @@
-"use client";
-import { Button, Modal, Popover } from "antd";
+import { Button, Modal, Popover, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { GET_API } from "../components/API/GetAPI";
 import { HiDotsVertical } from "react-icons/hi";
@@ -35,12 +34,7 @@ const GetAllContracts = (
   const [isModalOpenMeal, setIsModalOpenMeal] = useState(false);
   const [isModalOpenRoomSetup, setIsModalOpenRoomSetup] = useState(false);
   const [isModalOpenOffer, setIsModalOpenOffer] = useState(false);
-  const showTable = (type) => {
-    type === "price" ? setIsModalOpenPrice(true) : "";
-    type === "meal" ? setIsModalOpenMeal(true) : "";
-    type === "roomsetup" ? setIsModalOpenRoomSetup(true) : "";
-    type === "offer" ? setIsModalOpenOffer(true) : "";
-  };
+
   const handleCancel = () => {
     setIsModalOpenPrice(false);
     setIsModalOpenMeal(false);
@@ -56,237 +50,25 @@ const GetAllContracts = (
   const getAllContractData = async () => {
     setLoading(true);
     const GET_ALL = `{
-      get_a_static_contract_by_id (id: ${id_from_contract_id}) {
+      getSC (id: ${id_from_contract_id}) {
+        from
+        To
+        renewal
         id
-        createdAt
+        CRT
         name
-        owner_type
-        currency                
+        OT
+        oId
+        cur
         status
         country
         city
-        from_date( frontend_timezone_to_cal_date_range : "${date_to_pass}" )
-        to_date( frontend_timezone_to_cal_date_range : "${date_to_pass}" )
-        base_meal
-        child_age_from
-        child_age_to
-        hotel {
-          id
-          rooms {
-              id
-              name
-              priority
-          }
-      }
-        allotment_n_rel_of_contract ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ) {
-          from_date
-          to_date
-          data_packets_of_categories{
-            grouped_data {
-              room {
-                id
-                name
-                priority
-            }
-                  id
-                  from_date
-                  to_date
-                  allotment
-                  rel
-              }
-          }
-          }
-          compresed_prices_for_availability_clnder ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ) {
-            from_date
-            to_date
-            data_packets_of_categories {
-                grouped_data {
-                    id
-                    from_date
-                    to_date
-                    sgl
-                    dbl
-                    twn
-                    trl
-                    qud
-                    unit
-                    min_stay
-                    max_stay
-                    room {
-                      id
-                      name
-                      priority
-                  }
-                }
-            }
-        }
-        room_setup_of_contract {
-          id
-          room {
-            id
-            name
-            priority
-        }
-          occupancy
-          total_persons
-          min_adult
-          max_adult
-          max_child
-          no_of_beds
-          shared_bed
-          shared_supliment_type
-          shared_suppliment
-          max_child_age_in_shared
-          no_of_extra_beds
-          max_age_in_extra_bed
-          extra_suppliment_type
-          extra_bed_suppliment
-          meals_included
-      }                
-        owner {
-            id
-            createdAt
-            is_first_login_chng_pswd
-            uname
-        }
-        hotel {
-            id
-            createdAt
-            name
-            country
-            city
-            street
-            latitude
-            longtude
-        }
-        buyer_markup {
-          id
-          createdAt
-          id_from_contracts
-          user_id
-          user_level
-          buyer_markup
-          user {
-            id
-            uname
-        }
-      }price_markup {
-        id
-        name
-        markup
-    }
-        prices_of_contract_grouped_by_date ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ) {
-          from_date
-          to_date
-          price_group_of_categories {
-              id
-              sgl
-              dbl
-              twn
-              trl
-              qud
-              unit
-              min_stay
-              max_stay
-              createdAt
-              room {
-                id
-                name
-                priority
-            }
-          }
-        }
-        meals_of_contract ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ){
-            id
-            from_date
-            to_date
-            room_only_adult
-            room_only_child
-            breakfast_adult
-            breakfast_child
-            hb_adult
-            hb_child
-            fb_adult
-            fb_child
-            soft_all_inc_adult
-            soft_all_inc_child
-            all_inc_adult
-            all_inc_child
-            ultra_all_inc_adult
-            ultra_all_inc_child
-        }
-        offers_of_contract ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ) {
-            id
-            offer
-            stay_from
-            stay_to
-            booking_window_from
-            booking_window_to
-            discount_amount
-            discount_rate
-            source_countries {
-              id
-              country
-              id_from_offers_of_contract
-          }
-            is_linked
-            is_room
-            is_meals
-            is_supp
-            order
-           room {
-                    id
-                    name
-                    priority
-                }
-        }
-        supplements_of_contract ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ){
-            id
-            service
-            supplement
-            type
-            stay_from
-            stay_to
-            price_adult
-            price_child
-            P_in_Half_Double_adult_amount
-            P_in_Half_Double_adult_rate
-            P_in_Half_Double_child_amount
-            P_in_Half_Double_child_rate
-            child_age_from
-            child_age_to
-           room {
-                    id
-                    name
-                    priority
-                }
-        }
-        cancellation_of_contract ( frontend_timezone_to_cal_date_range : "${date_to_pass}" ){
-            id
-            date_from
-            date_to
-            type
-            cancellation_days
-            cancellation_panelty_rate
-            booking_cancellation_policy
-            room {
-              id
-              name
-          }
-        }
-        countries_for_distribution_of_contract {
-            id
-            country
-        }
-        dmcs_for_distribution_of_contract {
-            id
-        }
-        corporates_for_distribution_of_contract {
-            id
-        }
-        agents_for_distribution_of_contract {
-            id
-        }
+        bMeal
+        hId
+        caFrom
+        caT
+        sRate
+        mId
     }
     }`;
     const query = GET_ALL;
@@ -821,7 +603,7 @@ const GetAllContracts = (
                   content={
                     <div className="flex flex-col gap-3">
                       <Button
-                        onClick={() => showTable("price")}
+                        onClick={() => setIsModalOpenPrice(true)}
                         className="action-btn"
                       >
                         edit
@@ -1036,7 +818,7 @@ const GetAllContracts = (
   };
 
   useEffect(() => {
-    id_from_contract_id ? getAllContractData() : null;
+    id_from_contract_id && getAllContractData();
   }, [
     isModalOpenPrice,
     isOpenAssignDistribution,

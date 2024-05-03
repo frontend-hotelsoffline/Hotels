@@ -10,13 +10,11 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { POST_API } from "../../components/API/PostAPI";
 import useCategories from "../../components/Helper/GetAllCategories";
 import GetAllRoomView from "../../components/Helper/GetAllRoomView";
-import { useRouter, useSearchParams } from "next/navigation";
 import GetAllAmenities from "../../components/Helper/GetAllAmenities";
 import AddAmenity from "../Amenities/AddAmenity";
 import AddRoomView from "../Room-View/AddRoomView";
@@ -25,6 +23,7 @@ import GetAllHotels from "../../components/Helper/GetAllHotels";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { BASE_URL } from "../../components/API/APIURL";
 import { GET_API } from "../../components/API/GetAPI";
+import { useLocation, useNavigate } from "react-router-dom";
 const formData2 = new FormData();
 
 const getBase64 = (file) =>
@@ -57,7 +56,8 @@ const EditRoom = () => {
   };
 
   const router = useNavigate();
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 

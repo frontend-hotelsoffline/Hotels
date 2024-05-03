@@ -2,15 +2,12 @@
 import { Input, Select, Table, message } from "antd";
 import React, { useEffect, useState } from "react";
 import GetAllPricingMarkUp from "../../../components/Helper/GetAllPricingMarkUp";
-import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
+import { POST_API } from "../../../../(AuthLayout)/components/API/PostAPI";
 
-const AssignDistribution = ({
-  id,handleCancel,
-  getAllContractData,
-}) => {
+const AssignDistribution = ({ id, handleCancel, getAllContractData }) => {
   const { MarkUpValue } = GetAllPricingMarkUp();
-  const [formData, setFormData] = useState({})
-  const { price_markup_id,} = formData
+  const [formData, setFormData] = useState({});
+  const { price_markup_id } = formData;
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -42,8 +39,8 @@ const AssignDistribution = ({
         message.success("Successful");
         getAllContractData();
         setFormData({});
-        handleCancel()
-      }else {
+        handleCancel();
+      } else {
         message.error(res.errors[0].message);
       }
     } catch (error) {
@@ -51,27 +48,28 @@ const AssignDistribution = ({
     }
   };
 
-
   return (
     <div className="w-full p-10 relative">
       <h1 className="title">Assign a pricing markup</h1>
-          <label className="labelStyle">Markup</label>
-       <Select
-          value={price_markup_id}
-          className="w-[200px] capitalize font-normal"
-          onChange={(value) => {
-            setFormData((prev) => ({ ...prev, price_markup_id: value }));
-          }}
-          options={
-            MarkUpValue
-              ? MarkUpValue.map((item) => ({
-                  key: item.id,
-                  label: item.name,
-                  value: Number(item.id),
-                }))
-              : ""
-          }/>
-      <button onClick={onSubmit}
+      <label className="labelStyle">Markup</label>
+      <Select
+        value={price_markup_id}
+        className="w-[200px] capitalize font-normal"
+        onChange={(value) => {
+          setFormData((prev) => ({ ...prev, price_markup_id: value }));
+        }}
+        options={
+          MarkUpValue
+            ? MarkUpValue.map((item) => ({
+                key: item.id,
+                label: item.name,
+                value: Number(item.id),
+              }))
+            : ""
+        }
+      />
+      <button
+        onClick={onSubmit}
         className="absolute bottom-0 right-10 bg-[#cecece] px-3 py-1 rounded-lg"
       >
         Submit
