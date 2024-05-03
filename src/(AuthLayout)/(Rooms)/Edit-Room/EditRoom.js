@@ -65,12 +65,12 @@ const EditRoom = () => {
   const [loading, setLoading] = useState(false);
   const [imageList, setImagelist] = useState([]);
   const [FormData, setFormData] = useState({
-    id: parsedRecord.id || "",
-    name: parsedRecord.name || "",
-    room_size: parsedRecord.room_size ? parsedRecord.room_size : "",
-    giataId: parsedRecord.giataId ? parsedRecord.giataId : "",
-    room_status: parsedRecord.room_status ? parsedRecord.room_status : "",
-    category_id: parsedRecord.categories.id || "",
+    id: parsedRecord?.id || "",
+    name: parsedRecord?.name || "",
+    room_size: parsedRecord?.room_size || "",
+    giataId: parsedRecord?.giataId || "",
+    room_status: parsedRecord?.room_status || "",
+    category_id: parsedRecord?.categories.id || "",
     hotel_id: parsedRecord?.hotels?.id || "",
     no_of_units: parsedRecord?.no_of_units || "",
     room_status: parsedRecord?.room_status || "",
@@ -83,9 +83,9 @@ const EditRoom = () => {
     UNIT: parsedRecord?.is_UNIT || false,
     priority: parsedRecord?.priority || "",
     amenity_ids:
-      parsedRecord?.amenities?.map((item) => parseInt(item.amenity?.id, 10)) ||
+      // parsedRecord?.amenities?.map((item) => parseInt(item?.amenity?.id, 10)) ||
       [],
-    description: parsedRecord.description || "",
+    description: parsedRecord?.description || "",
   });
   const {
     id,
@@ -127,7 +127,7 @@ const EditRoom = () => {
   }`;
     const query = GET_ALL;
     const path = "";
-    setLoading(true);
+    // setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
       if (res.data) {
@@ -189,7 +189,7 @@ const EditRoom = () => {
     } }
 `;
     const path = "";
-    setLoading(true);
+    // setLoading(true);
     try {
       const res = await POST_API(
         path,

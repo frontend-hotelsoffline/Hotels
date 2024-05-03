@@ -213,21 +213,16 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_header(
-        is_this_created_by_owner: ${is_this_created_by_owner}
-        owner_id: ${owner_id || 0}
-        owner_type: ${owner_type || 0}
+    addSCHead(
             name: "${name}"
-            currency: "${currency}"
+            cur: ${currency}
             status: ${status}
-            country: "${country}"
-            city: "${city}"
-            hotel_id: ${hotel_id}
-            child_age_from: ${child_age_from}
-            child_age_to: ${child_age_to}
-            base_meal: "${base_meal}"
+            hId: ${hotel_id}
+            caFrom: ${child_age_from}
+            caT: ${child_age_to}
+            bMeal: ${base_meal}
             ) {
-              id
+              message
           }            
     }
   `;
@@ -239,14 +234,14 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data && !res.errors) {
-        message.success("Contract has been Added Successfully");
+      if (res.data.addSCHead?.message === "success") {
+        message.success(res.data.addSCHead?.message);
         setFormDataHeader((prev) => ({
           ...prev,
-          id_from_contract_id: res?.data?.create_a_static_contract_header?.id,
+          id_from_contract_id: res?.data?.addSCHead?.id,
         }));
       } else {
-        message.error(res.errors[0].message);
+        message.error(res.data.addSCHead?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -2128,66 +2123,6 @@ const StaticContract = () => {
               name="id_from_contract_id"
               onChange={onChange}
               readOnly
-            />
-          </label>
-        </span>
-        <span className="flex justify-evenly w-full">
-          <label className="labelStyle w-[170px]">
-            owner type
-            <Select
-              className="inputfildinsearch"
-              value={owner_type}
-              onChange={(value) =>
-                setFormDataHeader((prev) => ({
-                  ...prev,
-                  owner_type: value,
-                  owner_id: "",
-                }))
-              }
-              options={[
-                { value: 4, label: "Users Under DMC" },
-                { value: 6, label: "Users Under Hotel" },
-              ]}
-            />
-          </label>
-          <label className="labelStyle w-[170px]">
-            owner ID
-            <Select
-              className="inputfildinsearch"
-              value={owner_id}
-              onChange={(value) =>
-                setFormDataHeader((prev) => ({ ...prev, owner_id: value }))
-              }
-              options={
-                owner_type === 4
-                  ? DMCsOfHotelValue.dmc?.map((item) => ({
-                      value: item.id ? item.id : "",
-                      label: item.name ? item.name : "",
-                    }))
-                  : owner_type === 6
-                  ? HotelByIDValue.users_under_hotel?.map((item) => ({
-                      value: item.id ? item.id : "",
-                      label: item.uname ? item.uname : "",
-                    }))
-                  : null
-              }
-            />
-          </label>
-          <label className="labelStyle">
-            created by owner
-            <Select
-              className="inputfildinsearch"
-              value={is_this_created_by_owner}
-              onChange={(value) =>
-                setFormDataHeader((prev) => ({
-                  ...prev,
-                  is_this_created_by_owner: value,
-                }))
-              }
-              options={[
-                { value: true, label: "true" },
-                { value: false, label: "false" },
-              ]}
             />
           </label>
         </span>

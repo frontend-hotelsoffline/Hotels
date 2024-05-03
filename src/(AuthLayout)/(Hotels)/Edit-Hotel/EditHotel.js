@@ -26,7 +26,6 @@ import GetAllUsers from "../../components/Helper/GetAllUsers";
 import { BASE_URL } from "../../components/API/APIURL";
 import { GET_API } from "../../components/API/GetAPI";
 import { useLocation, useNavigate } from "react-router-dom";
-const apiKey = process.env.REACT_APP_PUBLIC_MAPS_API_KEY;
 const formData2 = new FormData();
 
 const getBase64 = (file) =>
@@ -39,7 +38,7 @@ const getBase64 = (file) =>
 
 export default function PlaceSearchAutocomplete() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: apiKey,
+    googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
     libraries: ["places"],
   });
 
@@ -47,7 +46,7 @@ export default function PlaceSearchAutocomplete() {
   return <EditHotel />;
 }
 
-export const EditHotel = ({ address }) => {
+export const EditHotel = () => {
   const { hotelChainValue } = getAllHotelChains();
   const { placeOfInterestValue } = GetAllPlacesOfInterest();
   const { facilityValue } = GetAllFacilities();
@@ -70,22 +69,22 @@ export const EditHotel = ({ address }) => {
     name: parsedRecord?.name || "",
     default_markup_id: Number(parsedRecord?.default_markup_id) || 0,
     giataId: parsedRecord?.giataId || "",
-    street: parsedRecord?.street ? parsedRecord?.street : "",
-    latitude: parsedRecord?.latitude ? parsedRecord?.latitude : 0,
-    longtude: parsedRecord?.longtude ? parsedRecord?.longtude : 0,
-    description: parsedRecord?.description ? parsedRecord?.description : "",
-    star_rating: parsedRecord?.star_rating ? parsedRecord?.star_rating : "",
-    hotel_status: parsedRecord?.hotel_status ? parsedRecord?.hotel_status : "",
-    phone_no: parsedRecord?.phone_no ? parsedRecord?.phone_no : "",
-    email: parsedRecord?.email ? parsedRecord?.email : "",
+    street: parsedRecord?.street || "",
+    latitude: parsedRecord?.latitude || 0,
+    longtude: parsedRecord?.longtude || 0,
+    description: parsedRecord?.description || "",
+    star_rating: parsedRecord?.star_rating || "",
+    hotel_status: parsedRecord?.hotel_status || "",
+    phone_no: parsedRecord?.phone_no || "",
+    email: parsedRecord?.email || "",
     google_place_id: parsedRecord?.google_place_id || 0,
     id_acc_mngr: Number(parsedRecord?.id_acc_mngr?.id) || 0,
     id_of_place_of_intrst: parsedRecord?.place_of_intrst || 0,
     id_of_hotel_chain: parsedRecord?.hotel_chain || 0,
-    facility_ids:
-      parsedRecord?.facilities?.map((item) =>
-        parseInt(item.facility?.id, 10)
-      ) || [],
+    // facility_ids:
+    //   parsedRecord?.facilities?.map((item) =>
+    //     parseInt(item.facility?.id, 10)
+    //   ) || [],
   });
 
   const {
