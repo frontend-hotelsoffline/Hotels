@@ -10,6 +10,7 @@ import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
 import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import { useEffect } from "react";
+import GetAllUsers from "../(AuthLayout)/components/Helper/GetAllUsers";
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -18,6 +19,7 @@ const Register = () => {
   const { hotelValue } = GetAllHotels();
   const { CorporatesValue } = GetAllCorporates();
   const { MarkUpValue } = GetAllPricingMarkUp();
+  const { accManager } = GetAllUsers();
   useEffect(() => {
     isAuthenticated && router("/Dashboard");
   }, [isAuthenticated]);
@@ -42,6 +44,7 @@ const Register = () => {
     country,
     confirmpswd,
     buying_markup_id_if_agent_or_traveller,
+    a_mngrIdifAgent,
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -63,6 +66,7 @@ const Register = () => {
       b_markup_id_if_agent: ${buying_markup_id_if_agent_or_traveller || 0}
       s_markup_id_if_acc_mngr: ${s_markup_id_if_acc_mngr || 0}
       b_markup_id_if_acc_mngr: ${b_markup_id_if_acc_mngr || 0}
+      a_mngrIdifAgent: ${a_mngrIdifAgent || 0}
       country: "${country}"
   ) {
       message
@@ -184,28 +188,53 @@ const Register = () => {
           </label>
         )} */}
         {ulevel === 10 && (
-          <label>
-            Buying markup
-            <Select
-              value={buying_markup_id_if_agent_or_traveller}
-              onChange={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  buying_markup_id_if_agent_or_traveller: value,
-                }))
-              }
-              options={
-                MarkUpValue
-                  ? MarkUpValue.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: Number(item.id),
-                    }))
-                  : ""
-              }
-              className="w-full"
-            />
-          </label>
+          <span>
+            {" "}
+            <label>
+              Buying markup
+              <Select
+                value={buying_markup_id_if_agent_or_traveller}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    buying_markup_id_if_agent_or_traveller: value,
+                  }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
+            <label>
+              Account manager
+              <Select
+                value={a_mngrIdifAgent}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    a_mngrIdifAgent: value,
+                  }))
+                }
+                options={
+                  accManager
+                    ? accManager.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: item.id,
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
+          </span>
         )}
         {ulevel === 2 && (
           <span className="flex justify-between">
