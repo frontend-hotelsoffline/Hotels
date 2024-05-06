@@ -507,7 +507,7 @@ const GetAllContracts = (
 
           if (balanceArray > 0) {
             const roomsToAdd = no_of_rooms.filter(
-              (room) => !addedOn.some((data) => data.room.id === room.id)
+              (room) => !addedOn.some((data) => data.room?.id === room?.id)
             );
 
             addedOn.push(
@@ -528,7 +528,7 @@ const GetAllContracts = (
             ...item,
             key: index,
             DBL: sortedData.map((list, listIndex) => (
-              <ul key={`dbl-${list.id}-${listIndex}`}>
+              <ul key={`dbl-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_DBL") ? (
@@ -545,8 +545,8 @@ const GetAllContracts = (
             )),
 
             price_id: sortedData.map((list, listIndex) => (
-              <ul key={`"id"-${list.id}-${listIndex}`}>
-                <li key={`"id"-${list}-${listIndex}`}>{list.id || ""}</li>
+              <ul key={`"id"-${list?.id}-${listIndex}`}>
+                <li key={`"id"-${list}-${listIndex}`}>{list?.id || ""}</li>
               </ul>
             )),
             timestamp: formatDate(
@@ -556,7 +556,7 @@ const GetAllContracts = (
               ).createdAt
             ),
             QUAD: sortedData.map((list, listIndex) => (
-              <ul key={`"quad"-${list.id}-${listIndex}`}>
+              <ul key={`"quad"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_QUAD") ? (
@@ -572,7 +572,7 @@ const GetAllContracts = (
               </ul>
             )),
             SGL: sortedData.map((list, listIndex) => (
-              <ul key={`"sgl"-${list.id}-${listIndex}`}>
+              <ul key={`"sgl"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_SGL") ? (
@@ -588,7 +588,7 @@ const GetAllContracts = (
               </ul>
             )),
             TRPL: sortedData.map((list, listIndex) => (
-              <ul key={`"trl"-${list.id}-${listIndex}`}>
+              <ul key={`"trl"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_TRPL") ? (
@@ -604,7 +604,7 @@ const GetAllContracts = (
               </ul>
             )),
             TWN: sortedData.map((list, listIndex) => (
-              <ul key={`"twin"-${list.id}-${listIndex}`}>
+              <ul key={`"twin"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_TWN") ? (
@@ -620,7 +620,7 @@ const GetAllContracts = (
               </ul>
             )),
             unit: sortedData.map((list, listIndex) => (
-              <ul key={`"unit"-${list.id}-${listIndex}`}>
+              <ul key={`"unit"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
                 ]?.array_of_occupancies.includes("is_UNIT") ? (
@@ -636,7 +636,7 @@ const GetAllContracts = (
               </ul>
             )),
             minstay: sortedData.map((list, listIndex) => (
-              <ul key={`"min"-${list.id}-${listIndex}`}>
+              <ul key={`"min"-${list?.id}-${listIndex}`}>
                 <li key={`"minst"-${list}-${listIndex}`}>
                   {list.min_stay === 0
                     ? 0
@@ -647,7 +647,7 @@ const GetAllContracts = (
               </ul>
             )),
             maxstay: sortedData.map((list, listIndex) => (
-              <ul key={`"max"-${list.id}-${listIndex}`}>
+              <ul key={`"max"-${list?.id}-${listIndex}`}>
                 <li key={`"max"-${list}-${listIndex}`}>
                   {list.max_stay === 0
                     ? 0

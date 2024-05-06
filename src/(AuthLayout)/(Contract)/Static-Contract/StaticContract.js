@@ -666,11 +666,11 @@ const StaticContract = () => {
 
   const { DMCsOfHotelValue } = GetAllDMCsOfHotel(hotel_id);
   const { HotelByIDValue } = GetHotelByID(hotel_id);
-  console.log(hotelValue);
   useEffect(() => {
     getRegionsWithCountries();
     const hotelRooms =
-      hotelValue.find((item) => item.id === hotel_id)?.rooms || [];
+      hotelValue.find((item) => item?.id === hotel_id)?.rooms || [];
+    console.log(hotelRooms);
 
     // Use Set to keep track of unique category names
     const uniqueCategoryNames = new Set();
@@ -686,11 +686,11 @@ const StaticContract = () => {
 
     const occupancyAndCategory = hotelRooms.reduce((acc, room) => {
       const { category } = room;
-      const category_id = category.id;
+      const category_id = category?.id;
 
       ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach((occupancyType) => {
         if (room[`is_${occupancyType}`]) {
-          const occupancy = `is_${occupancyType}`;
+          const occupancy = `${occupancyType}`;
           const occupancyObj = { category_id, occupancy };
           if (!uniqueCategoryNames.has(JSON.stringify(occupancyObj))) {
             uniqueCategoryNames.add(JSON.stringify(occupancyObj));
@@ -703,9 +703,9 @@ const StaticContract = () => {
     }, []);
 
     const sortedOccupancyData = filteredCategoryData.map(({ category }) => ({
-      category_id: category.id,
+      category_id: category?.id,
       array_of_occupancies: occupancyAndCategory
-        .filter((item) => item.category_id === category.id)
+        .filter((item) => item?.category_id === category?.id)
         .map((item) => item.occupancy),
     }));
 
@@ -810,7 +810,7 @@ const StaticContract = () => {
           {categoryData.map((item) => (
             <span
               className="flex mb-2 text-start h-[25px] items-center justify-center whitespace-nowrap"
-              key={item.id}
+              key={item?.id}
             >
               {item.name}
             </span>
