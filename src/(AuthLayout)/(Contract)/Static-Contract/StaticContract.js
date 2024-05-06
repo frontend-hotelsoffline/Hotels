@@ -100,8 +100,6 @@ const StaticContract = () => {
   };
   const [formData, setFormData] = useState(initialData);
   const {
-    owner_id,
-    owner_type,
     id_from_contract_id,
     name,
     currency,
@@ -114,7 +112,6 @@ const StaticContract = () => {
     child_age_from,
     child_age_to,
     base_meal,
-    is_this_created_by_owner,
   } = formDataHeader;
 
   const {
@@ -669,6 +666,7 @@ const StaticContract = () => {
 
   const { DMCsOfHotelValue } = GetAllDMCsOfHotel(hotel_id);
   const { HotelByIDValue } = GetHotelByID(hotel_id);
+  console.log(hotelValue);
   useEffect(() => {
     getRegionsWithCountries();
     const hotelRooms =

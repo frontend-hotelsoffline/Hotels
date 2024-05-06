@@ -41,7 +41,14 @@ const GetAllHotels = () => {
                 id
                 name
             }
-        }
+        } rooms {
+          id
+          name
+          category {
+              id
+              name
+          }
+      }
         HotelBody {
           ac_mngr {
               id

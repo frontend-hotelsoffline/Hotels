@@ -6,12 +6,9 @@ const GetHotelByID = (hotel_id) => {
 
   const getAllDMC = async () => {
     const GET_ALL = `{
-        get_a_hotel_by_id(hotel_id: ${hotel_id}) {
+      gethotel(id: ${hotel_id}) {
             id
-            users_under_hotel {
-                id
-                uname
-            }
+           name
         }
     }`;
     const query = GET_ALL;

@@ -50,27 +50,107 @@ const GetAllContracts = (
   const getAllContractData = async () => {
     setLoading(true);
     const GET_ALL = `{
-      getSC (id: ${id_from_contract_id}) {
-        from
-        To
-        renewal
-        id
-        CRT
-        name
-        OT
-        oId
-        cur
-        status
-        country
-        city
-        bMeal
-        hId
-        caFrom
-        caT
-        sRate
-        mId
+        getSC(id: ${id_from_contract_id}) {
+            from
+            To
+            renewal
+            id
+            CRT
+            name
+            OT
+            oId
+            cur
+            status
+            country
+            city
+            bMeal
+            hId
+            caFrom
+            caT
+            sRate
+            mId
+            hotel {
+                id
+                name
+            }
+            markup {
+                id
+                CRT
+                name
+                markup
+            }
+            meals(ftz: "${date_to_pass}") {
+                id
+                CRT
+                cId
+                from
+                to
+                roA
+                roC
+                bA
+                bC
+                hbA
+                hbC
+                fbA
+                fbC
+                saiA
+                saiC
+                aiA
+                aiC
+                uaiA
+                uaiC
+            }
+            offers(ftz: "${date_to_pass}") {
+                id
+                cId
+                ofr
+                rId
+                sfrom
+                sto
+                bwfrom
+                bwto
+                dAOrR
+                disc
+                linked
+                room
+                meals
+                supp
+                order
+                nRef
+            }
+            suppliments(ftz: "${date_to_pass}") {
+                id
+                cId
+                rId
+                serv
+                supp
+                type
+                sfrom
+                sto
+                PA
+                PC
+                PHDAA
+                PHDAR
+                PHDCA
+                PHDCR
+                cafrom
+                cato
+            }
+            cancellation(ftz: "${date_to_pass}") {
+                id
+                cId
+                from
+                to
+                type
+                rId
+                nRef
+                cDays
+                cPRte
+                cPlcy
+            }
+        }
     }
-    }`;
+    `;
     const query = GET_ALL;
     const path = "";
 
@@ -78,8 +158,8 @@ const GetAllContracts = (
       const res = await GET_API(path, { params: { query } });
 
       if (res.data && !res.errors) {
-        const contractData = res.data.get_a_static_contract_by_id;
-        const no_of_rooms = contractData.hotel.rooms;
+        const contractData = res.data.getSC;
+        const no_of_rooms = contractData.hotel?.rooms;
         setLoading(false);
         const mealsDataArray = contractData?.meals_of_contract || [];
         const calendarDataArray =
