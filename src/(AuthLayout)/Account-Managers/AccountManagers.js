@@ -6,7 +6,7 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
 import CombineDmcHotel from "./CombineDmcHotel";
 import GetAllUsers from "../components/Helper/GetAllUsers";
-import { HiDotsVertical } from "react-icons/hi";
+
 import PopUpForContract from "./PopUpForContract";
 import PopUpForDMC from "./PopUpForDMC";
 import PopUpForHotel from "./PopUpForHotel";

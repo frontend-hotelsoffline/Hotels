@@ -3,7 +3,7 @@ import { Button, Input, Modal, Popover, Table } from "antd";
 import { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
-import { HiDotsVertical } from "react-icons/hi";
+
 import { GET_API } from "../../components/API/GetAPI";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../components/Helper/FormatDate";
@@ -49,7 +49,16 @@ const Contracts = () => {
         caFrom
         caT
         sRate
-        mId
+        mId 
+        hotel {
+          id
+          name
+      }  markup {
+        id
+        CRT
+        name
+        markup
+    }
     }
     }`;
     const query = GET_ALL;
@@ -59,26 +68,26 @@ const Contracts = () => {
       const res = await GET_API(path, { params: { query } });
       if (res.data) {
         const tableArray = res.data.getSCs?.map((item) => ({
-          key: item.id ? item.id : "",
-          id: item.id ? item.id : "",
-          country: item.country ? item.country : "",
-          city: item.city ? item.city : "",
-          contract: item.name ? item.name : "",
-          currency: item.currency ? item.currency : "",
-          hotel: item.hotel.name || "",
+          key: item.id || "",
+          id: item.id || "",
+          country: item.country || "",
+          city: item.city || "",
+          contract: item.name || "",
+          currency: item.cur || "",
+          hotel: item.hotel?.name || "",
           hotels: item.hotel || "",
           status: item.status ? item.status : "",
           type: item.id.toString().includes("-") ? "Dynamic" : "Static",
           from_date: item.from_date || "",
-          to_date: item.to_date || "",
-          child_age_from: item.child_age_from || "",
-          child_age_to: item.child_age_to || "",
-          base_meal: item.base_meal || "",
-          duration: item.from_date && (
+          to_date: item.To || "",
+          child_age_from: item.caFrom || "",
+          child_age_to: item.caT || "",
+          base_meal: item.bMeal || "",
+          duration: item.from && (
             <span>
-              {formatDate(item.from_date)}
+              {formatDate(item.from)}
               <br />
-              {formatDate(item.to_date)}
+              {formatDate(item.To)}
             </span>
           ),
           company:
@@ -90,9 +99,7 @@ const Contracts = () => {
               ? "Corporate"
               : "",
           markup:
-            (item.price_markup &&
-              (item.price_markup?.markup * 1).toFixed(2) + "%") ||
-            "",
+            (item.markup && (item.markup?.markup * 1).toFixed(2) + "%") || "",
         }));
         setDataSource(tableArray);
         setLoading(false);

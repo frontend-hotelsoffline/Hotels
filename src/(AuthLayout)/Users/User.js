@@ -50,7 +50,7 @@ const User = () => {
         const tableArray = res.data.getUsers.map((item) => ({
           key: item.id ? item.id : "",
           id: item.id ? item.id : "",
-          dateadded: formatDate(item.createdAt || null) || "",
+          dateadded: item.CRT && formatDate(item.CRT || null),
           username: item.name ? item.name : "",
           email: item.uname ? item.uname : "",
           ulevel: item.lev || "",

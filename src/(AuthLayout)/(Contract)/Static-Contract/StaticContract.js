@@ -2107,9 +2107,9 @@ const StaticContract = () => {
                 { value: "BREAKFAST", label: "BREAKFAST" },
                 { value: "HB", label: "HB" },
                 { value: "FB", label: "FB" },
-                { value: "SOFT ALL INC", label: "SOFT ALL INC" },
-                { value: "ALL INC", label: "ALL INC" },
-                { value: "ULTRA ALL INC", label: "ULTRA ALL INC" },
+                { value: "SOFT_ALL_INC", label: "SOFT ALL INC" },
+                { value: "ALL_INC", label: "ALL INC" },
+                { value: "ULTRA_ALL_INC", label: "ULTRA ALL INC" },
               ]}
             />
           </label>

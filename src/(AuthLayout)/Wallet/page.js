@@ -3,7 +3,7 @@ import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
-import { HiDotsVertical } from "react-icons/hi";
+
 import { GET_API } from "../components/API/GetAPI";
 import { EditIcon } from "../components/Customized/EditIcon";
 
