@@ -2103,7 +2103,7 @@ const StaticContract = () => {
               }
               options={[
                 // { value: "N/A", label: "N/A" },
-                { value: "ROOM ONLY", label: "ROOM ONLY" },
+                { value: "ROOM_ONLY", label: "ROOM ONLY" },
                 { value: "BREAKFAST", label: "BREAKFAST" },
                 { value: "HB", label: "HB" },
                 { value: "FB", label: "FB" },

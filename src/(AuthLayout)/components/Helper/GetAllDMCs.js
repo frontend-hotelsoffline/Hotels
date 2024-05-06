@@ -6,7 +6,7 @@ const GetAllDMCs = () => {
 
   const getAllDMC = async () => {
     const GET_ALL = `{
-        get_all_dmcs {
+        getDMCs {
             id
             name
             status
@@ -18,8 +18,8 @@ const GetAllDMCs = () => {
     try {
       const res = await GET_API(path, { params: { query } });
 
-      if (Array.isArray(res.data.get_all_dmcs)) {
-        const dataArray = res.data.get_all_dmcs;
+      if (Array.isArray(res.data.getDMCs)) {
+        const dataArray = res.data.getDMCs;
         setDMCsValue(dataArray);
       }
     } catch (error) {
