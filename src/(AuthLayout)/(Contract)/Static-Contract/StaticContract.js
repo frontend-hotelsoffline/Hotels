@@ -263,15 +263,15 @@ const StaticContract = () => {
 
     const pricesArray = categoryData.map((item, index) => {
       return {
-        room_id: item.id,
+        rId: item.id,
         sgl: parseFloat(formData.sgl[index]) || -1,
         dbl: parseFloat(formData.dbl[index]) || -1,
         twn: parseFloat(formData.twn[index]) || -1,
         trl: parseFloat(formData.trl[index]) || -1,
         qud: parseFloat(formData.qud[index]) || -1,
         unit: parseFloat(formData.unit[index]) || -1,
-        min_stay: parseFloat(formData.min_stay[index]) || -1,
-        max_stay: parseFloat(formData.max_stay[index]) || -1,
+        minS: parseFloat(formData.min_stay[index]) || -1,
+        maxS: parseFloat(formData.max_stay[index]) || -1,
       };
     });
     const pricesFiltered = pricesArray.filter((entry) =>
@@ -290,18 +290,16 @@ const StaticContract = () => {
     });
     const mutation = `
     mutation {
-      create_a_static_contract_body_prices_of_contract(
-        id_from_contracts: ${id_from_contract_id},
-        prices_of_contract: ${JSON.stringify(
-          numericPricesArray.map((price) => ({
-            from_date: price_from_date,
-            to_date: price_to_date,
-            array_of_prices_of_all_categories: { ...price },
-          }))
-        ).replace(/"([^"]+)":/g, "$1:")}
+      addPSC(
+        cid: ${id_from_contract_id},
+        from: "${price_from_date}",
+        to: "${price_to_date}",
+        rows: ${JSON.stringify(numericPricesArray).replace(
+          /"([^"]+)":/g,
+          "$1:"
+        )}
       ) {
-        respmessage
-      
+        message
       }
     }
   `;
@@ -312,12 +310,12 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data) {
-        message.success("Price has been Added Successfully");
+      if (res.data.addPSC?.message === "success") {
+        message.success(res.data.addPSC?.message);
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.error(res.data?.respmessage);
+        message.error(res.data?.addPSC?.message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -670,7 +668,7 @@ const StaticContract = () => {
     getRegionsWithCountries();
     const hotelRooms =
       hotelValue.find((item) => item?.id === hotel_id)?.rooms || [];
-    console.log(hotelRooms);
+    // console.log(hotelRooms);
 
     // Use Set to keep track of unique category names
     const uniqueCategoryNames = new Set();
@@ -689,7 +687,7 @@ const StaticContract = () => {
       const category_id = category?.id;
 
       ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach((occupancyType) => {
-        if (room[`is_${occupancyType}`]) {
+        if (room[occupancyType]) {
           const occupancy = `${occupancyType}`;
           const occupancyObj = { category_id, occupancy };
           if (!uniqueCategoryNames.has(JSON.stringify(occupancyObj))) {
@@ -819,32 +817,32 @@ const StaticContract = () => {
       ),
       SGL: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("sgl", "is_SGL")}
+          {renderInputs_for_occupancy("sgl", "SGL")}
         </span>
       ),
       DBL: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("dbl", "is_DBL")}
+          {renderInputs_for_occupancy("dbl", "DBL")}
         </span>
       ),
       TWN: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("twn", "is_TWN")}
+          {renderInputs_for_occupancy("twn", "TWN")}
         </span>
       ),
       TRPL: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("trl", "is_TRPL")}
+          {renderInputs_for_occupancy("trl", "TRPL")}
         </span>
       ),
       QUAD: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("qud", "is_QUD")}
+          {renderInputs_for_occupancy("qud", "QUD")}
         </span>
       ),
       unit: (
         <span className="gap-y-2 flex flex-col">
-          {renderInputs_for_occupancy("unit", "is_UNIT")}
+          {renderInputs_for_occupancy("unit", "UNIT")}
         </span>
       ),
       minstay: (

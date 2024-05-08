@@ -78,7 +78,30 @@ const GetAllContracts = (
                 CRT
                 name
                 markup
-            }
+            } pricesG(ftz: "${date_to_pass}") {
+              from
+              to
+              rows {
+                  id
+                  CRT
+                  cId
+                  from
+                  to
+                  rId
+                  sgl
+                  dbl
+                  twn
+                  trl
+                  qud
+                  unit
+                  minS
+                  maxS
+                  room {
+                      id
+                      name
+                  }
+              }
+          }
             meals(ftz: "${date_to_pass}") {
                 id
                 CRT

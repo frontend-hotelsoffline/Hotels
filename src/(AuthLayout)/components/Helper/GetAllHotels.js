@@ -44,6 +44,12 @@ const GetAllHotels = () => {
         } rooms {
           id
           name
+          SGL
+          DBL
+          TWN
+          TRPL
+          QUAD
+          UNIT
           category {
               id
               name
