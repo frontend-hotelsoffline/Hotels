@@ -51,8 +51,8 @@ const GetAllContracts = (
     setLoading(true);
     const GET_ALL = `{
         getSC(id: ${id_from_contract_id}) {
-            from
-            To
+            from(ftz: "${date_to_pass}")
+            To(ftz: "${date_to_pass}")
             renewal
             id
             CRT
