@@ -72,6 +72,11 @@ const GetAllContracts = (
             hotel {
                 id
                 name
+                rooms {
+                  id
+                  name
+                  prio
+              }
             }
             markup {
                 id
@@ -206,7 +211,7 @@ const GetAllContracts = (
         const dmcs_for_distribution_of_contract =
           contractData?.dmcs_for_distribution_of_contract || [];
 
-        const mealsFinal = mealsDataArray.map((item, index) => ({
+        const mealsFinal = mealsDataArray?.map((item, index) => ({
           key: index,
           allinc: (
             <span className="gap-y-2 ">
@@ -298,7 +303,7 @@ const GetAllContracts = (
               <p>{formatDate(item.to_date) || ""}</p>
             </span>
           ),
-          timestamp: formatDate(item.createdAt || null),
+          timestamp: formatDate(item.CRT || null),
           action: (
             <span className="w-full flex justify-center">
               <Popover
@@ -313,9 +318,9 @@ const GetAllContracts = (
             </span>
           ),
         }));
-        const offersFinal = offersDataArray.map((item, index) => ({
+        const offersFinal = offersDataArray?.map((item, index) => ({
           key: index || "",
-          timestamp: formatDate(item.createdAt || null),
+          timestamp: formatDate(item.CRT || null),
           bookingwindow: (
             <span>
               <p>{formatDate(item.booking_window_from) || ""}</p>
@@ -336,7 +341,7 @@ const GetAllContracts = (
               : item.discount_rate > 0
               ? item.discount_rate + "%"
               : "",
-          source: item.source_countries.map((item) => (
+          source: item.source_countries?.map((item) => (
             <p>{item.country || ""}</p>
           )),
           linked: (
@@ -391,9 +396,9 @@ const GetAllContracts = (
           ),
         }));
 
-        const supplementFinal = SuppDataArray.map((item, index) => ({
+        const supplementFinal = SuppDataArray?.map((item, index) => ({
           key: index,
-          timestamp: formatDate(item.createdAt || null),
+          timestamp: formatDate(item.CRT || null),
           roomcategory: item.room?.name || "",
           type: item.type || "",
           supplement: item.supplement || "",
@@ -484,9 +489,9 @@ const GetAllContracts = (
           ),
         }));
 
-        const cancellationFinal = CancellationDataArray.map((item, index) => ({
+        const cancellationFinal = CancellationDataArray?.map((item, index) => ({
           key: index || "",
-          timestamp: formatDate(item.createdAt || null),
+          timestamp: formatDate(item.CRT || null),
           bookingpolicy: item.booking_cancellation_policy || "",
           room: (item.room && item.room?.name) || "",
           refundable:
@@ -523,7 +528,7 @@ const GetAllContracts = (
           ),
         }));
 
-        const PriceFinal = PricesDataArray.map((item, index) => {
+        const PriceFinal = PricesDataArray?.map((item, index) => {
           const addedOn = item.rows;
           console.log(item);
           const balanceArray = no_of_rooms?.length - addedOn?.length;
@@ -534,27 +539,25 @@ const GetAllContracts = (
             );
 
             addedOn.push(
-              ...roomsToAdd.map((room) => ({
+              ...roomsToAdd?.map((room) => ({
                 room: {
                   id: room?.id,
                   name: room?.name,
-                  priority: room?.priority,
+                  prio: room?.prio,
                 },
               }))
             );
           }
-          const sortedData = addedOn.sort(
-            (a, b) => a.room.priority - b.room.priority
-          );
+          const sortedData = addedOn.sort((a, b) => a.room.prio - b.room.prio);
 
           return {
             ...item,
             key: index,
-            DBL: sortedData.map((list, listIndex) => (
+            DBL: sortedData?.map((list, listIndex) => (
               <ul key={`dbl-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_DBL") ? (
+                ]?.array_of_occupancies.includes("DBL") ? (
                   <li
                     className="borderedRow active"
                     key={`dbl-${list}-${listIndex}`}
@@ -567,22 +570,19 @@ const GetAllContracts = (
               </ul>
             )),
 
-            price_id: sortedData.map((list, listIndex) => (
+            price_id: sortedData?.map((list, listIndex) => (
               <ul key={`"id"-${list?.id}-${listIndex}`}>
                 <li key={`"id"-${list}-${listIndex}`}>{list?.id || ""}</li>
               </ul>
             )),
             timestamp: formatDate(
-              (
-                item.price_group_of_categories.find((list) => list.createdAt) ||
-                {}
-              ).createdAt
+              (item.rows?.find((list) => list.CRT) || {}).CRT
             ),
-            QUAD: sortedData.map((list, listIndex) => (
+            QUAD: sortedData?.map((list, listIndex) => (
               <ul key={`"quad"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_QUAD") ? (
+                ]?.array_of_occupancies.includes("QUAD") ? (
                   <li
                     className="borderedRow active"
                     key={`"qud"-${list}-${listIndex}`}
@@ -594,11 +594,11 @@ const GetAllContracts = (
                 )}
               </ul>
             )),
-            SGL: sortedData.map((list, listIndex) => (
+            SGL: sortedData?.map((list, listIndex) => (
               <ul key={`"sgl"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_SGL") ? (
+                ]?.array_of_occupancies.includes("SGL") ? (
                   <li
                     className="borderedRow active"
                     key={`"sgl"-${list}-${listIndex}`}
@@ -610,11 +610,11 @@ const GetAllContracts = (
                 )}
               </ul>
             )),
-            TRPL: sortedData.map((list, listIndex) => (
+            TRPL: sortedData?.map((list, listIndex) => (
               <ul key={`"trl"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_TRPL") ? (
+                ]?.array_of_occupancies.includes("TRPL") ? (
                   <li
                     className="borderedRow active"
                     key={`"trl"-${list}-${listIndex}`}
@@ -626,11 +626,11 @@ const GetAllContracts = (
                 )}
               </ul>
             )),
-            TWN: sortedData.map((list, listIndex) => (
+            TWN: sortedData?.map((list, listIndex) => (
               <ul key={`"twin"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_TWN") ? (
+                ]?.array_of_occupancies.includes("TWN") ? (
                   <li
                     className="borderedRow active"
                     key={`"twn"-${list}-${listIndex}`}
@@ -642,11 +642,11 @@ const GetAllContracts = (
                 )}
               </ul>
             )),
-            unit: sortedData.map((list, listIndex) => (
+            unit: sortedData?.map((list, listIndex) => (
               <ul key={`"unit"-${list?.id}-${listIndex}`}>
                 {Occupancy_and_category_cross[
                   listIndex
-                ]?.array_of_occupancies.includes("is_UNIT") ? (
+                ]?.array_of_occupancies.includes("UNIT") ? (
                   <li
                     className="borderedRow active"
                     key={`"unit"-${list}-${listIndex}`}
@@ -658,31 +658,23 @@ const GetAllContracts = (
                 )}
               </ul>
             )),
-            minstay: sortedData.map((list, listIndex) => (
+            minstay: sortedData?.map((list, listIndex) => (
               <ul key={`"min"-${list?.id}-${listIndex}`}>
                 <li key={`"minst"-${list}-${listIndex}`}>
-                  {list.min_stay === 0
-                    ? 0
-                    : list.min_stay > 0
-                    ? list.min_stay
-                    : ""}
+                  {list.minS === 0 ? 0 : list.minS > 0 ? list.minS : ""}
                 </li>
               </ul>
             )),
-            maxstay: sortedData.map((list, listIndex) => (
+            maxstay: sortedData?.map((list, listIndex) => (
               <ul key={`"max"-${list?.id}-${listIndex}`}>
                 <li key={`"max"-${list}-${listIndex}`}>
-                  {list.max_stay === 0
-                    ? 0
-                    : list.max_stay > 0
-                    ? list.max_stay
-                    : ""}
+                  {list.maxS === 0 ? 0 : list.maxS > 0 ? list.maxS : ""}
                 </li>
               </ul>
             )),
             from_date: item.from || null,
-            to_date: item.To || null,
-            category: sortedData.map((list, listIndex) => (
+            to_date: item.to || null,
+            category: sortedData?.map((list, listIndex) => (
               <p
                 key={`"category" -${listIndex}`}
                 className="flex text-center h-[25px] items-center justify-center w-full"
@@ -692,11 +684,11 @@ const GetAllContracts = (
             )),
             date: (
               <span key={item.id}>
-                <p key={`"from"-${item.from_date}-${index}`}>
-                  {formatDate(item.from_date || "")}
+                <p key={`"from"-${item.from}-${index}`}>
+                  {formatDate(item.from || "")}
                 </p>
-                <p key={`"to_date"-${item.from_to}-${index}`}>
-                  {formatDate(item.to_date || "")}
+                <p key={`"to_date"-${item.from}-${index}`}>
+                  {formatDate(item.to || "")}
                 </p>
               </span>
             ),
@@ -738,7 +730,7 @@ const GetAllContracts = (
 
         const occupancyOrder = ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"];
 
-        const roomSetupFinal = roomSetupDataArray.map((item, index) => ({
+        const roomSetupFinal = roomSetupDataArray?.map((item, index) => ({
           key: index || "",
           category: item.room?.name || "",
           occupancy: item.occupancy || "",
@@ -840,12 +832,12 @@ const GetAllContracts = (
         setOffersData(offersFinal);
         setSupplementsData(supplementFinal);
         setCancellationData(cancellationFinal);
-        const distributionArray = corporates_for_distribution_of_contract.map(
+        const distributionArray = corporates_for_distribution_of_contract?.map(
           (item, index) => ({
             key: index,
             chooseacountry: (
               <p className="grid grid-cols-3">
-                {countrie_names.map((list) => (
+                {countrie_names?.map((list) => (
                   <span>{list.country}</span>
                 ))}
               </p>
@@ -863,11 +855,11 @@ const GetAllContracts = (
             markup:
               (PricesMarkUp.markup && PricesMarkUp.markup.toFixed(2) + "%") ||
               "",
-            timestamp: formatDate(contractData.createdAt),
+            timestamp: formatDate(contractData.CRT),
           },
         ];
 
-        const buyMarkupArray = BuyerMarkUp.map((item) => ({
+        const buyMarkupArray = BuyerMarkUp?.map((item) => ({
           key: item.id,
           markup:
             (item.buyer_markup && (item.buyer_markup * 1).toFixed(2) + "%") ||
@@ -875,7 +867,7 @@ const GetAllContracts = (
           userid: item.user?.uname || "",
           userLevel:
             item.user_level == 4 ? "DMC" : item.user_level == 6 ? "Hotel" : "",
-          timestamp: formatDate(item.createdAt || null),
+          timestamp: formatDate(item.CRT || null),
           action: (
             <span className="w-full flex justify-center">
               <Popover

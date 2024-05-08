@@ -25,8 +25,8 @@ const ControlInputValue = (hotel_id) => {
     let temp_arry_occupncy_and_category = [];
     for (let i = 0; i < hotelRooms.length; i++) {
       var category_id_temp = hotelRooms[i].category.id;
-      if (hotelRooms[i].is_SGL === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_SGL" };
+      if (hotelRooms[i].SGL === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "SGL" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
@@ -35,8 +35,8 @@ const ControlInputValue = (hotel_id) => {
           temp_arry_occupncy_and_category.push(json_item);
         }
       }
-      if (hotelRooms[i].is_DBL === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_DBL" };
+      if (hotelRooms[i].DBL === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "DBL" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
@@ -45,8 +45,8 @@ const ControlInputValue = (hotel_id) => {
           temp_arry_occupncy_and_category.push(json_item);
         }
       }
-      if (hotelRooms[i].is_TWN === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_TWN" };
+      if (hotelRooms[i].TWN === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "TWN" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
@@ -55,8 +55,8 @@ const ControlInputValue = (hotel_id) => {
           temp_arry_occupncy_and_category.push(json_item);
         }
       }
-      if (hotelRooms[i].is_TRPL === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_TRPL" };
+      if (hotelRooms[i].TRPL === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "TRPL" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
@@ -65,8 +65,8 @@ const ControlInputValue = (hotel_id) => {
           temp_arry_occupncy_and_category.push(json_item);
         }
       }
-      if (hotelRooms[i].is_QUAD === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_QUAD" };
+      if (hotelRooms[i].QUAD === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "QUAD" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
@@ -75,8 +75,8 @@ const ControlInputValue = (hotel_id) => {
           temp_arry_occupncy_and_category.push(json_item);
         }
       }
-      if (hotelRooms[i].is_UNIT === true) {
-        var json_item = { category_id: category_id_temp, occupancy: "is_UNIT" };
+      if (hotelRooms[i].UNIT === true) {
+        var json_item = { category_id: category_id_temp, occupancy: "UNIT" };
         if (
           !temp_arry_occupncy_and_category.some(
             (obj) => JSON.stringify(obj) === JSON.stringify(json_item)
