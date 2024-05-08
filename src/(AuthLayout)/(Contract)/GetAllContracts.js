@@ -53,7 +53,7 @@ const GetAllContracts = (
         getSC(id: ${id_from_contract_id}) {
             from(ftz: "${date_to_pass}")
             To(ftz: "${date_to_pass}")
-            renewal
+            renewal(ftz: "${date_to_pass}")
             id
             CRT
             name
@@ -194,8 +194,7 @@ const GetAllContracts = (
         const SuppDataArray = contractData?.supplements_of_contract || [];
         const CancellationDataArray =
           contractData?.cancellation_of_contract || [];
-        const PricesDataArray =
-          contractData?.prices_of_contract_grouped_by_date || [];
+        const PricesDataArray = contractData?.pricesG || [];
         const PricesMarkUp = contractData?.price_markup || [];
         const BuyerMarkUp = contractData?.buyer_markup || [];
         const countrie_names =
@@ -525,7 +524,8 @@ const GetAllContracts = (
         }));
 
         const PriceFinal = PricesDataArray.map((item, index) => {
-          const addedOn = item.price_group_of_categories;
+          const addedOn = item.rows;
+          console.log(item);
           const balanceArray = no_of_rooms?.length - addedOn?.length;
 
           if (balanceArray > 0) {
@@ -680,8 +680,8 @@ const GetAllContracts = (
                 </li>
               </ul>
             )),
-            from_date: item.from_date || null,
-            to_date: item.to_date || null,
+            from_date: item.from || null,
+            to_date: item.To || null,
             category: sortedData.map((list, listIndex) => (
               <p
                 key={`"category" -${listIndex}`}
