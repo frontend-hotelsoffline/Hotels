@@ -106,7 +106,27 @@ const GetAllContracts = (
                       name
                   }
               }
-          }
+          } CAnRAC(ftz: "${date_to_pass}") {
+            from
+            to
+            rooms {
+                dInR {
+                    id
+                    CRT
+                    cId
+                    from
+                    to
+                    rId
+                    alm
+                    rel
+                    room {
+                        id
+                        name
+                        prio
+                    }
+                }
+            }
+        }
             meals(ftz: "${date_to_pass}") {
                 id
                 CRT
@@ -190,8 +210,7 @@ const GetAllContracts = (
         const no_of_rooms = contractData.hotel?.rooms;
         setLoading(false);
         const mealsDataArray = contractData?.meals_of_contract || [];
-        const calendarDataArray =
-          contractData?.allotment_n_rel_of_contract || [];
+        const calendarDataArray = contractData?.CAnRAC || [];
         const CompressedDataArray =
           contractData?.compresed_prices_for_availability_clnder || [];
         const roomSetupDataArray = contractData?.room_setup_of_contract || [];

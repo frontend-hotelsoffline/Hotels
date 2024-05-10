@@ -145,21 +145,21 @@ const CalendarDetails = ({
     };
     const mutation = `
       mutation {
-        create_a_static_contract_body_price_overrids_of_cntct(
-          id_from_contracts: ${id}
-          from_date: "${from_date}"
-          to_date: "${to_date}"
-          room_id: ${category_id}
+        addPOSC(
+          cid: ${id}
+          from: "${from_date}"
+          to: "${to_date}"
+          rId: ${category_id}
           sgl: ${sgl || 0}
           dbl: ${dbl || 0}
           twn: ${twn || 0}
           trl: ${trl || 0}
           qud: ${qud || 0}
           unit: ${unit || 0}
-          min_stay: ${min_stay || 0}
-          max_stay: ${max_stay || 0}
+          minS: ${min_stay || 0}
+          maxS: ${max_stay || 0}
       ) {
-          id
+          message
         }
       }
     `;
