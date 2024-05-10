@@ -106,7 +106,35 @@ const GetAllContracts = (
                       name
                   }
               }
-          } CAnRAC(ftz: "${date_to_pass}") {
+          } 
+          CPAC(ftz: "${date_to_pass}") {
+            from
+            to
+            rooms {
+                dInR {
+                    id
+                    CRT
+                    cId
+                    from
+                    to
+                    rId
+                    sgl
+                    dbl
+                    twn
+                    trl
+                    qud
+                    unit
+                    minS
+                    maxS
+                    room {
+                        id
+                        name
+                        prio
+                    }
+                }
+            }
+        }
+          CAnRAC(ftz: "${date_to_pass}") {
             from
             to
             rooms {
@@ -211,8 +239,7 @@ const GetAllContracts = (
         setLoading(false);
         const mealsDataArray = contractData?.meals_of_contract || [];
         const calendarDataArray = contractData?.CAnRAC || [];
-        const CompressedDataArray =
-          contractData?.compresed_prices_for_availability_clnder || [];
+        const CompressedDataArray = contractData?.CPAC || [];
         const roomSetupDataArray = contractData?.room_setup_of_contract || [];
         const offersDataArray = contractData?.offers_of_contract || [];
         const SuppDataArray = contractData?.supplements_of_contract || [];

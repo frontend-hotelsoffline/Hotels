@@ -25,8 +25,7 @@ const CalendarDetails = ({
     to_date: new Date(allotmentData?.clickedDate).toISOString() || null,
     clickedDate: allotmentData?.clickedDate ?? null,
     category_id: Number(allotmentData?.room?.id) || "",
-    allotment:
-      allotmentData?.allotment === 0 ? 0 : allotmentData?.allotment || "",
+    allotment: allotmentData?.alm === 0 ? 0 : allotmentData?.alm || "",
     rel: allotmentData?.rel === 0 ? 0 : allotmentData?.rel || "",
     sgl:
       overrideData?.sgl === 0
@@ -223,8 +222,8 @@ const CalendarDetails = ({
       const category_id = category.id;
 
       ["SGL", "DBL", "TWN", "TRPL", "QUAD", "UNIT"].forEach((occupancyType) => {
-        if (room[`is_${occupancyType}`]) {
-          const occupancy = `is_${occupancyType}`;
+        if (room[`${occupancyType}`]) {
+          const occupancy = `${occupancyType}`;
           const occupancyObj = { category_id, occupancy };
           if (!uniqueCategoryNames.has(JSON.stringify(occupancyObj))) {
             uniqueCategoryNames.add(JSON.stringify(occupancyObj));
@@ -321,7 +320,7 @@ const CalendarDetails = ({
           SGL
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_SGL") ? (
+          ]?.array_of_occupancies.includes("SGL") ? (
             <Input
               onChange={onChange}
               value={sgl}
@@ -336,7 +335,7 @@ const CalendarDetails = ({
           TWN
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_TWN") ? (
+          ]?.array_of_occupancies.includes("TWN") ? (
             <Input
               onChange={onChange}
               value={twn}
@@ -351,7 +350,7 @@ const CalendarDetails = ({
           QUAD
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_QUAD") ? (
+          ]?.array_of_occupancies.includes("QUAD") ? (
             <Input
               onChange={onChange}
               value={qud}
@@ -375,7 +374,7 @@ const CalendarDetails = ({
           DBL
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_DBL") ? (
+          ]?.array_of_occupancies.includes("DBL") ? (
             <Input
               onChange={onChange}
               value={dbl}
@@ -390,7 +389,7 @@ const CalendarDetails = ({
           TRPL
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_TRPL") ? (
+          ]?.array_of_occupancies.includes("TRPL") ? (
             <Input
               onChange={onChange}
               value={trl}
@@ -405,7 +404,7 @@ const CalendarDetails = ({
           unit
           {Occupancy_and_category_cross[
             catIndex
-          ]?.array_of_occupancies.includes("is_UNIT") ? (
+          ]?.array_of_occupancies.includes("UNIT") ? (
             <Input
               onChange={onChange}
               value={unit}

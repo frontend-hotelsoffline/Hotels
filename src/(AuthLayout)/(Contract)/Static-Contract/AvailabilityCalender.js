@@ -132,23 +132,23 @@ const AvailabilityCalendar = ({
                     key={dayIndex}
                     className={`calendar-day h-[42px] ${
                       date > yesterday &&
-                      allotmentData?.allotment > 0 &&
+                      allotmentData?.alm > 0 &&
                       priceDateRange
                         ? "bg-green-600 text-white"
-                        : allotmentData?.allotment > 0 && !priceDateRange
+                        : allotmentData?.alm > 0 && !priceDateRange
                         ? "bg-[#c9c9c9] text-white"
-                        : allotmentData?.allotment === 0
+                        : allotmentData?.alm === 0
                         ? "bg-[#e40b0b] text-white"
-                        : allotmentData?.allotment > 0
+                        : allotmentData?.alm > 0
                         ? "bg-white text-black"
-                        : priceDateRange && !allotmentData?.allotment
+                        : priceDateRange && !allotmentData?.alm
                         ? "bg-[#c9c9c9]"
                         : ""
                     }`}
                   >
                     {allotmentData ? (
                       <div className="cursor-pointer" onClick={handleClickDate}>
-                        {allotmentData?.allotment}
+                        {allotmentData?.alm}
                       </div>
                     ) : (
                       ""
