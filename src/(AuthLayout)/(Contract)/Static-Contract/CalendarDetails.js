@@ -64,16 +64,16 @@ const CalendarDetails = ({
         ? overrideData?.twn
         : "",
     min_stay:
-      overrideData?.min_stay === 0
+      overrideData?.minS === 0
         ? 0
-        : overrideData?.min_stay > 0
-        ? overrideData?.min_stay
+        : overrideData?.minS > 0
+        ? overrideData?.minS
         : "",
     max_stay:
-      overrideData?.max_stay === 0
+      overrideData?.maxS === 0
         ? 0
-        : overrideData?.max_stay > 0
-        ? overrideData?.max_stay
+        : overrideData?.maxS > 0
+        ? overrideData?.maxS
         : "",
   };
 
@@ -191,11 +191,9 @@ const CalendarDetails = ({
       category_id &&
       pricesOverride.forEach((item) => {
         console.log(new Date(from_date));
-        if (
-          new Date(item.from_date).getDay() === new Date(from_date).getDay()
-        ) {
+        if (new Date(item.from).getDay() === new Date(from_date).getDay()) {
           pricesOverrideCategory = item;
-        } else if (new Date(item.from_date) <= new Date(from_date)) {
+        } else if (new Date(item.from) <= new Date(from_date)) {
           pricesOverrideCategory = item;
         }
       });

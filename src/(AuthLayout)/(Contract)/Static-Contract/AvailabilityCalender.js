@@ -30,7 +30,6 @@ const AvailabilityCalendar = ({
       ?.flatMap((item) => item.dInR)
       ?.sort((a, b) => a.room?.prio - b.room?.prio);
     const compressDatabreak = compressData.flatMap((item) => item.rooms);
-
     const contractCop = compressDatabreak
       ?.map((item) => item?.dInR)
       .sort((a, b) => {

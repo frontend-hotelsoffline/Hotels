@@ -333,24 +333,24 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_meals_of_contract(
-        id_from_contracts: ${id_from_contract_id}
-         from_date :"${meals_from_date}",  to_date:"${meals_to_date}", room_only_adult:${room_only_adult},  
-          room_only_child:${room_only_child || -1}, breakfast_adult:${
-      breakfast_adult || -1
-    }, breakfast_child:${breakfast_child || -1}, 
-          hb_adult:${hb_adult || -1},  hb_child:${hb_child || -1}, fb_adult:${
+      addMSC(
+        cid: ${id_from_contract_id}
+         from :"${meals_from_date}",  to:"${meals_to_date}", roA:${room_only_adult},  
+          roC:${room_only_child || -1}, bA:${breakfast_adult || -1}, bC:${
+      breakfast_child || -1
+    }, 
+          hbA:${hb_adult || -1},  hbC:${hb_child || -1}, fbA:${
       fb_adult || -1
-    }, fb_child:${fb_child || -1}, 
-          soft_all_inc_adult:${soft_all_inc_adult || -1}, soft_all_inc_child:${
+    }, fbC:${fb_child || -1}, 
+          saiA:${soft_all_inc_adult || -1}, saiC:${
       soft_all_inc_child || -1
-    }, all_inc_adult:${all_inc_adult || -1}, 
-          all_inc_child:${all_inc_child || -1}, ultra_all_inc_adult:${
-      ultra_all_inc_adult || -1
-    }, ultra_all_inc_child:${ultra_all_inc_child || -1},
+    }, aiA:${all_inc_adult || -1}, 
+          aiC:${all_inc_child || -1}, uaiA:${ultra_all_inc_adult || -1}, uaiC:${
+      ultra_all_inc_child || -1
+    },
           
         ) {
-          respmessage
+          message
     }           
     }
   `;
@@ -362,17 +362,18 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data) {
-        message.success(
-          res.data.create_a_static_contract_body_meals_of_contract?.respmessage
-        );
+      if (res.data.addMSC?.message === "success") {
+        message.success(res.data.addMSC?.message);
         getAllContractData();
         setFormData(initialData);
+      } else {
+        message.success(res.data.addMSC?.message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
     }
   };
+
   const onSubmitOffers = async (e) => {
     e.preventDefault();
     if (!offer || !booking_window_from || !id_from_contract_id) {
@@ -384,23 +385,23 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_offers_of_contract(
-        id_from_contracts: ${id_from_contract_id}
-           offer: "${offer}", room_id :${room_category_id},  stay_from: "${offer_stay_from}",  stay_to: "${offer_stay_to}", 
-           booking_window_from: "${booking_window_from}",  booking_window_to: "${booking_window_to}",  
-          discount_amount : ${discount_amount || -1},  discount_rate  : ${
-      discount_rate || -1
-    },  source_country_0_if_All: ${JSON.stringify(
-      source_country?.length > 0
-        ? source_country.map((item) => ({
-            source_country: item,
-          }))
-        : "source_country_0_if_All: 0"
-    ).replace(/"([^"]+)":/g, "$1:")},  
-          is_linked : ${is_linked},  is_room   : ${is_room},  is_meals: ${is_meals}, 
-           is_supp: ${is_supp}, is_non_refundable: ${is_non_refundable_offer}  order : ${order} 
+      addOSC(
+        cid: ${id_from_contract_id}
+           ofr: "${offer}", rId_0_All :${room_category_id},  sfrom: "${offer_stay_from}",  sto: "${offer_stay_to}", 
+           bwfrom: "${booking_window_from}",  bwto: "${booking_window_to}",  
+           dAOrR : ${discountType === "amount" ? "amnt" : "rate"},  
+           disc: ${discountType === "amount" ? discount_amount : discount_rate}
+           Scountries: ${JSON.stringify(
+             source_country?.length > 0
+               ? source_country.map((item) => ({
+                   country_0_All: item,
+                 }))
+               : "Scountries: 0"
+           ).replace(/"([^"]+)":/g, "$1:")},  
+         linked : ${is_linked}, room   : ${is_room}, meals: ${is_meals}, 
+          supp: ${is_supp}, nRef: ${is_non_refundable_offer}  order : ${order} 
         ) {
-          respmessage
+          message
     }           
     }
   `;
@@ -412,12 +413,12 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data.create_a_static_contract_body_offers_of_contract) {
-        message.success(
-          res.data.create_a_static_contract_body_offers_of_contract?.respmessage
-        );
+      if (res.data.addOSC?.message === "success") {
+        message.success(res.data.addOSC?.message);
         getAllContractData();
         setFormData(initialData);
+      } else {
+        message.success(res.data.addOSC?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -511,7 +512,7 @@ const StaticContract = () => {
         },
       ]
         ) {
-          respmessage
+          message
     }           
     }
   `;
@@ -526,7 +527,7 @@ const StaticContract = () => {
       if (res.data) {
         message.success(
           res.data.create_a_static_contract_body_cancellation_of_contract
-            ?.respmessage
+            ?.message
         );
         getAllContractData();
         setFormData(initialData);
@@ -1170,8 +1171,13 @@ const StaticContract = () => {
             <Input
               className="w-[100px]"
               value={discount_amount}
-              name="discount_amount"
-              onChange={onChange}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  discount_amount: e.target.value,
+                  discount_rate: "",
+                }))
+              }
               onKeyPress={handleKeyPress}
             />
           )}
@@ -1179,8 +1185,13 @@ const StaticContract = () => {
             <Input
               className="w-[100px]"
               value={discount_rate}
-              name="discount_rate"
-              onChange={onChange}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  discount_rate: e.target.value,
+                  discount_amount: "",
+                }))
+              }
               onKeyPress={handleKeyPress}
             />
           )}

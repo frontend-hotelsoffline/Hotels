@@ -19,32 +19,32 @@ const Services = () => {
   });
   const getServices = async () => {
     const GET_ALL = `{
-      get_all_services {
+      getSvs {
         id
-        createdAt
+        CRT
         name
-        markup_id
-        from_date
-        to_date
-        location
+        mId
+        from
+        to
+        locat
         country
         city
-        longitude
-        latitude
-        description
-        social_media_link
-        youtube_link
-        price_per_adult
-        price_per_kid
-        child_age_from
-        child_age_to
-        discount
-        discount_from
-        discount_to
-        min_pax_discount
-        owner_type
-        Mapping_ID
-        Channel
+        lon
+        lat
+        desc
+        SMLink
+        Ylink
+        PPA
+        PPK
+        CAF
+        CAT
+        dcont
+        Dfrom
+        Dto
+        MPD
+        OT
+        oC
+        oId
     }
   }`;
     const query = GET_ALL;
@@ -54,7 +54,7 @@ const Services = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_services.map((item) => ({
+        const tableArray = res.data.getSvs?.map((item) => ({
           key: item.id || "",
           id: item.id || "",
           services: item.name || "",

@@ -193,6 +193,11 @@ const GetAllContracts = (
                 supp
                 order
                 nRef
+                CRT
+                Scountries {
+                  id
+                  country
+              }
             }
             suppliments(ftz: "${date_to_pass}") {
                 id
@@ -237,11 +242,11 @@ const GetAllContracts = (
         const contractData = res.data.getSC;
         const no_of_rooms = contractData.hotel?.rooms;
         setLoading(false);
-        const mealsDataArray = contractData?.meals_of_contract || [];
+        const mealsDataArray = contractData?.meals || [];
         const calendarDataArray = contractData?.CAnRAC || [];
         const CompressedDataArray = contractData?.CPAC || [];
         const roomSetupDataArray = contractData?.room_setup_of_contract || [];
-        const offersDataArray = contractData?.offers_of_contract || [];
+        const offersDataArray = contractData?.offers || [];
         const SuppDataArray = contractData?.supplements_of_contract || [];
         const CancellationDataArray =
           contractData?.cancellation_of_contract || [];
@@ -263,11 +268,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.all_inc_adult || ""}</li>
+                <li>{item.aiA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.all_inc_child || ""}</li>
+                <li>{item.aiC || ""}</li>
               </ul>
             </span>
           ),
@@ -275,11 +280,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.ultra_all_inc_adult || ""}</li>
+                <li>{item.uaiA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.ultra_all_inc_child || ""}</li>
+                <li>{item.uaiC || ""}</li>
               </ul>
             </span>
           ),
@@ -287,11 +292,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.soft_all_inc_adult || ""}</li>
+                <li>{item.soft_aiA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.ultra_all_inc_child || ""}</li>
+                <li>{item.uaiC || ""}</li>
               </ul>
             </span>
           ),
@@ -299,11 +304,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.fb_adult || ""}</li>
+                <li>{item.fbA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.fb_child || ""}</li>
+                <li>{item.fbC || ""}</li>
               </ul>
             </span>
           ),
@@ -311,11 +316,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.hb_adult || ""}</li>
+                <li>{item.hbA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.hb_child || ""}</li>
+                <li>{item.hbC || ""}</li>
               </ul>
             </span>
           ),
@@ -323,11 +328,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.breakfast_adult || ""}</li>
+                <li>{item.bA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.breakfast_child || ""}</li>
+                <li>{item.bC || ""}</li>
               </ul>
             </span>
           ),
@@ -335,18 +340,18 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.room_only_adult || ""}</li>
+                <li>{item.roA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.room_only_child || ""}</li>
+                <li>{item.roC || ""}</li>
               </ul>
             </span>
           ),
           date: (
             <span className="w-[110px]">
-              <p>{formatDate(item.from_date) || ""}</p>
-              <p>{formatDate(item.to_date) || ""}</p>
+              <p>{formatDate(item.from) || ""}</p>
+              <p>{formatDate(item.to) || ""}</p>
             </span>
           ),
           timestamp: formatDate(item.CRT || null),
@@ -366,33 +371,31 @@ const GetAllContracts = (
         }));
         const offersFinal = offersDataArray?.map((item, index) => ({
           key: index || "",
-          timestamp: formatDate(item.CRT || null),
+          timestamp: item.CRT && formatDate(item.CRT || null),
           bookingwindow: (
             <span>
-              <p>{formatDate(item.booking_window_from) || ""}</p>
-              <p>{formatDate(item.booking_window_to) || ""}</p>
+              <p>{formatDate(item.bwfrom) || ""}</p>
+              <p>{formatDate(item.bwto) || ""}</p>
             </span>
           ),
           stay: (
             <span>
-              <p>{formatDate(item.stay_from) || ""}</p>
-              <p>{formatDate(item.stay_to) || ""}</p>
+              <p>{formatDate(item.sfrom) || ""}</p>
+              <p>{formatDate(item.sto) || ""}</p>
             </span>
           ),
-          roomcategory: item.room?.name == 0 ? "All" : item.room?.name || "",
-          offer: item.offer || "",
+          roomcategory: item.room?.name === 0 ? "All" : item.room?.name || "",
+          offer: item.ofr || "",
           discount:
-            item.discount_amount > 0
-              ? item.discount_amount
-              : item.discount_rate > 0
-              ? item.discount_rate + "%"
+            item.dAOrR === "amnt"
+              ? item.disc
+              : item.dAOrR === "rate"
+              ? item.disc + "%"
               : "",
-          source: item.source_countries?.map((item) => (
-            <p>{item.country || ""}</p>
-          )),
+          source: item.Scountries?.map((item) => <p>{item.country || ""}</p>),
           linked: (
             <span className="float-right">
-              {item.is_linked === true ? (
+              {item.linked === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -401,7 +404,7 @@ const GetAllContracts = (
           ),
           room: (
             <span className="float-right">
-              {item.is_room === true ? (
+              {item.room === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -410,7 +413,7 @@ const GetAllContracts = (
           ),
           meals: (
             <span className="float-right">
-              {item.is_meals === true ? (
+              {item.meals === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -419,7 +422,7 @@ const GetAllContracts = (
           ),
           supp: (
             <span className="float-right">
-              {item.is_supp === true ? (
+              {item.supp === true ? (
                 <FaCheck className="text-blue-800" />
               ) : (
                 <ImCross className="text-red-500" /> || ""
@@ -541,7 +544,7 @@ const GetAllContracts = (
           bookingpolicy: item.booking_cancellation_policy || "",
           room: (item.room && item.room?.name) || "",
           refundable:
-            item.is_non_refundable && item.is_non_refundable == true ? (
+            item.non_refundable && item.non_refundable == true ? (
               <span className="flex items-center justify-center">
                 <FaCheck className="text-blue-800" />
               </span>
@@ -576,7 +579,6 @@ const GetAllContracts = (
 
         const PriceFinal = PricesDataArray?.map((item, index) => {
           const addedOn = item.rows;
-          console.log(item);
           const balanceArray = no_of_rooms?.length - addedOn?.length;
 
           if (balanceArray > 0) {

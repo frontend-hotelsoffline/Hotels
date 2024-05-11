@@ -11,7 +11,7 @@ import DMCs from "./(AuthLayout)/DMCs/DMC";
 import Wallet from "./(AuthLayout)/Wallet/page";
 import Packages from "./(AuthLayout)/(Packages)/Packages/Package";
 import Channel from "./(AuthLayout)/Channel/Channel";
-import Services from "./(AuthLayout)/(Services)/page";
+import Services from "./(AuthLayout)/(Services)/Services";
 import Pricing from "./(AuthLayout)/Pricing/Pricing";
 import Contracts from "./(AuthLayout)/(Contract)/Contracts/Contracts";
 import Chains from "./(AuthLayout)/(Hotels)/Chains/Chains";
@@ -30,6 +30,7 @@ import AddRoom from "./(AuthLayout)/(Rooms)/Add-Room/Add-Room";
 import StaticContract from "./(AuthLayout)/(Contract)/Static-Contract/StaticContract";
 import { EditHotel } from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
 import EditRoom from "./(AuthLayout)/(Rooms)/Edit-Room/EditRoom";
+import AddServices from "./(AuthLayout)/(Services)/Add-Services/AddServices";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -300,6 +301,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <Services />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Add-Services"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AddServices />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

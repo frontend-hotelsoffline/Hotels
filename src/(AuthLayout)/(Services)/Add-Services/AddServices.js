@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { CalendarOutlined } from "@ant-design/icons";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
-import GetAllUsers from "../../components/Helper/GetAllUsers";
 import { formatDate } from "../../components/Helper/FormatDate";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
@@ -48,7 +47,6 @@ const AddServices = () => {
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   const router = useNavigate();
-  const { userUnderHotel, usersUnderDMC, userAgent } = GetAllUsers();
   const [activeItem, setActiveItem] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -71,9 +69,6 @@ const AddServices = () => {
   });
   const {
     name,
-    owner_id,
-    owner_type,
-    is_this_created_by_owner,
     from_date,
     to_date,
     location,
@@ -92,8 +87,6 @@ const AddServices = () => {
     discount_from,
     discount_to,
     min_pax_discount,
-    Channel,
-    Mapping_ID,
   } = formData;
   console.log(formData);
 
@@ -109,34 +102,29 @@ const AddServices = () => {
     const images = fileList.map((item) => item.originFileObj);
     const mutation = `
       mutation($images: [Upload]) {
-        create_a_service(
-          is_this_created_by_owner: ${is_this_created_by_owner}
-        owner_type: ${owner_type}
-        owner_id: ${owner_id}
+        addService(
           name: "${name}"
-          from_date: "${from_date}"
-          to_date: "${to_date}"
-          location: "${location}"
+          from: "${from_date}"
+          to: "${to_date}"
+          locat: "${location}"
           country: "${country}"
           city: "${city}"
-          longitude: "${longitude}"
-        latitude: "${latitude}"
-          description: "${description}"
-          social_media_link: "${social_media_link}"
-          youtube_link: "${youtube_link}"
-          price_per_adult: ${price_per_adult}
-          price_per_kid: ${price_per_kid}
-          child_age_from: ${child_age_from}
-          child_age_to: ${child_age_to}
-          discount: ${discount}
-          discount_from: "${discount_from}"
-          discount_to: "${discount_to}"
-          min_pax_discount: ${min_pax_discount}
+          lon: ${longitude}
+        lat: ${latitude}
+          desc: "${description}"
+          SMlink: "${social_media_link}"
+          Ylink: "${youtube_link}"
+          PPA: ${price_per_adult}
+          PPK: ${price_per_kid}
+          CAF: ${child_age_from}
+          CAT: ${child_age_to}
+          dcont: ${discount}
+          Dfrom: "${discount_from}"
+          Dto: "${discount_to}"
+          MPD: ${min_pax_discount}
           images: $images
-        Channel : "${Channel}"
-        Mapping_ID : "${Mapping_ID}"
       ) {
-          id
+          message
       }
       }
     `;
@@ -172,9 +160,11 @@ const AddServices = () => {
       }
 
       const res = await POST_API(path, formData2, headers);
-      if (res.data && !res.errors) {
+      if (res.data.addService?.message === "success") {
         message.success("Services has been Added Successfully");
         router("/Services");
+      } else {
+        message(res.data.addService?.message);
       }
     } catch (error) {
       message.error("Failed to Add Services, Please check and try again");
@@ -339,16 +329,6 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <label className="labelStyle">
-                Channel
-                <Input
-                  name="Channel"
-                  value={Channel}
-                  onChange={onChange}
-                  placeholder=""
-                  className="w-full border-black"
-                />
-              </label>
               <label className="labelStyle mt-3">
                 Description
                 <TextArea
@@ -451,16 +431,6 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <label className="labelStyle">
-                Mapping ID
-                <Input
-                  name="Mapping_ID"
-                  value={Mapping_ID}
-                  onChange={onChange}
-                  placeholder=""
-                  className="w-full border-black"
-                />
-              </label>
             </span>
             <span className="flex flex-col gap-3 w-full">
               <label className="labelStyle">
@@ -527,66 +497,6 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <span className="flex justify-between w-full">
-                <label className="labelStyle w-[170px]">
-                  owner type
-                  <Select
-                    className="inputfildinsearch"
-                    value={owner_type}
-                    onChange={(value) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        owner_type: value,
-                        owner_id: "",
-                      }))
-                    }
-                    options={[
-                      { value: 4, label: "Users Under DMC" },
-                      { value: 6, label: "Users Under Hotel" },
-                    ]}
-                  />
-                </label>
-                <label className="labelStyle w-[170px]">
-                  owner ID
-                  <Select
-                    className="inputfildinsearch"
-                    value={owner_id}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, owner_id: value }))
-                    }
-                    options={
-                      owner_type === 4
-                        ? usersUnderDMC?.map((item) => ({
-                            value: item.id ? item.id : "",
-                            label: item.uname ? item.uname : "",
-                          }))
-                        : owner_type === 6
-                        ? userUnderHotel.map((item) => ({
-                            value: item.id ? item.id : "",
-                            label: item.uname ? item.uname : "",
-                          }))
-                        : null
-                    }
-                  />
-                </label>
-                <label className="labelStyle">
-                  created by owner
-                  <Select
-                    className="inputfildinsearch"
-                    value={is_this_created_by_owner}
-                    onChange={(value) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        is_this_created_by_owner: value,
-                      }))
-                    }
-                    options={[
-                      { value: true, label: "true" },
-                      { value: false, label: "false" },
-                    ]}
-                  />
-                </label>
-              </span>
               <Button htmlType="submit" className="m-5 list-btn float-right">
                 Save
               </Button>
