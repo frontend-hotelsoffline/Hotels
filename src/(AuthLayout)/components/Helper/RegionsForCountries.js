@@ -3,18 +3,18 @@ import { GET_API } from "../API/GetAPI";
 
 const RegionsForCountries = () => {
   const [regionCountries, setRegionsCountries] = useState([]);
-  
+
   const getRegionsWithCountries = async () => {
     const GET_ALL = `{
-        get_all_regions {
+      getRGNS {
+        id
+        rgn
+        countries {
             id
-            region
-            countries_of_region {
-                id
-                region
-                country
-            }
+            RGNid
+            country
         }
+    }
     
     }`;
     const query = GET_ALL;
@@ -22,12 +22,14 @@ const RegionsForCountries = () => {
 
     try {
       const res = await GET_API(path, { params: { query } });
-      if (Array.isArray(res.data.get_all_regions)) {
-        const dataArray = res.data.get_all_regions.map(item=>({region: item.region, countries: item.countries_of_region.map(country=>country.country)}))
-        setRegionsCountries(dataArray)
+      if (Array.isArray(res.data.getRGNS)) {
+        const dataArray = res.data.getRGNS.map((item) => ({
+          region: item.rgn,
+          countries: item.countries.map((country) => country.country),
+        }));
+        setRegionsCountries(dataArray);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

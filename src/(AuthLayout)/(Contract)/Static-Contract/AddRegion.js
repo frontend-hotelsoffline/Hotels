@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { countryList } from "../../components/Helper/ListOfAllCountries";
 import { POST_API } from "../../components/API/PostAPI";
 
-const AddRegion = ({ handleCancel }) => {
+const AddRegion = () => {
   const [formData, setFormData] = useState({});
   const { region, countries } = formData;
 
@@ -13,14 +13,19 @@ const AddRegion = ({ handleCancel }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!countries) {
+      return;
+    }
     const headers = {
       "Content-Type": "application/json",
     };
     const mutation = `
       mutation {
-        create_region_and_countries(   region: "${region}",
-        countries: ${JSON.stringify(countries.map(item=>({country: item}))).replace(/"([^"]+)":/g, "$1:")}) {
-            id
+        addRGNS(   name: "${region}",
+        countries: ${JSON.stringify(
+          countries?.map((item) => ({ country: item }))
+        ).replace(/"([^"]+)":/g, "$1:")}) {
+            message
         }
     
       }
@@ -33,10 +38,11 @@ const AddRegion = ({ handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data && !res.errors) {
-        message.success("Successful");
-        handleCancel();
+      if (res.data.addRGNS?.message === "success") {
+        message.success(res.data.addRGNS?.message);
         setFormData({});
+      } else {
+        message.success(res.data.addRGNS?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -44,33 +50,38 @@ const AddRegion = ({ handleCancel }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full h-full p-4">
-      <h1 className="title capitalize">Create a region</h1>
-      <label className="labelStyle mt-4">Region</label>
-      <Input
-        name="region"
-        value={region}
-        onChange={onChange}
-        className="w-full border-black"
-      />
-     
-      <label className="labelStyle mt-4">Countries</label>
-      <Select mode="multiple"
-      showSearch
-      filterOption={(input, option) =>
-        (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-      }
-        value={countries}
-        onChange={(value) =>{
-            const selectedValues = Array.isArray(value) ? value : [value];
-          setFormData((prev) => ({ ...prev, countries: selectedValues }))
-        }}
-        options={countryList}
-        className="border-black w-full"
-      />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
-        Save
-      </Button>
+    <form className="w-full flex justify-between">
+      <label className="labelStyle">
+        Region
+        <Input
+          name="region"
+          value={region}
+          onChange={onChange}
+          className="w-full border-black"
+        />
+      </label>
+      <span>
+        <label className="labelStyle">
+          Selected Countries
+          <Select
+            mode="multiple"
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+            }
+            value={countries}
+            onChange={(value) => {
+              const selectedValues = Array.isArray(value) ? value : [value];
+              setFormData((prev) => ({ ...prev, countries: selectedValues }));
+            }}
+            options={countryList}
+            className="border-black w-full"
+          />
+        </label>
+        <Button onClick={onSubmit} className="m-5 action-btn float-right">
+          Add Region
+        </Button>
+      </span>
     </form>
   );
 };

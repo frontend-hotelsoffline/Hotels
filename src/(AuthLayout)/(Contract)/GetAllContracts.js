@@ -22,7 +22,10 @@ const GetAllContracts = (
   const [cancellationData, setCancellationData] = useState([]);
   const [priceData, setPriceData] = useState([]);
   const [rawPriceData, setRawPriceData] = useState([]);
-  const [distributionData, setDistributionData] = useState([]);
+  const [distAg, setDistAg] = useState([]);
+  const [distDMCs, setDistDMCs] = useState([]);
+  const [distCnR, setDistCnR] = useState([]);
+  const [distCp, setDistCp] = useState([]);
   const [priceMarkupData, setPriceMarkupData] = useState([]);
   const [compressData, setCompressedData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -247,6 +250,30 @@ const GetAllContracts = (
                 cPRte
                 cPlcy
             }
+            distribution {
+              CnR {
+                  countries {
+                      id
+                      country
+                  }
+                  regions {
+                      id
+                      rId
+                  }
+              }
+              Ag {
+                  id
+                  agId
+              }
+              DMCs {
+                  id
+                  dId
+              }
+              Cp {
+                  id
+                  cpId
+              }
+          }
         }
     }
     `;
@@ -271,14 +298,10 @@ const GetAllContracts = (
         const PricesDataArray = contractData?.pricesG || [];
         const PricesMarkUp = contractData?.price_markup || [];
         const BuyerMarkUp = contractData?.buyer_markup || [];
-        const countrie_names =
-          contractData?.countries_for_distribution_of_contract || [];
-        const corporates_for_distribution_of_contract =
-          contractData?.corporates_for_distribution_of_contract || [];
-        const agents_for_distribution_of_contract =
-          contractData?.agents_for_distribution_of_contract || [];
-        const dmcs_for_distribution_of_contract =
-          contractData?.dmcs_for_distribution_of_contract || [];
+        const CnR = contractData?.distribution?.CnR || [];
+        const Cp = contractData.distribution?.Cp || [];
+        const Ag = contractData.distribution?.Ag || [];
+        const DMCs = contractData.distribution?.DMCs || [];
 
         const mealsFinal = mealsDataArray?.map((item, index) => ({
           key: index,
@@ -891,22 +914,30 @@ const GetAllContracts = (
         setOffersData(offersFinal);
         setSupplementsData(supplementFinal);
         setCancellationData(cancellationFinal);
-        const distributionArray = corporates_for_distribution_of_contract?.map(
-          (item, index) => ({
-            key: index,
-            chooseacountry: (
-              <p className="grid grid-cols-3">
-                {countrie_names?.map((list) => (
-                  <span>{list.country}</span>
-                ))}
-              </p>
-            ),
-            dmc_id: dmcs_for_distribution_of_contract[index]?.id || "",
-            corporates_id: item?.id || "",
-            agent_id: agents_for_distribution_of_contract[index]?.id || "",
-          })
-        );
-        setDistributionData(distributionArray);
+        const distAgArray = Ag?.map((item) => ({
+          key: item.id,
+          agent: item.agId || 0,
+        }));
+        setDistAg(distAgArray);
+
+        const distCpArray = Cp?.map((item) => ({
+          key: item.id,
+          corporate: item.cpId,
+        }));
+        setDistCp(distCpArray);
+
+        const distDMCsArray = DMCs?.map((item) => ({
+          key: item.id,
+          dmcs: item.dId,
+        }));
+        setDistDMCs(distDMCsArray);
+
+        const distCnRArray = CnR?.map((item) => ({
+          key: item.id,
+          region: item.region?.rId,
+          country: item.countries?.country,
+        }));
+        setDistCnR(distCnRArray);
 
         const priceMarkupArray = [
           {
@@ -989,7 +1020,10 @@ const GetAllContracts = (
     cancellationData,
     priceData,
     priceMarkupData,
-    distributionData,
+    distAg,
+    distCp,
+    distDMCs,
+    distCnR,
     loading,
     roomSetupData,
     getAllContractData,

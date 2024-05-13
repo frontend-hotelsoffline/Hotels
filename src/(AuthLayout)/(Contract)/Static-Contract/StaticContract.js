@@ -15,7 +15,10 @@ import { POST_API } from "../../components/API/PostAPI";
 import {
   columns,
   markupColumns,
-  distributionColumns,
+  agentColumns,
+  corporateColumns,
+  DMCColumns,
+  countryColumns,
   cancellationsColumns,
   supplementsColumns,
   offersColumns,
@@ -57,8 +60,8 @@ const StaticContract = () => {
   const timestamp = new Date().toLocaleDateString();
   const minDate = new Date(timestamp);
   const [activeItem, setActiveItem] = useState(0);
+  const [activeItemDist, setActiveItemDist] = useState(0);
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [showRegionPopUp, setShowRegionPopUp] = useState(false);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -537,8 +540,7 @@ const StaticContract = () => {
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     if (!id_from_contract_id) {
       message.error("Please fill in all required fields.");
       return;
@@ -548,39 +550,56 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_distribution_of_contract(
-        id_from_contracts: ${id_from_contract_id}          
-        countrie_names_for_distribution_of_contract: ${JSON.stringify(
-          selectedCountries?.length > 0
-            ? selectedCountries?.map((item) => ({
-                country_All_if_all: item,
-              }))
-            : "country_All_if_all: 0"
-        ).replace(/"([^"]+)":/g, "$1:")}        
-        dmc_ids_for_distribution_of_contract: ${JSON.stringify(
-          dmc_id_0_if_all?.length > 0
-            ? dmc_id_0_if_all.map((item) => ({
-                dmc_id_0_if_all: item,
-              }))
-            : "dmc_id_0_if_all: 0"
-        ).replace(/"([^"]+)":/g, "$1:")}
-        corporate_ids_for_distribution_of_contract: ${JSON.stringify(
-          corporates_id_0_if_all?.length > 0
-            ? corporates_id_0_if_all?.map((item) => ({
-                corporates_id_0_if_all: item,
-              }))
-            : "corporates_id_0_if_all: 0"
-        ).replace(/"([^"]+)":/g, "$1:")}
-        agent_ids_for_distribution_of_contract: ${JSON.stringify(
-          agent_id_0_if_all?.length > 0
-            ? agent_id_0_if_all?.map((item) => ({
-                agent_id_0_if_all: item,
-              }))
-            : "agent_id_0_if_all: 0"
-        ).replace(/"([^"]+)":/g, "$1:")}
+      ${
+        activeItemDist === 0
+          ? "addDisDMCsSC"
+          : activeItemDist === 1
+          ? "addDisCpsSC"
+          : activeItemDist === 2
+          ? "addDisAgsSC"
+          : null
+      }(
+        cid: ${id_from_contract_id}          
+       ${
+         activeItemDist === ""
+           ? JSON.stringify(
+               selectedCountries?.length > 0
+                 ? selectedCountries?.map((item) => ({
+                     country_All_if_all: item,
+                   }))
+                 : "country_All_if_all: 0"
+             ).replace(/"([^"]+)":/g, "$1:")
+           : ""
+       }       
+        ${
+          activeItemDist === 0
+            ? `dIds: ${JSON.stringify(
+                dmc_id_0_if_all?.length > 0
+                  ? dmc_id_0_if_all.map((item) => ({
+                      id_0_All: item,
+                    }))
+                  : "id_0_All: 0"
+              ).replace(/"([^"]+)":/g, "$1:")}`
+            : activeItemDist === 1
+            ? `cpIds: ${JSON.stringify(
+                corporates_id_0_if_all?.length > 0
+                  ? corporates_id_0_if_all?.map((item) => ({
+                      id_0_All: item,
+                    }))
+                  : "id_0_All: 0"
+              ).replace(/"([^"]+)":/g, "$1:")}`
+            : activeItemDist === 2
+            ? `agIds: ${JSON.stringify(
+                agent_id_0_if_all?.length > 0
+                  ? agent_id_0_if_all?.map((item) => ({
+                      id_0_All: item,
+                    }))
+                  : "id_0_All: 0"
+              ).replace(/"([^"]+)":/g, "$1:")}`
+            : null
+        }
     ) {
-        id
-        createdAt
+       message
     }
     }
   `;
@@ -593,11 +612,11 @@ const StaticContract = () => {
         headers
       );
       if (res.data) {
-        message.success("Successful");
+        message.success("Success");
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.error(res.errors[0].message);
+        message.error("fail");
       }
     } catch (error) {
       message.error("Failed");
@@ -659,8 +678,12 @@ const StaticContract = () => {
     "Mark-up",
     "Availability",
   ];
+  const distributionItems = ["DMCs", "corporate", "agent", "country"];
   const handleItemClick = (index) => {
     setActiveItem(index);
+  };
+  const handleItemClickDistribution = (index) => {
+    setActiveItemDist(index);
   };
 
   const { DMCsOfHotelValue } = GetAllDMCsOfHotel(hotel_id);
@@ -1590,161 +1613,6 @@ const StaticContract = () => {
     },
   ];
 
-  const defaultRegions = [
-    { region: "All", countries: [] },
-    {
-      region: "GCC",
-      countries: [
-        "Bahrain",
-        "Kuwait",
-        "Oman",
-        "Qatar",
-        "Saudi Arabia",
-        "United Arab Emirates",
-      ],
-    },
-  ];
-
-  // Remove duplicate entries based on the "region" property
-  const uniqueRegionCountries = regionCountries.filter(
-    (item, index, self) =>
-      index === self.findIndex((t) => t.region === item.region)
-  );
-
-  const regions = [...defaultRegions, ...uniqueRegionCountries];
-
-  const handleCountryChange = (country) => {
-    setSelectedCountries([...selectedCountries, country]);
-  };
-
-  const onCheckAllChange = (e, countries) => {
-    setSelectedCountries(e.target.checked ? countries : []);
-  };
-
-  const handleCancel = () => {
-    setShowRegionPopUp(false);
-  };
-
-  const distributionDataSource = [
-    {
-      key: "distribudat",
-      chooseacountry: (
-        <div className="h-[400px] overflow-y-auto w-full">
-          <Modal
-            footer={false}
-            open={showRegionPopUp}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <AddRegion handleCancel={handleCancel} />
-          </Modal>
-          {regions.map((list) => (
-            <div className="mb-4 flex flex-col" key={list.region}>
-              <Checkbox
-                className="calendar-head"
-                onChange={(e) => onCheckAllChange(e, list.countries)}
-                checked={selectedCountries.length === list.countries.length}
-              >
-                {list.region}
-              </Checkbox>
-              <div className="grid grid-cols-4 items-start gap-2 text-start">
-                {Array.isArray(list.countries) &&
-                  list.countries.map((country) => (
-                    <div className="w-full whitespace-nowrap" key={country}>
-                      <Checkbox
-                        className="sub-title"
-                        checked={selectedCountries.includes(country)} // Check if country is selected
-                        onChange={() => handleCountryChange(country)}
-                      >
-                        {country}
-                      </Checkbox>
-                    </div>
-                  ))}
-              </div>
-              <i className="bg-black w-full h-[2px] my-1" />
-            </div>
-          ))}
-        </div>
-      ),
-      dmc_id: (
-        <Select
-          mode={dmc_id_0_if_all?.includes(0) ? null : "multiple"}
-          showSearch
-          filterOption={(input, option) =>
-            (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-          }
-          className="h-[70px] w-[150px]"
-          options={[
-            { value: 0, label: "All" },
-            ...DMCsValue.map((item) => ({
-              value: item.id ? item.id : "",
-              label: item.name ? item.name : "",
-            })),
-          ]}
-          onChange={(value) => {
-            const selectedValues = Array.isArray(value) ? value : [value];
-            setFormData((prevData) => ({
-              ...prevData,
-              dmc_id_0_if_all: selectedValues.map(Number),
-            }));
-          }}
-        />
-      ),
-      corporates_id: (
-        <Select
-          mode={corporates_id_0_if_all?.includes(0) ? null : "multiple"}
-          showSearch
-          filterOption={(input, option) =>
-            (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-          }
-          className="h-[70px] w-[150px]"
-          options={[
-            { value: 0, label: "All" },
-            ...CorporatesValue?.map((item) => ({
-              value: item.id ? item.id : "",
-              label: item.name ? item.name : "",
-            })),
-          ]}
-          onChange={(value) => {
-            const selectedValues = Array.isArray(value) ? value : [value];
-            setFormData((prevData) => ({
-              ...prevData,
-              corporates_id_0_if_all: selectedValues,
-            }));
-          }}
-        />
-      ),
-      agent_id: (
-        <Select
-          mode={agent_id_0_if_all?.includes(0) ? null : "multiple"}
-          showSearch
-          filterOption={(input, option) =>
-            (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-          }
-          className="h-[70px] w-[150px]"
-          options={[
-            { value: 0, label: "All" },
-            ...userAgent.map((item) => ({
-              value: item.id ? item.id : "",
-              label: item.uname ? item.uname : "",
-            })),
-          ]}
-          onChange={(value) => {
-            const selectedValues = Array.isArray(value) ? value : [value];
-            setFormData((prevData) => ({
-              ...prevData,
-              agent_id_0_if_all: selectedValues,
-            }));
-          }}
-        />
-      ),
-      action: (
-        <Button onClick={onSubmit} className="save-btn">
-          Save
-        </Button>
-      ),
-    },
-  ];
   const { MarkUpValue } = GetAllPricingMarkUp();
   const markupDataSource = [
     {
@@ -1832,7 +1700,10 @@ const StaticContract = () => {
     cancellationData,
     priceData,
     priceMarkupData,
-    distributionData,
+    distAg,
+    distCp,
+    distDMCs,
+    distCnR,
     loading,
     roomSetupData,
     getAllContractData,
@@ -1865,11 +1736,31 @@ const StaticContract = () => {
       ? roomSetupColums
       : activeItem === 5
       ? cancellationsColumns
-      : activeItem === 6
-      ? distributionColumns
       : activeItem === 7
       ? markupColumns
       : null;
+
+  const distColumn =
+    activeItemDist === 0
+      ? DMCColumns
+      : activeItemDist === 1
+      ? corporateColumns
+      : activeItemDist === 2
+      ? agentColumns
+      : activeItemDist === 3
+      ? countryColumns
+      : "";
+
+  const distDataSource =
+    activeItemDist === 0
+      ? distDMCs
+      : activeItemDist === 1
+      ? distCp
+      : activeItemDist === 2
+      ? distAg
+      : activeItemDist === 3
+      ? distCnR
+      : [];
 
   const firstTableData =
     activeItem === 0
@@ -1884,8 +1775,6 @@ const StaticContract = () => {
       ? roomSetupDataSource
       : activeItem === 5
       ? cancellationsDataSource
-      : activeItem === 6
-      ? distributionDataSource
       : activeItem === 7
       ? markupDataSource
       : null;
@@ -1903,8 +1792,6 @@ const StaticContract = () => {
       ? roomSetupData
       : activeItem === 5
       ? cancellationData
-      : activeItem === 6
-      ? distributionData
       : activeItem === 7
       ? priceMarkupData
       : null;
@@ -2154,29 +2041,181 @@ const StaticContract = () => {
               {item}
             </li>
           ))}
-          {/* <li
-            className={`cursor-pointer ${
-              activeItem === "" ? "font-bold underline text-[#000000]" : ""
-            }`}
-            onClick={() => {
-              setActiveItem("");
-            }}
-          >
-            Availability
-          </li> */}
-          {activeItem === 6 && (
-            <Button
-              className="action-btn absolute right-20"
-              onClick={() => setShowRegionPopUp(true)}
-            >
-              Add Region
-            </Button>
-          )}
         </ul>
       </div>
       <div className="w-full">
         <div>
-          {activeItem === 8 ? (
+          {activeItem === 6 ? (
+            <div className="flex gap-5 w-full">
+              <ul className="list-none border border-black/20 rounded-3xl text-[#A6A6A6]  flex text-center flex-col max-w-4xl my-6 h-full">
+                {distributionItems.map((item, index) => (
+                  <li
+                    key={index}
+                    className={`cursor-pointer capitalize m-6 w-[140px]${
+                      activeItemDist === index ? " button-bar" : ""
+                    }`}
+                    onClick={() => handleItemClickDistribution(index)}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="border border-black/20 w-full p-4 rounded-3xl">
+                <div className="flex m-2 justify-between rounded-3xl">
+                  <span className="flex flex-col">
+                    <label className="labelStyle">
+                      {activeItemDist === 0
+                        ? "DMC"
+                        : activeItemDist === 1
+                        ? "Corporate"
+                        : activeItemDist === 2
+                        ? "Agent"
+                        : ""}
+                    </label>
+
+                    {activeItemDist === 0 && (
+                      <Select
+                        mode={dmc_id_0_if_all?.includes(0) ? null : "multiple"}
+                        showSearch
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? "").includes(
+                            input.toLowerCase()
+                          )
+                        }
+                        className="min-w-[130px]"
+                        options={[
+                          { value: 0, label: "All" },
+                          ...DMCsValue.map((item) => ({
+                            value: item.id ? item.id : "",
+                            label: item.name ? item.name : "",
+                          })),
+                        ]}
+                        onChange={(value) => {
+                          const selectedValues = Array.isArray(value)
+                            ? value
+                            : [value];
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            dmc_id_0_if_all: selectedValues.map(Number),
+                          }));
+                        }}
+                      />
+                    )}
+                    {activeItemDist === 1 && (
+                      <Select
+                        mode={
+                          corporates_id_0_if_all?.includes(0)
+                            ? null
+                            : "multiple"
+                        }
+                        showSearch
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? "").includes(
+                            input.toLowerCase()
+                          )
+                        }
+                        className="min-w-[130px]"
+                        options={[
+                          { value: 0, label: "All" },
+                          ...CorporatesValue?.map((item) => ({
+                            value: item.id ? item.id : "",
+                            label: item.name ? item.name : "",
+                          })),
+                        ]}
+                        onChange={(value) => {
+                          const selectedValues = Array.isArray(value)
+                            ? value
+                            : [value];
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            corporates_id_0_if_all: selectedValues,
+                          }));
+                        }}
+                      />
+                    )}
+                    {activeItemDist === 2 && (
+                      <Select
+                        mode={
+                          agent_id_0_if_all?.includes(0) ? null : "multiple"
+                        }
+                        showSearch
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? "").includes(
+                            input.toLowerCase()
+                          )
+                        }
+                        className="min-w-[130px]"
+                        options={[
+                          { value: 0, label: "All" },
+                          ...userAgent.map((item) => ({
+                            value: item.id ? item.id : "",
+                            label: item.uname ? item.uname : "",
+                          })),
+                        ]}
+                        onChange={(value) => {
+                          const selectedValues = Array.isArray(value)
+                            ? value
+                            : [value];
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            agent_id_0_if_all: selectedValues,
+                          }));
+                        }}
+                      />
+                    )}
+                    {/* {activeItemDist === 3 && (
+                      <Select
+                        showSearch
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? "").includes(
+                            input.toLowerCase()
+                          )
+                        }
+                        className="min-w-[130px]"
+                        options={regionCountries?.map((item) => ({
+                          value: item.region ? item.region : "",
+                          label: item.region ? item.region : "",
+                        }))}
+                        onChange={(value) => {
+                          const selectedValues = Array.isArray(value)
+                            ? value
+                            : [value];
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            selectedCountries: selectedValues,
+                          }));
+                        }}
+                      />
+                    )} */}
+                  </span>
+                  {activeItemDist != 3 && (
+                    <Button className="action-btn" onClick={onSubmit}>
+                      {activeItemDist === 0
+                        ? " Add DMC"
+                        : activeItemDist === 1
+                        ? "Add Corporate"
+                        : activeItemDist === 2
+                        ? "Add Agent"
+                        : ""}
+                    </Button>
+                  )}
+                  {activeItemDist === 3 && <AddRegion />}
+                </div>
+                <Table
+                  columns={distColumn}
+                  dataSource={distDataSource}
+                  loading={loading}
+                  onRow={(record) => {
+                    return {
+                      onClick: () => {
+                        setRowData(record);
+                      },
+                    };
+                  }}
+                />
+              </div>
+            </div>
+          ) : activeItem === 8 ? (
             <AvailabilityCalendar
               record={rawPriceData}
               compressData={compressData}

@@ -281,26 +281,67 @@ export const cancellationsColumns = [
     key: "action",
   },
 ];
-export const distributionColumns = [
+export const DMCColumns = [
   {
-    title: "dmc",
-    dataIndex: "dmc_id",
-    key: "dmc_id",
+    title: "dmcs",
+    dataIndex: "dmcs",
+    key: "dmcs",
   },
   {
-    title: "corporates",
-    dataIndex: "corporates_id",
-    key: "corporates_id",
+    title: "date",
+    dataIndex: "date",
+    key: "date",
   },
+  {
+    title: "action",
+    dataIndex: "action",
+    key: "action",
+  },
+];
+export const corporateColumns = [
+  {
+    title: "corporate",
+    dataIndex: "corporate",
+    key: "corporate",
+  },
+  {
+    title: "date",
+    dataIndex: "date",
+    key: "date",
+  },
+  {
+    title: "action",
+    dataIndex: "action",
+    key: "action",
+  },
+];
+export const agentColumns = [
   {
     title: "agent",
-    dataIndex: "agent_id",
-    key: "agent_id",
+    dataIndex: "agent",
+    key: "agent",
   },
   {
-    title: "choose a country",
-    dataIndex: "chooseacountry",
-    key: "chooseacountry",
+    title: "date",
+    dataIndex: "date",
+    key: "date",
+  },
+  {
+    title: "action",
+    dataIndex: "action",
+    key: "action",
+  },
+];
+export const countryColumns = [
+  {
+    title: "region",
+    dataIndex: "region",
+    key: "region",
+  },
+  {
+    title: "country",
+    dataIndex: "country",
+    key: "country",
   },
   {
     title: "action",
