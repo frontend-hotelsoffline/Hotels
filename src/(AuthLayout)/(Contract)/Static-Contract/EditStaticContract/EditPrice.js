@@ -15,9 +15,7 @@ const EditPrice = ({
   const { Occupancy_and_category_cross, hotelValue } =
     ControlInputValue(hotel_id);
   const [dataSource, setDataSource] = useState([]);
-  const [editedData, setEditedData] = useState(
-    rowData?.price_group_of_categories
-  );
+  const [editedData, setEditedData] = useState(rowData?.rows);
 
   const handleChange = (newValue, index, field) => {
     const newData = [...editedData];
@@ -33,30 +31,28 @@ const EditPrice = ({
 
     // Create an array to hold the formatted prices data
     const formattedPrices = editedData.map((item) => ({
-      room_id: Number(item.room.id),
+      rId: Number(item.room.id),
       sgl: item.sgl || -1,
       dbl: item.dbl || -1,
       twn: item.twn || -1,
       trl: item.trl || -1,
       qud: item.qud || -1,
       unit: item.unit || -1,
-      min_stay: item.min_stay || -1,
-      max_stay: item.max_stay || -1,
+      minS: item.min_stay || -1,
+      maxS: item.max_stay || -1,
     }));
 
     const mutation = `
     mutation {
-      edit_a_static_contract_body_prices_of_contract(
-        id_from_contracts: ${id},
-        prices_of_contract: {
-          from_date: "${rowData.from_date}",
-          to_date: "${rowData.to_date}",
-          array_of_prices_of_all_categories: ${JSON.stringify(
-            formattedPrices
-          ).replace(/"([^(")"]+)":/g, "$1:")}
-        }
+      editPSC(
+        cid: ${id},
+        from: "${rowData.from_date}",
+        to: "${rowData.to_date}",
+        rows: 
+          ${JSON.stringify(formattedPrices).replace(/"([^(")"]+)":/g, "$1:")}
+        
       ) {
-        id
+        message
       }
     }
     `;
@@ -67,10 +63,12 @@ const EditPrice = ({
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data && !res.errors) {
-        message.success("Successful");
+      if (res.data.editPSC?.message === "success") {
+        message.success(res.data.editPSC?.message);
         handleCancel();
         getAllContractData();
+      } else {
+        message.success(res.data.editPSC?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -86,8 +84,8 @@ const EditPrice = ({
     TRPL: item.trl === 0 ? 0 : item.trl > 0 ? item.trl : "",
     QUAD: item.qud === 0 ? 0 : item.qud > 0 ? item.qud : "",
     unit: item.unit === 0 ? 0 : item.unit > 0 ? item.unit : "",
-    minstay: item.min_stay === 0 ? 0 : item.min_stay > 0 ? item.min_stay : "",
-    maxstay: item.max_stay === 0 ? 0 : item.max_stay > 0 ? item.max_stay : "",
+    minstay: item.minS === 0 ? 0 : item.minS > 0 ? item.minS : "",
+    maxstay: item.maxS === 0 ? 0 : item.maxS > 0 ? item.maxS : "",
   }));
 
   useEffect(() => {
@@ -106,7 +104,7 @@ const EditPrice = ({
       key: "SGL",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_SGL"
+          "SGL"
         ) ? (
           <Input
             className="borderedRow active"
@@ -124,7 +122,7 @@ const EditPrice = ({
       key: "DBL",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_DBL"
+          "DBL"
         ) ? (
           <Input
             className="borderedRow active"
@@ -141,7 +139,7 @@ const EditPrice = ({
       key: "TWN",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_TWN"
+          "TWN"
         ) ? (
           <Input
             className="borderedRow active"
@@ -158,7 +156,7 @@ const EditPrice = ({
       key: "TRPL",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_TRPL"
+          "TRPL"
         ) ? (
           <Input
             className="borderedRow active"
@@ -175,7 +173,7 @@ const EditPrice = ({
       key: "QUAD",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_QUAD"
+          "QUAD"
         ) ? (
           <Input
             className="borderedRow active"
@@ -192,7 +190,7 @@ const EditPrice = ({
       key: "unit",
       render: (text, record, index) =>
         Occupancy_and_category_cross[index]?.array_of_occupancies.includes(
-          "is_UNIT"
+          "UNIT"
         ) ? (
           <Input
             className="borderedRow active"

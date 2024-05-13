@@ -9,7 +9,7 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
   const { accManager } = GetAllUsers();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const [formData, setFormData] = useState({});
-  const { name, status, acc_mnger_id, buying_markup_id } = formData;
+  const { name, status, acc_mnger_id, buying_markup_id, email } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,10 +22,8 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        create_a_corporate(name: "${name}", status: "${status}", acc_mnger_id: ${acc_mnger_id}, buying_markup_id: ${buying_markup_id} ) {
-            id
-            name
-            status
+        addcoop(name: "${name}", status: ${status},email: "${email}", a_mngrId: ${acc_mnger_id}, BMid: ${buying_markup_id} ) {
+            message
         }
       }
     `;
@@ -37,16 +35,16 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
-      if (res) {
-        message.success("Corporate has been Added Successfully");
+      if (res.data.addcoop?.message === "success") {
+        message.success(res.data.addcoop?.message);
         getCorporate();
         handleCancel();
         setFormData({});
+      } else {
+        message.success(res.data.addcoop?.message);
       }
     } catch (error) {
       message.error("Failed to Add Corporate, Please check and try again");
-      console.error(error);
     }
   };
 
@@ -79,13 +77,20 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
           }));
         }}
       />
+      <label className="labelStyle mt-4">Email</label>
+      <Input
+        name="email"
+        value={email}
+        onChange={onChange}
+        className="w-full border-black"
+      />
       <label className="labelStyle mt-1 w-full">account manager</label>
       <Select
         showSearch
         filterOption={(input, option) =>
           (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
         }
-        className="input-style w-full"        
+        className="input-style w-full"
         value={acc_mnger_id}
         onChange={(value) =>
           setFormData((prev) => ({ ...prev, acc_mnger_id: value }))
@@ -94,13 +99,13 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
           accManager
             ? accManager?.map((item) => ({
                 key: item.id,
-                label: item.uname,
-                value: Number(item.id),
+                label: item.name,
+                value: item.id,
               }))
             : ""
         }
       />
-      <label className="labelStyle mt-1 w-full">account manager</label>
+      <label className="labelStyle mt-1 w-full">Buying Markup</label>
       <Select
         value={buying_markup_id}
         onChange={(value) =>
@@ -111,7 +116,7 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
             ? MarkUpValue.map((item) => ({
                 key: item.id,
                 label: item.name,
-                value: Number(item.id),
+                value: item.id,
               }))
             : ""
         }

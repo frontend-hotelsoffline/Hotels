@@ -30,15 +30,20 @@ const Corporate = () => {
 
   const getCorporate = async () => {
     const GET_ALL = `{
-        get_all_corporates {
+      getcoops {
+        id
+        name
+        status
+        email
+        a_mngr
+        BM
+        buyM {
             id
+            CRT
             name
-            status  
-            buying_markup {
-              name
-              markup
-          }
+            markup
         }
+    }
   }`;
     const query = GET_ALL;
     const path = "";
@@ -46,14 +51,12 @@ const Corporate = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       if (res.data) {
-        const tableArray = res.data.get_all_corporates.map((item) => ({
+        const tableArray = res.data.getcoops?.map((item) => ({
           key: item.id,
           id: item.id,
           name: item.name,
           status: item.status,
-          markup:
-            item.buying_markup.markup &&
-            (item.buying_markup.markup * 1).toFixed(2) + "%",
+          markup: item.buyM.markup && (item.buyM.markup * 1).toFixed(2) + "%",
         }));
         setDataSource(tableArray);
         setLoading(false);

@@ -83,7 +83,25 @@ const GetAllContracts = (
                 CRT
                 name
                 markup
-            } pricesG(ftz: "${date_to_pass}") {
+            } 
+            viewRS {
+              rId
+              rname
+              tPax
+              minA
+              maxA
+              maxC
+              Beds
+              sBed
+              ssType
+              ss
+              mcas
+              ebeds
+              maieb
+              est
+              ebs
+              mInc
+          }pricesG(ftz: "${date_to_pass}") {
               from
               to
               rows {
@@ -245,7 +263,7 @@ const GetAllContracts = (
         const mealsDataArray = contractData?.meals || [];
         const calendarDataArray = contractData?.CAnRAC || [];
         const CompressedDataArray = contractData?.CPAC || [];
-        const roomSetupDataArray = contractData?.room_setup_of_contract || [];
+        const roomSetupDataArray = contractData?.viewRS || [];
         const offersDataArray = contractData?.offers || [];
         const SuppDataArray = contractData?.supplements_of_contract || [];
         const CancellationDataArray =
@@ -780,39 +798,39 @@ const GetAllContracts = (
 
         const roomSetupFinal = roomSetupDataArray?.map((item, index) => ({
           key: index || "",
-          category: item.room?.name || "",
+          category: item.rname || "",
           occupancy: item.occupancy || "",
           total_persons: (
             <ul>
-              <li>{item.total_persons || ""}</li>
+              <li>{item.tPax || ""}</li>
             </ul>
           ),
           min_adult: (
             <ul>
-              <li>{item.min_adult || ""}</li>
+              <li>{item.minA || ""}</li>
             </ul>
           ),
           max_adult: (
             <ul>
-              <li>{item.max_adult || ""}</li>
+              <li>{item.maxA || ""}</li>
             </ul>
           ),
           max_child: (
             <ul>
-              <li>{item.max_child || ""}</li>
+              <li>{item.maxC || ""}</li>
             </ul>
           ),
           no_of_beds: (
             <ul>
-              <li>{item.no_of_beds || ""}</li>
+              <li>{item.Beds || ""}</li>
             </ul>
           ),
           shared_bed:
-            item.shared_bed === true ? (
+            item.sBed === true ? (
               <ul>
                 <li>Yes</li>
               </ul>
-            ) : item.shared_bed === false ? (
+            ) : item.sBed === false ? (
               <ul>
                 <li>No</li>
               </ul>
@@ -821,49 +839,42 @@ const GetAllContracts = (
             ),
           shared_supliment_type: (
             <ul>
-              <li>{item.shared_supliment_type || ""}</li>
+              <li>{item.ssType || ""}</li>
             </ul>
           ),
           shared_suppliment: (
             <ul>
-              <li>{item.shared_suppliment || ""}</li>
+              <li>{item.ss || ""}</li>
             </ul>
           ),
           max_age_in_extra_bed: (
             <ul>
-              <li>{item.max_age_in_extra_bed || ""}</li>
+              <li>{item.maieb || ""}</li>
             </ul>
           ),
           no_of_extra_beds: (
             <ul>
-              <li>{item.no_of_extra_beds || ""}</li>
+              <li>{item.ebeds || ""}</li>
             </ul>
           ),
           extra_bed_suppliment: (
             <ul>
-              <li>{item.extra_bed_suppliment || ""}</li>
+              <li>{item.ebs || ""}</li>
             </ul>
           ),
           extra_suppliment_type: (
             <ul>
-              <li>{item.extra_suppliment_type || ""}</li>
+              <li>{item.est || ""}</li>
             </ul>
           ),
-          meals_included:
-            item.meals_included === true ? (
-              <ul>
-                <li>Yes</li>
-              </ul>
-            ) : item.meals_included === false ? (
-              <ul>
-                <li>No</li>
-              </ul>
-            ) : (
-              ""
-            ),
+          meals_included: (
+            <ul>
+              <li>{item.mInc}</li>
+            </ul>
+          ),
           max_child_age_in_shared: (
             <ul>
-              <li>{item.max_child_age_in_shared || ""}</li>
+              <li>{item.mcas || ""}</li>
             </ul>
           ),
           customOrder:

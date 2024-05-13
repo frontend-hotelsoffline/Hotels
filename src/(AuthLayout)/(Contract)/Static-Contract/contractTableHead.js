@@ -336,17 +336,17 @@ export const markupColumns = [
   },
 ];
 
-export const roomSetupColums =[
+export const roomSetupColums = [
   {
     title: "room",
     dataIndex: "category",
     key: " category",
   },
-  {
-    title: "occupancy",
-    dataIndex: "occupancy",
-    key: "occupancy",
-  },
+  // {
+  //   title: "occupancy",
+  //   dataIndex: "occupancy",
+  //   key: "occupancy",
+  // },
   {
     title: "total persons",
     dataIndex: "total_persons",
@@ -397,10 +397,11 @@ export const roomSetupColums =[
     dataIndex: "max_child_age_in_shared",
     key: "max_child_age_in_shared",
   },
-  {title: "max age in extra bed",
-  dataIndex: "max_age_in_extra_bed",
-  key: "max_age_in_extra_bed",
-},
+  {
+    title: "max age in extra bed",
+    dataIndex: "max_age_in_extra_bed",
+    key: "max_age_in_extra_bed",
+  },
   {
     title: "extra suppliment type",
     dataIndex: "extra_suppliment_type",
@@ -416,9 +417,9 @@ export const roomSetupColums =[
     dataIndex: "meals_included",
     key: "meals_included:",
   },
-  {
-    title: "action",
-    dataIndex: "action",
-    key: "action",
-  },
-]
+  // {
+  //   title: "action",
+  //   dataIndex: "action",
+  //   key: "action",
+  // },
+];
