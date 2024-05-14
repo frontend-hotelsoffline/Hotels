@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
-import CombineDmcHotel from "./CombineDmcHotel";
+import AddUser from "../Users/AddUser";
 import GetAllUsers from "../components/Helper/GetAllUsers";
 
 import PopUpForContract from "./PopUpForContract";
@@ -76,7 +76,6 @@ const AccountOwners = () => {
     getAccountOwners();
   }, [accManager]);
   const router = useNavigate();
-  console.log(accManager);
 
   const columns = [
     {
@@ -249,7 +248,7 @@ const AccountOwners = () => {
           className="button-bar"
           icon={<PlusOutlined />}
         >
-          Assign DMC to Hotel
+          Add Account Manager
         </Button>
         <Modal
           footer={false}
@@ -257,7 +256,7 @@ const AccountOwners = () => {
           onOk={handleCancel}
           onCancel={handleCancel}
         >
-          <CombineDmcHotel handleCancel={handleCancel} />
+          <AddUser getUser={getAllUsers} ac_m={2} handleCancel={handleCancel} />
         </Modal>
       </div>
       <Table

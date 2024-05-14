@@ -17,6 +17,7 @@ import { FaUsersGear, FaGift, FaWallet } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { IoMoonOutline } from "react-icons/io5";
 import { AuthContext } from "../../../AuthProvider";
+import GetProfile from "../Helper/GetProfile";
 
 const Sidebar = () => {
   const { lightOrDark, setLightOrDark } = useContext(AuthContext);
@@ -25,7 +26,7 @@ const Sidebar = () => {
   const currentKey = pathname.pop();
 
   const [currentPage, setCurrentPage] = useState(currentKey);
-
+  const { ProfileValue } = GetProfile();
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -125,15 +126,31 @@ const Sidebar = () => {
         >
           <div className="super-admin-profile"></div>
           <span className="">
-            <h1 className={`${lightOrDark === "dark" && "dark-mode"} title`}>
-              Super Admin
+            <h1
+              className={`${
+                lightOrDark === "dark" && "dark-mode"
+              } title capitalize`}
+            >
+              {ProfileValue?.name}
             </h1>
             <h2
               className={`${
                 lightOrDark === "dark" && "dark-mode"
               } sub-title text-center`}
             >
-              Moderator
+              {ProfileValue.lev === 1
+                ? "Super Admin"
+                : ProfileValue.lev === 2
+                ? "Account manager"
+                : ProfileValue.lev === 4
+                ? "users under a dmc"
+                : ProfileValue.lev === 6
+                ? "users under a hotel"
+                : ProfileValue.lev === 9
+                ? "users under a corporate"
+                : ProfileValue.lev === 1
+                ? "Agent"
+                : ""}
             </h2>
           </span>
         </div>

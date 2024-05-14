@@ -7,12 +7,12 @@ import GetAllHotels from "../components/Helper/GetAllHotels";
 import GetAllCorporates from "../components/Helper/GetAllCorporate";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 
-const AddUser = ({ getUser, handleCancel }) => {
+const AddUser = ({ getUser, ac_m, handleCancel }) => {
   const { DMCsValue } = GetAllDMCs();
   const { hotelValue } = GetAllHotels();
   const { CorporatesValue } = GetAllCorporates();
   const { MarkUpValue } = GetAllPricingMarkUp();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ ulevel: ac_m || 0 });
   const {
     uname,
     phone,
@@ -79,6 +79,7 @@ const AddUser = ({ getUser, handleCancel }) => {
           Account type
           <Select
             className=" w-full"
+            value={ulevel}
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, ulevel: value, comp_id: 0 }))
             }
