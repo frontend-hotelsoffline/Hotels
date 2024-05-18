@@ -176,6 +176,16 @@ export const offersColumns = [
     key: "order",
   },
   {
+    title: "Duration",
+    dataIndex: "ArOrSt",
+    key: "ArOrSt",
+  },
+  {
+    title: "min Stay",
+    dataIndex: "minStay",
+    key: "minStay",
+  },
+  {
     title: "non ref",
     dataIndex: "nonrefundable",
     key: "nonrefundable",
@@ -193,9 +203,9 @@ export const supplementsColumns = [
     key: "timestamp",
   },
   {
-    title: "service",
-    dataIndex: "service",
-    key: "service",
+    title: "validity",
+    dataIndex: "validity",
+    key: "validity",
   },
   {
     title: "supplement",
@@ -208,6 +218,11 @@ export const supplementsColumns = [
     key: "type",
   },
   {
+    title: "Duration",
+    dataIndex: "ArOrSt",
+    key: "ArOrSt",
+  },
+  {
     title: "room",
     dataIndex: "roomcategory",
     key: "roomcategory",
@@ -218,16 +233,32 @@ export const supplementsColumns = [
     key: "stay",
   },
   {
+    title: "price type",
+    dataIndex: "price_type",
+    key: "price_type",
+  },
+  {
     title: "price",
     dataIndex: "price",
     key: "price",
   },
   {
-    title: "Percentage",
-    dataIndex: "supplementbased",
-    key: "supplementbased",
+    title: "price rate",
+    dataIndex: "pricerate",
+    key: "pricerate",
   },
+  {
+    title: "mandatory",
+    dataIndex: "mandatory",
+    key: "mandatory",
+  },
+
   { title: "child age", dataIndex: "childage", key: "childage" },
+  {
+    title: "remark",
+    dataIndex: "remark",
+    key: "remark",
+  },
   {
     title: "action",
     dataIndex: "action",
@@ -249,6 +280,11 @@ export const cancellationsColumns = [
     title: "room",
     dataIndex: "room",
     key: "room",
+  },
+  {
+    title: "Duration",
+    dataIndex: "ArOrSt",
+    key: "ArOrSt",
   },
   {
     title: "type",
@@ -354,16 +390,6 @@ export const markupColumns = [
     title: "timestamp",
     dataIndex: "timestamp",
     key: "timestamp",
-  },
-  {
-    title: "Type",
-    dataIndex: "userLevel",
-    key: "user Level",
-  },
-  {
-    title: "user",
-    dataIndex: "userid",
-    key: "userid",
   },
   {
     title: "markup",

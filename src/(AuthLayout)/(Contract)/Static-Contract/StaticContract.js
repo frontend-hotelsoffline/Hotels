@@ -42,8 +42,6 @@ import RoomSetup from "./RoomSetup";
 import AvailabilityCalendar from "./AvailabilityCalender";
 import AddRegion from "./AddRegion";
 import RegionsForCountries from "../../components/Helper/RegionsForCountries";
-import GetAllDMCsOfHotel from "../../components/Helper/GetDMCsOfAHotel";
-import GetHotelByID from "../../components/Helper/GetHotelByID";
 import { useLocation } from "react-router-dom";
 
 const StaticContract = () => {
@@ -62,6 +60,10 @@ const StaticContract = () => {
   const [activeItem, setActiveItem] = useState(0);
   const [activeItemDist, setActiveItemDist] = useState(0);
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [showRegionPopUp, setShowRegionPopUp] = useState(false);
+  const handleCancel = () => {
+    setShowRegionPopUp(false);
+  };
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -122,9 +124,14 @@ const StaticContract = () => {
     is_non_refundable,
     is_non_refundable_offer,
     price_markup_id,
-    user_level,
-    user_id_0_if_All_in_level,
     offer,
+    minStayOffer,
+    ArOrSt,
+    ArOrStCanc,
+    price_type,
+    remark,
+    room_id_0_if_AllDist,
+    ArOrStSupp,
     room_category_id,
     stay_from,
     stay_to,
@@ -152,14 +159,13 @@ const StaticContract = () => {
     hb_child,
     breakfast_child,
     room_only_child,
-    service,
+    validity,
     supplement,
     price_adult,
     price_child,
-    P_in_Half_Double_adult_amount,
-    P_in_Half_Double_adult_rate,
-    P_in_Half_Double_child_amount,
-    P_in_Half_Double_child_rate,
+    mandatory,
+    P_adult_rate_supp,
+    P_child_rate_supp,
     type,
     cancellation_days,
     cancellation_panelty_rate,
@@ -400,7 +406,10 @@ const StaticContract = () => {
                    country_0_All: item,
                  }))
                : "Scountries: 0"
-           ).replace(/"([^"]+)":/g, "$1:")},  
+           ).replace(
+             /"([^"]+)":/g,
+             "$1:"
+           )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
          linked : ${is_linked}, room   : ${is_room}, meals: ${is_meals}, 
           supp: ${is_supp}, nRef: ${is_non_refundable_offer}  order : ${order} 
         ) {
@@ -429,7 +438,7 @@ const StaticContract = () => {
   };
   const onSubmitSupp = async (e) => {
     e.preventDefault();
-    if (!service || !supplement || !id_from_contract_id) {
+    if (!validity || !supplement || !id_from_contract_id) {
       message.error("Please fill in all required fields.");
       return;
     }
@@ -438,30 +447,18 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_supplements_of_contract(
-        id_from_contracts: ${id_from_contract_id}
-        supplements_of_contract: [
-          { service :"${service}", supplement :"${supplement}", type :"${supp_type}", room_id:${supp_room_category_id},  
-          stay_from:"${stay_from}", stay_to:"${stay_to}",
-               price_adult :${price_adult || -1}, price_child : ${
-      price_child || -1
-    },  P_in_Half_Double_adult_amount : ${
-      P_in_Half_Double_adult_amount || -1
-    },  
-               P_in_Half_Double_adult_rate : ${
-                 P_in_Half_Double_adult_rate || -1
-               },  
-               P_in_Half_Double_child_amount : ${
-                 P_in_Half_Double_child_amount || -1
-               }, P_in_Half_Double_child_rate : ${
-      P_in_Half_Double_child_rate || -1
-    },  
-               child_age_from : ${supp_child_age_from || -1}, child_age_to : ${
+      addSSC(
+        cid: ${id_from_contract_id}
+          vali :${validity}, supp :${supplement}, type : ${supp_type}, rId_0_All:${supp_room_category_id},  
+          sfrom:"${stay_from}", sto:"${stay_to}",pAmn: ${price_type}
+               PAa :${price_adult || -1}, PCa : ${price_child || -1},  PAr : ${
+      P_adult_rate_supp || -1
+    },  PCr :  ${P_child_rate_supp || -1},  ArOrSt: ${ArOrStSupp}
+        cafrom : ${supp_child_age_from || -1}, cato : ${
       supp_child_age_to || -1
-    } 
-          }]
+    } mand: ${mandatory}, rmrk: ${remark}
         ) {
-        id
+        message
     }           
     }
   `;
@@ -473,12 +470,12 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data) {
-        message.success("Supplement has been Added Successfully");
+      if (res.data.addSSC?.message === "success") {
+        message.success(res.data.addSSC?.addSSC);
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.error(res.errors[0].message);
+        message.success(res.data.addSSC?.addSSC);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -502,18 +499,16 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_cancellation_of_contract(
-        id_from_contracts: ${id_from_contract_id}
-        booking_cancellation_policy: "${booking_policy}"  
-        room_id_0_if_All:${room_id_0_if_All} 
-        cancellation_of_contract: [
-          { date_from : "${date_from}",  date_to : "${date_to}",  type : "${type}", 
-          cancellation_days  : ${
-            cancellation_days || -1
-          },  cancellation_panelty_rate : ${cancellation_panelty_rate || -1} 
-          is_non_refundable: ${is_non_refundable || false}
+      addCSC(
+        cid: ${id_from_contract_id}
+        cPlcy: "${booking_policy}"  
+        rId_0_All:${room_id_0_if_All} 
+          { from : "${date_from}",  to : "${date_to}",  type : "${type}", 
+          cDays  : ${cancellation_days || -1},  cPRte : ${
+      cancellation_panelty_rate || -1
+    } ArOrSt: ${ArOrStCanc}
+          nRef: ${is_non_refundable || false}
         },
-      ]
         ) {
           message
     }           
@@ -527,13 +522,12 @@ const StaticContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      if (res.data) {
-        message.success(
-          res.data.create_a_static_contract_body_cancellation_of_contract
-            ?.message
-        );
+      if (res.data.addCSC?.message === "success") {
+        message.success(res.data.addCSC?.message);
         getAllContractData();
         setFormData(initialData);
+      } else {
+        message.success(res.data.addCSC?.message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -557,11 +551,13 @@ const StaticContract = () => {
           ? "addDisCpsSC"
           : activeItemDist === 2
           ? "addDisAgsSC"
+          : activeItemDist === 3
+          ? "addDisCSC"
           : null
       }(
         cid: ${id_from_contract_id}          
        ${
-         activeItemDist === ""
+         activeItemDist === 3
            ? JSON.stringify(
                selectedCountries?.length > 0
                  ? selectedCountries?.map((item) => ({
@@ -596,6 +592,8 @@ const StaticContract = () => {
                     }))
                   : "id_0_All: 0"
               ).replace(/"([^"]+)":/g, "$1:")}`
+            : activeItemDist === 3
+            ? `rIds: ${room_id_0_if_allDist}`
             : null
         }
     ) {
@@ -634,17 +632,11 @@ const StaticContract = () => {
     };
     const mutation = `
     mutation {
-      create_a_static_contract_body_buyer_markup(
-        id_from_contracts: ${id_from_contract_id}
-        user_level: ${user_level}
-        user_ids: ${JSON.stringify(
-          user_id_0_if_All_in_level.map((item) => ({
-            user_id_0_if_All_in_level: Number(item),
-          }))
-        ).replace(/"([^"]+)":/g, "$1:")}
-        buyer_markup: ${price_markup_id}
+      editSCMMarkup(
+        cid: ${id_from_contract_id}
+        Mid: ${price_markup_id}
     ) {
-        id
+        message
     }}
   `;
 
@@ -685,9 +677,6 @@ const StaticContract = () => {
   const handleItemClickDistribution = (index) => {
     setActiveItemDist(index);
   };
-
-  const { DMCsOfHotelValue } = GetAllDMCsOfHotel(hotel_id);
-  const { HotelByIDValue } = GetHotelByID(hotel_id);
   useEffect(() => {
     getRegionsWithCountries();
     const hotelRooms =
@@ -1100,6 +1089,7 @@ const StaticContract = () => {
             setFormData((prev) => ({ ...prev, room_category_id: value }))
           }
           options={[
+            { value: -1, label: "Undefined" },
             { value: 0, label: "All rooms" },
             ...categoryData.map((item) => ({
               key: item.id,
@@ -1287,10 +1277,30 @@ const StaticContract = () => {
           options={[
             { value: 1, label: "1" },
             { value: 2, label: "2" },
-            { value: 3, label: "3" },
-            { value: 4, label: "4" },
           ]}
           className="w-[52px]"
+        />
+      ),
+      ArOrSt: (
+        <Select
+          value={ArOrSt}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, ArOrSt: value }))
+          }
+          options={[
+            { value: "arri", label: "Arrival" },
+            { value: "stay", label: "Stay" },
+          ]}
+          className="w-[75px]"
+        />
+      ),
+      minStay: (
+        <Input
+          name={minStayOffer}
+          value={minStayOffer}
+          className="w-[70px]"
+          onKeyPress={handleKeyPress}
+          onChange={onChange}
         />
       ),
       nonrefundable: (
@@ -1317,13 +1327,18 @@ const StaticContract = () => {
       timestamp: (
         <span className="whitespace-nowrap">{formatDate(timestamp)}</span>
       ),
-      service: (
-        <Input
-          value={service}
-          name="service"
-          onChange={onChange}
+      validity: (
+        <Select
+          value={validity}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, validity: value }))
+          }
+          options={[
+            { value: "per_day", label: "Per day" },
+            { value: "per_stay", label: "Per stay" },
+            { value: "per_item", label: "per item" },
+          ]}
           className="w-[130px] h-[25px]"
-          type="text"
         />
       ),
       supplement: (
@@ -1332,8 +1347,9 @@ const StaticContract = () => {
             setFormData((prev) => ({ ...prev, supplement: value }))
           }
           options={[
-            { value: "Per day", label: "Per day" },
-            { value: "Per stay", label: "Per stay" },
+            { value: "s_bed", label: "supplement bed" },
+            { value: "e_bed", label: "extra bed" },
+            { value: "other", label: "Other" },
           ]}
           className="w-[100px] h-[25px]"
         />
@@ -1344,9 +1360,9 @@ const StaticContract = () => {
             setFormData((prev) => ({ ...prev, supp_type: value }))
           }
           options={[
-            { value: "Per Person", label: "Per Person" },
-            { value: "Per Booking", label: "Per Booking" },
-            { value: "Per Room", label: "Per Room" },
+            { value: "per_person", label: "Per Person" },
+            { value: "per_booking", label: "Per Booking" },
+            { value: "per_room", label: "Per Room" },
           ]}
           className="w-[100px] h-[25px]"
         />
@@ -1397,6 +1413,19 @@ const StaticContract = () => {
           />
         </span>
       ),
+      price_type: (
+        <Select
+          value={price_type}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, price_type: value }))
+          }
+          options={[
+            { value: "true", label: "Amount" },
+            { value: "false", label: "Rate" },
+          ]}
+          className="w-[100px] h-[25px]"
+        />
+      ),
       price: (
         <span className="gap-y-2 ">
           <label className="labelStyle"> adult</label>
@@ -1417,66 +1446,53 @@ const StaticContract = () => {
           />
         </span>
       ),
-      supplementbased: (
-        //   <span className="items-center text-center">
-        //   <label className="labelStyle mt-2">Adult</label>
-        //   <Select
-        //   value={supplementType}
-        //   onChange={(value)=>setSupplementType(value)}
-        //   className="w-[100px] h-[25px]"
-        // >
-        //   <Option value="amountForSupplement">Amount</Option>
-        //   <Option value="percentageForSupplement">%</Option>
-        // </Select>
-        //       {supplementType === "amountForSupplement" &&  <Input
-        //           value={P_in_Half_Double_adult_amount}
-        //           name="P_in_Half_Double_adult_amount"
-        //           onChange={onChange}
-        //           className="w-[70px] h-[25px]"
-        //           onKeyPress={handleKeyPress}
-        //         />}
-        //       {supplementType === "percentageForSupplement" && <Input
-        //           value={P_in_Half_Double_adult_rate}
-        //           name="P_in_Half_Double_adult_rate"
-        //           onChange={onChange}
-        //           className="w-[70px] h-[25px]"
-        //           onKeyPress={handleKeyPress}
-        //         />}
-        //     <label className="labelStyle mt-2"> child</label>
-        //     <span>
-        //     <Select
-        //   value={supplementChildType}
-        //   onChange={(value)=>{setSupplementChildType(value)}}
-        //   className="w-[100px] h-[25px]"
-        // >
-        //   <Option value="amountForSupplementChild">Amount</Option>
-        //   <Option value="percentageForSupplementChild">%</Option>
-        // </Select>
-        //       {supplementChildType === "amountForSupplementChild" && <Input
-        //           value={P_in_Half_Double_child_amount}
-        //           name="P_in_Half_Double_child_amount"
-        //           onChange={onChange}
-        //           className="w-[70px] h-[25px]"
-        //           onKeyPress={handleKeyPress}
-        //         />}
-
-        //        {supplementChildType === "percentageForSupplementChild" && <Input
-        //           value={P_in_Half_Double_child_rate}
-        //           name="P_in_Half_Double_child_rate"
-        //           onChange={onChange}
-        //           className="w-[70px] h-[25px]"
-        //           onKeyPress={handleKeyPress}
-        //         />}
-        //     </span>
-        //   </span>
-        <Input
-          value={P_in_Half_Double_adult_rate}
-          name="P_in_Half_Double_adult_rate"
-          onChange={onChange}
-          className="w-[70px] h-[25px]"
-          onKeyPress={handleKeyPress}
+      pricerate: (
+        <span className="gap-y-2 ">
+          <label className="labelStyle"> adult</label>
+          <Input
+            value={P_adult_rate_supp}
+            name="P_adult_rate_supp"
+            onChange={onChange}
+            className="w-[70px] h-[25px]"
+            onKeyPress={handleKeyPress}
+          />
+          <label className="labelStyle"> child</label>
+          <Input
+            value={P_child_rate_supp}
+            name="P_child_rate_supp"
+            onChange={onChange}
+            className="w-[70px] h-[25px]"
+            onKeyPress={handleKeyPress}
+          />
+        </span>
+      ),
+      mandatory: (
+        <Select
+          value={mandatory}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, mandatory: value }))
+          }
+          options={[
+            { value: "true", label: "Yes" },
+            { value: "false", label: "No" },
+          ]}
+          className="w-[75px] h-[25px]"
         />
       ),
+      ArOrSt: (
+        <Select
+          value={ArOrStSupp}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, ArOrStSupp: value }))
+          }
+          options={[
+            { value: "arri", label: "Arrival" },
+            { value: "stay", label: "Stay" },
+          ]}
+          className="w-[75px] h-[25px]"
+        />
+      ),
+
       childage: (
         <span className="gap-y-2 ">
           <label className="labelStyle"> From</label>
@@ -1496,6 +1512,14 @@ const StaticContract = () => {
             onKeyPress={handleKeyPress}
           />
         </span>
+      ),
+      remark: (
+        <TextArea
+          style={{ height: 100, minWidth: 150 }}
+          value={remark}
+          name="remark"
+          onChange={onChange}
+        />
       ),
       action: (
         <Button onClick={onSubmitSupp} className="save-btn">
@@ -1571,6 +1595,19 @@ const StaticContract = () => {
           onKeyPress={handleKeyPress}
         />
       ),
+      ArOrSt: (
+        <Select
+          value={ArOrStCanc}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, ArOrStCanc: value }))
+          }
+          options={[
+            { value: "arri", label: "Arrival" },
+            { value: "stay", label: "Stay" },
+          ]}
+          className="w-[75px] h-[25px]"
+        />
+      ),
       room: (
         <Select
           value={room_id_0_if_All}
@@ -1617,56 +1654,7 @@ const StaticContract = () => {
   const markupDataSource = [
     {
       key: "markupDataSourz",
-      userLevel: (
-        <Select
-          className="inputfildinsearch"
-          value={user_level}
-          onChange={(value) =>
-            setFormData((prev) => ({
-              ...prev,
-              user_level: value,
-              user_id_0_if_All_in_level: 0,
-            }))
-          }
-          options={[
-            { value: 4, label: "DMC" },
-            { value: 6, label: "Hotel" },
-          ]}
-        />
-      ),
-      userid: (
-        <Select
-          mode={
-            Array.isArray(user_id_0_if_All_in_level) &&
-            user_id_0_if_All_in_level.includes(0)
-              ? null
-              : "multiple"
-          }
-          value={user_id_0_if_All_in_level}
-          className="w-[200px] capitalize font-normal"
-          onChange={(value) => {
-            const selectedValues = Array.isArray(value) ? value : [value];
-            setFormData((prev) => ({
-              ...prev,
-              user_id_0_if_All_in_level: selectedValues,
-            }));
-          }}
-          options={[
-            { value: 0, label: "All" },
-            ...(user_level === 4
-              ? DMCsOfHotelValue.dmc?.map((item) => ({
-                  value: item.id ? item.id : "",
-                  label: item.name ? item.name : "",
-                })) || []
-              : user_level === 6
-              ? HotelByIDValue.users_under_hotel?.map((item) => ({
-                  value: item.id ? item.id : "",
-                  label: item.uname ? item.uname : "",
-                }))
-              : []),
-          ]}
-        />
-      ),
+
       markup: (
         <Select
           value={price_markup_id}
@@ -2134,36 +2122,56 @@ const StaticContract = () => {
                       />
                     )}
                     {activeItemDist === 2 && (
-                      <Select
-                        mode={
-                          agent_id_0_if_all?.includes(0) ? null : "multiple"
-                        }
-                        showSearch
-                        filterOption={(input, option) =>
-                          (option?.label.toLowerCase() ?? "").includes(
-                            input.toLowerCase()
-                          )
-                        }
-                        className="min-w-[130px]"
-                        options={[
-                          { value: 0, label: "All" },
-                          ...userAgent.map((item) => ({
-                            value: item.id ? item.id : "",
-                            label: item.uname ? item.uname : "",
-                          })),
-                        ]}
-                        onChange={(value) => {
-                          const selectedValues = Array.isArray(value)
-                            ? value
-                            : [value];
-                          setFormData((prevData) => ({
-                            ...prevData,
-                            agent_id_0_if_all: selectedValues,
-                          }));
-                        }}
-                      />
+                      <span>
+                        {" "}
+                        <Select
+                          mode={
+                            agent_id_0_if_all?.includes(0) ? null : "multiple"
+                          }
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label.toLowerCase() ?? "").includes(
+                              input.toLowerCase()
+                            )
+                          }
+                          className="min-w-[130px]"
+                          options={[
+                            { value: 0, label: "All" },
+                            ...userAgent.map((item) => ({
+                              value: item.id ? item.id : "",
+                              label: item.uname ? item.uname : "",
+                            })),
+                          ]}
+                          onChange={(value) => {
+                            const selectedValues = Array.isArray(value)
+                              ? value
+                              : [value];
+                            setFormData((prevData) => ({
+                              ...prevData,
+                              agent_id_0_if_all: selectedValues,
+                            }));
+                          }}
+                        />
+                        <Select
+                          value={room_id_0_if_AllDist}
+                          onChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              room_id_0_if_AllDist: value,
+                            }))
+                          }
+                          options={[
+                            { value: 0, label: "All Rooms" },
+                            ...categoryData.map((item) => ({
+                              value: item.id,
+                              label: item.name,
+                            })),
+                          ]}
+                          className="w-[140px] h-[25px]"
+                        />
+                      </span>
                     )}
-                    {/* {activeItemDist === 3 && (
+                    {activeItemDist === 3 && (
                       <Select
                         showSearch
                         filterOption={(input, option) =>
@@ -2186,9 +2194,9 @@ const StaticContract = () => {
                           }));
                         }}
                       />
-                    )} */}
+                    )}
                   </span>
-                  {activeItemDist != 3 && (
+                  <span className="flex flex-col gap-3">
                     <Button className="action-btn" onClick={onSubmit}>
                       {activeItemDist === 0
                         ? " Add DMC"
@@ -2196,10 +2204,28 @@ const StaticContract = () => {
                         ? "Add Corporate"
                         : activeItemDist === 2
                         ? "Add Agent"
+                        : activeItemDist === 3
+                        ? "Add Country"
                         : ""}
                     </Button>
-                  )}
-                  {activeItemDist === 3 && <AddRegion />}
+
+                    {activeItemDist === 3 && (
+                      <Button
+                        className="action-btn"
+                        onClick={() => setShowRegionPopUp(true)}
+                      >
+                        Add Region
+                      </Button>
+                    )}
+                  </span>
+                  <Modal
+                    footer={false}
+                    open={showRegionPopUp}
+                    onOk={handleCancel}
+                    onCancel={handleCancel}
+                  >
+                    <AddRegion handleCancel={handleCancel} />
+                  </Modal>
                 </div>
                 <Table
                   columns={distColumn}

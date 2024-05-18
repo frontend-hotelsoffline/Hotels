@@ -51,7 +51,7 @@ const GetAllContracts = (
   var date_to_pass = selectedDate.toISOString();
 
   const getAllContractData = async () => {
-    setLoading(true);
+    // setLoading(true);
     const GET_ALL = `{
         getSC(id: ${id_from_contract_id}) {
             from(ftz: "${date_to_pass}")
@@ -198,45 +198,48 @@ const GetAllContracts = (
                 uaiC
             }
             offers(ftz: "${date_to_pass}") {
-                id
-                cId
-                ofr
-                rId
-                sfrom
-                sto
-                bwfrom
-                bwto
-                dAOrR
-                disc
-                linked
-                room
-                meals
-                supp
-                order
-                nRef
-                CRT
-                Scountries {
+              id
+              CRT
+              cId
+              ofr
+              rId
+              sfrom
+              sto
+              bwfrom
+              bwto
+              dAOrR
+              disc
+              linkId
+              room
+              meals
+              supp
+              order
+              minS
+              ArOrSt
+              Scountries {
                   id
                   country
               }
             }
             suppliments(ftz: "${date_to_pass}") {
-                id
-                cId
-                rId
-                serv
-                supp
-                type
-                sfrom
-                sto
-                PA
-                PC
-                PHDAA
-                PHDAR
-                PHDCA
-                PHDCR
-                cafrom
-                cato
+              id
+              cId
+              rId
+              rmrk
+              vali
+              type
+              supp
+              sfrom
+              sto
+              pAmn
+              PAa
+              PCa
+              PAr
+              PCr
+              cafrom
+              cato
+              mand
+              ArOrSt
             }
             cancellation(ftz: "${date_to_pass}") {
                 id
@@ -249,7 +252,18 @@ const GetAllContracts = (
                 cDays
                 cPRte
                 cPlcy
-            }
+            }EBMarkups {
+              id
+              btype
+              bid
+              mId
+              markup {
+                  id
+                  CRT
+                  name
+                  markup
+              }
+          }
             distribution {
               CnR {
                   countries {
@@ -290,14 +304,15 @@ const GetAllContracts = (
         const mealsDataArray = contractData?.meals || [];
         const calendarDataArray = contractData?.CAnRAC || [];
         const CompressedDataArray = contractData?.CPAC || [];
+        setRawPriceData(calendarDataArray);
+        setCompressedData(CompressedDataArray);
         const roomSetupDataArray = contractData?.viewRS || [];
         const offersDataArray = contractData?.offers || [];
-        const SuppDataArray = contractData?.supplements_of_contract || [];
-        const CancellationDataArray =
-          contractData?.cancellation_of_contract || [];
+        const SuppDataArray = contractData?.suppliments || [];
+        const CancellationDataArray = contractData?.cancellation || [];
         const PricesDataArray = contractData?.pricesG || [];
-        const PricesMarkUp = contractData?.price_markup || [];
-        const BuyerMarkUp = contractData?.buyer_markup || [];
+        const PricesMarkUp = contractData?.markup || [];
+        const BuyerMarkUp = contractData?.EBMarkups || [];
         const CnR = contractData?.distribution?.CnR || [];
         const Cp = contractData.distribution?.Cp || [];
         const Ag = contractData.distribution?.Ag || [];
@@ -391,11 +406,11 @@ const GetAllContracts = (
           ),
           date: (
             <span className="w-[110px]">
-              <p>{formatDate(item.from) || ""}</p>
-              <p>{formatDate(item.to) || ""}</p>
+              <p>{formatDate(item.from) || null}</p>
+              <p>{formatDate(item.to) || null}</p>
             </span>
           ),
-          timestamp: formatDate(item.CRT || null),
+          timestamp: item.CRT && formatDate(item.CRT || null),
           action: (
             <span className="w-full flex justify-center">
               <Popover
@@ -415,17 +430,17 @@ const GetAllContracts = (
           timestamp: item.CRT && formatDate(item.CRT || null),
           bookingwindow: (
             <span>
-              <p>{formatDate(item.bwfrom) || ""}</p>
-              <p>{formatDate(item.bwto) || ""}</p>
+              <p>{formatDate(item.bwfrom) || null}</p>
+              <p>{formatDate(item.bwto) || null}</p>
             </span>
           ),
           stay: (
             <span>
-              <p>{formatDate(item.sfrom) || ""}</p>
-              <p>{formatDate(item.sto) || ""}</p>
+              <p>{formatDate(item.sfrom) || null}</p>
+              <p>{formatDate(item.sto) || null}</p>
             </span>
           ),
-          roomcategory: item.room?.name === 0 ? "All" : item.room?.name || "",
+          roomcategory: item.room?.name === 0 ? "All" : item.room?.name || null,
           offer: item.ofr || "",
           discount:
             item.dAOrR === "amnt"
@@ -488,23 +503,42 @@ const GetAllContracts = (
 
         const supplementFinal = SuppDataArray?.map((item, index) => ({
           key: index,
-          timestamp: formatDate(item.CRT || null),
+          timestamp: item.CRT && formatDate(item.CRT || null),
           roomcategory: item.room?.name || "",
           type: item.type || "",
-          supplement: item.supplement || "",
-          service: item.service || "",
+          supplement: item.supp || "",
+          validity: item.vali || "",
+          mandatory: item.mand || "",
+          price_type: item.pAmn || "",
+          remark: item.rmrk || "",
           price: (
             <span className="">
               <p className="flex flex-row items-center gap-1">
                 adult:{" "}
                 <ul>
-                  <li> {item.price_adult || ""}</li>
+                  <li> {item.PAa || ""}</li>
                 </ul>
               </p>
               <p className="flex flex-row items-center gap-1">
                 child:{" "}
                 <ul>
-                  <li> {item.price_child || ""}</li>
+                  <li> {item.PCa || ""}</li>
+                </ul>
+              </p>
+            </span>
+          ),
+          pricerate: (
+            <span className="">
+              <p className="flex flex-row items-center gap-1">
+                adult:{" "}
+                <ul>
+                  <li> {item.PAr || ""}</li>
+                </ul>
+              </p>
+              <p className="flex flex-row items-center gap-1">
+                child:{" "}
+                <ul>
+                  <li> {item.PCr || ""}</li>
                 </ul>
               </p>
             </span>
@@ -512,55 +546,21 @@ const GetAllContracts = (
           stay: (
             <span>
               <ul>
-                <li> {formatDate(item.stay_from) || ""}</li>
+                <li> {item.sfrom && formatDate(item.sfrom || null)}</li>
               </ul>
               <ul>
-                <li> {formatDate(item.stay_to) || ""}</li>
+                <li> {item.sto && formatDate(item.sto || null)}</li>
               </ul>
             </span>
           ),
-          supplementbased: (
-            <span className="">
-              <label className="labelStyle"> adult</label>
-              <span className="flex justify-evenly">
-                <p className="flex flex-row items-center gap-1">
-                  Amount:{" "}
-                  <ul>
-                    <li> {item.P_in_Half_Double_adult_amount || ""}</li>
-                  </ul>
-                </p>
-                <p className="flex flex-row items-center gap-1">
-                  {" "}
-                  Rate:{" "}
-                  <ul>
-                    <li> {item.P_in_Half_Double_adult_rate || ""}%</li>
-                  </ul>
-                </p>
-              </span>
-              <label className="labelStyle mt-2"> child</label>
-              <span className="flex justify-evenly">
-                <p className="flex flex-row items-center gap-1">
-                  Amount:{" "}
-                  <ul>
-                    <li>{item.P_in_Half_Double_child_amount || ""}</li>
-                  </ul>
-                </p>
-                <p className="flex flex-row items-center gap-1">
-                  Rate:{" "}
-                  <ul>
-                    <li> {item.P_in_Half_Double_child_rate || ""}%</li>
-                  </ul>
-                </p>
-              </span>
-            </span>
-          ),
+
           childage: (
             <span>
               <ul>
-                <li> {item.child_age_from || ""}</li>
+                <li> {item.cafrom || ""}</li>
               </ul>
               <ul>
-                <li> {item.child_age_to}</li>
+                <li> {item.cato}</li>
               </ul>
             </span>
           ),
@@ -581,11 +581,11 @@ const GetAllContracts = (
 
         const cancellationFinal = CancellationDataArray?.map((item, index) => ({
           key: index || "",
-          timestamp: formatDate(item.CRT || null),
-          bookingpolicy: item.booking_cancellation_policy || "",
+          timestamp: item.CRT && formatDate(item.CRT || null),
+          bookingpolicy: item.cPlcy || "",
           room: (item.room && item.room?.name) || "",
           refundable:
-            item.non_refundable && item.non_refundable == true ? (
+            item.nRef && item.nRef == true ? (
               <span className="flex items-center justify-center">
                 <FaCheck className="text-blue-800" />
               </span>
@@ -594,13 +594,14 @@ const GetAllContracts = (
                 <ImCross className="text-red-500" />
               </span>
             ),
+          ArOrSt: item.ArOrSt,
           type: item.type || "",
-          penaltyrate: item.cancellation_panelty_rate || "",
-          cancellationdays: item.cancellation_days || "",
+          penaltyrate: item.cPRte || "",
+          cancellationdays: item.cDays || "",
           date: (
             <span>
-              <p> {formatDate(item.date_from || "")}</p>
-              <p> {formatDate(item.date_to)}</p>
+              <p> {formatDate(item.from || "")}</p>
+              <p> {formatDate(item.to)}</p>
             </span>
           ),
           action: (
@@ -945,19 +946,16 @@ const GetAllContracts = (
             markup:
               (PricesMarkUp.markup && PricesMarkUp.markup.toFixed(2) + "%") ||
               "",
-            timestamp: formatDate(contractData.CRT),
+            timestamp:
+              contractData.markup?.CRT &&
+              formatDate(contractData.markup?.CRT || null),
           },
         ];
 
         const buyMarkupArray = BuyerMarkUp?.map((item) => ({
           key: item.id,
-          markup:
-            (item.buyer_markup && (item.buyer_markup * 1).toFixed(2) + "%") ||
-            "",
-          userid: item.user?.uname || "",
-          userLevel:
-            item.user_level == 4 ? "DMC" : item.user_level == 6 ? "Hotel" : "",
-          timestamp: formatDate(item.CRT || null),
+          markup: (item.markup && (item.markup * 1).toFixed(2) + "%") || "",
+          timestamp: item.markup?.CRT && formatDate(item.markup?.CRT || null),
           action: (
             <span className="w-full flex justify-center">
               <Popover
@@ -992,8 +990,6 @@ const GetAllContracts = (
         }));
         const combinedMarkup = [...priceMarkupArray, ...buyMarkupArray];
         setPriceMarkupData(combinedMarkup);
-        setRawPriceData(calendarDataArray);
-        setCompressedData(CompressedDataArray);
       } else {
         message.error(res.errors[0].message);
       }

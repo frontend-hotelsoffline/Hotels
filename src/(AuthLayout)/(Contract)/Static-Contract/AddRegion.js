@@ -50,38 +50,33 @@ const AddRegion = () => {
   };
 
   return (
-    <form className="w-full flex justify-between">
-      <label className="labelStyle">
-        Region
-        <Input
-          name="region"
-          value={region}
-          onChange={onChange}
-          className="w-full border-black"
-        />
-      </label>
-      <span>
-        <label className="labelStyle">
-          Selected Countries
-          <Select
-            mode="multiple"
-            showSearch
-            filterOption={(input, option) =>
-              (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
-            }
-            value={countries}
-            onChange={(value) => {
-              const selectedValues = Array.isArray(value) ? value : [value];
-              setFormData((prev) => ({ ...prev, countries: selectedValues }));
-            }}
-            options={countryList}
-            className="border-black w-full"
-          />
-        </label>
-        <Button onClick={onSubmit} className="m-5 action-btn float-right">
-          Add Region
-        </Button>
-      </span>
+    <form className="p-5">
+      <h1 className="title">Add Region</h1>
+      <label className="labelStyle">Region</label>
+      <Input
+        name="region"
+        value={region}
+        onChange={onChange}
+        className="w-full border-black"
+      />
+      <label className="labelStyle">Countries</label>
+      <Select
+        mode="multiple"
+        showSearch
+        filterOption={(input, option) =>
+          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
+        }
+        value={countries}
+        onChange={(value) => {
+          const selectedValues = Array.isArray(value) ? value : [value];
+          setFormData((prev) => ({ ...prev, countries: selectedValues }));
+        }}
+        options={countryList}
+        className="border-black w-full"
+      />
+      <Button onClick={onSubmit} className="m-5 action-btn float-right">
+        Add Region
+      </Button>
     </form>
   );
 };

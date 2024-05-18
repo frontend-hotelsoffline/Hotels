@@ -232,10 +232,12 @@
   border: 1px solid black !important;
   border-radius: 7px !important;
 }
+
 .ant-checkbox,
 .ant-select {
   border: 1px solid black !important;
 }
+
 .ant-select,
 .ant-input {
   border: 1px solid black;
