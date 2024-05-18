@@ -22,7 +22,6 @@ const RegionsForCountries = () => {
 
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
       if (Array.isArray(res.data.getRGNS)) {
         const dataArray = res.data.getRGNS.map((item) => ({
           region: item.rgn,

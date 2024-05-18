@@ -273,6 +273,10 @@ const GetAllContracts = (
                   regions {
                       id
                       rId
+                      region {
+                        id
+                        rgn
+                    }
                   }
               }
               Ag {
@@ -933,10 +937,10 @@ const GetAllContracts = (
         }));
         setDistDMCs(distDMCsArray);
 
-        const distCnRArray = CnR?.map((item) => ({
+        const distCnRArray = CnR.countries?.map((item, index) => ({
           key: item.id,
-          region: item.region?.rId,
-          country: item.countries?.country,
+          region: CnR.regions[index]?.region?.rgn,
+          country: item?.country,
         }));
         setDistCnR(distCnRArray);
 
