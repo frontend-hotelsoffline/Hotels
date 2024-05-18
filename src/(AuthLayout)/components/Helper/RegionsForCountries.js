@@ -26,6 +26,7 @@ const RegionsForCountries = () => {
       if (Array.isArray(res.data.getRGNS)) {
         const dataArray = res.data.getRGNS.map((item) => ({
           region: item.rgn,
+          id: item.id,
           countries: item.countries.map((country) => country.country),
         }));
         setRegionsCountries(dataArray);

@@ -138,7 +138,6 @@ const StaticContract = () => {
     ArOrStCanc,
     price_type,
     remark,
-    room_id_0_if_AllDist,
     ArOrStSupp,
     room_category_id,
     stay_from,
@@ -599,7 +598,10 @@ const StaticContract = () => {
                   : "id_0_All: 0"
               ).replace(/"([^"]+)":/g, "$1:")}`
             : activeItemDist === 3
-            ? `rIds: { id: ${formData.room_id_0_if_AllDist || ""} }`
+            ? `rIds: { id: ${
+                regionCountries.find((item) => item.region === selectedRegion)
+                  ?.id || ""
+              } }`
             : null
         }
     ) {
@@ -2158,55 +2160,36 @@ const StaticContract = () => {
                       />
                     )}
                     {activeItemDist === 3 && (
-                      <span className="gap-5 flex">
-                        <span>
-                          <Select
-                            showSearch
-                            filterOption={(input, option) =>
-                              (option?.label.toLowerCase() ?? "").includes(
-                                input.toLowerCase()
-                              )
-                            }
-                            className="min-w-[130px]"
-                            options={regionCountries.map((item, index) => ({
-                              key: index,
-                              value: item.region,
-                              label: item.region,
-                            }))}
-                            onChange={handleRegionChange}
-                            value={selectedRegion}
-                          >
-                            {selectedCountries.map((country) => (
-                              <Select.Option key={country} value={country}>
-                                {country}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                          <ul>
-                            {selectedCountries.map((country) => (
-                              <li key={country} value={country}>
-                                {country}
-                              </li>
-                            ))}
-                          </ul>
-                        </span>
+                      <span className="flex gap-5">
                         <Select
-                          value={room_id_0_if_AllDist}
-                          onChange={(value) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              room_id_0_if_AllDist: value,
-                            }))
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label.toLowerCase() ?? "").includes(
+                              input.toLowerCase()
+                            )
                           }
-                          options={[
-                            { value: 0, label: "All Rooms" },
-                            ...categoryData.map((item) => ({
-                              value: item.id,
-                              label: item.name,
-                            })),
-                          ]}
-                          className="w-[140px]"
-                        />
+                          className="min-w-[130px]"
+                          options={regionCountries.map((item, index) => ({
+                            key: index,
+                            value: item.region,
+                            label: item.region,
+                          }))}
+                          onChange={handleRegionChange}
+                          value={selectedRegion}
+                        >
+                          {selectedCountries.map((country) => (
+                            <Select.Option key={country} value={country}>
+                              {country}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                        <ul>
+                          {selectedCountries.map((country) => (
+                            <li key={country} value={country}>
+                              {country}
+                            </li>
+                          ))}
+                        </ul>
                       </span>
                     )}
                   </span>
