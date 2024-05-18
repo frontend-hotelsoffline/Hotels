@@ -59,7 +59,15 @@ const StaticContract = () => {
   const minDate = new Date(timestamp);
   const [activeItem, setActiveItem] = useState(0);
   const [activeItemDist, setActiveItemDist] = useState(0);
+  const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedCountries, setSelectedCountries] = useState([]);
+
+  const handleRegionChange = (value) => {
+    setSelectedRegion(value);
+    const countries =
+      regionCountries.find((item) => item.region === value)?.countries || [];
+    setSelectedCountries(countries);
+  };
   const [showRegionPopUp, setShowRegionPopUp] = useState(false);
   const handleCancel = () => {
     setShowRegionPopUp(false);
@@ -194,8 +202,6 @@ const StaticContract = () => {
 
   // seting type for Select for offer and supplement amount and %
   const [discountType, setDiscountType] = useState("amount");
-  const [supplementType, setSupplementType] = useState("");
-  const [supplementChildType, setSupplementChildType] = useState("");
 
   const handleSelectChange = (value) => {
     setDiscountType(value);
@@ -376,7 +382,7 @@ const StaticContract = () => {
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.success(res.data.addMSC?.message);
+        message.error(res.data.addMSC?.message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -430,7 +436,7 @@ const StaticContract = () => {
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.success(res.data.addOSC?.message);
+        message.error(res.data.addOSC?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -475,7 +481,7 @@ const StaticContract = () => {
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.success(res.data.addSSC?.addSSC);
+        message.error(res.data.addSSC?.addSSC);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -527,7 +533,7 @@ const StaticContract = () => {
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.success(res.data.addCSC?.message);
+        message.error(res.data.addCSC?.message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
@@ -558,13 +564,13 @@ const StaticContract = () => {
         cid: ${id_from_contract_id}          
        ${
          activeItemDist === 3
-           ? JSON.stringify(
+           ? `countries: ${JSON.stringify(
                selectedCountries?.length > 0
                  ? selectedCountries?.map((item) => ({
-                     country_All_if_all: item,
+                     country_0_All: item,
                    }))
-                 : "country_All_if_all: 0"
-             ).replace(/"([^"]+)":/g, "$1:")
+                 : "country_0_All: 0"
+             ).replace(/"([^"]+)":/g, "$1:")}`
            : ""
        }       
         ${
@@ -593,7 +599,7 @@ const StaticContract = () => {
                   : "id_0_All: 0"
               ).replace(/"([^"]+)":/g, "$1:")}`
             : activeItemDist === 3
-            ? `rIds: ${room_id_0_if_allDist}`
+            ? `rIds: { id: ${formData.room_id_0_if_AllDist || ""} }`
             : null
         }
     ) {
@@ -2122,36 +2128,68 @@ const StaticContract = () => {
                       />
                     )}
                     {activeItemDist === 2 && (
-                      <span>
-                        {" "}
-                        <Select
-                          mode={
-                            agent_id_0_if_all?.includes(0) ? null : "multiple"
-                          }
-                          showSearch
-                          filterOption={(input, option) =>
-                            (option?.label.toLowerCase() ?? "").includes(
-                              input.toLowerCase()
-                            )
-                          }
-                          className="min-w-[130px]"
-                          options={[
-                            { value: 0, label: "All" },
-                            ...userAgent.map((item) => ({
-                              value: item.id ? item.id : "",
-                              label: item.uname ? item.uname : "",
-                            })),
-                          ]}
-                          onChange={(value) => {
-                            const selectedValues = Array.isArray(value)
-                              ? value
-                              : [value];
-                            setFormData((prevData) => ({
-                              ...prevData,
-                              agent_id_0_if_all: selectedValues,
-                            }));
-                          }}
-                        />
+                      <Select
+                        mode={
+                          agent_id_0_if_all?.includes(0) ? null : "multiple"
+                        }
+                        showSearch
+                        filterOption={(input, option) =>
+                          (option?.label.toLowerCase() ?? "").includes(
+                            input.toLowerCase()
+                          )
+                        }
+                        className="min-w-[130px]"
+                        options={[
+                          { value: 0, label: "All" },
+                          ...userAgent.map((item) => ({
+                            value: item.id ? item.id : "",
+                            label: item.uname ? item.uname : "",
+                          })),
+                        ]}
+                        onChange={(value) => {
+                          const selectedValues = Array.isArray(value)
+                            ? value
+                            : [value];
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            agent_id_0_if_all: selectedValues,
+                          }));
+                        }}
+                      />
+                    )}
+                    {activeItemDist === 3 && (
+                      <span className="gap-5 flex">
+                        <span>
+                          <Select
+                            showSearch
+                            filterOption={(input, option) =>
+                              (option?.label.toLowerCase() ?? "").includes(
+                                input.toLowerCase()
+                              )
+                            }
+                            className="min-w-[130px]"
+                            options={regionCountries.map((item, index) => ({
+                              key: index,
+                              value: item.region,
+                              label: item.region,
+                            }))}
+                            onChange={handleRegionChange}
+                            value={selectedRegion}
+                          >
+                            {selectedCountries.map((country) => (
+                              <Select.Option key={country} value={country}>
+                                {country}
+                              </Select.Option>
+                            ))}
+                          </Select>
+                          <ul>
+                            {selectedCountries.map((country) => (
+                              <li key={country} value={country}>
+                                {country}
+                              </li>
+                            ))}
+                          </ul>
+                        </span>
                         <Select
                           value={room_id_0_if_AllDist}
                           onChange={(value) =>
@@ -2167,33 +2205,9 @@ const StaticContract = () => {
                               label: item.name,
                             })),
                           ]}
-                          className="w-[140px] h-[25px]"
+                          className="w-[140px]"
                         />
                       </span>
-                    )}
-                    {activeItemDist === 3 && (
-                      <Select
-                        showSearch
-                        filterOption={(input, option) =>
-                          (option?.label.toLowerCase() ?? "").includes(
-                            input.toLowerCase()
-                          )
-                        }
-                        className="min-w-[130px]"
-                        options={regionCountries?.map((item) => ({
-                          value: item.region ? item.region : "",
-                          label: item.region ? item.region : "",
-                        }))}
-                        onChange={(value) => {
-                          const selectedValues = Array.isArray(value)
-                            ? value
-                            : [value];
-                          setFormData((prevData) => ({
-                            ...prevData,
-                            selectedCountries: selectedValues,
-                          }));
-                        }}
-                      />
                     )}
                   </span>
                   <span className="flex flex-col gap-3">

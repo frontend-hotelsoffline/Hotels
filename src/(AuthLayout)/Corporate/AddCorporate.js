@@ -41,7 +41,7 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
         handleCancel();
         setFormData({});
       } else {
-        message.success(res.data.addcoop?.message);
+        message.error(res.data.addcoop?.message);
       }
     } catch (error) {
       message.error("Failed to Add Corporate, Please check and try again");

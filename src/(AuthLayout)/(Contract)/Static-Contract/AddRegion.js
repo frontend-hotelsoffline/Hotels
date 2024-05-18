@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { countryList } from "../../components/Helper/ListOfAllCountries";
 import { POST_API } from "../../components/API/PostAPI";
 
-const AddRegion = () => {
+const AddRegion = ({ handleCancel }) => {
   const [formData, setFormData] = useState({});
   const { region, countries } = formData;
 
@@ -40,9 +40,10 @@ const AddRegion = () => {
       );
       if (res.data.addRGNS?.message === "success") {
         message.success(res.data.addRGNS?.message);
+        handleCancel();
         setFormData({});
       } else {
-        message.success(res.data.addRGNS?.message);
+        message.error(res.data.addRGNS?.message);
       }
     } catch (error) {
       message.error("Failed");

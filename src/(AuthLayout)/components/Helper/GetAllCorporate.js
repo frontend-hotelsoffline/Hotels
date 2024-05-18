@@ -3,11 +3,11 @@ import { GET_API } from "../API/GetAPI";
 
 const GetAllCorporates = () => {
   const [CorporatesValue, setCorporatesValue] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const getAllCorporate = async () => {
     const GET_ALL = `{
-        get_all_corporates {
+        getcoops {
             id
             name
             status
@@ -17,12 +17,12 @@ const GetAllCorporates = () => {
     const path = "";
 
     try {
-        setLoading(true)
+      setLoading(true);
       const res = await GET_API(path, { params: { query } });
-      if (Array.isArray(res.data.get_all_corporates)) {
-        const dataArray = res.data.get_all_corporates;
+      if (Array.isArray(res.data.getcoops)) {
+        const dataArray = res.data.getcoops;
         setCorporatesValue(dataArray);
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.error(error);

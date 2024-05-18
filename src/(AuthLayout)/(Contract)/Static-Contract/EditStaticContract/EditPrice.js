@@ -68,7 +68,7 @@ const EditPrice = ({
         handleCancel();
         getAllContractData();
       } else {
-        message.success(res.data.editPSC?.message);
+        message.error(res.data.editPSC?.message);
       }
     } catch (error) {
       message.error("Failed");
