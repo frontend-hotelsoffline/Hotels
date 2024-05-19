@@ -93,7 +93,6 @@ const StaticContract = () => {
     base_meal: parsedRecord?.base_meal || "",
   });
   const initialData = {
-    is_linked: false,
     is_room: false,
     is_meals: false,
     is_supp: false,
@@ -147,7 +146,7 @@ const StaticContract = () => {
     discount_amount,
     discount_rate,
     source_country,
-    is_linked,
+    linkedId,
     is_room,
     is_meals,
     is_supp,
@@ -415,7 +414,7 @@ const StaticContract = () => {
              /"([^"]+)":/g,
              "$1:"
            )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
-         linked : ${is_linked}, room   : ${is_room}, meals: ${is_meals}, 
+           linkId : ${linkedId}, room   : ${is_room}, meals: ${is_meals}, 
           supp: ${is_supp}, nRef: ${is_non_refundable_offer}  order : ${order} 
         ) {
           message
@@ -461,7 +460,7 @@ const StaticContract = () => {
     },  PCr :  ${P_child_rate_supp || -1},  ArOrSt: ${ArOrStSupp}
         cafrom : ${supp_child_age_from || -1}, cato : ${
       supp_child_age_to || -1
-    } mand: ${mandatory}, rmrk: ${remark}
+    } mand: ${mandatory}, rmrk: "${remark}"
         ) {
         message
     }           
@@ -1083,11 +1082,19 @@ const StaticContract = () => {
         <span className="whitespace-nowrap">{formatDate(timestamp)}</span>
       ),
       offer: (
-        <Input
+        <Select
           value={offer}
-          name="offer"
-          onChange={onChange}
-          className="w-[200px]"
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, offer: value }))
+          }
+          options={[
+            { value: "geo_ofr", label: "geo offer" },
+            { value: "lst_min", label: "last minute" },
+            { value: "n_ref", label: "n ref" },
+            { value: "erly_brd", label: "erly brd" },
+            { value: "min_night", label: "minimum night" },
+          ]}
+          className="w-[130px]"
         />
       ),
       roomcategory: (
@@ -1238,15 +1245,11 @@ const StaticContract = () => {
         />
       ),
       linked: (
-        <Checkbox
-          value={is_linked}
-          onChange={(value) =>
-            setFormData((prev) => ({
-              ...prev,
-              is_linked: value.target.checked,
-            }))
-          }
-          className="float-right"
+        <Input
+          className="w-[70px]"
+          onChange={onChange}
+          value={linkedId}
+          name="linkedId"
         />
       ),
       room: (
@@ -1304,7 +1307,7 @@ const StaticContract = () => {
       ),
       minStay: (
         <Input
-          name={minStayOffer}
+          name="minStayOffer"
           value={minStayOffer}
           className="w-[70px]"
           onKeyPress={handleKeyPress}
@@ -1346,7 +1349,7 @@ const StaticContract = () => {
             { value: "per_stay", label: "Per stay" },
             { value: "per_item", label: "per item" },
           ]}
-          className="w-[130px] h-[25px]"
+          className="w-[100px] h-[25px]"
         />
       ),
       supplement: (
@@ -1365,10 +1368,10 @@ const StaticContract = () => {
             { value: "speedboat", label: "Speed Boat" },
             { value: "seaPlne", label: "Seaplane" },
             { value: "DomFlight", label: " Domestic Flight" },
-            { value: "AirCond", label: "AirCondition" },
+            { value: "AirCond", label: "Air Condition" },
             { value: "other", label: "Other" },
           ]}
-          className="w-[100px] h-[25px]"
+          className="w-[150px] h-[25px]"
         />
       ),
       type: (

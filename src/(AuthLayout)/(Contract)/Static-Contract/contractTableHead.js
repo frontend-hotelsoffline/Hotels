@@ -151,7 +151,7 @@ export const offersColumns = [
     key: "source",
   },
   {
-    title: "linked",
+    title: "linked ID",
     dataIndex: "linked",
     key: "linked",
   },
