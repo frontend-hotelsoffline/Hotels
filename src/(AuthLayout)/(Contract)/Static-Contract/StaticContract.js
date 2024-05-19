@@ -1357,6 +1357,15 @@ const StaticContract = () => {
           options={[
             { value: "s_bed", label: "supplement bed" },
             { value: "e_bed", label: "extra bed" },
+            { value: "ear_cin", label: "Earl Check-in" },
+            { value: " late_cout", label: "Late Check-out" },
+            { value: "gala_dinr", label: "Gala Dinner" },
+            { value: "wifi", label: "WIFI" },
+            { value: "airportT", label: "Airport Transfer" },
+            { value: "speedboat", label: "Speed Boat" },
+            { value: "seaPlne", label: "Seaplane" },
+            { value: "DomFlight", label: " Domestic Flight" },
+            { value: "AirCond", label: "AirCondition" },
             { value: "other", label: "Other" },
           ]}
           className="w-[100px] h-[25px]"

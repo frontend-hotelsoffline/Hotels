@@ -203,7 +203,7 @@ export const supplementsColumns = [
     key: "timestamp",
   },
   {
-    title: "validity",
+    title: "Duration",
     dataIndex: "validity",
     key: "validity",
   },
@@ -218,7 +218,7 @@ export const supplementsColumns = [
     key: "type",
   },
   {
-    title: "Duration",
+    title: "Vality",
     dataIndex: "ArOrSt",
     key: "ArOrSt",
   },
