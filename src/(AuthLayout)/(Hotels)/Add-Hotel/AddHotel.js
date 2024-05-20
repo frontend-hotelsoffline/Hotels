@@ -268,6 +268,7 @@ const AddHotel = () => {
     geocodeByAddress(suggestion.description)
       .then((results) => {
         const place = results[0];
+        console.log(results);
         if (place) {
           // Extract the desired address components
           const country = place.address_components.find((component) =>
