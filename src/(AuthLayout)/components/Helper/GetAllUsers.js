@@ -7,6 +7,7 @@ const GetAllUsers = () => {
   const [userUnderHotel, setUserUnderHotel] = useState([]);
   const [usersUnderDMC, setUsersUnderDMC] = useState([]);
   const [userAgent, setUserAgent] = useState([]);
+  const [userCoop, setUserCoop] = useState([]);
 
   const getAllUsers = async () => {
     const GET_ALL = `{
@@ -47,6 +48,7 @@ const GetAllUsers = () => {
     userUnderHotel,
     usersUnderDMC,
     userAgent,
+    userCoop,
   };
 };
 

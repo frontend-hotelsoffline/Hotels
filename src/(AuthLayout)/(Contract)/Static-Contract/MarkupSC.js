@@ -3,11 +3,15 @@ import GetAllPricingMarkUp from "../../components/Helper/GetAllPricingMarkUp";
 import { POST_API } from "../../components/API/PostAPI";
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import GetAllDMCs from "../../components/Helper/GetAllDMCs";
+import GetAllUsers from "../../components/Helper/GetAllUsers";
 
 const MarkupSC = ({ id, getAllContractData }) => {
   const { MarkUpValue } = GetAllPricingMarkUp();
+  const { DMCsValue } = GetAllDMCs();
+  const { userAgent, userCoop } = GetAllUsers();
   const [formData, setFormData] = useState({});
-  const { price_markup_id } = formData;
+  const { price_markup_id, buyerId, buyertype, markupid } = formData;
   const onSubmitMarkup = async (e) => {
     e.preventDefault();
     if (!price_markup_id || !id) {
@@ -42,7 +46,41 @@ const MarkupSC = ({ id, getAllContractData }) => {
         message.error(res.data.editSCMMarkup?.message);
       }
     } catch (error) {
-      message.error("Failed, Please check and try again");
+      message.error("Failed");
+    }
+  };
+  const onSubmitExtraMarkup = async (e) => {
+    e.preventDefault();
+    if (!buyerId || !id) {
+      message.error("Please fill in all required fields.");
+      return;
+    }
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const mutation = `
+        mutation {
+            addEBMarkSC(cid: ${id}, bid_0_All: ${buyerId}, mid: ${markupid}, btype: ${buyertype}) {
+                message
+            }}
+      `;
+
+    const path = "";
+    try {
+      const res = await POST_API(
+        path,
+        JSON.stringify({ query: mutation }),
+        headers
+      );
+      if (res.data.addEBMarkSC?.message === "success") {
+        message.success(res.data.addEBMarkSC?.message);
+        getAllContractData();
+        setFormData({});
+      } else {
+        message.error(res.data.addEBMarkSC?.message);
+      }
+    } catch (error) {
+      message.error("Failed");
     }
   };
   return (
@@ -58,7 +96,7 @@ const MarkupSC = ({ id, getAllContractData }) => {
           }}
           options={
             MarkUpValue
-              ? MarkUpValue.map((item) => ({
+              ? MarkUpValue?.map((item) => ({
                   key: item.id,
                   label: item.name,
                   value: Number(item.id),
@@ -68,9 +106,9 @@ const MarkupSC = ({ id, getAllContractData }) => {
         />
         <Button
           onClick={onSubmitMarkup}
-          className="action-btn absolute right-3 bottom-2"
+          className="action-btn absolute right-5 bottom-2"
         >
-          update
+          Update
         </Button>
       </span>
       <span className="w-full border border-black rounded-3xl h-[150px] relative p-5">
@@ -79,36 +117,48 @@ const MarkupSC = ({ id, getAllContractData }) => {
           <span>
             <label className="labelStyle">buyer type</label>
             <Select
-              value={price_markup_id}
+              value={buyertype}
               className="min-w-[200px] capitalize font-normal"
               onChange={(value) => {
-                setFormData((prev) => ({ ...prev, price_markup_id: value }));
+                setFormData((prev) => ({
+                  ...prev,
+                  buyertype: value,
+                  buyerId: 0,
+                }));
               }}
-              options={
-                MarkUpValue
-                  ? MarkUpValue.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: Number(item.id),
-                    }))
-                  : ""
-              }
+              options={[
+                { value: "dmc", label: "DMC" },
+                { value: "agent", label: "Agent" },
+                { value: "coop", label: "Corporate" },
+              ]}
             />
           </span>
           <span>
             <label className="labelStyle">buyer ID</label>
             <Select
-              value={price_markup_id}
+              value={buyerId}
               className="min-w-[200px] capitalize font-normal"
               onChange={(value) => {
-                setFormData((prev) => ({ ...prev, price_markup_id: value }));
+                setFormData((prev) => ({ ...prev, buyerId: value }));
               }}
               options={
-                MarkUpValue
-                  ? MarkUpValue.map((item) => ({
+                buyertype === "dmc"
+                  ? DMCsValue?.map((item) => ({
                       key: item.id,
                       label: item.name,
-                      value: Number(item.id),
+                      value: item.id,
+                    }))
+                  : buyertype === "agent"
+                  ? userAgent?.map((item) => ({
+                      key: item.id,
+                      label: item.name,
+                      value: item.id,
+                    }))
+                  : buyertype === "coop"
+                  ? userCoop?.map((item) => ({
+                      key: item.id,
+                      label: item.name,
+                      value: item.id,
                     }))
                   : ""
               }
@@ -117,14 +167,14 @@ const MarkupSC = ({ id, getAllContractData }) => {
           <span>
             <label className="labelStyle">markup</label>
             <Select
-              value={price_markup_id}
+              value={markupid}
               className="min-w-[200px] capitalize font-normal"
               onChange={(value) => {
-                setFormData((prev) => ({ ...prev, price_markup_id: value }));
+                setFormData((prev) => ({ ...prev, markupid: value }));
               }}
               options={
                 MarkUpValue
-                  ? MarkUpValue.map((item) => ({
+                  ? MarkUpValue?.map((item) => ({
                       key: item.id,
                       label: item.name,
                       value: Number(item.id),
@@ -135,8 +185,8 @@ const MarkupSC = ({ id, getAllContractData }) => {
           </span>
         </div>
         <Button
-          onClick={onSubmitMarkup}
-          className="action-btn absolute right-3 bottom-2"
+          onClick={onSubmitExtraMarkup}
+          className="action-btn absolute right-5 bottom-2"
           icon={<PlusOutlined />}
         >
           Add

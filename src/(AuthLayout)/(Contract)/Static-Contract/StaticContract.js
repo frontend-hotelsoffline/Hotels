@@ -1743,7 +1743,7 @@ const StaticContract = () => {
   ];
 
   return (
-    <section className="w-full h-[700px] space-y-2 capitalize">
+    <section className="w-full min-h-[700px] mb-5 space-y-2 capitalize">
       <div className="w-full md:flex justify-between">
         <span className="flex flex-col">
           <label className="labelStyle">hotel</label>
