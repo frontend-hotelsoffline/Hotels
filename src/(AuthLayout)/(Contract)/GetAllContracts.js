@@ -437,6 +437,7 @@ const GetAllContracts = (
         }));
         const offersFinal = offersDataArray?.map((item, index) => ({
           key: index || "",
+          id: item.id,
           timestamp: item.CRT && formatDate(item.CRT || null),
           bookingwindow: (
             <span>
@@ -967,7 +968,10 @@ const GetAllContracts = (
 
         const buyMarkupArray = BuyerMarkUp?.map((item) => ({
           key: item.id,
-          markup: (item.markup && (item.markup * 1).toFixed(2) + "%") || "",
+          markup:
+            (item.markup?.markup &&
+              (item.markup?.markup * 1).toFixed(2) + "%") ||
+            "",
           timestamp: item.markup?.CRT && formatDate(item.markup?.CRT || null),
           action: (
             <span className="w-full flex justify-center">

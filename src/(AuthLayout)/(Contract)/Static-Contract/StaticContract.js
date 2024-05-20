@@ -413,7 +413,7 @@ const StaticContract = () => {
              /"([^"]+)":/g,
              "$1:"
            )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
-           linkId : ${linkedId}, room   : ${is_room}, meals: ${is_meals}, 
+           linkId : ${linkedId || -1}, room   : ${is_room}, meals: ${is_meals}, 
           supp: ${is_supp}, nRef: ${is_non_refundable_offer}  order : ${order} 
         ) {
           message
@@ -1036,6 +1036,30 @@ const StaticContract = () => {
     },
   ];
 
+  const {
+    mealsData,
+    OffersData,
+    supplementsData,
+    cancellationData,
+    priceData,
+    priceMarkupData,
+    distAg,
+    distCp,
+    distDMCs,
+    distCnR,
+    loading,
+    roomSetupData,
+    getAllContractData,
+    compressData,
+    rawPriceData,
+  } = GetAllContracts(
+    id_from_contract_id,
+    rowData,
+    hotel_id,
+    Occupancy_and_category_cross,
+    hotelValue
+  );
+
   const offersDataSource = [
     {
       key: "offersdata",
@@ -1206,11 +1230,19 @@ const StaticContract = () => {
         />
       ),
       linked: (
-        <Input
+        <Select
           className="w-[70px]"
-          onChange={onChange}
+          onChange={(value) =>
+            setFormData((prev) => ({
+              ...prev,
+              linkedId: value,
+            }))
+          }
+          options={OffersData?.map((item) => ({
+            value: item.id,
+            label: item.id,
+          }))}
           value={linkedId}
-          name="linkedId"
         />
       ),
       room: (
@@ -1631,29 +1663,6 @@ const StaticContract = () => {
     },
   ];
 
-  const {
-    mealsData,
-    OffersData,
-    supplementsData,
-    cancellationData,
-    priceData,
-    priceMarkupData,
-    distAg,
-    distCp,
-    distDMCs,
-    distCnR,
-    loading,
-    roomSetupData,
-    getAllContractData,
-    compressData,
-    rawPriceData,
-  } = GetAllContracts(
-    id_from_contract_id,
-    rowData,
-    hotel_id,
-    Occupancy_and_category_cross,
-    hotelValue
-  );
   const { roomSetupDataSource } = RoomSetup({
     categoryData,
     hotel_id,
