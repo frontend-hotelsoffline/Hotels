@@ -30,7 +30,6 @@ import GetAllHotels from "../../components/Helper/GetAllHotels";
 import GetAllContracts from "../GetAllContracts";
 import { formatDate } from "../../components/Helper/FormatDate";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
-import GetAllPricingMarkUp from "../../components/Helper/GetAllPricingMarkUp";
 import GetAllDMCs from "../../components/Helper/GetAllDMCs";
 import {
   countryList,
@@ -43,6 +42,7 @@ import AvailabilityCalendar from "./AvailabilityCalender";
 import AddRegion from "./AddRegion";
 import RegionsForCountries from "../../components/Helper/RegionsForCountries";
 import { useLocation } from "react-router-dom";
+import MarkupSC from "./MarkupSC";
 
 const StaticContract = () => {
   const { Option } = Select;
@@ -130,7 +130,6 @@ const StaticContract = () => {
     room_id_0_if_All,
     is_non_refundable,
     is_non_refundable_offer,
-    price_markup_id,
     offer,
     minStayOffer,
     ArOrSt,
@@ -625,44 +624,6 @@ const StaticContract = () => {
       }
     } catch (error) {
       message.error("Failed");
-    }
-  };
-
-  const onSubmitMarkup = async (e) => {
-    e.preventDefault();
-    if (!price_markup_id || !id_from_contract_id) {
-      message.error("Please fill in all required fields.");
-      return;
-    }
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const mutation = `
-    mutation {
-      editSCMMarkup(
-        cid: ${id_from_contract_id}
-        Mid: ${price_markup_id}
-    ) {
-        message
-    }}
-  `;
-
-    const path = "";
-    try {
-      const res = await POST_API(
-        path,
-        JSON.stringify({ query: mutation }),
-        headers
-      );
-      if (res.data && !res.errors) {
-        message.success("Successful");
-        getAllContractData();
-        setFormData(initialData);
-      } else {
-        message.error(res.errors[0].message);
-      }
-    } catch (error) {
-      message.error("Failed, Please check and try again");
     }
   };
 
@@ -1670,37 +1631,6 @@ const StaticContract = () => {
     },
   ];
 
-  const { MarkUpValue } = GetAllPricingMarkUp();
-  const markupDataSource = [
-    {
-      key: "markupDataSourz",
-
-      markup: (
-        <Select
-          value={price_markup_id}
-          className="w-[200px] capitalize font-normal"
-          onChange={(value) => {
-            setFormData((prev) => ({ ...prev, price_markup_id: value }));
-          }}
-          options={
-            MarkUpValue
-              ? MarkUpValue.map((item) => ({
-                  key: item.id,
-                  label: item.name,
-                  value: Number(item.id),
-                }))
-              : ""
-          }
-        />
-      ),
-      timestamp: formatDate(timestamp),
-      action: (
-        <Button onClick={onSubmitMarkup} className="save-btn">
-          Save
-        </Button>
-      ),
-    },
-  ];
   const {
     mealsData,
     OffersData,
@@ -1783,8 +1713,6 @@ const StaticContract = () => {
       ? roomSetupDataSource
       : activeItem === 5
       ? cancellationsDataSource
-      : activeItem === 7
-      ? markupDataSource
       : null;
 
   const secondTableData =
@@ -2261,18 +2189,27 @@ const StaticContract = () => {
               hotel_id={hotel_id}
             />
           ) : (
-            <Table
-              columns={columnsData}
-              dataSource={combinedDataSource}
-              loading={loading}
-              onRow={(record) => {
-                return {
-                  onClick: () => {
-                    setRowData(record);
-                  },
-                };
-              }}
-            />
+            <span>
+              {activeItem === 7 && (
+                <MarkupSC
+                  id={id_from_contract_id}
+                  getAllContractData={getAllContractData}
+                />
+              )}
+              <br />
+              <Table
+                columns={columnsData}
+                dataSource={combinedDataSource}
+                loading={loading}
+                onRow={(record) => {
+                  return {
+                    onClick: () => {
+                      setRowData(record);
+                    },
+                  };
+                }}
+              />
+            </span>
           )}
         </div>
       </div>

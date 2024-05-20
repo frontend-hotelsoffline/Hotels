@@ -282,14 +282,20 @@ const GetAllContracts = (
               Ag {
                   id
                   agId
+                  agentName
+                  CRT
               }
               DMCs {
                   id
                   dId
+                  dmcName
+                  CRT
               }
               Cp {
                   id
                   cpId
+                  coopName
+                  CRT
               }
           }
         }
@@ -921,19 +927,22 @@ const GetAllContracts = (
         setCancellationData(cancellationFinal);
         const distAgArray = Ag?.map((item) => ({
           key: item.id,
-          agent: item.agId || 0,
+          agent: item.agentName || 0,
+          date: item.CRT && formatDate(item.CRT),
         }));
         setDistAg(distAgArray);
 
         const distCpArray = Cp?.map((item) => ({
           key: item.id,
-          corporate: item.cpId,
+          corporate: item.coopName,
+          date: item.CRT && formatDate(item.CRT),
         }));
         setDistCp(distCpArray);
 
         const distDMCsArray = DMCs?.map((item) => ({
           key: item.id,
-          dmcs: item.dId,
+          dmcs: item.dmcName,
+          date: item.CRT && formatDate(item.CRT),
         }));
         setDistDMCs(distDMCsArray);
 
