@@ -373,11 +373,11 @@ const GetAllContracts = (
             <span className="gap-y-2 ">
               <label className="labelStyle"> adult</label>
               <ul>
-                <li>{item.soft_aiA || ""}</li>
+                <li>{item.saiA || ""}</li>
               </ul>
               <label className="labelStyle"> child</label>
               <ul>
-                <li>{item.uaiC || ""}</li>
+                <li>{item.saiC || ""}</li>
               </ul>
             </span>
           ),
