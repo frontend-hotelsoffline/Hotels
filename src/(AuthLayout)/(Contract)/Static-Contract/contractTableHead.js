@@ -186,11 +186,6 @@ export const offersColumns = [
     key: "minStay",
   },
   {
-    title: "non ref",
-    dataIndex: "nonrefundable",
-    key: "nonrefundable",
-  },
-  {
     title: "action",
     dataIndex: "action",
     key: "action",

@@ -97,7 +97,6 @@ const StaticContract = () => {
     is_meals: false,
     is_supp: false,
     is_non_refundable: false,
-    is_non_refundable_offer: false,
     is_this_created_by_owner: false,
     sgl: Array(categoryData.length).fill(""),
     dbl: Array(categoryData.length).fill(""),
@@ -129,7 +128,6 @@ const StaticContract = () => {
   const {
     room_id_0_if_All,
     is_non_refundable,
-    is_non_refundable_offer,
     offer,
     minStayOffer,
     ArOrSt,
@@ -399,7 +397,7 @@ const StaticContract = () => {
     mutation {
       addOSC(
         cid: ${id_from_contract_id}
-           ofr: "${offer}", rId_0_All :${room_category_id},  sfrom: "${offer_stay_from}",  sto: "${offer_stay_to}", 
+           ofr: ${offer}, rId_0_All :${room_category_id},  sfrom: "${offer_stay_from}",  sto: "${offer_stay_to}", 
            bwfrom: "${booking_window_from}",  bwto: "${booking_window_to}",  
            dAOrR : ${discountType === "amount" ? "amnt" : "rate"},  
            disc: ${discountType === "amount" ? discount_amount : discount_rate}
@@ -414,7 +412,7 @@ const StaticContract = () => {
              "$1:"
            )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
            linkId : ${linkedId || -1}, room   : ${is_room}, meals: ${is_meals}, 
-          supp: ${is_supp}, nRef: ${is_non_refundable_offer}  order : ${order} 
+          supp: ${is_supp},  order : ${order} 
         ) {
           message
     }           
@@ -1305,17 +1303,6 @@ const StaticContract = () => {
           className="w-[70px]"
           onKeyPress={handleKeyPress}
           onChange={onChange}
-        />
-      ),
-      nonrefundable: (
-        <Checkbox
-          value={is_non_refundable_offer}
-          onChange={(value) =>
-            setFormData((prev) => ({
-              ...prev,
-              is_non_refundable_offer: value.target.checked,
-            }))
-          }
         />
       ),
       action: (
