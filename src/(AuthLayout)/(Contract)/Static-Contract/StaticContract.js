@@ -1569,8 +1569,8 @@ const StaticContract = () => {
             setFormData((prev) => ({ ...prev, type: value }))
           }
           options={[
-            { value: "first night", label: "first night" },
-            { value: "full stay", label: "full stay" },
+            { value: "one_night", label: "one night" },
+            { value: "full_stay", label: "full stay" },
           ]}
           className="w-[100px] h-[25px]"
           onKeyPress={handleKeyPress}
