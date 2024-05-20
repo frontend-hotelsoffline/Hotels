@@ -504,12 +504,11 @@ const StaticContract = () => {
         cid: ${id_from_contract_id}
         cPlcy: "${booking_policy}"  
         rId_0_All:${room_id_0_if_All} 
-          { from : "${date_from}",  to : "${date_to}",  type : "${type}", 
-          cDays  : ${cancellation_days || -1},  cPRte : ${
+        from : "${date_from}",  to : "${date_to}",  type : ${type}, 
+        cDays  : ${cancellation_days || -1},  cPRte : ${
       cancellation_panelty_rate || -1
     } ArOrSt: ${ArOrStCanc}
           nRef: ${is_non_refundable || false}
-        },
         ) {
           message
     }           
@@ -1592,7 +1591,6 @@ const StaticContract = () => {
           name="cancellation_panelty_rate"
           onChange={onChange}
           className="w-[100px] h-[25px]"
-          onKeyPress={handleKeyPress}
         />
       ),
       ArOrSt: (
