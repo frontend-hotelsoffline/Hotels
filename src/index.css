@@ -233,6 +233,18 @@
   border-radius: 7px !important;
 }
 
+.tab-btn,
+.tab-btn-active {
+  background-color: #f4f4f4;
+  color: #000;
+  padding: 3px 15px;
+  border-radius: 13px;
+}
+.tab-btn-active {
+  background-color: #0c2d4c !important;
+  color: #fff !important;
+}
+
 .ant-checkbox,
 .ant-select {
   border: 1px solid black !important;

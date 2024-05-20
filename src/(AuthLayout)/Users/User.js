@@ -215,10 +215,10 @@ const User = () => {
         </Modal>
       </div>
       <div>
-        <ul className="list-none text-[#A6A6A6]  flex justify-between my-2 max-w-[500px]">
+        <ul className="list-none tab-btn  flex justify-between my-2 max-w-[600px]">
           <li
             className={`cursor-pointer ${
-              activeItem === "" ? "font-bold underline text-[#000000]" : ""
+              activeItem === "" ? "font-bold tab-btn-active" : ""
             }`}
             onClick={() => {
               setNameFilter("");
@@ -231,7 +231,7 @@ const User = () => {
             <li
               key={index}
               className={`cursor-pointer capitalize ${
-                activeItem === index ? "font-bold underline text-[#000000]" : ""
+                activeItem === index ? "font-bold tab-btn-active" : ""
               }`}
               onClick={() => handleItemClick(index)}
             >

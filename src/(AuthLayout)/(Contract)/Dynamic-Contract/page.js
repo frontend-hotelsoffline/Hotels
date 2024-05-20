@@ -406,12 +406,12 @@ const DynamicContract = () => {
         </Button>
       </div>
       <div>
-        <ul className="list-none text-[#A6A6A6]  flex justify-between max-w-4xl my-6">
+        <ul className="list-none tab-btn  flex justify-between max-w-4xl my-6">
           {items.map((item, index) => (
             <li
               key={index}
               className={`cursor-pointer capitalize ${
-                activeItem === index ? "font-bold underline text-[#000000]" : ""
+                activeItem === index ? "font-bold tab-btn-active" : ""
               }`}
               onClick={() => handleItemClick(index)}
             >
@@ -420,7 +420,7 @@ const DynamicContract = () => {
           ))}
           <li
             className={`cursor-pointer ${
-              activeItem === "" ? "font-bold underline text-[#000000]" : ""
+              activeItem === "" ? "font-bold tab-btn-active" : ""
             }`}
             onClick={() => {
               setActiveItem("");

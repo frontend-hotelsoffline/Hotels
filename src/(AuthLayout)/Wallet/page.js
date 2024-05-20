@@ -170,12 +170,12 @@ const Wallet = () => {
           /> */}
         </Modal>
       </div>
-      <ul className="list-none text-[#A6A6A6]  flex justify-between my-2 max-w-[300px]">
+      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[300px]">
         {items.map((item, index) => (
           <li
             key={index}
             className={`cursor-pointer capitalize ${
-              activeItem === index ? "font-bold underline text-[#000000]" : ""
+              activeItem === index ? "font-bold tab-btn-active" : ""
             }`}
             onClick={() => handleItemClick(index)}
           >
