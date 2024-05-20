@@ -204,6 +204,10 @@ const GetAllContracts = (
               ofr
               rId
               sfrom
+              theroom {
+                id
+                name
+            }
               sto
               bwfrom
               bwto
@@ -224,11 +228,16 @@ const GetAllContracts = (
             suppliments(ftz: "${date_to_pass}") {
               id
               cId
+              CRT
               rId
               rmrk
               vali
               type
               supp
+              theroom {
+                id
+                name
+            }
               sfrom
               sto
               pAmn
@@ -243,11 +252,17 @@ const GetAllContracts = (
             }
             cancellation(ftz: "${date_to_pass}") {
                 id
+                CRT
                 cId
                 from
                 to
                 type
                 rId
+                ArOrSt
+                theroom {
+                  id
+                  name
+              }
                 nRef
                 cDays
                 cPRte
@@ -451,7 +466,8 @@ const GetAllContracts = (
               <p>{formatDate(item.sto) || null}</p>
             </span>
           ),
-          roomcategory: item.room?.name === 0 ? "All" : item.room?.name || null,
+          roomcategory:
+            item.theroom?.name === 0 ? "All" : item.theroom?.name || null,
           offer: item.ofr || "",
           discount:
             item.dAOrR === "amnt"
@@ -460,15 +476,7 @@ const GetAllContracts = (
               ? item.disc + "%"
               : "",
           source: item.Scountries?.map((item) => <p>{item.country || ""}</p>),
-          linked: (
-            <span className="float-right">
-              {item.linked === true ? (
-                <FaCheck className="text-blue-800" />
-              ) : (
-                <ImCross className="text-red-500" /> || ""
-              )}
-            </span>
-          ),
+          linked: item.linkId,
           room: (
             <span className="float-right">
               {item.room === true ? (
@@ -497,6 +505,8 @@ const GetAllContracts = (
             </span>
           ),
           order: item.order || "",
+          ArOrSt: item.ArOrSt || "",
+          minStay: item.minS || "",
           action: (
             <span className="w-full flex justify-center">
               <Popover
@@ -515,12 +525,13 @@ const GetAllContracts = (
         const supplementFinal = SuppDataArray?.map((item, index) => ({
           key: index,
           timestamp: item.CRT && formatDate(item.CRT || null),
-          roomcategory: item.room?.name || "",
+          roomcategory: item.theroom?.name || "",
           type: item.type || "",
           supplement: item.supp || "",
           validity: item.vali || "",
-          mandatory: item.mand || "",
-          price_type: item.pAmn || "",
+          ArOrSt: item.ArOrSt || "",
+          mandatory: item.mand === true ? "Yes" : "No" || "",
+          price_type: item.pAmn === true ? "Amount" : "Rate",
           remark: item.rmrk || "",
           price: (
             <span className="">
@@ -594,7 +605,7 @@ const GetAllContracts = (
           key: index || "",
           timestamp: item.CRT && formatDate(item.CRT || null),
           bookingpolicy: item.cPlcy || "",
-          room: (item.room && item.room?.name) || "",
+          room: item.theroom?.name || "",
           refundable:
             item.nRef && item.nRef == true ? (
               <span className="flex items-center justify-center">
