@@ -96,7 +96,6 @@ const AddRoom = () => {
     sBed,
     mcas,
     ebeds,
-
     maieb,
   } = FormData;
 

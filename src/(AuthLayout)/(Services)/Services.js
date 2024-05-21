@@ -23,15 +23,18 @@ const Services = () => {
         id
         CRT
         name
+        desc
         mId
         from
         to
         locat
         country
-        city
-        lon
-        lat
-        desc
+        fcity
+        tcity
+        flon
+        flat
+        tlon
+        tlat
         SMLink
         Ylink
         PPA
@@ -45,6 +48,17 @@ const Services = () => {
         OT
         oC
         oId
+        markup {
+            id
+            CRT
+            name
+            markup
+        }
+        images {
+            id
+            sId
+            img_url
+        }
     }
   }`;
     const query = GET_ALL;
@@ -58,24 +72,22 @@ const Services = () => {
           key: item.id || "",
           id: item.id || "",
           services: item.name || "",
-          description: item.description || "",
-          from_date: formatDate(item.from_date || null) || "",
-          to_date: formatDate(item.to_date || null) || "",
-          location: item.location || "",
+          description: item.desc || "",
+          from_date: formatDate(item.from || null) || "",
+          to_date: formatDate(item.to || null) || "",
+          location: item.locat || "",
           country: item.country || "",
           city: item.city || "",
-          price_per_adult: item.price_per_adult || "",
-          price_per_kid: item.price_per_kid || "",
-          discount: item.discount || "",
-          child_age_from: item.child_age_from || "",
-          child_age_to: item.child_age_to || "",
-          discount_from: formatDate(item.discount_from || null) || "",
-          discount_to: formatDate(item.discount_to || null) || "",
-          min_pax_discount: item.min_pax_discount || "",
-          Mapping_ID: item.Mapping_ID || "",
-          social_media_link: item.social_media_link || "",
-          youtube_link: item.youtube_link || "",
-          Channel: item.Channel || "",
+          price_per_adult: item.PPA || "",
+          price_per_kid: item.PPK || "",
+          discount: item.dcont || "",
+          child_age_from: item.CAF || "",
+          child_age_to: item.CAT || "",
+          discount_from: formatDate(item.Dfrom || null) || "",
+          discount_to: formatDate(item.Dto || null) || "",
+          min_pax_discount: item.MPD || "",
+          social_media_link: item.SMLink || "",
+          youtube_link: item.Ylink || "",
           longitude: item.longitude || "",
           latitude: item.latitude || "",
         }));

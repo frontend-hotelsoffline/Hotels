@@ -40,17 +40,14 @@ const EditRoom = () => {
   const { hotelValue } = GetAllHotels();
 
   const [openAmenityModal, setOpenAmenityModal] = useState(false);
-  const [openOccupancyModal, setOpenOccupancyModal] = useState(false);
   const [openRoomViewModal, setOpenRoomViewModal] = useState(false);
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
   const showAmenityModal = () => setOpenAmenityModal(true);
-  const showOccupancyModal = () => setOpenOccupancyModal(true);
   const showRoomViewModal = () => setOpenRoomViewModal(true);
   const showCategoryModal = () => setOpenCategoryModal(true);
 
   const cancelModal = () => {
     setOpenAmenityModal(false);
-    setOpenOccupancyModal(false);
     setOpenRoomViewModal(false);
     setOpenCategoryModal(false);
   };
@@ -60,6 +57,7 @@ const EditRoom = () => {
   const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
+  console.log(parsedRecord);
 
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
@@ -83,7 +81,7 @@ const EditRoom = () => {
     UNIT: parsedRecord?.is_UNIT || false,
     priority: parsedRecord?.priority || "",
     amenity_ids:
-      // parsedRecord?.amenities?.map((item) => parseInt(item?.amenity?.id, 10)) ||
+      parsedRecord?.amenities?.map((item) => parseInt(item?.amenity?.id, 10)) ||
       [],
     description: parsedRecord?.description || "",
   });
@@ -97,7 +95,6 @@ const EditRoom = () => {
     description,
     room_status,
     hotel_id,
-    giataId,
     amenity_ids,
     SGL,
     DBL,
@@ -106,6 +103,15 @@ const EditRoom = () => {
     QUAD,
     UNIT,
     priority,
+    tPax,
+    minA,
+    maxA,
+    maxC,
+    Beds,
+    sBed,
+    mcas,
+    ebeds,
+    maieb,
   } = FormData;
 
   const onChange = (e) => {
@@ -158,34 +164,38 @@ const EditRoom = () => {
     };
     const mutation = `
   mutation  {
-    edit_a_room(
+    editRoom(
       id: ${id},
       name: "${name ? name : ""}"
-      is_SGL: ${SGL}
-      is_DBL: ${DBL}
-      is_TWN: ${TWN}
-      is_TRPL: ${TRPL}
-      is_QUAD: ${QUAD}
-      is_UNIT: ${UNIT}
-      priority: ${priority ?? 0}
-      category_id: ${category_id ? category_id : ""},
-      view_id: ${view_id ? view_id : ""},
-      room_size: ${room_size ? room_size : ""},
-      no_of_units: ${no_of_units ? no_of_units : ""},
-      description: "${description ? description : ""}",
-      room_status: "${room_status}"
-      hotel_id: ${hotel_id}
-      giataId: "${giataId}"
+        SGL: ${SGL}
+        DBL: ${DBL}
+        TWN: ${TWN}
+        TRPL: ${TRPL}
+        QUAD: ${QUAD}
+        UNIT: ${UNIT}
+        catId: ${category_id ? category_id : ""},
+        viewId: ${view_id ? view_id : ""},
+        size_sqm: ${room_size ? room_size : ""},
+        no_units: ${no_of_units ? no_of_units : ""},
+        desc: "${description ? description : ""}",
+        status: ${room_status}
+        hId: ${hotel_id ?? 0}
+        prio: ${priority ?? 0}
+        images: $images
+        tPax: ${tPax || -1}
+        minA: ${minA || -1}
+        maxA: ${maxA || -1}
+        maxC: ${maxC || -1}
+        Beds: ${Beds || ""}
+        sBed: ${sBed || false}
+        mcas: ${mcas || ""}
+        ebeds: ${ebeds || ""}
+        maieb: ${maieb || ""}
       ${JSON.stringify(variables)
         .replace(/"([^(")"]+)":/g, "$1:")
         .replace(/^\s*{|\}\s*$/g, "")}
     ) {
-        id
-        name
-        room_size
-        no_of_units
-        description
-        room_status
+        message
     } }
 `;
     const path = "";
@@ -198,16 +208,15 @@ const EditRoom = () => {
         }),
         headers
       );
-      if (res.data && !res.errors) {
+      if (res.data.editRoom?.message) {
         setLoading(false);
         router("/Rooms");
-        message.success("Room has been added Successfully");
+        message.success(res.data.editRoom?.message);
       } else {
-        message.error(res?.errors?.message);
+        message.error(res.data.editRoom?.message);
       }
     } catch (error) {
       message.error("Failed, please check and try again");
-      console.error(error);
     }
   };
 
@@ -219,15 +228,14 @@ const EditRoom = () => {
     const images = fileList.map((item) => item.originFileObj);
     const mutation = `
    mutation (  $images: [Upload]) {
-    add_more_imges_to_a_room(
+    addRImgs(
       images: $images
-      id_of_room: ${id}
+      rid: ${id}
       ) {
-      respmessage
+      message
   }
    }
 `;
-
     const path = "";
     try {
       formData2.delete("operations");
@@ -259,10 +267,10 @@ const EditRoom = () => {
       }
 
       const res = await POST_API(path, formData2, headers);
-      if (res.data && !res.errors) {
-        message.success("Successful");
+      if (res.data.addRImgs?.message === "success") {
+        message.success(res.data.addRImgs?.message);
       } else {
-        message.error(res?.errors?.message);
+        message.error(res.data.addRImgs?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -275,10 +283,10 @@ const EditRoom = () => {
     };
     const mutation = `
    mutation {
-    delete_an_image_of_room_by_id(
+    delRImg(
       id: ${a.id}
       ) {
-      respmessage
+      message
   }}
 `;
     const path = "";
@@ -290,10 +298,10 @@ const EditRoom = () => {
         }),
         headers
       );
-      if (res.data && !res.errors) {
-        message.success("Successful");
+      if (res.data.delRImg?.message === "success") {
+        message.success(res.data.delRImg?.message);
       } else {
-        message.error(res?.errors?.message);
+        message.error(res.data.delRImg?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -337,6 +345,32 @@ const EditRoom = () => {
       ),
     }));
   };
+  const options = [];
+  options.push(
+    <Option key={0} value={0}>
+      N/A
+    </Option>
+  );
+  for (let i = 1; i <= 20; i++) {
+    options.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
+  }
+  const options1000 = [];
+  options1000.push(
+    <Option key={0} value={0}>
+      N/A
+    </Option>
+  );
+  for (let i = 1; i <= 1000; i++) {
+    options1000.push(
+      <Option key={i} value={i}>
+        {i}
+      </Option>
+    );
+  }
 
   const allImageList = [
     ...imageList,
@@ -355,7 +389,7 @@ const EditRoom = () => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between gap-5 md:gap-20 mt-2 pb-5 mb-10">
             <div className="w-full relative">
               <label className="block font-semibold">Room Name</label>
               <Input
@@ -398,29 +432,12 @@ const EditRoom = () => {
                 onChange={(value) => {
                   setFormData((prevData) => ({
                     ...prevData,
-                    category_id: value,
+                    category_id: Number(value),
                   }));
                 }}
               />
               <span className="labelStyle mt-1">
                 Occupancy
-                {/* <Button
-              className="border-none capitalize"
-              onClick={showOccupancyModal}
-            >
-              create Occupancy
-            </Button>
-            <Modal
-              open={openOccupancyModal}
-              onCancel={cancelModal}
-              onOk={cancelModal}
-              footer={false}
-            >
-              <AddOccupancy
-                getOccupancy={getAllOcc}
-                handleCancel={cancelModal}
-              />
-            </Modal> */}
                 <Checkbox.Group
                   className="grid grid-cols-2 capitalize font-normal"
                   style={{ width: "100%" }}
@@ -458,8 +475,8 @@ const EditRoom = () => {
                 </Modal>
               </span>
               <Select
-                showSearch
                 value={view_id}
+                showSearch
                 filterOption={(input, option) =>
                   (option?.label.toLowerCase() ?? "").includes(
                     input.toLowerCase()
@@ -515,9 +532,9 @@ const EditRoom = () => {
                   )
                 }
                 className="input-style w-full"
-                options={hotelValue.map((item) => ({
-                  value: item.id ? item.id : "",
-                  label: item.name ? item.name : "",
+                options={hotelValue?.map((item) => ({
+                  value: item.id || "",
+                  label: item.name || "",
                 }))}
                 onChange={(value) => {
                   setFormData((prevData) => ({
@@ -525,13 +542,6 @@ const EditRoom = () => {
                     hotel_id: value,
                   }));
                 }}
-              />
-              <label className="labelStyle mt-1 w-full">giata ID</label>
-              <Input
-                name="giataId"
-                value={giataId}
-                onChange={onChange}
-                className="input-style"
               />
               <p className="mt-5">
                 Choose Amenities
@@ -569,18 +579,128 @@ const EditRoom = () => {
                     ))
                   : ""}
               </Checkbox.Group>
-              <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
-                Update
-              </Button>
             </div>
-            <div className="w-full">
+            <div className="w-full relative">
+              <span className="w-full grid grid-cols-2 gap-x-5">
+                <label className="labelStyle">
+                  total persons
+                  <Select
+                    value={tPax}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, tPax: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  min adult:
+                  <Select
+                    value={minA}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, minA: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max adult
+                  <Select
+                    value={maxA}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maxA: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max child
+                  <Select
+                    value={maxC}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maxC: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  shared bed
+                  <Select
+                    value={sBed}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, sBed: value }))
+                    }
+                    options={[
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ]}
+                    className="relative w-full"
+                  />
+                </label>
+
+                <label className="labelStyle">
+                  max child age in shared
+                  <Select
+                    value={mcas}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, mcas: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  beds
+                  <Select
+                    value={Beds}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, Beds: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options1000}
+                  </Select>
+                </label>
+
+                <label className="labelStyle">
+                  max age in extra bed
+                  <Select
+                    value={maieb}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maieb: value }))
+                    }
+                    className="relative w-full"
+                  >
+                    {options}
+                  </Select>
+                </label>
+
+                <label className="labelStyle">
+                  extra bed suppliment:
+                  <Input
+                    value={ebeds}
+                    name="ebeds"
+                    onChange={onChange}
+                    className="w-full"
+                    onKeyPress={handleKeyPress}
+                  />
+                </label>
+              </span>
               <label className="labelStyle">Description</label>
               <TextArea
                 name="description"
                 value={description}
                 onChange={onChange}
                 className="w-full mb-5"
-                style={{ height: 110 }}
+                style={{ height: 90 }}
               />
               <div className="mt-4">
                 <h1 className="calendar-head my-3">Room Images</h1>
@@ -624,9 +744,15 @@ const EditRoom = () => {
                     src={previewImage}
                   />
                 </Modal>
-              </div>
+              </div>{" "}
               <Button className="action-btn w-40" onClick={onSubmitImg}>
                 Update Images
+              </Button>
+              <Button
+                htmlType="submit"
+                className="button-bar absolute right-0 bottom-0"
+              >
+                Submit
               </Button>
             </div>
           </div>

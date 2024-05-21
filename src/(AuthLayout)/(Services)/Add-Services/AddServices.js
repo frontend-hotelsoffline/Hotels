@@ -77,6 +77,8 @@ const AddServices = () => {
     fcity,
     longitude,
     latitude,
+    tlongitude,
+    tlatitude,
     description,
     social_media_link,
     youtube_link,
@@ -110,8 +112,10 @@ const AddServices = () => {
           country: "${country}"
           tcity: "${city}"
           fcity: "${fcity}"
-          lon: ${longitude}
-          lat: ${latitude}
+          flon: ${longitude}
+          flat: ${latitude}
+          tlon: ${tlongitude}
+          tlat: ${tlatitude}
           desc: "${description}"
           SMLink: "${social_media_link}"
           Ylink: "${youtube_link}"
@@ -162,14 +166,13 @@ const AddServices = () => {
 
       const res = await POST_API(path, formData2, headers);
       if (res.data.addService?.message === "success") {
-        message.success("Services has been Added Successfully");
+        message.success(res.data.addService?.message);
         router("/Services");
       } else {
         message(res.data.addService?.message);
       }
     } catch (error) {
       message.error("Failed to Add Services, Please check and try again");
-      console.error(error);
     }
   };
 
@@ -316,6 +319,30 @@ const AddServices = () => {
                     onKeyPress={handleKeyPress}
                     name="latitude"
                     value={latitude}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+              </span>
+              <span className="flex gap-3 w-full">
+                <label className="labelStyle w-full">
+                  to longitude
+                  <Input
+                    onKeyPress={handleKeyPress}
+                    name="tlongitude"
+                    value={tlongitude}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+                <label className="labelStyle w-full">
+                  to latitude
+                  <Input
+                    onKeyPress={handleKeyPress}
+                    name="tlatitude"
+                    value={tlatitude}
                     onChange={onChange}
                     placeholder=""
                     className="w-full border-black"
