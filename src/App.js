@@ -34,6 +34,7 @@ import AddServices from "./(AuthLayout)/(Services)/Add-Services/AddServices";
 import AddPackage from "./(AuthLayout)/(Packages)/Add-Package/AddPackage";
 import EditPackage from "./(AuthLayout)/(Packages)/Edit-Package/EditPackage";
 import EditService from "./(AuthLayout)/(Services)/Edit-Services/EditServices";
+import AcMDetail from "./(AuthLayout)/Account-Managers/Details";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -88,6 +89,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <AccountOwners />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Account-Managers/Details/:id"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AcMDetail />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

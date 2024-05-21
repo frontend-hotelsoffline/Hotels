@@ -1,4 +1,3 @@
-"use client";
 import { POST_API } from "../../../../(AuthLayout)/components/API/PostAPI";
 import ControlInputValue from "../../../../(AuthLayout)/components/Helper/ControlInputValue";
 import { formatDate } from "../../../../(AuthLayout)/components/Helper/FormatDate";

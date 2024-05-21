@@ -1,4 +1,3 @@
-"use client";
 import { Button, Input, Select, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";

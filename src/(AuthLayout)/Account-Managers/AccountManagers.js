@@ -1,4 +1,3 @@
-"use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
@@ -100,7 +99,9 @@ const AccountOwners = () => {
           className="border-none text-blue-700"
           onClick={() => {
             const recordString = encodeURIComponent(JSON.stringify(record));
-            router(`Account-Managers/Details?record=${recordString}`);
+            router(
+              `Account-Managers/Details/${record.id}?record=${recordString}`
+            );
           }}
         >
           {a}

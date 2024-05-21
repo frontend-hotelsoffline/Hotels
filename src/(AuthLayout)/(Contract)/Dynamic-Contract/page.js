@@ -1,4 +1,3 @@
-"use client";
 import { Button, DatePicker, Input, Select, message } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
 import React, { useState } from "react";

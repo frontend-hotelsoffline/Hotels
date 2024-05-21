@@ -1,4 +1,3 @@
-"use client";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,

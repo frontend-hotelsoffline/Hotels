@@ -1,15 +1,16 @@
-"use client";
 import { Button, Input, Popover, Table, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
-import { useRouter, useSearchParams } from "next/navigation";
-import { EditIcon } from "../../components/Customized/EditIcon";
-import { GET_API } from "../../components/API/GetAPI";
-import AddDMCs from "../../DMCs/AddDMCs";
-import GetAllUsers from "../../components/Helper/GetAllUsers";
+import { EditIcon } from "../components/Customized/EditIcon";
+import { GET_API } from "../components/API/GetAPI";
+import AddDMCs from "../DMCs/AddDMCs";
+import GetAllUsers from "../components/Helper/GetAllUsers";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-const Rooms = () => {
+const AcMDetail = () => {
+  let { id } = useParams();
+  const router = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
@@ -20,7 +21,6 @@ const Rooms = () => {
   const [formData, setFormData] = useState({
     id: parsedRecord?.id || "",
   });
-  const { id } = formData;
 
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
@@ -206,4 +206,4 @@ const Rooms = () => {
   );
 };
 
-export default Rooms;
+export default AcMDetail;

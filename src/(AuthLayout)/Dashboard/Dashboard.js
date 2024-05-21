@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { BiCoinStack } from "react-icons/bi";
 import { LiaCoinsSolid } from "react-icons/lia";
@@ -10,44 +9,44 @@ import { Table } from "antd";
 const Dashboard = () => {
   const dataSource = [
     {
-      key: '1',
-      id: 'id',
+      key: "1",
+      id: "id",
       country: 32,
-      address: '10 Downing Street',
+      address: "10 Downing Street",
     },
     {
-      key: '2',
-      status: 'country',
+      key: "2",
+      status: "country",
       paid: 42,
-      datecreated: '10 Downing Street',
+      datecreated: "10 Downing Street",
     },
   ];
-  
+
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'date created',
-      dataIndex: 'datecreated',
-      key: 'datecreated',
+      title: "date created",
+      dataIndex: "datecreated",
+      key: "datecreated",
     },
     {
-      title: 'total',
-      dataIndex: 'total',
-      key: 'total',
+      title: "total",
+      dataIndex: "total",
+      key: "total",
     },
     {
-      title: 'paid',
-      dataIndex: 'paid',
-      key: 'paid',
+      title: "paid",
+      dataIndex: "paid",
+      key: "paid",
     },
     {
-      title: 'status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "status",
+      dataIndex: "status",
+      key: "status",
     },
   ];
 
@@ -73,16 +72,23 @@ const Dashboard = () => {
         barThickness: 10,
       },
     ],
-    
   };
 
   const Card = ({ bgcolor, title, color, icon, amount, text }) => (
     <div>
       <h1 className="text-md font-semibold">{title}</h1>
-      <div className={`border-[#E9E9E9] border flex items-center justify-evenly shadow-xl text-white text-xl rounded-xl h-[100px] w-[170px] m-1`}>
-        <div className={`p-2 ${bgcolor} flex items-center justify-center rounded-full w-[30px] h-[30px]`}>{icon}</div>
-       <div  className={`text-center text-sm ${color}`}><h1>{amount}</h1>
-        <p>{text}</p></div>
+      <div
+        className={`border-[#E9E9E9] border flex items-center justify-evenly shadow-xl text-white text-xl rounded-xl h-[100px] w-[170px] m-1`}
+      >
+        <div
+          className={`p-2 ${bgcolor} flex items-center justify-center rounded-full w-[30px] h-[30px]`}
+        >
+          {icon}
+        </div>
+        <div className={`text-center text-sm ${color}`}>
+          <h1>{amount}</h1>
+          <p>{text}</p>
+        </div>
       </div>
     </div>
   );

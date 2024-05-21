@@ -1,1 +1,1 @@
-export const BASE_URL = "https://hotelsoffline.com:8080"
+export const BASE_URL = "https://hotelimgs.s3.amazonaws.com/";

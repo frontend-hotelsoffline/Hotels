@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, useState } from "react";
 import { LogoutOutlined, SearchOutlined } from "@ant-design/icons";
 import { Menu } from "antd";

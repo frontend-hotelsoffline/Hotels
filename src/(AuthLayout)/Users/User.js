@@ -1,4 +1,3 @@
-"use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { GET_API } from "../components/API/GetAPI";

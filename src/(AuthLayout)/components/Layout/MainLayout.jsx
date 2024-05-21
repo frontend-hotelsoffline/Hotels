@@ -1,4 +1,3 @@
-"use client";
 import { Layout, Select } from "antd";
 import Sidebar from "./Sidebar";
 import { LuBellDot } from "react-icons/lu";

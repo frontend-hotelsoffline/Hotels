@@ -1,4 +1,3 @@
-"use client";
 import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";

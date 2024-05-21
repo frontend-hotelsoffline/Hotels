@@ -1,4 +1,3 @@
-"use client";
 import {
   Button,
   Checkbox,
@@ -122,12 +121,13 @@ const EditRoom = () => {
 
   const getImages = async () => {
     const GET_ALL = `{
-      get_room_by_id(room_id: ${id}) {
+      getRoom(id: ${id}) {
         id
         images {
-            id
-            link_for_image
-        }
+          id
+          rId
+          img_url
+      }
     }
   }`;
     const query = GET_ALL;
@@ -136,17 +136,17 @@ const EditRoom = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       if (res.data) {
-        const tableArray = res.data.get_room_by_id.images?.map((image) => ({
+        const tableArray = res.data.getRoom.images?.map((image) => ({
           id: image.id,
-          uid: image.uid,
+          uid: image.rId,
           name: `image_${image.id}.jpeg`,
           status: "done",
-          url: `${BASE_URL}${image.link_for_image}`,
+          url: `${BASE_URL}${image.img_url}`,
         }));
         setImagelist(tableArray);
         setLoading(false);
       } else {
-        message.error(res.errors[0].message);
+        message.error(res.data.getRoom.images);
       }
     } catch (error) {
       message.error("Failed");
