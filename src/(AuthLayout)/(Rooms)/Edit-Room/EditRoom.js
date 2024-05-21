@@ -57,7 +57,6 @@ const EditRoom = () => {
   const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
-  console.log(parsedRecord);
 
   const { Option } = Select;
   const [loading, setLoading] = useState(false);

@@ -12,12 +12,12 @@ import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useRouter, useSearchParams } from "next/navigation";
 import { CalendarOutlined } from "@ant-design/icons";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import { formatDate } from "../../components/Helper/FormatDate";
+import { useLocation, useNavigate } from "react-router-dom";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -29,8 +29,9 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-const EditServices = () => {
-  const searchParams = useSearchParams();
+const EditService = () => {
+  const uselocation = useLocation();
+  const searchParams = new URLSearchParams(uselocation.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 
@@ -79,16 +80,16 @@ const EditServices = () => {
   });
   const {
     name,
-    owner_id,
-    owner_type,
-    is_this_created_by_owner,
     from_date,
     to_date,
     location,
     country,
     city,
+    fcity,
     longitude,
     latitude,
+    tlongitude,
+    tlatitude,
     description,
     social_media_link,
     youtube_link,
@@ -100,10 +101,7 @@ const EditServices = () => {
     discount_from,
     discount_to,
     min_pax_discount,
-    Channel,
-    Mapping_ID,
   } = formData;
-  console.log(formData);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -117,34 +115,31 @@ const EditServices = () => {
     const images = fileList.map((item) => item.originFileObj);
     const mutation = `
       mutation($images: [Upload]) {
-        create_a_service(
-          is_this_created_by_owner: ${is_this_created_by_owner}
-        owner_type: ${owner_type}
-        owner_id: ${owner_id}
-          name: "${name}"
-          from_date: "${from_date}"
-          to_date: "${to_date}"
-          location: "${location}"
+        name: ${name}
+          from: "${from_date}"
+          to: "${to_date}"
+          locat: "${location}"
           country: "${country}"
-          city: "${city}"
-          longitude: "${longitude}"
-        latitude: "${latitude}"
-          description: "${description}"
-          social_media_link: "${social_media_link}"
-          youtube_link: "${youtube_link}"
-          price_per_adult: ${price_per_adult}
-          price_per_kid: ${price_per_kid}
-          child_age_from: ${child_age_from}
-          child_age_to: ${child_age_to}
-          discount: ${discount}
-          discount_from: "${discount_from}"
-          discount_to: "${discount_to}"
-          min_pax_discount: ${min_pax_discount}
+          tcity: "${city}"
+          fcity: "${fcity}"
+          flon: ${longitude}
+          flat: ${latitude}
+          tlon: ${tlongitude}
+          tlat: ${tlatitude}
+          desc: "${description}"
+          SMLink: "${social_media_link}"
+          Ylink: "${youtube_link}"
+          PPA: ${price_per_adult}
+          PPK: ${price_per_kid}
+          CAF: ${child_age_from}
+          CAT: ${child_age_to}
+          dcont: ${discount}
+          Dfrom: "${discount_from}"
+          Dto: "${discount_to}"
+          MPD: ${min_pax_discount}
           images: $images
-        Channel : "${Channel}"
-        Mapping_ID : "${Mapping_ID}"
       ) {
-          id
+          message
       }
       }
     `;
@@ -197,7 +192,7 @@ const EditServices = () => {
 
   return (
     <section>
-      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[120px]">
+      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
         {items.map((item, index) => (
           <li
             key={index}
@@ -216,12 +211,16 @@ const EditServices = () => {
             <div className="w-full space-y-3">
               <label className="labelStyle">
                 Services
-                <Input
-                  name="name"
+                <Select
                   value={name}
-                  onChange={onChange}
-                  placeholder="type Services name here"
-                  className="w-full border-black"
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, name: value }))
+                  }
+                  options={[
+                    { value: "service1", label: "service1" },
+                    { value: "service2", label: "service2" },
+                  ]}
+                  className="w-full"
                 />
               </label>
               <span className="flex gap-3">
@@ -281,10 +280,20 @@ const EditServices = () => {
                   />
                 </label>
                 <label className="labelStyle w-full">
-                  city
+                  to city
                   <Input
                     name="city"
                     value={city}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+                <label className="labelStyle w-full">
+                  from city
+                  <Input
+                    name="fcity"
+                    value={fcity}
                     onChange={onChange}
                     placeholder=""
                     className="w-full border-black"
@@ -325,6 +334,30 @@ const EditServices = () => {
                   />
                 </label>
               </span>
+              <span className="flex gap-3 w-full">
+                <label className="labelStyle w-full">
+                  to longitude
+                  <Input
+                    onKeyPress={handleKeyPress}
+                    name="tlongitude"
+                    value={tlongitude}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+                <label className="labelStyle w-full">
+                  to latitude
+                  <Input
+                    onKeyPress={handleKeyPress}
+                    name="tlatitude"
+                    value={tlatitude}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+              </span>
             </div>
             <div className="w-full">
               <label className="labelStyle">
@@ -342,16 +375,6 @@ const EditServices = () => {
                 <Input
                   name="youtube_link"
                   value={youtube_link}
-                  onChange={onChange}
-                  placeholder=""
-                  className="w-full border-black"
-                />
-              </label>
-              <label className="labelStyle">
-                Channel
-                <Input
-                  name="Channel"
-                  value={Channel}
                   onChange={onChange}
                   placeholder=""
                   className="w-full border-black"
@@ -459,18 +482,8 @@ const EditServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <label className="labelStyle">
-                Mapping ID
-                <Input
-                  name="Mapping_ID"
-                  value={Mapping_ID}
-                  onChange={onChange}
-                  placeholder=""
-                  className="w-full border-black"
-                />
-              </label>
             </span>
-            <span className="flex flex-col gap-3 w-full">
+            <span className="flex flex-col gap-3 w-full relative">
               <label className="labelStyle">
                 discount
                 <Input
@@ -535,67 +548,10 @@ const EditServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <span className="flex justify-between w-full">
-                <label className="labelStyle w-[170px]">
-                  owner type
-                  <Select
-                    className="inputfildinsearch"
-                    value={owner_type}
-                    onChange={(value) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        owner_type: value,
-                        owner_id: "",
-                      }))
-                    }
-                    options={[
-                      { value: 4, label: "Users Under DMC" },
-                      { value: 6, label: "Users Under Hotel" },
-                    ]}
-                  />
-                </label>
-                <label className="labelStyle w-[170px]">
-                  owner ID
-                  <Select
-                    className="inputfildinsearch"
-                    value={owner_id}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, owner_id: value }))
-                    }
-                    options={
-                      owner_type === 4
-                        ? usersUnderDMC?.map((item) => ({
-                            value: item.id ? item.id : "",
-                            label: item.uname ? item.uname : "",
-                          }))
-                        : owner_type === 6
-                        ? userUnderHotel.map((item) => ({
-                            value: item.id ? item.id : "",
-                            label: item.uname ? item.uname : "",
-                          }))
-                        : null
-                    }
-                  />
-                </label>
-                <label className="labelStyle">
-                  created by owner
-                  <Select
-                    className="inputfildinsearch"
-                    value={is_this_created_by_owner}
-                    onChange={(value) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        is_this_created_by_owner: value,
-                      }))
-                    }
-                    options={[
-                      { value: true, label: "true" },
-                      { value: false, label: "false" },
-                    ]}
-                  />
-                </label>
-              </span>
-              <Button htmlType="submit" className="m-5 list-btn float-right">
+              <Button
+                htmlType="submit"
+                className="button-bar absolute right-0 -bottom-16"
+              >
                 Save
               </Button>
             </span>
@@ -606,4 +562,4 @@ const EditServices = () => {
   );
 };
 
-export default EditServices;
+export default EditService;

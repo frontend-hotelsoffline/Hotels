@@ -16,7 +16,8 @@ const DynamicContract = () => {
   const { hotelValue } = GetAllHotels();
   const [activeItem, setActiveItem] = useState(0);
 
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 

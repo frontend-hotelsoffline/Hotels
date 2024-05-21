@@ -13,7 +13,6 @@ import {
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { POST_API } from "../../components/API/PostAPI";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
@@ -27,6 +26,7 @@ import dayjs from "dayjs";
 import GetPackageByID from "../../components/Helper/GetPackageByID";
 import { EditIcon } from "../../components/Customized/EditIcon";
 import { BASE_URL } from "../../components/API/APIURL";
+import { useLocation } from "react-router-dom";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -40,7 +40,8 @@ const getBase64 = (file) =>
   });
 
 const EditPackage = () => {
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const record = searchParams.get("record");
   const parsedRecord = record ? JSON.parse(record) : null;
 
@@ -74,10 +75,8 @@ const EditPackage = () => {
   }));
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
   const [imageList, setImagelist] = useState(imageArray || []);
-  const [dataSource, setDataSource] = useState();
   const [toggle, setToggle] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

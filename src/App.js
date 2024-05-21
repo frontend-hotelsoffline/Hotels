@@ -32,6 +32,8 @@ import { EditHotel } from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
 import EditRoom from "./(AuthLayout)/(Rooms)/Edit-Room/EditRoom";
 import AddServices from "./(AuthLayout)/(Services)/Add-Services/AddServices";
 import AddPackage from "./(AuthLayout)/(Packages)/Add-Package/AddPackage";
+import EditPackage from "./(AuthLayout)/(Packages)/Edit-Package/EditPackage";
+import EditService from "./(AuthLayout)/(Services)/Edit-Services/EditServices";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -321,6 +323,18 @@ function App() {
             }
           />
           <Route
+            path="/Edit-Services"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <EditService />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
             path="/Channel"
             element={
               isAuthenticated ? (
@@ -350,6 +364,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <AddPackage />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Edit-Package"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <EditPackage />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />
