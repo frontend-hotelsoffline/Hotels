@@ -447,7 +447,7 @@ const AddServices = () => {
                 />
               </label>
             </span>
-            <span className="flex flex-col gap-3 w-full">
+            <span className="flex flex-col gap-3 w-full relative">
               <label className="labelStyle">
                 discount
                 <Input
@@ -512,7 +512,10 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <Button htmlType="submit" className="m-5 list-btn float-right">
+              <Button
+                htmlType="submit"
+                className="button-bar absolute right-0 -bottom-16"
+              >
                 Save
               </Button>
             </span>
