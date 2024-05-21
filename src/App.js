@@ -31,6 +31,7 @@ import StaticContract from "./(AuthLayout)/(Contract)/Static-Contract/StaticCont
 import { EditHotel } from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
 import EditRoom from "./(AuthLayout)/(Rooms)/Edit-Room/EditRoom";
 import AddServices from "./(AuthLayout)/(Services)/Add-Services/AddServices";
+import AddPackage from "./(AuthLayout)/(Packages)/Add-Package/AddPackage";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -337,6 +338,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <Packages />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Add-Package"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AddPackage />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

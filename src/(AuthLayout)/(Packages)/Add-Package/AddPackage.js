@@ -12,13 +12,11 @@ import {
   message,
 } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
 import GetAllHotels from "../../components/Helper/GetAllHotels";
-import GetAllUsers from "../../components/Helper/GetAllUsers";
 import GetAllServices from "../../components/Helper/GetAllServices";
 
 import { formatDate } from "../../components/Helper/FormatDate";
@@ -40,7 +38,6 @@ const getBase64 = (file) =>
 
 const AddPackage = () => {
   const [rowData, setRowData] = useState({});
-  const { userUnderHotel, usersUnderDMC, userAgent } = GetAllUsers();
   const { hotelValue } = GetAllHotels();
   const { servicesValue } = GetAllServices();
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -61,9 +58,7 @@ const AddPackage = () => {
   };
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const router = useNavigate();
   const [activeItem, setActiveItem] = useState(0);
-  const [dataSource, setDataSource] = useState([]);
   const [toggle, setToggle] = useState("");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -118,7 +113,6 @@ const AddPackage = () => {
   }
    }
 `;
-    console.log(rowData);
 
     const path = "";
     try {
@@ -446,7 +440,7 @@ const AddPackage = () => {
               onSubmitRoom();
             }
           }}
-          className="list-btn"
+          className="button-bar"
         >
           Add New
         </Button>
@@ -563,7 +557,7 @@ const AddPackage = () => {
     <Spin />
   ) : (
     <div>
-      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
+      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[230px]">
         {items.map((item, index) => (
           <li
             key={index}
@@ -577,7 +571,7 @@ const AddPackage = () => {
         ))}
       </ul>
       {activeItem === 0 && (
-        <div className="w-full capitalize flex gap-5 md:gap-10">
+        <div className="w-full capitalize flex gap-5 md:gap-20">
           <span className="w-full space-y-2 relative">
             <label className="labelStyle w-full">
               Package
@@ -599,7 +593,7 @@ const AddPackage = () => {
                 className="w-full border-black"
               />
             </label>
-            <span className="flex gap-3 mt-2">
+            <span className="flex gap-5 md:gap-20 mt-2">
               <label className="labelStyle w-full">
                 from date
                 <DatePicker
@@ -640,78 +634,8 @@ const AddPackage = () => {
                 />
               </label>
             </span>
-            <span className="flex justify-between w-full">
-              <label className="labelStyle w-[170px]">
-                owner type
-                <Select
-                  className="inputfildinsearch"
-                  value={owner_type}
-                  onChange={(value) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      owner_type: value,
-                      owner_id: "",
-                    }))
-                  }
-                  options={[
-                    { value: 4, label: "Users Under DMC" },
-                    { value: 6, label: "Users Under Hotel" },
-                  ]}
-                />
-              </label>
-              <label className="labelStyle w-[170px]">
-                owner ID
-                <Select
-                  className="inputfildinsearch"
-                  value={owner_id}
-                  onChange={(value) =>
-                    setFormData((prev) => ({ ...prev, owner_id: value }))
-                  }
-                  options={
-                    owner_type === 4
-                      ? usersUnderDMC?.map((item) => ({
-                          value: item.id ? item.id : "",
-                          label: item.uname ? item.uname : "",
-                        }))
-                      : owner_type === 6
-                      ? userUnderHotel.map((item) => ({
-                          value: item.id ? item.id : "",
-                          label: item.uname ? item.uname : "",
-                        }))
-                      : null
-                  }
-                />
-              </label>
-              <label className="labelStyle">
-                created by owner
-                <Select
-                  className="inputfildinsearch"
-                  value={is_this_created_by_owner}
-                  onChange={(value) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      is_this_created_by_owner: value,
-                    }))
-                  }
-                  options={[
-                    { value: true, label: "true" },
-                    { value: false, label: "false" },
-                  ]}
-                />
-              </label>
-            </span>
-            <Button
-              onClick={(e) => {
-                e.preventDefault();
-                onSubmit();
-                onSubmitImg();
-              }}
-              className="list-btn absolute -bottom-16 right-0"
-            >
-              Save Package
-            </Button>
           </span>
-          <span className="w-full space-y-2 -mt-2">
+          <span className="w-full space-y-2 -mt-2 relative">
             <label className="labelStyle">Description</label>
             <TextArea
               name="description"
@@ -763,6 +687,16 @@ const AddPackage = () => {
                 src={previewImage}
               />
             </Modal>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                onSubmit();
+                onSubmitImg();
+              }}
+              className="button-bar absolute -bottom-16 right-0"
+            >
+              Save Package
+            </Button>
           </span>
         </div>
       )}
@@ -785,8 +719,8 @@ const AddPackage = () => {
         </div>
       )}
       {activeItem === 2 && (
-        <div className="flex flex-col w-[800px]">
-          <span className="flex gap-3 mt-2">
+        <div className="flex flex-col w-full">
+          <span className="flex gap-5 md:gap-20 mt-2">
             <label className="labelStyle w-full">
               Fixed Price (Adult)
               <Input
@@ -804,7 +738,7 @@ const AddPackage = () => {
               />
             </label>
           </span>
-          <span className="flex gap-3 mt-2">
+          <span className="flex gap-5 md:gap-20 mt-2">
             <label className="labelStyle w-full">
               Child Age From
               <Input
@@ -822,10 +756,13 @@ const AddPackage = () => {
               />
             </label>
           </span>
-
-          <label className="labelStyle mt-2">discount</label>
-          <Input name="discount" value={discount} className="w-[50%]" />
-          <Button className="list-btn mt-5 w-80">Save Price</Button>
+          <span className="flex gap-5 md:gap-20 mt-2 items-end justify-between">
+            <label className="labelStyle mt-2">
+              discount
+              <Input name="discount" value={discount} className="w-full" />
+            </label>
+            <Button className="button-bar">Save Price</Button>
+          </span>
         </div>
       )}
     </div>
