@@ -334,7 +334,7 @@ const AddHotel = () => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2 pb-5 gap-5">
+          <div className="flex justify-between mt-2 pb-5 gap-5 md:gap-20">
             <div className="w-full">
               <label className="block font-semibold">Hotel Name</label>
               <PlacesAutocomplete

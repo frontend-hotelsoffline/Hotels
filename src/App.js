@@ -28,7 +28,7 @@ import Corporate from "./(AuthLayout)/Corporate/Corporate";
 import AccountOwners from "./(AuthLayout)/Account-Managers/AccountManagers";
 import AddRoom from "./(AuthLayout)/(Rooms)/Add-Room/Add-Room";
 import StaticContract from "./(AuthLayout)/(Contract)/Static-Contract/StaticContract";
-import { EditHotel } from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
+import PlaceSearchAutocompleteEdit from "./(AuthLayout)/(Hotels)/Edit-Hotel/EditHotel";
 import EditRoom from "./(AuthLayout)/(Rooms)/Edit-Room/EditRoom";
 import AddServices from "./(AuthLayout)/(Services)/Add-Services/AddServices";
 import AddPackage from "./(AuthLayout)/(Packages)/Add-Package/AddPackage";
@@ -232,7 +232,7 @@ function App() {
             element={
               isAuthenticated ? (
                 <MainLayout>
-                  <EditHotel />
+                  <PlaceSearchAutocompleteEdit />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

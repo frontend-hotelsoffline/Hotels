@@ -127,7 +127,7 @@ const Hotels = () => {
           star_rating: item.categ || "",
           hotel_status: item.HotelBody?.status || "",
           phone_no: item.HotelBody?.phone || "",
-          email: item.email ? item.email : "",
+          email: item.HotelBody?.email || "",
           google_place_id: item.google_place_id || "",
           place_of_intrst: item.place_of_intrst?.id || "",
           hotel_chain: item.hotel_chain?.id || "",

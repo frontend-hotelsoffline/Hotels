@@ -36,7 +36,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export default function PlaceSearchAutocomplete() {
+export default function PlaceSearchAutocompleteEdit() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
     libraries: ["places"],
@@ -46,7 +46,7 @@ export default function PlaceSearchAutocomplete() {
   return <EditHotel />;
 }
 
-export const EditHotel = () => {
+const EditHotel = () => {
   const { hotelChainValue } = getAllHotelChains();
   const { placeOfInterestValue } = GetAllPlacesOfInterest();
   const { facilityValue } = GetAllFacilities();
@@ -92,6 +92,7 @@ export const EditHotel = () => {
     name,
     country,
     city,
+    address,
     street,
     latitude,
     longtude,
@@ -119,9 +120,12 @@ export const EditHotel = () => {
 
   const getImages = async () => {
     const GET_ALL = `{
-      get_image_links_by_a_hotel_id(hotel_id: ${id}) {
+      gethotel(id: ${id}) {
+        Imgs {
+            id
+            img_url
+        }
         id
-        link_for_image
     }
   }`;
     const query = GET_ALL;
@@ -131,15 +135,13 @@ export const EditHotel = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_image_links_by_a_hotel_id.map(
-          (image) => ({
-            id: image.id,
-            uid: image.uid,
-            name: `image_${image.id}.jpeg`,
-            status: "done",
-            url: `${BASE_URL}${image.link_for_image}`,
-          })
-        );
+        const tableArray = res.data.gethotel.Imgs?.map((image) => ({
+          id: image.id,
+          uid: image.uid,
+          name: `image_${image.id}.jpeg`,
+          status: "done",
+          url: `${BASE_URL}${image.img_url}`,
+        }));
         setImagelist(tableArray);
         setLoading(false);
       } else {
@@ -162,41 +164,28 @@ export const EditHotel = () => {
     mutation {
       edit_a_hotel(
         id: ${id},
-        google_place_id: "${google_place_id}",
-        name: "${name}",
-      country: "${country || ""}",
-      city: "${city || ""}",
-      street: "${street || ""}",
-      latitude: "${latitude || ""}",
-      longtude: "${longtude || ""}",
-      description: "${description || ""}",
-      star_rating: ${star_rating || ""},
-      hotel_status: "${hotel_status || "Active"}",
-      phone_no: "${phone_no || ""}",
-      email: "${email || ""}",
-      id_acc_mngr: ${id_acc_mngr || ""},
-      id_of_place_of_intrst: ${id_of_place_of_intrst || ""},
-      id_of_hotel_chain: ${id_of_hotel_chain || ""},
-      giataId: "${giataId}",
-      default_selling_markup_id_if_hotel_makes_contract_for_itself : ${default_markup_id},
+        g_place: "${google_place_id}",
+        name: "${name ? name : ""}",
+      country: "${country ? country : ""}",
+      city: "${city ? city : ""}",
+      street: "${street ? street : ""}",
+      lat: ${latitude ? latitude : ""},
+      lon: ${longtude ? longtude : ""},
+      desc: "${description ? description : ""}",
+      categ: "${star_rating}",
+      status: ${hotel_status},
+      address: "${address || ""}",
+      phone: "${phone_no ? phone_no : ""}",
+      email: "${email ? email : ""}",
+      a_mngr_id: ${id_acc_mngr ? id_acc_mngr : ""},
+      p_inte_id: ${id_of_place_of_intrst ? id_of_place_of_intrst : ""},
+      chainId: ${id_of_hotel_chain ? id_of_hotel_chain : ""},
+      SM_id: ${default_markup_id || 0}
       ${JSON.stringify(variables)
         .replace(/"([^(")"]+)":/g, "$1:")
         .replace(/^\s*{|\}\s*$/g, "")}
     ) {
-      id
-      createdAt
-      name
-      country
-      city
-      street
-      latitude
-      longtude
-      description
-      star_rating
-      hotel_status
-      phone_no
-      email
-      giataId
+     message
     }
   }
 `;
@@ -407,7 +396,7 @@ export const EditHotel = () => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between mt-2 gap-5 md:gap-20">
             <div className="w-full">
               <label className="block font-semibold">Hotel Name</label>
               <PlacesAutocomplete
@@ -522,7 +511,7 @@ export const EditHotel = () => {
                     input.toLowerCase()
                   )
                 }
-                style={{ width: 500 }}
+                className="w-full"
                 options={filteredPlaceOfInterest}
                 onChange={(value) => {
                   setFormData((prevData) => ({
@@ -540,7 +529,7 @@ export const EditHotel = () => {
                     input.toLowerCase()
                   )
                 }
-                className="w-[500px]"
+                className="w-full"
                 options={hotelChainValue}
                 onChange={(value) => {
                   setFormData((prevData) => ({
@@ -579,7 +568,7 @@ export const EditHotel = () => {
                       }))
                     : ""
                 }
-                className="input-style w-[500px]"
+                className="input-style w-full"
               />
               <label className="labelStyle mt-1">Email</label>
               <Input
@@ -605,7 +594,7 @@ export const EditHotel = () => {
                 name="description"
                 value={description}
                 onChange={onChange}
-                className="w-[500px] mb-5"
+                className="w-full mb-5"
                 style={{ height: 110 }}
               />
               <p>Star Rating</p>
