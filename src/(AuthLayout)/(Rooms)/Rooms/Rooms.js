@@ -83,34 +83,28 @@ const Rooms = () => {
         const tableArray = res?.data.getRooms?.map((item) => ({
           key: item?.id,
           id: item?.id,
+          item: item,
           name: item?.name || "",
           hotel: item?.hotel?.name || "",
           hotels: item?.hotel || "",
-          no_of_units: item?.no_of_units || "",
+          no_of_units: item?.units || "",
           view: item?.view || "",
           priority: item?.prio || "",
           amenities: item?.amenities || "",
-          occupancy:
-            item.occupancies?.map((item) => (
-              <ul>
-                <li key={item.occupancy?.id}>{item.occupancy?.name}</li>
-              </ul>
-            )) || [],
           occupancies: item.occupancies || [],
           room_size: item?.size || "",
-          giataId: item?.giataId ? item?.giataId : "",
-          room_status: item?.room_status ? item?.room_status : "",
+          room_status: item?.status ? item?.status : "",
           category: item?.category?.name || "",
           categories: item?.category || "",
           description: item?.description || "",
           room_status: item?.status || "",
           images: item?.images || "",
-          is_SGL: item?.is_SGL || "",
-          is_DBL: item?.is_DBL || "",
-          is_TWN: item?.is_TWN || "",
-          is_TRPL: item?.is_TRPL || "",
-          is_QUAD: item?.is_QUAD || "",
-          is_UNIT: item?.is_UNIT || "",
+          is_SGL: item?.SGL || "",
+          is_DBL: item?.DBL || "",
+          is_TWN: item?.TWN || "",
+          is_TRPL: item?.TRPL || "",
+          is_QUAD: item?.QUAD || "",
+          is_UNIT: item?.UNIT || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -161,12 +155,6 @@ const Rooms = () => {
       key: "room_status",
       sorter: (a, b) =>
         a.room_status ? a.room_status.localeCompare(b.room_status) : "",
-    },
-    {
-      title: "giata ID",
-      dataIndex: "giataId",
-      key: "giataId",
-      sorter: (a, b) => (a.giataId ? a.giataId - b.giataId : ""),
     },
     {
       title: "Category",

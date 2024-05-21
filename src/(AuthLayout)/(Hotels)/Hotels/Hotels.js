@@ -59,6 +59,16 @@ const Hotels = () => {
         lat
         lon
         categ
+        rooms {
+          id
+          name
+          category {
+              id
+              name
+              desc
+          }
+          status
+      }
         HB {
             c_id
         }

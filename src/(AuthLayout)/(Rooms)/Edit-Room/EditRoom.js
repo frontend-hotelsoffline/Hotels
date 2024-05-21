@@ -77,11 +77,20 @@ const EditRoom = () => {
     TRPL: parsedRecord?.is_TRPL || false,
     QUAD: parsedRecord?.is_QUAD || false,
     UNIT: parsedRecord?.is_UNIT || false,
+    tPax: parsedRecord?.item?.tPax || "",
+    minA: parsedRecord?.item?.minA || "",
+    maxA: parsedRecord?.item?.maxA || "",
+    maxC: parsedRecord?.item?.maxC || "",
+    Beds: parsedRecord?.item?.Beds || "",
+    sBed: `${parsedRecord?.item?.sBed}` || "",
+    mcas: parsedRecord?.item?.mcas || "",
+    ebeds: parsedRecord?.item?.ebeds || "",
+    maieb: parsedRecord?.item?.maieb || "",
     priority: parsedRecord?.priority || "",
     amenity_ids:
       parsedRecord?.amenities?.map((item) => parseInt(item?.amenity?.id, 10)) ||
       [],
-    description: parsedRecord?.description || "",
+    description: parsedRecord.item?.desc || "",
   });
   const {
     id,
@@ -159,7 +168,7 @@ const EditRoom = () => {
       "Content-Type": "application/json",
     };
     const variables = {
-      amenity_ids: amenity_ids.map((item) => ({ amenity_id: item })) || "",
+      amenityIds: amenity_ids ? amenity_ids.map((item) => ({ aid: item })) : "",
     };
     const mutation = `
   mutation  {

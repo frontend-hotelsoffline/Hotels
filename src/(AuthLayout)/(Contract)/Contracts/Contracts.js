@@ -28,12 +28,16 @@ const Contracts = () => {
       item.status.toLowerCase().includes(statusFilter.toLocaleLowerCase())
     );
   });
+
+  const selectedDate = new Date();
+  selectedDate.setHours(0, 0, 0, 0);
+  var date_to_pass = selectedDate.toISOString();
   const getContract = async () => {
     const GET_ALL = `{
       getSCs {
-        from
-        To
-        renewal
+        from(ftz: "${date_to_pass}")
+            To(ftz: "${date_to_pass}")
+            renewal(ftz: "${date_to_pass}")
         id
         CRT
         name
@@ -77,7 +81,7 @@ const Contracts = () => {
           hotels: item.hotel || "",
           status: item.status ? item.status : "",
           type: item.id.toString().includes("-") ? "Dynamic" : "Static",
-          from_date: item.from_date || "",
+          from_date: item.from || "",
           to_date: item.To || "",
           child_age_from: item.caFrom || "",
           child_age_to: item.caT || "",
@@ -168,11 +172,11 @@ const Contracts = () => {
         </span>
       ),
     },
-    {
-      title: "company",
-      dataIndex: "company",
-      key: "company",
-    },
+    // {
+    //   title: "company",
+    //   dataIndex: "company",
+    //   key: "company",
+    // },
     {
       title: "currency",
       dataIndex: "currency",

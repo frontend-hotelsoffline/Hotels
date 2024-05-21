@@ -16,7 +16,7 @@ const TablePopup = ({ record }) => {
           </ul>
         )) || "",
       name: item.name || "",
-      status: item.room_status || "",
+      status: item.status || "",
     }));
     setPopDataSourceRoom(roomArray);
   }, [record]);
