@@ -43,14 +43,36 @@ const Rooms = () => {
         maxC
         Beds
         sBed
-        ssType
-        ss
         mcas
         ebeds
         maieb
-        est
-        ebs
-        mInc
+        hotel {
+            id
+            name
+        }
+        images {
+            id
+            rId
+            img_url
+        }
+        amenities {
+            id
+            amenity {
+                id
+                name
+                desc
+            }
+        }
+        view {
+            id
+            name
+            desc
+        }
+        category {
+            id
+            name
+            desc
+        }
     }
   }`;
     const query = GET_ALL_ROOMS;

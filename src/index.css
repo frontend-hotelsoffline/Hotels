@@ -201,7 +201,7 @@
 .button-bar {
   height: 40px;
   display: inline-flex;
-  padding: 7px 15px;
+  padding: 2px 15px;
   justify-content: center;
   align-items: center;
   border-radius: 10px;

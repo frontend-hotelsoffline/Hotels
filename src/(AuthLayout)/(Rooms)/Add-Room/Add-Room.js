@@ -94,13 +94,9 @@ const AddRoom = () => {
     maxC,
     Beds,
     sBed,
-    ssType,
-    ss,
     mcas,
     ebeds,
-    mInc,
-    ebs,
-    est,
+
     maieb,
   } = FormData;
 
@@ -156,13 +152,8 @@ const AddRoom = () => {
         maxC: ${maxC || -1}
         Beds: ${Beds || ""}
         sBed: ${sBed || false}
-        ssType: ${ssType || ""}
-        ss: ${ss || ""}
         mcas: ${mcas || ""}
         ebeds: ${ebeds || ""}
-        mInc: ${mInc || ""}
-        ebs: ${ebs || ""}
-        est: ${est || ""}
         maieb: ${maieb || ""}
         ${JSON.stringify(amenityVariables)
           .replace(/"([^(")"]+)":/g, "$1:")
@@ -203,22 +194,13 @@ const AddRoom = () => {
         formData2.append(i.toString(), images[i]);
       }
 
-      const res = await POST_API(
-        path,
-        JSON.stringify({
-          query: mutation,
-          variables: {
-            images: array,
-          },
-        }),
-        headers
-      );
-      if (res.data && !res.errors) {
+      const res = await POST_API(path, formData2, headers);
+      if (res.data.addRoom?.message === "success") {
         setLoading(false);
         message.success("Room has been added Successfully");
         router("/Rooms");
       } else {
-        message.error(res?.errors?.message);
+        message.error(res?.data.addRoom?.message);
       }
     } catch (error) {
       message.error("Failed");
@@ -294,7 +276,7 @@ const AddRoom = () => {
         <Spin />
       ) : (
         <form onSubmit={onSubmit}>
-          <div className="flex justify-between gap-5 mt-2 pb-5">
+          <div className="flex justify-between gap-5 md:gap-20 mt-2 pb-5 mb-10">
             <div className="w-full relative">
               <label className="block font-semibold">Room Name</label>
               <Input
@@ -480,12 +462,9 @@ const AddRoom = () => {
                     ))
                   : ""}
               </Checkbox.Group>
-              <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
-                Submit
-              </Button>
             </div>
-            <div className="w-full">
-              <span className="w-full grid grid-cols-2">
+            <div className="w-full relative">
+              <span className="w-full grid grid-cols-2 gap-x-5">
                 <label className="labelStyle">
                   total persons
                   <Select
@@ -493,7 +472,7 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, tPax: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
@@ -505,7 +484,7 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, minA: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
@@ -517,7 +496,7 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, maxA: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
@@ -529,7 +508,7 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, maxC: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
@@ -545,35 +524,10 @@ const AddRoom = () => {
                       { value: true, label: "Yes" },
                       { value: false, label: "No" },
                     ]}
-                    className="relative w-[60px] h-[25px]"
+                    className="relative w-full"
                   />
                 </label>
-                <label className="labelStyle">
-                  shared supliment type
-                  <Select
-                    value={ssType}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, ssType: value }))
-                    }
-                    options={[
-                      { value: "N/A", label: "N/A" },
-                      { value: "%", label: "%" },
-                      { value: "Amout", label: "Amount" },
-                    ]}
-                    className="relative w-[80px] h-[25px]"
-                  />
-                </label>
-                <label className="labelStyle">
-                  shared suppliment
-                  <Input
-                    value={ss}
-                    name="ss"
-                    onChange={onChange}
-                    className="relative w-[70px] h-[25px]"
-                    onKeyPress={handleKeyPress}
-                    readOnly={ssType === "N/A"}
-                  />
-                </label>
+
                 <label className="labelStyle">
                   max child age in shared
                   <Select
@@ -581,7 +535,7 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, mcas: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
@@ -593,23 +547,12 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, Beds: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options1000}
                   </Select>
                 </label>
-                <label className="labelStyle">
-                  no of extra beds
-                  <Select
-                    value={ebs}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, ebs: value }))
-                    }
-                    className="relative w-[50px] h-[25px]"
-                  >
-                    {options1000}
-                  </Select>
-                </label>
+
                 <label className="labelStyle">
                   max age in extra bed
                   <Select
@@ -617,26 +560,12 @@ const AddRoom = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, maieb: value }))
                     }
-                    className="relative w-[50px] h-[25px]"
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
                 </label>
-                <label className="labelStyle">
-                  extra_suppliment_type
-                  <Select
-                    value={est}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, est: value }))
-                    }
-                    options={[
-                      { value: "N/A", label: "N/A" },
-                      { value: "%", label: "%" },
-                      { value: "Amout", label: "Amount" },
-                    ]}
-                    className="w-full"
-                  />
-                </label>
+
                 <label className="labelStyle">
                   extra bed suppliment:
                   <Input
@@ -645,22 +574,6 @@ const AddRoom = () => {
                     onChange={onChange}
                     className="w-full"
                     onKeyPress={handleKeyPress}
-                    readOnly={est === "N/A"}
-                  />
-                </label>
-                <label className="labelStyle">
-                  meals included
-                  <Select
-                    value={mInc}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, mInc: value }))
-                    }
-                    options={[
-                      { value: "N/A", label: "N/A" },
-                      { value: "true", label: "Yes" },
-                      { value: "false", label: "No" },
-                    ]}
-                    className="w-full"
                   />
                 </label>
               </span>
@@ -670,7 +583,7 @@ const AddRoom = () => {
                 value={description}
                 onChange={onChange}
                 className="w-full mb-5"
-                style={{ height: 110 }}
+                style={{ height: 90 }}
               />
               <div className="mt-4">
                 <h1 className="calendar-head my-3">Room Images</h1>
@@ -714,6 +627,12 @@ const AddRoom = () => {
                   />
                 </Modal>
               </div>
+              <Button
+                htmlType="submit"
+                className="button-bar absolute right-0 bottom-0"
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </form>
