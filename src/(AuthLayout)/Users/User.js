@@ -45,7 +45,6 @@ const User = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
       if (res.data && !res.errors) {
         const tableArray = res.data.getUsers.map((item) => ({
           key: item.id ? item.id : "",

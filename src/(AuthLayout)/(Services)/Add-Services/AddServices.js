@@ -74,6 +74,7 @@ const AddServices = () => {
     location,
     country,
     city,
+    fcity,
     longitude,
     latitude,
     description,
@@ -88,7 +89,6 @@ const AddServices = () => {
     discount_to,
     min_pax_discount,
   } = formData;
-  console.log(formData);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -103,16 +103,17 @@ const AddServices = () => {
     const mutation = `
       mutation($images: [Upload]) {
         addService(
-          name: "${name}"
+          name: ${name}
           from: "${from_date}"
           to: "${to_date}"
           locat: "${location}"
           country: "${country}"
-          city: "${city}"
+          tcity: "${city}"
+          fcity: "${fcity}"
           lon: ${longitude}
-        lat: ${latitude}
+          lat: ${latitude}
           desc: "${description}"
-          SMlink: "${social_media_link}"
+          SMLink: "${social_media_link}"
           Ylink: "${youtube_link}"
           PPA: ${price_per_adult}
           PPK: ${price_per_kid}
@@ -179,7 +180,7 @@ const AddServices = () => {
 
   return (
     <section>
-      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[120px]">
+      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
         {items.map((item, index) => (
           <li
             key={index}
@@ -198,12 +199,16 @@ const AddServices = () => {
             <div className="w-full space-y-3">
               <label className="labelStyle">
                 Services
-                <Input
-                  name="name"
+                <Select
                   value={name}
-                  onChange={onChange}
-                  placeholder="type Services name here"
-                  className="w-full border-black"
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, name: value }))
+                  }
+                  options={[
+                    { value: "service1", label: "service1" },
+                    { value: "service2", label: "service2" },
+                  ]}
+                  className="w-full"
                 />
               </label>
               <span className="flex gap-3">
@@ -263,10 +268,20 @@ const AddServices = () => {
                   />
                 </label>
                 <label className="labelStyle w-full">
-                  city
+                  to city
                   <Input
                     name="city"
                     value={city}
+                    onChange={onChange}
+                    placeholder=""
+                    className="w-full border-black"
+                  />
+                </label>
+                <label className="labelStyle w-full">
+                  from city
+                  <Input
+                    name="fcity"
+                    value={fcity}
                     onChange={onChange}
                     placeholder=""
                     className="w-full border-black"
