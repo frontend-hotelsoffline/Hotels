@@ -17,7 +17,7 @@ const MainLayout = ({ children }) => {
       } w-full overflow-hidden flex flex-row`}
     >
       <div className="max-w-[200px] border-r-[1px] border-gray-200">
-        <div className={`${closeSidebar && "hidden"}`}>
+        <div className={`${closeSidebar && "hidden"} h-full`}>
           <Sidebar />
         </div>
       </div>

@@ -97,7 +97,7 @@ const Sidebar = () => {
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "Wallet", <FaWallet />),
   ];
   return (
-    <div className="w-full p-3">
+    <div className="w-full h-full relative p-3">
       <h1 className={`${lightOrDark === "dark" && "dark-mode"} logo-title`}>
         HotelsOffline
       </h1>
@@ -113,74 +113,76 @@ const Sidebar = () => {
         defaultOpenKeys={[currentPage]}
         items={items}
       />
-      <div
-        className={`${
-          lightOrDark === "dark" && "dark-mode border-white"
-        } border border-black mt-2 p-1 rounded-lg`}
-      >
+      <span className="absolute bottom-2">
         <div
           className={`${
             lightOrDark === "dark" && "dark-mode border-white"
-          } w-full flex flex-row items-center justify-evenly border rounded-md`}
+          } border border-black mt-2 p-1 rounded-lg`}
         >
-          <div className="super-admin-profile"></div>
-          <span className="">
-            <h1
-              className={`${
-                lightOrDark === "dark" && "dark-mode"
-              } title capitalize`}
-            >
-              {ProfileValue?.name}
-            </h1>
-            <h2
-              className={`${
-                lightOrDark === "dark" && "dark-mode"
-              } sub-title text-center`}
-            >
-              {ProfileValue.lev === 1
-                ? "Super Admin"
-                : ProfileValue.lev === 2
-                ? "Account manager"
-                : ProfileValue.lev === 4
-                ? "users under a dmc"
-                : ProfileValue.lev === 6
-                ? "users under a hotel"
-                : ProfileValue.lev === 9
-                ? "users under a corporate"
-                : ProfileValue.lev === 1
-                ? "Agent"
-                : ""}
-            </h2>
+          <div
+            className={`${
+              lightOrDark === "dark" && "dark-mode border-white"
+            } w-full flex flex-row items-center justify-evenly border rounded-md`}
+          >
+            <div className="super-admin-profile"></div>
+            <span className="">
+              <h1
+                className={`${
+                  lightOrDark === "dark" && "dark-mode"
+                } title capitalize`}
+              >
+                {ProfileValue?.name}
+              </h1>
+              <h2
+                className={`${
+                  lightOrDark === "dark" && "dark-mode"
+                } sub-title text-center`}
+              >
+                {ProfileValue.lev === 1
+                  ? "Super Admin"
+                  : ProfileValue.lev === 2
+                  ? "Account manager"
+                  : ProfileValue.lev === 4
+                  ? "users under a dmc"
+                  : ProfileValue.lev === 6
+                  ? "users under a hotel"
+                  : ProfileValue.lev === 9
+                  ? "users under a corporate"
+                  : ProfileValue.lev === 1
+                  ? "Agent"
+                  : ""}
+              </h2>
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              localStorage.clear();
+              window.location.reload();
+            }}
+            className="logout cursor-pointer"
+          >
+            Log out <LogoutOutlined className="mt-1" />
+          </div>
+        </div>
+        <div className="w-full group flex justify-between rounded-md bg-[#1b2644] mt-2 p-1 px-2">
+          <span
+            onClick={() => setLightOrDark("light")}
+            className={`${
+              lightOrDark === "light" ? "bg-white" : ""
+            } flex gap-2 items-center justify-center w-[70px] rounded-md cursor-pointer`}
+          >
+            <MdOutlineLightMode /> Light
+          </span>
+          <span
+            onClick={() => setLightOrDark("dark")}
+            className={`${
+              lightOrDark === "dark" ? "dark-mode border-white border" : ""
+            } flex gap-2 items-center text-white justify-center w-[70px] rounded-md cursor-pointer`}
+          >
+            <IoMoonOutline /> Dark
           </span>
         </div>
-        <div
-          onClick={() => {
-            localStorage.clear();
-            window.location.reload();
-          }}
-          className="logout cursor-pointer"
-        >
-          Log out <LogoutOutlined className="mt-1" />
-        </div>
-      </div>
-      <div className="w-full group flex justify-between rounded-md bg-[#1b2644] mt-2 p-1 px-2">
-        <span
-          onClick={() => setLightOrDark("light")}
-          className={`${
-            lightOrDark === "light" ? "bg-white" : ""
-          } flex gap-2 items-center justify-center w-[70px] rounded-md cursor-pointer`}
-        >
-          <MdOutlineLightMode /> Light
-        </span>
-        <span
-          onClick={() => setLightOrDark("dark")}
-          className={`${
-            lightOrDark === "dark" ? "dark-mode border-white border" : ""
-          } flex gap-2 items-center text-white justify-center w-[70px] rounded-md cursor-pointer`}
-        >
-          <IoMoonOutline /> Dark
-        </span>
-      </div>
+      </span>
     </div>
   );
 };
