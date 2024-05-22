@@ -97,23 +97,25 @@ const Sidebar = () => {
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "Wallet", <FaWallet />),
   ];
   return (
-    <div className="w-full h-full relative p-3">
-      <h1 className={`${lightOrDark === "dark" && "dark-mode"} logo-title`}>
-        HotelsOffline
-      </h1>
-      <hr className="mb-1 -mt-2 w-full" />
-      <Menu
-        style={{
-          background: lightOrDark === "dark" ? "#151718 " : "",
-          // color: lightOrDark === "dark" ? "#FFFFFF" : "",
-        }}
-        className="w-full  overflow-auto"
-        onClick={getCurrentKey}
-        defaultSelectedKeys={[currentPage]}
-        defaultOpenKeys={[currentPage]}
-        items={items}
-      />
-      <span className="absolute bottom-2">
+    <div className="w-full h-full flex flex-col justify-between p-3">
+      <span>
+        <h1 className={`${lightOrDark === "dark" && "dark-mode"} logo-title`}>
+          HotelsOffline
+        </h1>
+        <hr className="mb-1 -mt-2 w-full" />
+        <Menu
+          style={{
+            background: lightOrDark === "dark" ? "#151718 " : "",
+            // color: lightOrDark === "dark" ? "#FFFFFF" : "",
+          }}
+          className="w-full  overflow-auto"
+          onClick={getCurrentKey}
+          defaultSelectedKeys={[currentPage]}
+          defaultOpenKeys={[currentPage]}
+          items={items}
+        />
+      </span>
+      <span className="">
         <div
           className={`${
             lightOrDark === "dark" && "dark-mode border-white"

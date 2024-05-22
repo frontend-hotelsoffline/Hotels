@@ -4,11 +4,12 @@
 
 :root {
   height: 100%;
+  width: 100%;
 }
 
 .ant-layout {
   position: relative !important;
-  height: 100svh !important;
+  height: 100% !important;
   background: #ffffff;
 }
 

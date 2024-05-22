@@ -14,9 +14,9 @@ const MainLayout = ({ children }) => {
     <Layout
       className={`${
         lightOrDark === "dark" && "dark-mode"
-      } w-full overflow-hidden flex flex-row`}
+      } w-full overflow-auto h-full flex flex-row`}
     >
-      <div className="max-w-[200px] border-r-[1px] border-gray-200">
+      <div className="max-w-[200px] h-screen border-r-[1px] border-gray-200">
         <div className={`${closeSidebar && "hidden"} h-full`}>
           <Sidebar />
         </div>
