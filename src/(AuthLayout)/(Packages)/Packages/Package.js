@@ -29,50 +29,47 @@ const Packages = () => {
   });
   const getPackages = async () => {
     const GET_ALL = `{
-      get_all_packages {
+      getPckgs {
         id
-        createdAt
+        CRT
         name
-        youtube_link
-        sharing_link
-        description
-        owner_type
-        price_if_fixed
-        profit_of_seller
-        links_of_images {
-          id
-          link
-      }
-      rooms_under_package_grouped_by_date {
-          day
-          rooms {
-              id
-              day
-              hotel {
-                  id
-                  name
-              }
-              room {
-                  name
-                  id
-              }
-              contract {
-                  id
-                  name
-              }
-          }
-      }
-      services_under_package_grouped_by_date {
-          day
-          services {
-              id
-              day
-              service {
-                  id
-                  name
-              }
-          }
-      }
+        ulnk
+        slnk
+        desc
+        caFrom
+        cato
+        curr
+        almt
+        nonRef
+        sProf
+        from
+        to
+        aPric
+        cPric
+        diMA
+        diAm
+        disc
+        mId
+        images {
+            id
+            img_url
+            pId
+        }
+        rooms {
+            id
+            room {
+                id
+                name
+            }
+            meal
+        }
+        svs {
+            id
+            service {
+                id
+                name
+            }
+        }
     }
   }`;
     const query = GET_ALL;
@@ -82,21 +79,17 @@ const Packages = () => {
       const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res.data) {
-        const tableArray = res.data.get_all_packages.map((item) => ({
+        const tableArray = res.data.getPckgs.map((item) => ({
           key: item.id,
           id: item.id,
-          name: item.name ? item.name : "",
-          description: item.description ? item.description : "",
-          ownertype: item.owner_type ? item.owner_type : "",
+          name: item.name || "",
+          description: item.desc || "",
+          ownertype: item.owner_type || "",
           priceiffixed: item.price_if_fixed ? item.price_if_fixed : "",
-          profit_of_seller: item.profit_of_seller ? item.profit_of_seller : "",
-          sharing_link: item.sharing_link ? item.sharing_link : "",
-          youtube_link: item.youtube_link ? item.youtube_link : "",
-          links_of_images: item.links_of_images || [],
-          rooms_under_package_grouped_by_date:
-            item.rooms_under_package_grouped_by_date || [],
-          services_under_package_grouped_by_date:
-            item.services_under_package_grouped_by_date || [],
+          profit_of_seller: item.sProf || "",
+          sharing_link: item.slnk || "",
+          youtube_link: item.ulnk || "",
+          images: item.images || [],
         }));
         setDataSource(tableArray);
         setLoading(false);

@@ -25,6 +25,7 @@ import GetAllPlacesOfInterest from "../components/Helper/GetAllPlacesOfInterest"
 import GetAllRoomView from "../components/Helper/GetAllRoomView";
 import GetAllDMCs from "../components/Helper/GetAllDMCs";
 import { formatDate } from "../components/Helper/FormatDate";
+import { GET_API } from "../components/API/GetAPI";
 
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -54,6 +55,7 @@ const Search = () => {
   const [adultCount, setadultCount] = useState(0);
   const [childrenCount, setChildrenCount] = useState(0);
   const [roomsCount, setRoomsCount] = useState(0);
+  const [childAges, setChildAges] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -64,8 +66,7 @@ const Search = () => {
     checkin,
     checkout,
     meal,
-    children,
-    rooms,
+    HotcCode,
     nationality,
     id_of_place_of_intrst,
     view_id,
@@ -88,66 +89,35 @@ const Search = () => {
     const headers = {
       "Content-Type": "application/json",
     };
-    const mutation = `
-      mutation {
-          search_hotels(
-              city_hotel: "${city_hotel}"
-              checkin: "${checkin || 0}"
-              checkout: "${checkout || 0}"
-              adults: ${adultCount}
-              children: ${childrenCount}
-              rooms: ${roomsCount}
-              nationality: "${nationality || ""}"
-              frontend_timezone_to_cal_date_range: "${date_to_pass}"
-          ) {
-              hotel_id
-              cheapest_cancellable_rooms {
-                  contract_id
-                  room_id
-                  grouped_data {
-                      id
-                      createdAt
-                      from_date
-                      to_date
-                      sgl
-                      dbl
-                      twn
-                      trl
-                      qud
-                      unit
-                      min_stay
-                      max_stay
-                  }
-              }
-              cheapest_non_canclbl_rooms {
-                  contract_id
-                  room_id
-                  grouped_data {
-                      id
-                      createdAt
-                      from_date
-                      to_date
-                      sgl
-                      dbl
-                      twn
-                      trl
-                      qud
-                      unit
-                      min_stay
-                      max_stay
-                  }
-              }
-          }
-      }
-    `;
-
+    const GET_ALL = `{
+      MainSeachHot(
+        city_hotel: "${city_hotel}"
+        cin: "${checkin || 0}"
+        cout: "${checkout || 0}"
+        adults: ${adultCount}
+        children: ${childrenCount}
+        childAges: [${childAges}]
+        rooms: ${roomsCount}
+        nationalityCode: "${nationality || "AE"}"
+        HotcCode: "${HotcCode || "AE"}"
+        ftz: "${date_to_pass}"
+    ) {
+      hotel {
+        id
+        name
+    }
+    Rooms {
+        room {
+            name
+            id
+        }
+    } }
+  }`;
+    const query = GET_ALL;
     const path = "";
+    // setLoading(true);
     try {
-      const res = await POST_API(
-        path,
-        JSON.stringify({ query: mutation }),
-        headers
-      );
+      const res = await GET_API(path, { params: { query } });
       console.log(res);
       if (res) {
       }

@@ -688,7 +688,7 @@ const StaticContract = () => {
     setOccupancy_and_category_cross(sortedOccupancyData);
 
     setCategoryData(filteredCategoryData);
-  }, [hotel_id, hotelValue, id_from_contract_id]);
+  }, [hotel_id, hotelValue, id_from_contract_id, rowData]);
 
   const onChangePrice = (e, dataIndex, index) => {
     const newValues = [...formData[dataIndex]];
@@ -1337,7 +1337,7 @@ const StaticContract = () => {
             setFormData((prev) => ({ ...prev, supplement: value }))
           }
           options={[
-            { value: "s_bed", label: "supplement bed" },
+            { value: "s_bed", label: "shared bed" },
             { value: "e_bed", label: "extra bed" },
             { value: "ear_cin", label: "Earl Check-in" },
             { value: " late_cout", label: "Late Check-out" },

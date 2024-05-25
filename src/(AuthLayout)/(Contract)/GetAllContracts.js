@@ -1035,6 +1035,7 @@ const GetAllContracts = (
     hotel_id,
     Occupancy_and_category_cross,
     id_from_contract_id,
+    rowData,
   ]);
 
   return {

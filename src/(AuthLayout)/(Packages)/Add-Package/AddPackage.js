@@ -692,7 +692,7 @@ const AddPackage = () => {
                 onSubmit();
                 onSubmitImg();
               }}
-              className="button-bar absolute -bottom-16 right-0"
+              className="button-bar absolute bottom-0 right-0"
             >
               Save Package
             </Button>
