@@ -17,7 +17,6 @@ import {
   CalendarOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { POST_API } from "../components/API/PostAPI";
 import { date_to_pass } from "../components/Helper/FrontendTimezone";
 import dayjs from "dayjs";
 import { countryList } from "../components/Helper/ListOfAllCountries";
@@ -26,13 +25,15 @@ import GetAllRoomView from "../components/Helper/GetAllRoomView";
 import GetAllDMCs from "../components/Helper/GetAllDMCs";
 import { formatDate } from "../components/Helper/FormatDate";
 import { GET_API } from "../components/API/GetAPI";
+import { isArray } from "chart.js/helpers";
+import { BASE_URL } from "../components/API/APIURL";
 
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
 const ButtonGroup = Button.Group;
 
 const SearchCard = ({ imageUrl, facility, price, description }) => (
-  <div className="flex bg-[#e9e9e9] w-full my-2">
+  <div className="flex bg-[#e9e9e9] h-[300px] rounded-2xl border border-black w-full my-2">
     <img
       className="rounded-md"
       width={300}
@@ -52,6 +53,7 @@ const Search = () => {
   const { placeOfInterestValue } = GetAllPlacesOfInterest();
   const { DMCsValue } = GetAllDMCs();
   const { roomViewValue, getAllRoomV } = GetAllRoomView();
+  const [searchedData, setSearchedData] = useState([]);
   const [adultCount, setadultCount] = useState(0);
   const [childrenCount, setChildrenCount] = useState(0);
   const [roomsCount, setRoomsCount] = useState(0);
@@ -105,6 +107,12 @@ const Search = () => {
       hotel {
         id
         name
+        Imgs {
+          id
+          img_url
+      }  HotelBody {
+        desc
+    }
     }
     Rooms {
         room {
@@ -118,8 +126,9 @@ const Search = () => {
     // setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
-      if (res) {
+      const dataArray = res.data.MainSeachHot;
+      if (isArray(dataArray)) {
+        setSearchedData(dataArray);
       }
     } catch (error) {
       message.error("Failed");
@@ -340,13 +349,14 @@ const Search = () => {
           />
         </div>
         <div className="w-full">
-          {/*will map the results here
-         <SearchCard
-          facility="Nice Hotel in Dubai"
-          description="This is very beautiful and Cheap lajfl aljlfdla lahlfasd l aie"
-          price={400}
-          imageUrl="/Login.jpeg"
-        /> */}
+          {searchedData?.map((item) => (
+            <SearchCard
+              facility={item.hotel?.name}
+              description={item.hotel.HotelBody?.desc}
+              price=""
+              imageUrl={`${BASE_URL}${item.hotel.Imgs[0]?.img_url}`}
+            />
+          ))}
         </div>
       </div>
     </section>
