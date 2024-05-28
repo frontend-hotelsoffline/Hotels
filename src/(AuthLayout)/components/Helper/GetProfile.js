@@ -27,9 +27,11 @@ const GetProfile = () => {
       if (res.data.getMyProfile) {
         const dataArray = res.data.getMyProfile;
         setProfileValue(dataArray);
+      } else {
+        localStorage.clear("isAuthenticated");
       }
     } catch (error) {
-      console.error(error);
+      localStorage.clear("isAuthenticated");
     }
   };
 

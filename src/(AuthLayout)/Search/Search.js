@@ -54,9 +54,9 @@ const Search = () => {
   const { DMCsValue } = GetAllDMCs();
   const { roomViewValue, getAllRoomV } = GetAllRoomView();
   const [searchedData, setSearchedData] = useState([]);
-  const [adultCount, setadultCount] = useState(0);
+  const [adultCount, setadultCount] = useState(1);
   const [childrenCount, setChildrenCount] = useState(0);
-  const [roomsCount, setRoomsCount] = useState(0);
+  const [roomsCount, setRoomsCount] = useState(1);
   const [childAges, setChildAges] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -112,7 +112,15 @@ const Search = () => {
           img_url
       }  HotelBody {
         desc
-    }
+    }rooms {
+      id
+      name
+      images {
+          id
+          rId
+          img_url
+      }
+  }
     }
     Rooms {
         room {
