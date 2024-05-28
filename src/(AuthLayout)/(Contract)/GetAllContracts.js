@@ -125,6 +125,7 @@ const GetAllContracts = (
                   room {
                       id
                       name
+                      prio
                   }
               }
           } 
@@ -325,6 +326,7 @@ const GetAllContracts = (
       if (res.data && !res.errors) {
         const contractData = res.data.getSC;
         const no_of_rooms = contractData.hotel?.rooms;
+        console.log(no_of_rooms);
         setLoading(false);
         const mealsDataArray = contractData?.meals || [];
         const calendarDataArray = contractData?.CAnRAC || [];
