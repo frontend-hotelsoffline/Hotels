@@ -13,8 +13,7 @@ const EditPrice = ({
 }) => {
   const { Occupancy_and_category_cross, hotelValue } =
     ControlInputValue(hotel_id);
-  const [dataSource, setDataSource] = useState([]);
-  const [editedData, setEditedData] = useState(rowData?.rows);
+  const [editedData, setEditedData] = useState([]);
 
   const handleChange = (newValue, index, field) => {
     const newData = [...editedData];
@@ -74,7 +73,7 @@ const EditPrice = ({
     }
   };
 
-  const editedDataArray = editedData.map((item, index) => ({
+  const dataSource = editedData?.map((item, index) => ({
     key: index,
     category: item.room?.name,
     SGL: item.sgl === 0 ? 0 : item.sgl > 0 ? item.sgl : "",
@@ -88,8 +87,10 @@ const EditPrice = ({
   }));
 
   useEffect(() => {
-    setDataSource(editedDataArray);
-  }, [rowData, editedData, hotel_id, hotelValue]);
+    if (rowData) {
+      setEditedData(rowData?.rows);
+    }
+  }, [rowData, hotel_id, hotelValue]);
 
   const columns = [
     {
@@ -235,7 +236,12 @@ const EditPrice = ({
       </span>
 
       <div className="h-[200px]">
-        <Table size="small" columns={columns} dataSource={dataSource} />
+        <Table
+          size="small"
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+        />
       </div>
       <button
         className="absolute bottom-0 right-10 bg-[#cecece] px-3 py-1 rounded-lg"
