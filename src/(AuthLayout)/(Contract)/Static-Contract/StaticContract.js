@@ -129,6 +129,7 @@ const StaticContract = () => {
     room_id_0_if_All,
     is_non_refundable,
     offer,
+    desc,
     minStayOffer,
     ArOrSt,
     ArOrStCanc,
@@ -412,7 +413,7 @@ const StaticContract = () => {
              "$1:"
            )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
            linkId : ${linkedId || -1}, room   : ${is_room}, meals: ${is_meals}, 
-          supp: ${is_supp},  order : ${order} 
+          supp: ${is_supp},  order : ${order} desc: "${desc || ""}"
         ) {
           message
     }           
@@ -1064,20 +1065,28 @@ const StaticContract = () => {
         <span className="whitespace-nowrap">{formatDate(timestamp)}</span>
       ),
       offer: (
-        <Select
-          value={offer}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, offer: value }))
-          }
-          options={[
-            { value: "geo_ofr", label: "geo offer" },
-            { value: "lst_min", label: "last minute" },
-            { value: "n_ref", label: "n ref" },
-            { value: "erly_brd", label: "erly brd" },
-            { value: "min_night", label: "minimum night" },
-          ]}
-          className="w-[130px]"
-        />
+        <span>
+          <Input
+            name="desc"
+            value={desc}
+            onChange={onChange}
+            className="mb-1"
+          />
+          <Select
+            value={offer}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, offer: value }))
+            }
+            options={[
+              { value: "geo_ofr", label: "geo offer" },
+              { value: "lst_min", label: "last minute" },
+              { value: "n_ref", label: "n ref" },
+              { value: "erly_brd", label: "erly brd" },
+              { value: "min_night", label: "minimum night" },
+            ]}
+            className="w-[130px]"
+          />
+        </span>
       ),
       roomcategory: (
         <Select
