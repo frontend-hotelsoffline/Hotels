@@ -89,7 +89,6 @@ const AvailabilityCalendar = ({
         </h1>
         {/* Header calendar without range */}
         <div className="flex flex-row">
-          <div className="w-[200px]"></div>
           <div className="calendar-month">
             {Array.from({ length: daysInMonth }, (_, index) => (
               <div key={index} className="calendar-day-no-box h-[42px]">
@@ -97,10 +96,10 @@ const AvailabilityCalendar = ({
               </div>
             ))}
           </div>
+          <div className="max-w-[200px] min-w-[100px]"></div>
         </div>
         {Object.keys(groupedByCategory)?.map((categoryName, index) => (
-          <div key={index} className="flex flex-row relative">
-            <div className="w-[200px]">{categoryName}</div>
+          <div key={index} className="flex flex-row relative justify-between">
             <div className="calendar-month">
               {dateRange.map((date, dayIndex) => {
                 const allotmentData = groupedByCategory[categoryName].find(
@@ -156,6 +155,7 @@ const AvailabilityCalendar = ({
                 );
               })}
             </div>
+            <div className="max-w-[200px] min-w-[100px]">{categoryName}</div>
           </div>
         ))}
       </div>
