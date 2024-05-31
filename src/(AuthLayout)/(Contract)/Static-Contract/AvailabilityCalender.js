@@ -204,13 +204,16 @@ const AvailabilityCalendar = ({
             elementA.rooms.some(
               (cat) =>
                 cat.name === categoryB.name &&
-                cat.dInR.some((r) => r.room.id === roomB.room.id)
+                cat.dInR.some(
+                  (r) => Number(r.room.id) === Number(roomB.room.id)
+                )
             );
           return roomFound;
         });
 
         // If roomB's id is not found, add it to updatedGroupedData
-        if (!roomExists) {
+        if (roomExists === true) {
+          // console.log("Hel");
           updatedGroupedData.push({ ...roomB });
         }
       });
@@ -224,6 +227,7 @@ const AvailabilityCalendar = ({
 
     const categoryIndex = record?.findIndex((element) => {
       const fromDate = new Date(element.from);
+      console.log(fromDate);
       return fromDate.getMonth() === monthB && fromDate.getFullYear() === yearB;
     });
 

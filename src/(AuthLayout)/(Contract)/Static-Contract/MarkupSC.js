@@ -138,7 +138,7 @@ const MarkupSC = ({ id, getAllContractData }) => {
         </Button>
       </span>
       <span className="w-full border border-black rounded-3xl h-[150px] relative p-5">
-        <h1 className="title">extra markup for special buyer</h1>
+        {/* <h1 className="title">extra markup for special buyer</h1> */}
         <div className="flex w-full justify-between">
           <span>
             <label className="labelStyle">buyer type</label>

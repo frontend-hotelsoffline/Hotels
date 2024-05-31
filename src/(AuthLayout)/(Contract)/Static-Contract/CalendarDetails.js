@@ -104,15 +104,15 @@ const CalendarDetails = ({
     };
     const mutation = `
       mutation {
-        create_a_static_contract_body_allotment_n_rel(
-          id_from_contracts: ${id}
-          from_date: "${from_date}"
-          to_date: "${to_date}"
-          room_id: ${category_id}
-          allotment: ${allotment}
+        addAnRSC(
+          cid: ${id}
+          from: "${from_date}"
+          to: "${to_date}"
+          rId: ${category_id}
+          alm: ${allotment}
           rel: ${rel}
       ) {
-          id
+          message
         }
       }
     `;
