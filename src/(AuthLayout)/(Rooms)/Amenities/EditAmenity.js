@@ -1,16 +1,19 @@
 import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate, } from "react-router-dom";
 
 const EditAmenity = ({ getAmenities, handleCancel, record }) => {
-  const router = useNavigate();
-  const [formData, setFormData] = useState({
-    name: record.amenity,
-    description: record.description,
-  });
+  const [formData, setFormData] = useState({});
   const { name, description } = formData;
+
+  useEffect(() => {
+    record &&
+      setFormData({
+        name: record.amenity,
+        description: record.description,
+      });
+  }, [record]);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -23,13 +26,12 @@ const EditAmenity = ({ getAmenities, handleCancel, record }) => {
     };
     const mutation = `
       mutation {
-        edit_an_amenity(
+        editAmenity(
           id: ${record.id},
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          desc: "${description ? description : ""}",
         ) {
-          id,
-          description
+         message
         }
       }
     `;
@@ -41,9 +43,8 @@ const EditAmenity = ({ getAmenities, handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
-      if (res) {
-        message.success("Amenity has been Edited Successfully");
+      if (res.data?.editAmenity) {
+        message.success(res.data.editAmenity?.message);
         getAmenities();
         handleCancel();
       }

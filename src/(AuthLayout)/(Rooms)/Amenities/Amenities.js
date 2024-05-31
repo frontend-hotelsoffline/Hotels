@@ -11,6 +11,7 @@ import { EditIcon } from "../../components/Customized/EditIcon";
 const Amenities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [rowData, setRowData] = useState([]);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -99,18 +100,6 @@ const Amenities = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditAmenity
-              record={record}
-              getAmenities={getAmenities}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -118,6 +107,18 @@ const Amenities = () => {
 
   return (
     <section>
+      <Modal
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditAmenity
+          record={rowData}
+          getAmenities={getAmenities}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input
@@ -152,6 +153,13 @@ const Amenities = () => {
         dataSource={filteredData}
         columns={columns}
         loading={loading}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              setRowData(record);
+            },
+          };
+        }}
       />
     </section>
   );

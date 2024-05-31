@@ -326,7 +326,6 @@ const GetAllContracts = (
       if (res.data && !res.errors) {
         const contractData = res.data.getSC;
         const no_of_rooms = contractData.hotel?.rooms;
-        console.log(no_of_rooms);
         setLoading(false);
         const mealsDataArray = contractData?.meals || [];
         const calendarDataArray = contractData?.CAnRAC || [];
@@ -822,21 +821,6 @@ const GetAllContracts = (
                 >
                   {EditIcon}
                 </Popover>
-                <Modal
-                  width={1000}
-                  footer={false}
-                  open={isModalOpenPrice}
-                  onOk={handleCancel}
-                  onCancel={handleCancel}
-                >
-                  <EditPrice
-                    rowData={rowData}
-                    getAllContractData={getAllContractData}
-                    handleCancel={handleCancel}
-                    id={id_from_contract_id}
-                    hotel_id={hotel_id}
-                  />
-                </Modal>
               </span>
             ),
           };
@@ -1039,7 +1023,25 @@ const GetAllContracts = (
     id_from_contract_id,
     rowData,
   ]);
-
+  const showModalFunction = () => (
+    <div>
+      <Modal
+        width={1000}
+        footer={false}
+        open={isModalOpenPrice}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditPrice
+          rowData={rowData}
+          getAllContractData={getAllContractData}
+          handleCancel={handleCancel}
+          id={id_from_contract_id}
+          hotel_id={hotel_id}
+        />
+      </Modal>
+    </div>
+  );
   return {
     mealsData,
     OffersData,
@@ -1056,6 +1058,7 @@ const GetAllContracts = (
     getAllContractData,
     rawPriceData,
     compressData,
+    showModalFunction,
   };
 };
 

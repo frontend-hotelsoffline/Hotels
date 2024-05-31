@@ -27,7 +27,6 @@ const EditPrice = ({
       "Content-Type": "application/json",
     };
 
-    // Create an array to hold the formatted prices data
     const formattedPrices = editedData.map((item) => ({
       rId: Number(item.room.id),
       sgl: item.sgl || -1,
@@ -36,8 +35,8 @@ const EditPrice = ({
       trl: item.trl || -1,
       qud: item.qud || -1,
       unit: item.unit || -1,
-      minS: item.min_stay || -1,
-      maxS: item.max_stay || -1,
+      minS: item.minS || -1,
+      maxS: item.maxS || -1,
     }));
 
     const mutation = `
@@ -73,30 +72,23 @@ const EditPrice = ({
     }
   };
 
-  const dataSource = editedData?.map((item, index) => ({
-    key: index,
-    category: item.room?.name,
-    SGL: item.sgl === 0 ? 0 : item.sgl > 0 ? item.sgl : "",
-    DBL: item.dbl === 0 ? 0 : item.dbl > 0 ? item.dbl : "",
-    TWN: item.twn === 0 ? 0 : item.twn > 0 ? item.twn : "",
-    TRPL: item.trl === 0 ? 0 : item.trl > 0 ? item.trl : "",
-    QUAD: item.qud === 0 ? 0 : item.qud > 0 ? item.qud : "",
-    unit: item.unit === 0 ? 0 : item.unit > 0 ? item.unit : "",
-    minstay: item.minS === 0 ? 0 : item.minS > 0 ? item.minS : "",
-    maxstay: item.maxS === 0 ? 0 : item.maxS > 0 ? item.maxS : "",
-  }));
-
   useEffect(() => {
     if (rowData) {
       setEditedData(rowData?.rows);
     }
   }, [rowData, hotel_id, hotelValue]);
 
+  useEffect(() => {
+    console.log("Occupancy_and_category_cross", Occupancy_and_category_cross);
+    console.log("editedData", editedData);
+  }, [Occupancy_and_category_cross, editedData]);
+
   const columns = [
     {
       title: "Room",
       dataIndex: "category",
       key: "category",
+      render: (text, record, index) => editedData[index]?.room?.name,
     },
     {
       title: "SGL",
@@ -108,14 +100,13 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.sgl || ""}
             onChange={(e) => handleChange(e.target.value, index, "sgl")}
           />
         ) : (
           <Input readOnly className="borderedRow inactive" />
         ),
     },
-
     {
       title: "DBL",
       dataIndex: "DBL",
@@ -126,7 +117,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.dbl || ""}
             onChange={(e) => handleChange(e.target.value, index, "dbl")}
           />
         ) : (
@@ -143,7 +134,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.twn || ""}
             onChange={(e) => handleChange(e.target.value, index, "twn")}
           />
         ) : (
@@ -160,7 +151,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.trl || ""}
             onChange={(e) => handleChange(e.target.value, index, "trl")}
           />
         ) : (
@@ -177,7 +168,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.qud || ""}
             onChange={(e) => handleChange(e.target.value, index, "qud")}
           />
         ) : (
@@ -194,14 +185,13 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={text}
+            value={editedData[index]?.unit || ""}
             onChange={(e) => handleChange(e.target.value, index, "unit")}
           />
         ) : (
           <Input readOnly className="borderedRow inactive" />
         ),
     },
-
     {
       title: "min stay",
       dataIndex: "minstay",
@@ -209,8 +199,8 @@ const EditPrice = ({
       render: (text, record, index) => (
         <Input
           className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "min_stay")}
+          value={editedData[index]?.minS || ""}
+          onChange={(e) => handleChange(e.target.value, index, "minS")}
         />
       ),
     },
@@ -221,8 +211,8 @@ const EditPrice = ({
       render: (text, record, index) => (
         <Input
           className="borderedRow active"
-          value={text}
-          onChange={(e) => handleChange(e.target.value, index, "max_stay")}
+          value={editedData[index]?.maxS || ""}
+          onChange={(e) => handleChange(e.target.value, index, "maxS")}
         />
       ),
     },
@@ -239,7 +229,7 @@ const EditPrice = ({
         <Table
           size="small"
           columns={columns}
-          dataSource={dataSource}
+          dataSource={editedData}
           pagination={false}
         />
       </div>

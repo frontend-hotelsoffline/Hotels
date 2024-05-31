@@ -1050,6 +1050,7 @@ const StaticContract = () => {
     getAllContractData,
     compressData,
     rawPriceData,
+    showModalFunction,
   } = GetAllContracts(
     id_from_contract_id,
     rowData,
@@ -2200,6 +2201,7 @@ const StaticContract = () => {
                 />
               )}
               <br />
+              {showModalFunction()}
               <Table
                 columns={columnsData}
                 dataSource={combinedDataSource}
