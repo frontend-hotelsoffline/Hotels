@@ -227,7 +227,6 @@ const AvailabilityCalendar = ({
 
     const categoryIndex = record?.findIndex((element) => {
       const fromDate = new Date(element.from);
-      console.log(fromDate);
       return fromDate.getMonth() === monthB && fromDate.getFullYear() === yearB;
     });
 
