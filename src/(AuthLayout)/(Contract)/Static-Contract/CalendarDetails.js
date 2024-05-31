@@ -263,6 +263,7 @@ const CalendarDetails = ({
         <h1 className="title mb-4">Availability Calendar details</h1>
         <span className="uppercase flex w-full justify-between">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={from_date ? dayjs(from_date) : null}
             // disabledDate={(current) => current && current < minDate}
@@ -275,6 +276,7 @@ const CalendarDetails = ({
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={to_date ? dayjs(to_date) : null}
             // disabledDate={(current) => current && current < new Date(from_date)}

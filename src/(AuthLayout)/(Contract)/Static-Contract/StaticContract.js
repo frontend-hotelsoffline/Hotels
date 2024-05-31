@@ -751,6 +751,7 @@ const StaticContract = () => {
       date: (
         <span className="uppercase flex flex-col justify-center">
           <DatePicker
+            allowClear={false}
             className="w-[120px]"
             format={formatDate}
             value={price_from_date ? dayjs(price_from_date) : null}
@@ -765,6 +766,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             className="w-[120px]"
             format={formatDate}
             value={price_to_date ? dayjs(price_to_date) : null}
@@ -857,6 +859,7 @@ const StaticContract = () => {
       date: (
         <span className="w-[120px] uppercase flex flex-col">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={meals_from_date ? dayjs(meals_from_date) : null}
             disabledDate={(current) => current && current < minDate}
@@ -870,6 +873,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={meals_to_date ? dayjs(meals_to_date) : null}
             disabledDate={(current) =>
@@ -1110,6 +1114,7 @@ const StaticContract = () => {
       stay: (
         <span className="w-[110px] uppercase flex flex-col">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={offer_stay_from ? dayjs(offer_stay_from) : null}
             disabledDate={(current) => current && current < minDate}
@@ -1123,6 +1128,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={offer_stay_to ? dayjs(offer_stay_to) : null}
             disabledDate={(current) =>
@@ -1142,6 +1148,7 @@ const StaticContract = () => {
       bookingwindow: (
         <span className="w-[110px] uppercase flex flex-col">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={booking_window_from ? dayjs(booking_window_from) : null}
             disabledDate={(current) => current && current < minDate}
@@ -1158,6 +1165,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={booking_window_to ? dayjs(booking_window_to) : null}
             disabledDate={(current) =>
@@ -1395,6 +1403,7 @@ const StaticContract = () => {
       stay: (
         <span className="w-[120px] uppercase flex flex-col">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={stay_from ? dayjs(stay_from) : null}
             disabledDate={(current) => current && current < minDate}
@@ -1408,6 +1417,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={stay_to ? dayjs(stay_to) : null}
             disabledDate={(current) => current && current < new Date(stay_from)}
@@ -1546,6 +1556,7 @@ const StaticContract = () => {
       date: (
         <span className="w-[120px] uppercase flex flex-col">
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={date_from ? dayjs(date_from) : null}
             disabledDate={(current) => current && current < minDate}
@@ -1559,6 +1570,7 @@ const StaticContract = () => {
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           />
           <DatePicker
+            allowClear={false}
             format={formatDate}
             value={date_to ? dayjs(date_to) : null}
             disabledDate={(current) => current && current < new Date(date_from)}

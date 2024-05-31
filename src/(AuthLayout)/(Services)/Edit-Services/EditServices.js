@@ -226,6 +226,7 @@ const EditService = () => {
                 <label className="labelStyle w-full">
                   from date
                   <DatePicker
+                    allowClear={false}
                     format={formatDate}
                     value={from_date ? dayjs(from_date) : null}
                     disabledDate={(current) =>
@@ -249,6 +250,7 @@ const EditService = () => {
                 <label className="labelStyle w-full">
                   to date
                   <DatePicker
+                    allowClear={false}
                     format={formatDate}
                     value={to_date ? dayjs(to_date) : null}
                     disabledDate={(current) =>
@@ -497,6 +499,7 @@ const EditService = () => {
               <label className="labelStyle">
                 discount from
                 <DatePicker
+                  allowClear={false}
                   format={formatDate}
                   value={discount_from ? dayjs(discount_from) : null}
                   disabledDate={(current) =>
@@ -518,6 +521,7 @@ const EditService = () => {
               <label className="labelStyle">
                 discount to
                 <DatePicker
+                  allowClear={false}
                   format={formatDate}
                   value={discount_to ? dayjs(discount_to) : null}
                   disabledDate={(current) =>

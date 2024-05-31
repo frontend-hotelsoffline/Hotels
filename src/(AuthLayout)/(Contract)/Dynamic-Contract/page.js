@@ -231,6 +231,7 @@ const DynamicContract = () => {
           <label className="labelStyle">duration(from-to)</label>
           <span className="flex gap-3">
             <DatePicker
+              allowClear={false}
               placeholder="From"
               className="h-[34px] inputfildinsearch"
               onChange={(value, dateString) => {
@@ -241,6 +242,7 @@ const DynamicContract = () => {
               suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
             />
             <DatePicker
+              allowClear={false}
               placeholder="To"
               onChange={(value, dateString) => {
                 const dateObject = new Date(dateString ? dateString : null);

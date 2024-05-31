@@ -65,6 +65,7 @@ const RelAndAllotment = ({
       <h1 className="title capitalize mb-5">add rel and allotment</h1>
       <span className="uppercase flex w-full justify-between">
         <DatePicker
+          allowClear={false}
           format={formatDate}
           value={from_date ? dayjs(from_date) : null}
           disabledDate={(current) => current && current < minDate}
@@ -77,6 +78,7 @@ const RelAndAllotment = ({
           suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
         />
         <DatePicker
+          allowClear={false}
           format={formatDate}
           value={to_date ? dayjs(to_date) : null}
           disabledDate={(current) => current && current < new Date(from_date)}
