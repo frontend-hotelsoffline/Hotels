@@ -83,10 +83,36 @@ const MarkupSC = ({ id, getAllContractData }) => {
       message.error("Failed");
     }
   };
+
+  const getOptions = () => {
+    switch (buyertype) {
+      case "dmc":
+        return DMCsValue?.map((item) => ({
+          key: item.id,
+          label: item.name,
+          value: item.id,
+        }));
+      case "agent":
+        return userAgent?.map((item) => ({
+          key: item.id,
+          label: item.name,
+          value: item.id,
+        }));
+      case "coop":
+        return userCoop?.map((item) => ({
+          key: item.id,
+          label: item.name,
+          value: item.id,
+        }));
+      default:
+        return [];
+    }
+  };
+
   return (
     <div className="flex gap-5 w-full">
       <span className="w-[300px] border border-black rounded-3xl h-[150px] relative p-5">
-        <h1 className="title">default markup</h1>
+        <h1 className="title">default selling markup</h1>
         <label className="labelStyle">markup</label>
         <Select
           value={price_markup_id}
@@ -130,38 +156,19 @@ const MarkupSC = ({ id, getAllContractData }) => {
                 { value: "dmc", label: "DMC" },
                 { value: "agent", label: "Agent" },
                 { value: "coop", label: "Corporate" },
+                { value: "trvlrs", label: "Traveller" },
               ]}
             />
           </span>
           <span>
-            <label className="labelStyle">buyer ID</label>
+            <label className="labelStyle">buyer</label>
             <Select
               value={buyerId}
               className="min-w-[200px] capitalize font-normal"
               onChange={(value) => {
                 setFormData((prev) => ({ ...prev, buyerId: value }));
               }}
-              options={
-                buyertype === "dmc"
-                  ? DMCsValue?.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : buyertype === "agent"
-                  ? userAgent?.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : buyertype === "coop"
-                  ? userCoop?.map((item) => ({
-                      key: item.id,
-                      label: item.name,
-                      value: item.id,
-                    }))
-                  : ""
-              }
+              options={[{ value: 0, label: "All" }, getOptions]}
             />
           </span>
           <span>

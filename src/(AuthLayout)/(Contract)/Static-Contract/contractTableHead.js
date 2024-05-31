@@ -392,6 +392,16 @@ export const markupColumns = [
     key: "markup",
   },
   {
+    title: "buyer type",
+    dataIndex: "buyertype",
+    key: "buyertype",
+  },
+  {
+    title: "buyer name",
+    dataIndex: "buyername",
+    key: "buyername",
+  },
+  {
     title: "action",
     dataIndex: "action",
     key: "action",

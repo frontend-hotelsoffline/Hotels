@@ -12,7 +12,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
   const { hotelValue } = GetAllHotels();
   const { CorporatesValue } = GetAllCorporates();
   const { MarkUpValue } = GetAllPricingMarkUp();
-  const [formData, setFormData] = useState({ ulevel: ac_m || 0 });
+  const [formData, setFormData] = useState({ ulevel: ac_m || "" });
   const {
     uname,
     phone,

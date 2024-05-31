@@ -146,12 +146,12 @@ const User = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
+          {/* <Modal
             footer={false}
             open={isModalOpenEdit}
             onOk={handleCancel}
             onCancel={handleCancel}
-          ></Modal>
+          ></Modal> */}
         </span>
       ),
     },

@@ -215,6 +215,7 @@ const Search = () => {
         />
         <RangePicker
           format={formatDate}
+          disabledDate={(current) => current && current < minDate}
           value={[
             checkin ? dayjs(checkin) : null,
             checkout ? dayjs(checkout) : null,
