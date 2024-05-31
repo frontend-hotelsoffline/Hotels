@@ -100,7 +100,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.sgl || ""}
+            value={(editedData[index]?.sgl > 0 && editedData[index]?.sgl) || ""}
             onChange={(e) => handleChange(e.target.value, index, "sgl")}
           />
         ) : (
@@ -117,7 +117,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.dbl || ""}
+            value={(editedData[index]?.dbl > 0 && editedData[index]?.dbl) || ""}
             onChange={(e) => handleChange(e.target.value, index, "dbl")}
           />
         ) : (
@@ -134,7 +134,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.twn || ""}
+            value={(editedData[index]?.twn > 0 && editedData[index]?.twn) || ""}
             onChange={(e) => handleChange(e.target.value, index, "twn")}
           />
         ) : (
@@ -151,7 +151,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.trl || ""}
+            value={(editedData[index]?.trl > 0 && editedData[index]?.trl) || ""}
             onChange={(e) => handleChange(e.target.value, index, "trl")}
           />
         ) : (
@@ -168,7 +168,7 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.qud || ""}
+            value={(editedData[index]?.qud > 0 && editedData[index]?.qud) || ""}
             onChange={(e) => handleChange(e.target.value, index, "qud")}
           />
         ) : (
@@ -185,7 +185,9 @@ const EditPrice = ({
         ) ? (
           <Input
             className="borderedRow active"
-            value={editedData[index]?.unit || ""}
+            value={
+              (editedData[index]?.unit > 0 && editedData[index]?.unit) || ""
+            }
             onChange={(e) => handleChange(e.target.value, index, "unit")}
           />
         ) : (
@@ -199,7 +201,7 @@ const EditPrice = ({
       render: (text, record, index) => (
         <Input
           className="borderedRow active"
-          value={editedData[index]?.minS || ""}
+          value={(editedData[index]?.minS > 0 && editedData[index]?.minS) || ""}
           onChange={(e) => handleChange(e.target.value, index, "minS")}
         />
       ),
@@ -211,7 +213,7 @@ const EditPrice = ({
       render: (text, record, index) => (
         <Input
           className="borderedRow active"
-          value={editedData[index]?.maxS || ""}
+          value={(editedData[index]?.maxS > 0 && editedData[index]?.maxS) || ""}
           onChange={(e) => handleChange(e.target.value, index, "maxS")}
         />
       ),
