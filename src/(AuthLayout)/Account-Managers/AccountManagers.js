@@ -98,7 +98,7 @@ const AccountOwners = () => {
           onClick={() => {
             const recordString = encodeURIComponent(JSON.stringify(record));
             router(
-              `Account-Managers/Details/${record.id}?record=${recordString}`
+              `/Account-Managers/Details/${record.id}?record=${recordString}`
             );
           }}
         >

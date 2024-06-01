@@ -6,10 +6,9 @@ import { EditIcon } from "../components/Customized/EditIcon";
 import { GET_API } from "../components/API/GetAPI";
 import AddDMCs from "../DMCs/AddDMCs";
 import GetAllUsers from "../components/Helper/GetAllUsers";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AcMDetail = () => {
-  let { id } = useParams();
   const router = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -21,6 +20,7 @@ const AcMDetail = () => {
   const [formData, setFormData] = useState({
     id: parsedRecord?.id || "",
   });
+  const { id } = formData;
 
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
@@ -35,46 +35,54 @@ const AcMDetail = () => {
   const getRooms = async () => {
     setLoading(true);
     const GET_ALL = `{
-        get_user_by_id (user_id: ${id}) {
-          id
-          createdAt
-          is_first_login_chng_pswd
-          uname
-          ulevel
-          comp_id
-          is_blocked
-          country
-          is_demo_user
-          Commission_if_acc_mngr
-          dmcs_if_acc_mngr {
-              id
-              name
-              status
-              email
-          }
-          hotels_if_acc_mngr {
-              id
-              name
-              hotel_status
-          }
+      getUser (id: ${id}) {
+        id
+        CRT
+        f_log
+        uname
+        lev
+        country
+        cID
+        name
+        phone
+        hotlsIfAccMngr {
+            id
+            name
+        }
+        dmcsIfAccMngr {
+            id
+            name
+            status
+        }
       }
       }`;
     const query = GET_ALL;
     const path = "";
     try {
       const res = await GET_API(path, { params: { query } });
-      if (res.data.get_user_by_id) {
-        const tableArray = [
-          {
-            key: res.data.get_user_by_id?.id || "",
-            id: res.data.get_user_by_id?.id || "",
-            name: res.data.get_user_by_id?.name || "",
-            country: res.data.get_user_by_id?.country || "",
-            hotel: res.data.get_user_by_id?.hotels_if_acc_mngr?.name || "",
-            dmc: res.data.get_user_by_id?.dmcs_if_acc_mngr?.name || "",
-          },
-        ];
-        setDataSource(tableArray);
+      if (res.data.getUser) {
+        const user = res.data.getUser;
+        const hotelRows =
+          user.hotlsIfAccMngr?.map((hotel) => ({
+            key: `hotel-${hotel.id}`,
+            id: hotel.id || "",
+            name: user.name || "",
+            country: user.country || "",
+            hotel: hotel.name,
+            dmc: "",
+          })) || [];
+
+        const dmcRows =
+          user.dmcsIfAccMngr?.map((dmc) => ({
+            key: `dmc-${dmc.id}`,
+            id: dmc.id || "",
+            name: user.name || "",
+            country: user.country || "",
+            hotel: "",
+            dmc: dmc.name,
+          })) || [];
+
+        setDataSource([...hotelRows, ...dmcRows]);
         setLoading(false);
       }
     } catch (error) {
@@ -84,6 +92,7 @@ const AcMDetail = () => {
 
   useEffect(() => {
     getRooms();
+    getAllUsers();
   }, [id]);
 
   const columns = [
@@ -175,15 +184,11 @@ const AcMDetail = () => {
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, id: value }))
             }
-            options={
-              accManager
-                ? accManager?.map((item) => ({
-                    key: item.id,
-                    label: item.uname,
-                    value: Number(item.id),
-                  }))
-                : ""
-            }
+            options={accManager?.map((item) => ({
+              key: item.id,
+              label: item.name,
+              value: item.id,
+            }))}
             className="input-style min-w-[200px]"
           />
           <Modal
