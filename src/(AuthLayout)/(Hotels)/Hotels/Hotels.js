@@ -95,7 +95,25 @@ const Hotels = () => {
           ac_mngr {
               id
               name
-          }
+          } dmcs {
+            id
+            name
+            status
+        }
+        LSC {
+            id
+            name
+            status
+        }
+        DLSC {
+            id
+            name
+            status
+        } selM {
+          id
+          name
+          markup
+      }
           email
           phone
           desc
@@ -132,13 +150,12 @@ const Hotels = () => {
           place_of_intrst: item.place_of_intrst?.id || "",
           hotel_chain: item.hotel_chain?.id || "",
           facilities: item.facilities || "",
-          default_markup_id:
-            item?.default_markup_if_hotel_makes_contract_for_itself?.id || "",
+          default_markup_id: item?.HotelBody.selM?.id || "",
           giataId: item.giataId || "",
-          contracts_static: item.Live_static_contracts || "",
-          contracts_dynamic: item.Live_dynamic_contracts || "",
+          contracts_static: item.HotelBody?.LSC || "",
+          contracts_dynamic: item.HotelBody?.DLSC || "",
           room: item.rooms || "",
-          dmcs: item.dmcs_of_the_hotel || "",
+          dmcs: item.HotelBody?.dmcs || "",
           all_the_direct_Live_dynamic_contracts:
             item.all_the_direct_Live_dynamic_contracts || "",
           all_the_direct_Live_static_contracts:

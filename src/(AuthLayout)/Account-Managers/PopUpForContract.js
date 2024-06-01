@@ -11,13 +11,12 @@ const PopUpForContract = ({ record }) => {
         name: item.name || "",
         status: item.status || "",
       }));
-    const contractArrayD =
-      record?.indirect_static_Live_contracts_if_acc_mnger?.map((item) => ({
-        key: item.id || "",
-        id: item.id || "",
-        name: item.name || "",
-        status: item.status || "",
-      }));
+    const contractArrayD = record?.ILSCifAccMngr?.map((item) => ({
+      key: item.id || "",
+      id: item.id || "",
+      name: item.name || "",
+      status: item.status || "",
+    }));
     const contractArrayDi =
       record?.direct_static_Live_conracts_if_acc_mngr?.map((item) => ({
         key: item.id || "",
@@ -25,13 +24,12 @@ const PopUpForContract = ({ record }) => {
         name: item.name || "",
         status: item.status || "",
       }));
-    const contractArraydy =
-      record?.direct_dynamic_Live_conracts_if_acc_mngr?.map((item) => ({
-        key: item.id || "",
-        id: item.id || "",
-        name: item.name || "",
-        status: item.status || "",
-      }));
+    const contractArraydy = record?.DLSCifAccMngr?.map((item) => ({
+      key: item.id || "",
+      id: item.id || "",
+      name: item.name || "",
+      status: item.status || "",
+    }));
     setPopDataSource([
       ...contractArray,
       ...contractArraydy,

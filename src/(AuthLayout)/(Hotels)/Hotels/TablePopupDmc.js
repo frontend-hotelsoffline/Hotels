@@ -8,11 +8,9 @@ const TablePopupDmc = ({ record }) => {
     const roomArray = record?.dmcs?.map((item) => ({
       key: item.id || "",
       id: item.id || "",
-      name: item.dmc.name || "",
-      status: item.dmc.status || "",
-      numberofcontracts:
-        item.dmc.Live_static_contracts.length +
-          item.dmc.Live_dynamic_contracts.length || 0,
+      name: item.name || "",
+      status: item.status || "",
+      numberofcontracts: item.dmc?.LSC?.length + item.dmc?.DLSC?.length || 0,
     }));
     setPopDataSource(roomArray);
   }, [record]);

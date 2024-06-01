@@ -9,7 +9,7 @@ const PopUpForHotel = ({ record }) => {
       key: item?.id || "",
       id: item?.id || "",
       name: item?.name || "",
-      status: item?.hotel_status || "",
+      status: item.HotelBody?.status || "",
     }));
     setPopDataSource(roomArray);
   }, [record]);
@@ -36,7 +36,7 @@ const PopUpForHotel = ({ record }) => {
   ];
   return (
     <div className="p-5">
-      <h1 className="title">DMCs</h1>
+      <h1 className="title">Hotels</h1>
       <Table size="small" dataSource={popDataSource} columns={popColumn} />
     </div>
   );

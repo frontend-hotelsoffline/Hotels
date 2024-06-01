@@ -37,6 +37,9 @@ const GetProfile = () => {
 
   useEffect(() => {
     getProfile();
+    if (!ProfileValue) {
+      getProfile();
+    }
   }, []);
 
   return { ProfileValue };

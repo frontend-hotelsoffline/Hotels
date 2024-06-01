@@ -50,16 +50,14 @@ const AccountOwners = () => {
           type: item.ulevel || "",
           country: item.country || "",
           commission: item.Commission_if_acc_mngr || "",
-          hotels: item.hotels_if_acc_mngr?.length || 0,
-          hotels_if_acc_mngr: item.hotels_if_acc_mngr || [],
-          dmcs: item.dmcs_if_acc_mngr?.length || 0,
-          dmcs_if_acc_mngr: item.dmcs_if_acc_mngr || [],
+          hotels: item.hotlsIfAccMngr?.length || 0,
+          hotels_if_acc_mngr: item.hotlsIfAccMngr || [],
+          dmcs: item.dmcsIfAccMngr?.length || 0,
+          dmcs_if_acc_mngr: item.dmcsIfAccMngr || [],
           direct_static_Live_conracts_if_acc_mngr:
             item.direct_static_Live_conracts_if_acc_mngr || [],
-          direct_dynamic_Live_conracts_if_acc_mngr:
-            item.direct_dynamic_Live_conracts_if_acc_mngr || [],
-          indirect_static_Live_contracts_if_acc_mnger:
-            item.indirect_static_Live_contracts_if_acc_mnger || [],
+          DLSCifAccMngr: item.DLSCifAccMngr || [],
+          ILSCifAccMngr: item.ILSCifAccMngr || [],
           indirect_dynamic_Live_contracts_if_acc_mnger:
             item.indirect_dynamic_Live_contracts_if_acc_mnger || [],
         }));
@@ -147,20 +145,20 @@ const AccountOwners = () => {
       key: "contracts",
       render: (text, record) => (
         <ul>
-          {record.indirect_static_Live_contracts_if_acc_mnger?.length +
+          {record.ILSCifAccMngr?.length +
             record.indirect_dynamic_Live_contracts_if_acc_mnger?.length +
             record.direct_static_Live_conracts_if_acc_mngr?.length +
-            record.direct_dynamic_Live_conracts_if_acc_mngr?.length >
+            record.DLSCifAccMngr?.length >
           0 ? (
             <span className="w-full flex justify-center">
               <Button
                 onClick={() => showTable("contract")}
                 className="hotel-btn"
               >
-                {record.indirect_static_Live_contracts_if_acc_mnger?.length +
+                {record.ILSCifAccMngr?.length +
                   record.indirect_dynamic_Live_contracts_if_acc_mnger?.length +
                   record.direct_static_Live_conracts_if_acc_mngr?.length +
-                  record.direct_dynamic_Live_conracts_if_acc_mngr?.length}
+                  record.DLSCifAccMngr?.length}
               </Button>
               <Modal
                 footer={false}

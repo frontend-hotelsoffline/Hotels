@@ -21,6 +21,28 @@ const GetAllUsers = () => {
         cID
         name
         phone
+        dmcsIfAccMngr {
+          id
+          name
+          status
+      }
+      hotlsIfAccMngr {
+          id
+          name
+          HotelBody {
+            status
+        }
+      }
+      ILSCifAccMngr {
+          id
+          name
+          status
+      }
+      DLSCifAccMngr {
+          id
+          name
+          status
+      }
     }
     }`;
     const query = GET_ALL;
