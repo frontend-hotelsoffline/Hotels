@@ -4,6 +4,7 @@ import {
   DatePicker,
   Input,
   Modal,
+  Popconfirm,
   Select,
   Table,
   message,
@@ -43,6 +44,7 @@ import AddRegion from "./AddRegion";
 import RegionsForCountries from "../../components/Helper/RegionsForCountries";
 import { useLocation } from "react-router-dom";
 import MarkupSC from "./MarkupSC";
+import { BiTrash } from "react-icons/bi";
 
 const StaticContract = () => {
   const { Option } = Select;
@@ -61,12 +63,14 @@ const StaticContract = () => {
   const [activeItemDist, setActiveItemDist] = useState(0);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [checkedCountries, setCheckedCountries] = useState([]);
 
   const handleRegionChange = (value) => {
     setSelectedRegion(value);
     const countries =
       regionCountries.find((item) => item.region === value)?.countries || [];
     setSelectedCountries(countries);
+    setCheckedCountries([]); // Reset checked countries when the region changes
   };
   const [showRegionPopUp, setShowRegionPopUp] = useState(false);
   const handleCancel = () => {
@@ -535,6 +539,39 @@ const StaticContract = () => {
     }
   };
 
+  const DeletRegion = async (rgnId) => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const mutation = `
+    mutation {
+      deleteRGNS(id: ${
+        regionCountries.find((item) => item.region === rgnId)?.id || ""
+      }) {
+        message
+    }}
+  `;
+    const path = "";
+    try {
+      const res = await POST_API(
+        path,
+        JSON.stringify({ query: mutation }),
+        headers
+      );
+      if (res.data.deleteRGNS?.message === "success") {
+        message.success(res.data.deleteRGNS?.message);
+        getRegionsWithCountries();
+        setSelectedRegion([]);
+        setSelectedCountries([]);
+        setCheckedCountries([]);
+      } else {
+        message.error(res.errors[0]?.message);
+      }
+    } catch (error) {
+      message.error("Failed");
+    }
+  };
+
   const onSubmit = async () => {
     if (!id_from_contract_id) {
       message.error("Please fill in all required fields.");
@@ -560,8 +597,8 @@ const StaticContract = () => {
        ${
          activeItemDist === 3
            ? `countries: ${JSON.stringify(
-               selectedCountries?.length > 0
-                 ? selectedCountries?.map((item) => ({
+               checkedCountries?.length > 0
+                 ? checkedCountries?.map((item) => ({
                      country_0_All: item,
                    }))
                  : "country_0_All: 0"
@@ -2132,20 +2169,31 @@ const StaticContract = () => {
                           }))}
                           onChange={handleRegionChange}
                           value={selectedRegion}
+                        />
+                        <Checkbox.Group
+                          className="grid grid-cols-2 capitalize "
+                          onChange={(value) => {
+                            setCheckedCountries(value);
+                          }}
+                          value={checkedCountries}
                         >
                           {selectedCountries.map((country) => (
-                            <Select.Option key={country} value={country}>
+                            <Checkbox key={country} value={country}>
                               {country}
-                            </Select.Option>
+                            </Checkbox>
                           ))}
-                        </Select>
-                        <ul>
-                          {selectedCountries.map((country) => (
-                            <li key={country} value={country}>
-                              {country}
-                            </li>
-                          ))}
-                        </ul>
+                        </Checkbox.Group>
+                        {selectedCountries.length > 0 && (
+                          <Popconfirm
+                            title={`Delete the ${selectedRegion}`}
+                            description={`Are you sure to delete ${selectedRegion}?`}
+                            onConfirm={() => DeletRegion(selectedRegion)}
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <BiTrash className="text-xl cursor-pointer" />
+                          </Popconfirm>
+                        )}
                       </span>
                     )}
                   </span>
@@ -2177,7 +2225,10 @@ const StaticContract = () => {
                     onOk={handleCancel}
                     onCancel={handleCancel}
                   >
-                    <AddRegion handleCancel={handleCancel} />
+                    <AddRegion
+                      getRegionsWithCountries={getRegionsWithCountries}
+                      handleCancel={handleCancel}
+                    />
                   </Modal>
                 </div>
                 <Table

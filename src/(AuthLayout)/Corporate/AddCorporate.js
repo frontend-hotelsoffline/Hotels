@@ -65,7 +65,7 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
         filterOption={(input, option) =>
           (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
         }
-        className="h-[25px] w-full"
+        className="w-full"
         options={[
           { value: "Active", label: "Active" },
           { value: "Inactive", label: "Inactive" },
