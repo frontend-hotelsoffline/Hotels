@@ -1,13 +1,24 @@
 import { Button, Input, Select, message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate } from "react-router-dom";
-import { countryList } from "../../components/Helper/ListOfAllCountries";
+import {
+  countryList,
+  getAllCitiesOfCountry,
+} from "../../components/Helper/ListOfAllCountries";
 
 const AddPlacesOfInterest = ({ getPlacesOfInterest, handleCancel }) => {
-  const router = useNavigate();
   const [formData, setFormData] = useState({ name: "", description: "" });
   const { name, country, city } = formData;
+  const [cityList, setCityList] = useState([]);
+
+  useEffect(() => {
+    if (country) {
+      const selectedcountry = countryList.find((c) => c.value === country);
+      setCityList(getAllCitiesOfCountry(selectedcountry.code));
+    } else {
+      setCityList([]);
+    }
+  }, [country]);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -74,11 +85,15 @@ const AddPlacesOfInterest = ({ getPlacesOfInterest, handleCancel }) => {
         className="h-[34px] inputfildinsearch"
       />
       <label className="labelStyle mt-2">city</label>
-      <Input
-        name="city"
-        value={city}
-        onChange={onChange}
+      <Select
+        showSearch
+        filterOption={(input, option) =>
+          (option?.label?.toLowerCase() ?? "").includes(input?.toLowerCase())
+        }
+        onChange={(value) => setFormData((prev) => ({ ...prev, city: value }))}
+        options={cityList}
         className="h-[34px] inputfildinsearch"
+        value={city}
       />
       <Button onClick={onSubmit} className="m-5 list-btn float-right">
         Save

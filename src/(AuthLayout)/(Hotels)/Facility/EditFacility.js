@@ -1,16 +1,18 @@
 import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate, } from "react-router-dom";
 
 const EditFacility = ({ getFacilities, handleCancel, record }) => {
-  const router = useNavigate();
-  const [formData, setFormData] = useState({
-    name: record.facility,
-    description: record.description,
-  });
+  const [formData, setFormData] = useState({});
   const { name, description } = formData;
+  useEffect(() => {
+    record &&
+      setFormData({
+        name: record.facility,
+        description: record.description,
+      });
+  }, []);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -23,13 +25,12 @@ const EditFacility = ({ getFacilities, handleCancel, record }) => {
     };
     const mutation = `
       mutation {
-        edit_a_Facility(
+        editfacility(
           id: ${record.id},
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          desc: "${description ? description : ""}",
         ) {
-          id,
-          description
+          message
         }
       }
     `;
@@ -41,7 +42,6 @@ const EditFacility = ({ getFacilities, handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
       if (res) {
         message.success("Facility has been Edited Successfully");
         getFacilities();

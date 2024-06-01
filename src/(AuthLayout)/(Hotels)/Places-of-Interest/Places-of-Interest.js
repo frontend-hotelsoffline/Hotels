@@ -11,11 +11,13 @@ import { EditIcon } from "../../components/Customized/EditIcon";
 const PlacesOfInterest = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [rowData, setRowData] = useState([]);
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = () => {
+  const showModalEdit = (record) => {
     setIsModalOpenEdit(true);
+    setRowData(record);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -101,7 +103,10 @@ const PlacesOfInterest = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
+                <Button
+                  onClick={() => showModalEdit(record)}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
@@ -109,19 +114,6 @@ const PlacesOfInterest = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            className=""
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditPlacesOfInterest
-              record={record}
-              getPlacesOfInterest={getPlacesOfInterest}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -129,6 +121,19 @@ const PlacesOfInterest = () => {
 
   return (
     <section>
+      <Modal
+        className=""
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditPlacesOfInterest
+          record={rowData}
+          getPlacesOfInterest={getPlacesOfInterest}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input

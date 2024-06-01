@@ -11,10 +11,10 @@ import { EditIcon } from "../../components/Customized/EditIcon";
 const Facility = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const showModalEdit = () => {
+  const [rowData, setRowData] = useState([]);
+
+  const showModalEdit = (record) => {
+    setRowData(record);
     setIsModalOpenEdit(true);
   };
   const handleCancel = () => {
@@ -40,7 +40,6 @@ const Facility = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
       if (res.data) {
         const tableArray = res.data.getfacilities?.map((item) => ({
           key: item.id,
@@ -91,7 +90,10 @@ const Facility = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
+                <Button
+                  onClick={() => showModalEdit(record)}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
@@ -99,18 +101,6 @@ const Facility = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditFacility
-              record={record}
-              getFacilities={getFacilities}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -118,6 +108,18 @@ const Facility = () => {
 
   return (
     <section>
+      <Modal
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditFacility
+          record={rowData}
+          getFacilities={getFacilities}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input
@@ -132,7 +134,7 @@ const Facility = () => {
           </Button>
         </div>
         <Button
-          onClick={showModal}
+          onClick={() => setIsModalOpen(true)}
           className="button-bar"
           icon={<PlusOutlined />}
         >
