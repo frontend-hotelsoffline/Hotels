@@ -39,7 +39,7 @@ const Wallet = () => {
     // setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         const tableArray = res.data.get_all_Wallet.map((item) => ({
           key: item.id,

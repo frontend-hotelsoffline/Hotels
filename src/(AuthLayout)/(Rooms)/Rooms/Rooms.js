@@ -78,7 +78,7 @@ const Rooms = () => {
     const path = "";
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data.getRooms) {
         const tableArray = res?.data.getRooms?.map((item) => ({
           key: item?.id,

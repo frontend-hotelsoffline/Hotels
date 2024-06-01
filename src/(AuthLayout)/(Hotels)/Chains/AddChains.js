@@ -56,7 +56,7 @@ const AddChains = ({ getChains, handleCancel }) => {
         placeholder="type name here"
         className="w-full border-black"
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

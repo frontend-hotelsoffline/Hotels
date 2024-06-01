@@ -38,7 +38,7 @@ const AddChannel = ({ getChannel, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Channel has been Added Successfully");
         getChannel();
@@ -70,7 +70,7 @@ const AddChannel = ({ getChannel, handleCancel }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

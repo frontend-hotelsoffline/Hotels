@@ -35,7 +35,7 @@ const CombineDmcHotel = ({ handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Successful");
         handleCancel();
@@ -107,7 +107,7 @@ const CombineDmcHotel = ({ handleCancel, record }) => {
           }));
         }}
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

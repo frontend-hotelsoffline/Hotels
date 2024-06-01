@@ -36,7 +36,7 @@ const AddFacility = ({ getFacilities, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success(res.data.addfacility?.message);
         getFacilities();
@@ -68,7 +68,7 @@ const AddFacility = ({ getFacilities, handleCancel }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

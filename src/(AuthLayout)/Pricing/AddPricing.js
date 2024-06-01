@@ -36,7 +36,7 @@ const AddPricing = ({ getPricing, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success(res.data.addPmarkup?.message);
         getPricing();
@@ -71,7 +71,7 @@ const AddPricing = ({ getPricing, handleCancel }) => {
         onKeyPress={handleKeyPress}
         className="border-black w-full"
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

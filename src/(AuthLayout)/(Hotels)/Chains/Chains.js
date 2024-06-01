@@ -11,11 +11,13 @@ import { EditIcon } from "../../components/Customized/EditIcon";
 const Chains = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [rowData, setRowData] = useState([]);
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = () => {
+  const showModalEdit = (record) => {
     setIsModalOpenEdit(true);
+    setRowData(record);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -39,7 +41,7 @@ const Chains = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         const tableArray = res.data.getchains?.map((item) => ({
           key: item.id,
@@ -82,7 +84,10 @@ const Chains = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
+                <Button
+                  onClick={() => showModalEdit(record)}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
@@ -90,19 +95,6 @@ const Chains = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            className=""
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditChains
-              record={record}
-              getChains={getChains}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -110,6 +102,19 @@ const Chains = () => {
 
   return (
     <section>
+      <Modal
+        className=""
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditChains
+          record={rowData}
+          getChains={getChains}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input

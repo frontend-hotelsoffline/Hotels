@@ -11,11 +11,13 @@ import { EditIcon } from "../../components/Customized/EditIcon";
 const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [rowData, setrowData] = useState([]);
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalEdit = () => {
+  const showModalEdit = (record) => {
     setIsModalOpenEdit(true);
+    setrowData(record);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -93,7 +95,10 @@ const Categories = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
+                <Button
+                  onClick={() => showModalEdit(record)}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
@@ -101,18 +106,6 @@ const Categories = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditCategory
-              record={record}
-              getCategory={getCategory}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -120,6 +113,18 @@ const Categories = () => {
 
   return (
     <section>
+      <Modal
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditCategory
+          record={rowData}
+          getCategory={getCategory}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input

@@ -133,7 +133,7 @@ const EditHotel = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         const tableArray = res.data.gethotel.Imgs?.map((image) => ({
           id: image.id,

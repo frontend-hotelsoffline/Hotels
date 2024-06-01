@@ -36,7 +36,7 @@ const AddCategory = ({ getCategory, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Category has been Added Successfully");
         getCategory();
@@ -69,7 +69,7 @@ const AddCategory = ({ getCategory, handleCancel }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

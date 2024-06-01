@@ -40,7 +40,7 @@ const Channel = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         const tableArray = res.data.getChannels?.map((item) => ({
           key: item.id,

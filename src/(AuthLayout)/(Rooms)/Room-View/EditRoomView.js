@@ -1,20 +1,23 @@
 import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate } from "react-router-dom";
 
 const EditRoomView = ({ GetAllRoomView, handleCancel, record }) => {
-  const router = useNavigate();
-  const [formData, setFormData] = useState({
-    name: record.roomview,
-    description: record.description,
-  });
+  const [formData, setFormData] = useState({});
   const { name, description } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  useEffect(() => {
+    record &&
+      setFormData({
+        name: record.roomview,
+        description: record.description,
+      });
+  }, [record]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -23,14 +26,12 @@ const EditRoomView = ({ GetAllRoomView, handleCancel, record }) => {
     };
     const mutation = `
       mutation {
-        edit_a_room_view(
+        editRView(
           id: ${record.id},
           name: "${name ? name : ""}",
-          description: "${description ? description : ""}",
+          desc: "${description ? description : ""}",
         ) {
-          id
-          name
-          description
+         message
         }
       }
     `;
@@ -42,7 +43,7 @@ const EditRoomView = ({ GetAllRoomView, handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Room View has been Edited Successfully");
         GetAllRoomView();
@@ -74,7 +75,7 @@ const EditRoomView = ({ GetAllRoomView, handleCancel, record }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Edit
       </Button>
     </form>

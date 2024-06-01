@@ -40,7 +40,7 @@ const EditPricing = ({ record, getPricing, handleCancel }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Pricing has been Edited Successfully");
         getPricing();
@@ -75,7 +75,7 @@ const EditPricing = ({ record, getPricing, handleCancel }) => {
         onChange={onChange}
         className="border-black w-full"
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

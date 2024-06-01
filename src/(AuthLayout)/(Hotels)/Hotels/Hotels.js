@@ -126,7 +126,7 @@ const Hotels = () => {
     const path = "";
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         setLoading(false);
         const tableArray = res?.data?.getrhotels?.map((item) => ({

@@ -77,7 +77,7 @@ const Packages = () => {
     setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
-      console.log(res);
+
       if (res.data) {
         const tableArray = res.data.getPckgs.map((item) => ({
           key: item.id,

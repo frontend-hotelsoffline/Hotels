@@ -73,7 +73,7 @@ const EditFacility = ({ getFacilities, handleCancel, record }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Edit
       </Button>
     </form>

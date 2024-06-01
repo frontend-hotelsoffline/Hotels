@@ -106,7 +106,7 @@ const EditPlacesOfInterest = ({
         className="h-[34px] inputfildinsearch"
         value={city}
       />
-      <Button onClick={onSubmit} className="m-5 list-btn float-right">
+      <Button onClick={onSubmit} className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

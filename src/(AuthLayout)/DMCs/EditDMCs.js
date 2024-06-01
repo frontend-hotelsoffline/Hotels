@@ -8,9 +8,9 @@ const EditDMCs = ({ getDMCs, handleCancel, record }) => {
     id: record.id,
     name: record.name,
     status: record.status,
-    email: record.email
+    email: record.email,
   });
-  const { name, status, acc_mnger_id, email} = formData;
+  const { name, status, acc_mnger_id, email } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -44,7 +44,7 @@ const EditDMCs = ({ getDMCs, handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("DMCs has been Edited Successfully");
         getDMCs();
@@ -89,13 +89,14 @@ const EditDMCs = ({ getDMCs, handleCancel, record }) => {
         className="border-black w-full"
       />
       <label className="labelStyle mt-6">email</label>
-      <Input type="email"
+      <Input
+        type="email"
         name="email"
         value={email}
         onChange={onChange}
         className="border-black w-full"
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>

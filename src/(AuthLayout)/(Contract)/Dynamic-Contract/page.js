@@ -96,11 +96,11 @@ const DynamicContract = () => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res.data && !res.errors) {
         message.success("Contract has been Added Successfully");
         // setFormData((prev) => ({ ...prev, id_from_contract_id: res.id }));
-        console.log(res);
+
         console.log(res.id);
       } else {
         message.error(res.errors[0].message);

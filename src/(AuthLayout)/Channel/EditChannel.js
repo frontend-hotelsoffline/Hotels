@@ -39,7 +39,7 @@ const EditChannel = ({ getChannel, handleCancel, record }) => {
         JSON.stringify({ query: mutation }),
         headers
       );
-      console.log(res);
+
       if (res) {
         message.success("Channel has been Edited Successfully");
         getChannel();
@@ -70,7 +70,7 @@ const EditChannel = ({ getChannel, handleCancel, record }) => {
         className="border-black"
         style={{ height: 150 }}
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Edit
       </Button>
     </form>

@@ -122,7 +122,7 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
         }
         className="border-black w-full"
       />
-      <Button htmlType="submit" className="m-5 list-btn float-right">
+      <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
     </form>
