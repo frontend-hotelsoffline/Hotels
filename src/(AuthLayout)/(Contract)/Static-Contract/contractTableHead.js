@@ -176,7 +176,7 @@ export const offersColumns = [
     key: "order",
   },
   {
-    title: "Duration",
+    title: "Stay condition",
     dataIndex: "ArOrSt",
     key: "ArOrSt",
   },
@@ -198,14 +198,14 @@ export const supplementsColumns = [
     key: "timestamp",
   },
   {
-    title: "Duration",
-    dataIndex: "validity",
-    key: "validity",
-  },
-  {
     title: "supplement",
     dataIndex: "supplement",
     key: "supplement",
+  },
+  {
+    title: "Charge",
+    dataIndex: "validity",
+    key: "validity",
   },
   {
     title: "type",
@@ -213,7 +213,7 @@ export const supplementsColumns = [
     key: "type",
   },
   {
-    title: "Vality",
+    title: "Stay condition",
     dataIndex: "ArOrSt",
     key: "ArOrSt",
   },
@@ -238,12 +238,12 @@ export const supplementsColumns = [
     key: "price",
   },
   {
-    title: "price rate",
+    title: "price %",
     dataIndex: "pricerate",
     key: "pricerate",
   },
   {
-    title: "mandatory",
+    title: "Obligatory",
     dataIndex: "mandatory",
     key: "mandatory",
   },
@@ -277,7 +277,7 @@ export const cancellationsColumns = [
     key: "room",
   },
   {
-    title: "Duration",
+    title: "Stay condition",
     dataIndex: "ArOrSt",
     key: "ArOrSt",
   },
