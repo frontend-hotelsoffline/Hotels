@@ -5,11 +5,11 @@ const PopUpHotel = ({ record }) => {
   const [popDataSource, setPopDataSource] = useState([]);
 
   useEffect(() => {
-    const roomArray = record?.hotels_of_the_dmc?.map((item) => ({
-      key: item?.hotel?.id || "",
-      id: item?.hotel?.id || "",
-      name: item?.hotel?.name || "",
-      status: item?.hotel?.hotel_status || "",
+    const roomArray = record?.hotlsIfAccMngr?.map((item) => ({
+      key: item?.id || "",
+      id: item?.id || "",
+      name: item?.name || "",
+      status: item?.HotelBody?.status || "",
     }));
     setPopDataSource(roomArray);
   }, [record]);

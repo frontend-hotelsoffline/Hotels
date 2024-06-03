@@ -2,7 +2,7 @@ import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
- 
+
 import { GET_API } from "../components/API/GetAPI";
 import AddDMCs from "./AddDMCs";
 import PopUpContract from "./PopUpContract";
@@ -50,6 +50,23 @@ const DMCs = () => {
         ac_mngr {
             id
             name
+            hotlsIfAccMngr {
+              id
+              name
+              HotelBody {
+                status
+            }
+          }
+          ILSCifAccMngr {
+              id
+              name
+              status
+          }
+          DLSCifAccMngr {
+              id
+              name
+              status
+          }
         }
         buyM {
             markup
@@ -70,10 +87,10 @@ const DMCs = () => {
           name: item.name || "",
           status: item.status || "",
           email: item.email || "",
-          hotels_of_the_dmc: item?.hotels_of_the_dmc || "",
+          hotlsIfAccMngr: item?.ac_mngr?.hotlsIfAccMngr || "",
           account_manager: item?.ac_mngr?.name || "",
-          Live_static_contracts: item?.Live_static_contracts || [],
-          Live_dynamic_contracts: item?.Live_dynamic_contracts || [],
+          Live_static_contracts: item?.ac_mngr?.ILSCifAccMngr || [],
+          Live_dynamic_contracts: item?.ac_mngr?.DLSCifAccMngr || [],
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -116,10 +133,10 @@ const DMCs = () => {
       key: "number_hotels",
       render: (text, record) => (
         <ul>
-          {record?.hotels_of_the_dmc?.length > 0 ? (
+          {record?.hotlsIfAccMngr?.length > 0 ? (
             <span className="w-full flex justify-center">
               <Button onClick={() => showTable("dmcs")} className="hotel-btn">
-                {record?.hotels_of_the_dmc?.length || ""}
+                {record?.hotlsIfAccMngr?.length || ""}
               </Button>
               <Modal
                 footer={false}
