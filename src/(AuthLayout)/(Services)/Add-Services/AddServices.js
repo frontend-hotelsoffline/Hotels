@@ -9,13 +9,18 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
 import { useNavigate } from "react-router-dom";
 import { CalendarOutlined } from "@ant-design/icons";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import { PlusOutlined } from "@ant-design/icons";
 import { formatDate } from "../../components/Helper/FormatDate";
+import {
+  countryList,
+  currencyList,
+  getAllCitiesOfCountry,
+} from "../../components/Helper/ListOfAllCountries";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -65,9 +70,11 @@ const AddServices = () => {
     discount_from: null,
     discount_to: null,
     min_pax_discount: null,
+    nRef: "false",
   });
   const {
     name,
+    almt,
     from_date,
     to_date,
     location,
@@ -89,7 +96,19 @@ const AddServices = () => {
     discount_from,
     discount_to,
     min_pax_discount,
+    nRef,
+    curr,
   } = formData;
+  const [cityList, setCityList] = useState([]);
+
+  useEffect(() => {
+    if (country) {
+      const selectedcountry = countryList.find((c) => c.value === country);
+      setCityList(getAllCitiesOfCountry(selectedcountry.code));
+    } else {
+      setCityList([]);
+    }
+  }, [country]);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -126,6 +145,9 @@ const AddServices = () => {
           Dfrom: "${discount_from}"
           Dto: "${discount_to}"
           MPD: ${min_pax_discount}
+          nRef: ${nRef}
+          curr: ${curr}
+          almt: ${almt}
           images: $images
       ) {
           message
@@ -263,32 +285,53 @@ const AddServices = () => {
               <span className="flex gap-3 w-full">
                 <label className="labelStyle w-full">
                   country
-                  <Input
-                    name="country"
+                  <Select
+                    showSearch
                     value={country}
-                    onChange={onChange}
-                    placeholder=""
-                    className="w-full border-black"
+                    filterOption={(input, option) =>
+                      (option?.label?.toLowerCase() ?? "").includes(
+                        input?.toLowerCase()
+                      )
+                    }
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, country: value }))
+                    }
+                    options={countryList}
+                    className="w-full"
                   />
                 </label>
                 <label className="labelStyle w-full">
                   to city
-                  <Input
-                    name="city"
+                  <Select
+                    showSearch
+                    filterOption={(input, option) =>
+                      (option?.label?.toLowerCase() ?? "").includes(
+                        input?.toLowerCase()
+                      )
+                    }
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, city: value }))
+                    }
+                    options={cityList}
+                    className="w-full"
                     value={city}
-                    onChange={onChange}
-                    placeholder=""
-                    className="w-full border-black"
                   />
                 </label>
                 <label className="labelStyle w-full">
                   from city
-                  <Input
-                    name="fcity"
+                  <Select
+                    showSearch
+                    filterOption={(input, option) =>
+                      (option?.label?.toLowerCase() ?? "").includes(
+                        input?.toLowerCase()
+                      )
+                    }
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, fcity: value }))
+                    }
+                    options={cityList}
+                    className="w-full"
                     value={fcity}
-                    onChange={onChange}
-                    placeholder=""
-                    className="w-full border-black"
                   />
                 </label>
               </span>
@@ -487,50 +530,56 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
-              <label className="labelStyle">
-                discount from
-                <DatePicker
-                  allowClear={false}
-                  format={formatDate}
-                  value={discount_from ? dayjs(discount_from) : null}
-                  disabledDate={(current) =>
-                    current && current < new Date(minDate)
-                  }
-                  className="w-full border-black"
-                  placeholder="discount from:"
-                  onChange={(value, dateString) => {
-                    const dateObject = new Date(dateString ? dateString : null);
-                    const isoString = dateObject.toISOString();
-                    setFormData((prev) => ({
-                      ...prev,
-                      discount_from: isoString,
-                    }));
-                  }}
-                  suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
-                />
-              </label>
-              <label className="labelStyle">
-                discount to
-                <DatePicker
-                  allowClear={false}
-                  format={formatDate}
-                  value={discount_to ? dayjs(discount_to) : null}
-                  disabledDate={(current) =>
-                    current && current < new Date(discount_from)
-                  }
-                  className="w-full border-black"
-                  placeholder="discount to"
-                  onChange={(value, dateString) => {
-                    const dateObject = new Date(dateString ? dateString : null);
-                    const isoString = dateObject.toISOString();
-                    setFormData((prev) => ({
-                      ...prev,
-                      discount_to: isoString,
-                    }));
-                  }}
-                  suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
-                />
-              </label>
+              <span className="flex justify-between w-full">
+                <label className="labelStyle">
+                  discount from
+                  <DatePicker
+                    allowClear={false}
+                    format={formatDate}
+                    value={discount_from ? dayjs(discount_from) : null}
+                    disabledDate={(current) =>
+                      current && current < new Date(minDate)
+                    }
+                    className="w-full border-black"
+                    placeholder="discount from:"
+                    onChange={(value, dateString) => {
+                      const dateObject = new Date(
+                        dateString ? dateString : null
+                      );
+                      const isoString = dateObject.toISOString();
+                      setFormData((prev) => ({
+                        ...prev,
+                        discount_from: isoString,
+                      }));
+                    }}
+                    suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
+                  />
+                </label>
+                <label className="labelStyle">
+                  discount to
+                  <DatePicker
+                    allowClear={false}
+                    format={formatDate}
+                    value={discount_to ? dayjs(discount_to) : null}
+                    disabledDate={(current) =>
+                      current && current < new Date(discount_from)
+                    }
+                    className="w-full border-black"
+                    placeholder="discount to"
+                    onChange={(value, dateString) => {
+                      const dateObject = new Date(
+                        dateString ? dateString : null
+                      );
+                      const isoString = dateObject.toISOString();
+                      setFormData((prev) => ({
+                        ...prev,
+                        discount_to: isoString,
+                      }));
+                    }}
+                    suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
+                  />
+                </label>
+              </span>
               <label className="labelStyle">
                 min pax discount
                 <Input
@@ -542,6 +591,50 @@ const AddServices = () => {
                   className="w-full border-black"
                 />
               </label>
+              <label className="labelStyle">
+                Allotment
+                <Input
+                  onKeyPress={handleKeyPress}
+                  name="almt"
+                  value={almt}
+                  onChange={onChange}
+                  placeholder=""
+                  className="w-full border-black"
+                />
+              </label>
+              <span className="flex justify-between gap-10">
+                <label className="labelStyle w-full">
+                  currency
+                  <Select
+                    showSearch
+                    filterOption={(input, option) =>
+                      (option?.label?.toLowerCase() ?? "").includes(
+                        input?.toLowerCase()
+                      )
+                    }
+                    value={curr}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, curr: value }))
+                    }
+                    options={currencyList}
+                    className="w-full"
+                  />
+                </label>
+                <label className="labelStyle w-full">
+                  Non refundable
+                  <Select
+                    value={nRef}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, nRef: value }))
+                    }
+                    options={[
+                      { value: "true", label: "Yes" },
+                      { value: "false", label: "No" },
+                    ]}
+                    className="w-full"
+                  />
+                </label>
+              </span>
               <Button
                 htmlType="submit"
                 className="button-bar absolute right-0 bottom-0"
