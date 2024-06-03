@@ -68,6 +68,11 @@ const Sidebar = () => {
     ]),
     getItem(<Link to="/Search">Search</Link>, "Search", <SearchOutlined />),
     getItem("Hotels", "hHtels", <MdOutlineHomeWork />, [
+      getItem(
+        <Link to="/Registed-Hotels">Registed Hotels</Link>,
+        "/Registed-Hotels",
+        <FaMinus />
+      ),
       getItem(<Link to="/Hotels">Hotels</Link>, "Hotels", <FaMinus />),
       getItem(<Link to="/Facility">Facilities</Link>, "Facility", <FaMinus />),
       getItem(

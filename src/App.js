@@ -35,6 +35,7 @@ import AddPackage from "./(AuthLayout)/(Packages)/Add-Package/AddPackage";
 import EditPackage from "./(AuthLayout)/(Packages)/Edit-Package/EditPackage";
 import EditService from "./(AuthLayout)/(Services)/Edit-Services/EditServices";
 import AcMDetail from "./(AuthLayout)/Account-Managers/Details";
+import RegisteredHotels from "./(AuthLayout)/(Hotels)/Hotels/RegisteredHotels";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -209,6 +210,18 @@ function App() {
               isAuthenticated ? (
                 <MainLayout>
                   <Hotels />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Registed-Hotels"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <RegisteredHotels />
                 </MainLayout>
               ) : (
                 <Navigate to="/" />

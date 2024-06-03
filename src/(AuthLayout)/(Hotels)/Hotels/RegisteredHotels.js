@@ -11,7 +11,7 @@ import CombineDmcHotel from "../../Account-Managers/CombineDmcHotel";
 import { GET_API } from "../../components/API/GetAPI";
 import { EditIcon } from "../../components/Customized/EditIcon";
 
-const Hotels = () => {
+const RegisteredHotels = () => {
   const [dataSource, setDataSource] = useState([]);
   const [rowData, setRowData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -48,8 +48,8 @@ const Hotels = () => {
     setLoading(true);
 
     const GET_ALL_HOTELS = `{
-      getmhotels(page: 1) {
-         id
+      getrhotels(page: 1) {
+        id
         CRT
         name
         address
@@ -59,6 +59,16 @@ const Hotels = () => {
         lat
         lon
         categ
+        rooms {
+          id
+          name
+          category {
+              id
+              name
+              desc
+          }
+          status
+      }
         HB {
             c_id
         }
@@ -71,8 +81,45 @@ const Hotels = () => {
         Imgs {
             id
             img_url
-        
         }
+        hotlFac {
+            id
+            hId
+            fId
+            facs {
+                id
+                name
+            }
+        }
+        HotelBody {
+          ac_mngr {
+              id
+              name
+          } dmcs {
+            id
+            name
+            status
+        }
+        LSC {
+            id
+            name
+            status
+        }
+        DLSC {
+            id
+            name
+            status
+        } selM {
+          id
+          name
+          markup
+      }
+          email
+          phone
+          desc
+          chainId
+          status
+      }
     }
     }`;
     const query = GET_ALL_HOTELS;
@@ -82,7 +129,7 @@ const Hotels = () => {
 
       if (res.data) {
         setLoading(false);
-        const tableArray = res?.data?.getmhotels?.map((item) => ({
+        const tableArray = res?.data?.getrhotels?.map((item) => ({
           key: item.id ? item.id : "",
           hotelid: item.id ? item.id : "",
           name: item.name ? item.name : "",
@@ -386,4 +433,4 @@ const Hotels = () => {
   );
 };
 
-export default Hotels;
+export default RegisteredHotels;
