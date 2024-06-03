@@ -2054,11 +2054,13 @@ const StaticContract = () => {
                   <span className="flex flex-col">
                     <label className="labelStyle">
                       {activeItemDist === 0
-                        ? "DMC"
+                        ? "Select DMC"
                         : activeItemDist === 1
-                        ? "Corporate"
+                        ? "Select Corporate"
                         : activeItemDist === 2
-                        ? "Agent"
+                        ? "Select Agent"
+                        : activeItemDist === 3
+                        ? "Select Region"
                         : ""}
                     </label>
 

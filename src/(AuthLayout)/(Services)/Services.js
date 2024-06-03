@@ -74,7 +74,6 @@ const Services = () => {
           description: item.desc || "",
           from_date: formatDate(item.from || null) || "",
           to_date: formatDate(item.to || null) || "",
-          location: item.locat || "",
           country: item.country || "",
           city: item.city || "",
           price_per_adult: item.PPA || "",
@@ -129,13 +128,6 @@ const Services = () => {
       sorter: (a, b) => a.to_date - b.to_date,
     },
 
-    {
-      title: "location",
-      dataIndex: "location",
-      key: "location",
-      sorter: (a, b) =>
-        a.location ? a.location.localeCompare(b.location) : "",
-    },
     {
       title: "country",
       dataIndex: "country",

@@ -181,7 +181,7 @@ const AddServices = () => {
   };
 
   return (
-    <section>
+    <section className="h-full">
       <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
         {items.map((item, index) => (
           <li
@@ -195,7 +195,7 @@ const AddServices = () => {
           </li>
         ))}
       </ul>
-      <form onSubmit={onSubmit} className="w-full capitalize">
+      <form onSubmit={onSubmit} className="w-full h-full capitalize">
         {activeItem === 0 ? (
           <div className="flex gap-5 md:gap-10">
             <div className="w-full space-y-3">
@@ -475,7 +475,7 @@ const AddServices = () => {
                 />
               </label>
             </span>
-            <span className="flex flex-col gap-3 w-full relative">
+            <span className="flex flex-col gap-3 pb-20 w-full h-full relative">
               <label className="labelStyle">
                 discount
                 <Input
@@ -544,7 +544,7 @@ const AddServices = () => {
               </label>
               <Button
                 htmlType="submit"
-                className="button-bar absolute right-0 -bottom-16"
+                className="button-bar absolute right-0 bottom-0"
               >
                 Save
               </Button>
