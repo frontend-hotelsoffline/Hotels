@@ -172,8 +172,6 @@ const StaticContract = () => {
     price_adult,
     price_child,
     mandatory,
-    P_adult_rate_supp,
-    P_child_rate_supp,
     type,
     cancellation_days,
     cancellation_panelty_rate,
@@ -351,17 +349,17 @@ const StaticContract = () => {
       addMSC(
         cid: ${id_from_contract_id}
          from :"${meals_from_date}",  to:"${meals_to_date}", roA:${room_only_adult},  
-          roC:${room_only_child || -1}, bA:${breakfast_adult || -1}, bC:${
-      breakfast_child || -1
+          roC:${room_only_child || ""}, bA:${breakfast_adult || ""}, bC:${
+      breakfast_child || ""
     }, 
-          hbA:${hb_adult || -1},  hbC:${hb_child || -1}, fbA:${
-      fb_adult || -1
-    }, fbC:${fb_child || -1}, 
-          saiA:${soft_all_inc_adult || -1}, saiC:${
-      soft_all_inc_child || -1
-    }, aiA:${all_inc_adult || -1}, 
-          aiC:${all_inc_child || -1}, uaiA:${ultra_all_inc_adult || -1}, uaiC:${
-      ultra_all_inc_child || -1
+          hbA:${hb_adult || ""},  hbC:${hb_child || ""}, fbA:${
+      fb_adult || ""
+    }, fbC:${fb_child || ""}, 
+          saiA:${soft_all_inc_adult || ""}, saiC:${
+      soft_all_inc_child || ""
+    }, aiA:${all_inc_adult || ""}, 
+          aiC:${all_inc_child || ""}, uaiA:${ultra_all_inc_adult || ""}, uaiC:${
+      ultra_all_inc_child || ""
     },
           
         ) {
@@ -416,7 +414,7 @@ const StaticContract = () => {
              /"([^"]+)":/g,
              "$1:"
            )},  minStay: ${minStayOffer}, ArOrSt : ${ArOrSt}
-           linkId : ${linkedId || -1}, room   : ${is_room}, meals: ${is_meals}, 
+           linkId : ${linkedId || ""}, room   : ${is_room}, meals: ${is_meals}, 
           supp: ${is_supp},  order : ${order} desc: "${desc || ""}"
         ) {
           message
@@ -457,11 +455,14 @@ const StaticContract = () => {
         cid: ${id_from_contract_id}
           vali :${validity}, supp :${supplement}, type : ${supp_type}, rId_0_All:${supp_room_category_id},  
           sfrom:"${stay_from}", sto:"${stay_to}",pAmn: ${price_type}
-               PAa :${price_adult || -1}, PCa : ${price_child || -1},  PAr : ${
-      P_adult_rate_supp || -1
-    },  PCr :  ${P_child_rate_supp || -1},  ArOrSt: ${ArOrStSupp}
-        cafrom : ${supp_child_age_from || -1}, cato : ${
-      supp_child_age_to || -1
+               PAa :${price_type === "true" ? price_adult : -1}, PCa : ${
+      price_type === "true" ? price_child : -1
+    },  
+          PAr : ${price_type === "false" ? price_adult : -1},  PCr :  ${
+      price_type === "false" ? price_child : -1
+    },  ArOrSt: ${ArOrStSupp}
+        cafrom : ${supp_child_age_from || ""}, cato : ${
+      supp_child_age_to || ""
     } mand: ${mandatory}, rmrk: "${remark}"
         ) {
         message
@@ -1496,26 +1497,6 @@ const StaticContract = () => {
           <Input
             value={price_child}
             name="price_child"
-            onChange={onChange}
-            className="w-[70px] h-[25px]"
-            onKeyPress={handleKeyPress}
-          />
-        </span>
-      ),
-      pricerate: (
-        <span className="gap-y-2 ">
-          <label className="labelStyle"> adult</label>
-          <Input
-            value={P_adult_rate_supp}
-            name="P_adult_rate_supp"
-            onChange={onChange}
-            className="w-[70px] h-[25px]"
-            onKeyPress={handleKeyPress}
-          />
-          <label className="labelStyle"> child</label>
-          <Input
-            value={P_child_rate_supp}
-            name="P_child_rate_supp"
             onChange={onChange}
             className="w-[70px] h-[25px]"
             onKeyPress={handleKeyPress}

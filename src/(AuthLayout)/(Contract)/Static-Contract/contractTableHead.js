@@ -233,14 +233,9 @@ export const supplementsColumns = [
     key: "price_type",
   },
   {
-    title: "price",
+    title: "price %",
     dataIndex: "price",
     key: "price",
-  },
-  {
-    title: "price %",
-    dataIndex: "pricerate",
-    key: "pricerate",
   },
   {
     title: "Obligatory",
