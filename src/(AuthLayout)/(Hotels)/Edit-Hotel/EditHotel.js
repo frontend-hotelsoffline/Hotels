@@ -68,7 +68,6 @@ const EditHotel = () => {
     city: parsedRecord?.city || "",
     name: parsedRecord?.name || "",
     default_markup_id: Number(parsedRecord?.default_markup_id) || 0,
-    giataId: parsedRecord?.giataId || "",
     street: parsedRecord?.street || "",
     latitude: parsedRecord?.latitude || 0,
     longtude: parsedRecord?.longtude || 0,
@@ -106,7 +105,6 @@ const EditHotel = () => {
     id_of_place_of_intrst,
     id_of_hotel_chain,
     facility_ids,
-    giataId,
     google_place_id,
     default_markup_id,
   } = FormData;
@@ -484,14 +482,7 @@ const EditHotel = () => {
                 placeholder=""
                 readOnly
               />
-              <label className="label-style mt-1">Giata ID</label>
-              <Input
-                name="giataId"
-                value={giataId}
-                onChange={onChange}
-                className="input-style"
-                placeholder=""
-              />
+
               <label className="label-style mt-1">default selling markup</label>
               <Input
                 name="default_markup_id"

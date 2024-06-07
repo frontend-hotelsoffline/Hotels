@@ -1,7 +1,6 @@
 import { Button, Input, message } from "antd";
 import React, { useState } from "react";
 import { POST_API } from "../components/API/PostAPI";
-import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
 const EditPricing = ({ record, getPricing, handleCancel }) => {
   const [formData, setFormData] = useState({
@@ -69,7 +68,6 @@ const EditPricing = ({ record, getPricing, handleCancel }) => {
         max={1}
         min={0}
         step={0.01}
-        onKeyPress={handleKeyPress}
         name="markup"
         value={markup}
         onChange={onChange}

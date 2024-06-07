@@ -2,7 +2,6 @@ import { Button, Input, message } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
-import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
 const AddPricing = ({ getPricing, handleCancel }) => {
   const router = useNavigate();
@@ -68,7 +67,6 @@ const AddPricing = ({ getPricing, handleCancel }) => {
         name="markup"
         value={markup}
         onChange={onChange}
-        onKeyPress={handleKeyPress}
         className="border-black w-full"
       />
       <Button htmlType="submit" className="m-5 button-bar float-right">
