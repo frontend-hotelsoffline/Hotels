@@ -46,17 +46,13 @@ const GetAllContracts = (
     setIsOpenAssignDistribution(false);
   };
 
-  const selectedDate = new Date();
-  selectedDate.setHours(0, 0, 0, 0);
-  var date_to_pass = selectedDate.toISOString();
-
   const getAllContractData = async () => {
     // setLoading(true);
     const GET_ALL = `{
         getSC(id: ${id_from_contract_id}) {
-            from(ftz: "${date_to_pass}")
-            To(ftz: "${date_to_pass}")
-            renewal(ftz: "${date_to_pass}")
+            from
+            To
+            renewal
             id
             CRT
             name
@@ -104,7 +100,7 @@ const GetAllContracts = (
               est
               ebs
               mInc
-          }pricesG(ftz: "${date_to_pass}") {
+          }pricesG {
               from
               to
               rows {
@@ -129,7 +125,7 @@ const GetAllContracts = (
                   }
               }
           } 
-          CPAC(ftz: "${date_to_pass}") {
+          CPAC {
             from
             to
             rooms {
@@ -156,7 +152,7 @@ const GetAllContracts = (
                 }
             }
         }
-          CAnRAC(ftz: "${date_to_pass}") {
+          CAnRAC {
             from
             to
             rooms {
@@ -177,7 +173,7 @@ const GetAllContracts = (
                 }
             }
         }
-            meals(ftz: "${date_to_pass}") {
+            meals {
                 id
                 CRT
                 cId
@@ -198,7 +194,7 @@ const GetAllContracts = (
                 uaiA
                 uaiC
             }
-            offers(ftz: "${date_to_pass}") {
+            offers {
               id
               CRT
               cId
@@ -226,7 +222,7 @@ const GetAllContracts = (
                   country
               }
             }
-            suppliments(ftz: "${date_to_pass}") {
+            suppliments {
               id
               cId
               CRT
@@ -251,7 +247,7 @@ const GetAllContracts = (
               mand
               ArOrSt
             }
-            cancellation(ftz: "${date_to_pass}") {
+            cancellation {
                 id
                 CRT
                 cId

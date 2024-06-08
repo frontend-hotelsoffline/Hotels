@@ -150,11 +150,11 @@ const Sidebar = () => {
                   : ProfileValue.lev === 2
                   ? "Account manager"
                   : ProfileValue.lev === 4
-                  ? "users under a dmc"
+                  ? "dmc"
                   : ProfileValue.lev === 6
-                  ? "users under a hotel"
+                  ? "hotel"
                   : ProfileValue.lev === 9
-                  ? "users under a corporate"
+                  ? "corporate"
                   : ProfileValue.lev === 1
                   ? "Agent"
                   : ""}

@@ -45,6 +45,7 @@ const Register = () => {
     confirmpswd,
     buying_markup_id_if_agent_or_traveller,
     a_mngrIdifAgent,
+    dPckgMarkupid_if_acc_mngr,
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -67,6 +68,7 @@ const Register = () => {
       s_markup_id_if_acc_mngr: ${s_markup_id_if_acc_mngr || 0}
       b_markup_id_if_acc_mngr: ${b_markup_id_if_acc_mngr || 0}
       a_mngrIdifAgent: ${a_mngrIdifAgent || 0}
+      dPckgMarkupid_if_acc_mngr: ${dPckgMarkupid_if_acc_mngr || 0}
       country: "${country}"
   ) {
       message
@@ -120,11 +122,10 @@ const Register = () => {
             }
             type="text"
             options={[
-              { value: 1, label: "Super Admin" },
               { value: 2, label: "Account manager" },
-              { value: 4, label: "users under a dmc" },
-              { value: 6, label: "users under a hotel" },
-              { value: 9, label: "users under a corporate" },
+              { value: 4, label: "dmc" },
+              { value: 6, label: "hotel" },
+              { value: 9, label: "corporate" },
               { value: 10, label: "Agent" },
             ]}
           />
@@ -237,15 +238,15 @@ const Register = () => {
           </span>
         )}
         {ulevel === 2 && (
-          <span className="flex justify-between">
+          <div>
             <label>
-              Buying markup
+              Dynamic package markup
               <Select
-                value={b_markup_id_if_acc_mngr}
+                value={dPckgMarkupid_if_acc_mngr}
                 onChange={(value) =>
                   setFormData((prev) => ({
                     ...prev,
-                    b_markup_id_if_acc_mngr: value,
+                    dPckgMarkupid_if_acc_mngr: value,
                   }))
                 }
                 options={
@@ -260,29 +261,53 @@ const Register = () => {
                 className="w-full"
               />
             </label>
-            <label>
-              Selling markup
-              <Select
-                value={s_markup_id_if_acc_mngr}
-                onChange={(value) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    s_markup_id_if_acc_mngr: value,
-                  }))
-                }
-                options={
-                  MarkUpValue
-                    ? MarkUpValue.map((item) => ({
-                        key: item.id,
-                        label: item.name,
-                        value: Number(item.id),
-                      }))
-                    : ""
-                }
-                className="w-full"
-              />
-            </label>
-          </span>
+            <span className="flex justify-between">
+              <label>
+                Buying markup
+                <Select
+                  value={b_markup_id_if_acc_mngr}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      b_markup_id_if_acc_mngr: value,
+                    }))
+                  }
+                  options={
+                    MarkUpValue
+                      ? MarkUpValue.map((item) => ({
+                          key: item.id,
+                          label: item.name,
+                          value: Number(item.id),
+                        }))
+                      : ""
+                  }
+                  className="w-full"
+                />
+              </label>
+              <label>
+                Selling markup
+                <Select
+                  value={s_markup_id_if_acc_mngr}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      s_markup_id_if_acc_mngr: value,
+                    }))
+                  }
+                  options={
+                    MarkUpValue
+                      ? MarkUpValue.map((item) => ({
+                          key: item.id,
+                          label: item.name,
+                          value: Number(item.id),
+                        }))
+                      : ""
+                  }
+                  className="w-full"
+                />
+              </label>
+            </span>
+          </div>
         )}
         <label>
           Username

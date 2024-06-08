@@ -3,9 +3,6 @@ import { GET_API } from "../API/GetAPI";
 
 const GetAllDynamicAndStaticContracts = () => {
   const [contractsValue, setcontractsValue] = useState([]);
-  const selectedDate = new Date();
-  selectedDate.setHours(0, 0, 0, 0);
-  var date_to_pass = selectedDate.toISOString();
 
   const getAllContracts = async () => {
     const GET_ALL = `{
@@ -23,7 +20,7 @@ const GetAllDynamicAndStaticContracts = () => {
     try {
       const res = await GET_API(path, { params: { query } });
       if (Array.isArray(res.data.get_all_static_n_dynamic_contracts)) {
-        const dataArray = res.data.get_all_static_n_dynamic_contracts
+        const dataArray = res.data.get_all_static_n_dynamic_contracts;
         setcontractsValue(dataArray);
       }
     } catch (error) {

@@ -3,9 +3,6 @@ import { GET_API } from "../API/GetAPI";
 
 const GetAllHotels = () => {
   const [hotelValue, sethotelValue] = useState([]);
-  const selectedDate = new Date();
-  selectedDate.setHours(0, 0, 0, 0);
-  var date_to_pass = selectedDate.toISOString();
 
   const getAllCategories = async () => {
     const GET_ALL = `{

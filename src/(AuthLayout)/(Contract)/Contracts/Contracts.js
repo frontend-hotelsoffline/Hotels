@@ -29,15 +29,12 @@ const Contracts = () => {
     );
   });
 
-  const selectedDate = new Date();
-  selectedDate.setHours(0, 0, 0, 0);
-  var date_to_pass = selectedDate.toISOString();
   const getContract = async () => {
     const GET_ALL = `{
       getSCs {
-        from(ftz: "${date_to_pass}")
-            To(ftz: "${date_to_pass}")
-            renewal(ftz: "${date_to_pass}")
+        from
+            To
+            renewal
         id
         CRT
         name
