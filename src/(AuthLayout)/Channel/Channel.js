@@ -2,23 +2,17 @@ import { Button, Input, Modal, Popover, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { BsFilter } from "react-icons/bs";
-
-import AddChannel from "./AddChannel";
 import EditChannel from "./EditChannel";
 import { GET_API } from "../components/API/GetAPI";
 import { EditIcon } from "../components/Customized/EditIcon";
 
 const Channel = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+
   const showModalEdit = () => {
     setIsModalOpenEdit(true);
   };
   const handleCancel = () => {
-    setIsModalOpen(false);
     setIsModalOpenEdit(false);
   };
   const [dataSource, setDataSource] = useState([]);
@@ -130,21 +124,6 @@ const Channel = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={showModal}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add Channel
-        </Button>
-        <Modal
-          footer={false}
-          open={isModalOpen}
-          onOk={handleCancel}
-          onCancel={handleCancel}
-        >
-          <AddChannel getChannel={getChannel} handleCancel={handleCancel} />
-        </Modal>
       </div>
       <Table
         size="small"

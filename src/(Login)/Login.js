@@ -63,7 +63,7 @@ const Login = () => {
         <h1 className="logo-title ">HotelsOffline</h1>
         <p className="text-black font-semibold">Welcome back</p>
         <h1 className="text-3xl text-blue-800 mb-3">Login to your account</h1>
-        <label>Username</label>
+        <label>Email</label>
         <Input
           onChange={onChange}
           name="uname"

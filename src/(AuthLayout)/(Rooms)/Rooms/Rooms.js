@@ -6,9 +6,11 @@ import { BsFilter } from "react-icons/bs";
 import { GET_API } from "../../components/API/GetAPI";
 import { useNavigate } from "react-router-dom";
 import { EditIcon } from "../../components/Customized/EditIcon";
+import GetProfile from "../../components/Helper/GetProfile";
 
 const Rooms = () => {
   const router = useNavigate();
+  const { ProfileValue } = GetProfile();
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nameFilter, setNameFilter] = useState("");
@@ -167,29 +169,30 @@ const Rooms = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button
-                  onClick={() => {
-                    const recordString = encodeURIComponent(
-                      JSON.stringify(record)
-                    );
-                    router(`/Edit-Room?record=${recordString}`);
-                  }}
-                  className="action-btn"
-                >
-                  edit
-                </Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-        </span>
-      ),
+      render: (text, record) =>
+        ProfileValue.lev !== 4 && (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={() => {
+                      const recordString = encodeURIComponent(
+                        JSON.stringify(record)
+                      );
+                      router(`/Edit-Room?record=${recordString}`);
+                    }}
+                    className="action-btn"
+                  >
+                    edit
+                  </Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+          </span>
+        ),
     },
   ];
 
@@ -207,13 +210,15 @@ const Rooms = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={() => router("/Add-Room")}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add Room
-        </Button>
+        {ProfileValue.lev !== 4 && (
+          <Button
+            onClick={() => router("/Add-Room")}
+            className="button-bar"
+            icon={<PlusOutlined />}
+          >
+            Add Room
+          </Button>
+        )}
       </div>
       <Table
         size="small"

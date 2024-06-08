@@ -51,11 +51,12 @@ const Sidebar = () => {
       "Account-Managers",
       <FiUser />
     ),
-    getItem(
-      <Link to={"/Corporate"}>Corporate</Link>,
-      "Corporate",
-      <MdCorporateFare />
-    ),
+    ProfileValue.lev !== 4 &&
+      getItem(
+        <Link to={"/Corporate"}>Corporate</Link>,
+        "Corporate",
+        <MdCorporateFare />
+      ),
     getItem("Rooms", "rooms", <MdOutlineBedroomParent />, [
       getItem(<Link to="/Rooms">Rooms</Link>, "Rooms", <FaMinus />),
       getItem(
@@ -87,11 +88,12 @@ const Sidebar = () => {
       "Contracts",
       <FaHandshake />
     ),
-    getItem(
-      <Link to={"/Pricing"}>Pricing</Link>,
-      "Pricing",
-      <MdOutlinePriceChange />
-    ),
+    ProfileValue.lev !== 4 &&
+      getItem(
+        <Link to={"/Pricing"}>Pricing</Link>,
+        "Pricing",
+        <MdOutlinePriceChange />
+      ),
     getItem(
       <Link to={"/Services"}>Services</Link>,
       "Services",
