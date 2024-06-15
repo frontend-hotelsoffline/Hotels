@@ -421,6 +421,16 @@ function App() {
             }
           />
           <Route
+            path="/Incentive-Override"
+            element={
+              isAuthenticated ? (
+                <MainLayout>{/* <IncentiveOverride /> */}</MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
             path="/"
             element={isAuthenticated ? <Navigate to="/Dashboard" /> : <Login />}
           />

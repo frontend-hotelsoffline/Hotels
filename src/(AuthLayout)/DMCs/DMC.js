@@ -46,6 +46,7 @@ const DMCs = () => {
         rate
         SM
         BM
+        whatsapp
         a_mngr
         ac_mngr {
             id
@@ -87,6 +88,7 @@ const DMCs = () => {
           name: item.name || "",
           status: item.status || "",
           email: item.email || "",
+          whatsapp: item.whatsapp || "",
           hotlsIfAccMngr: item?.ac_mngr?.hotlsIfAccMngr || "",
           account_manager: item?.ac_mngr?.name || "",
           Live_static_contracts: item?.ac_mngr?.ILSCifAccMngr || [],
@@ -126,6 +128,13 @@ const DMCs = () => {
         a.account_manager
           ? a.account_manager.localeCompare(b.account_manager)
           : "",
+    },
+    {
+      title: "whatsapp",
+      dataIndex: "whatsapp",
+      key: "whatsapp",
+      sorter: (a, b) =>
+        a.whatsapp ? a.whatsapp.localeCompare(b.whatsapp) : "",
     },
     {
       title: "hotels",

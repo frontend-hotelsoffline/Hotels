@@ -4,12 +4,21 @@ import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 import { POST_API } from "../components/API/PostAPI";
 import GetAllUsers from "../components/Helper/GetAllUsers";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
+import { countryList } from "../components/Helper/ListOfAllCountries";
 
 const AddCorporate = ({ getCorporate, handleCancel }) => {
   const { accManager } = GetAllUsers();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const [formData, setFormData] = useState({});
-  const { name, status, acc_mnger_id, buying_markup_id, email } = formData;
+  const {
+    name,
+    status,
+    acc_mnger_id,
+    buying_markup_id,
+    email,
+    whatsapp,
+    whatsappCode,
+  } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,7 +31,9 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
     };
     const mutation = `
       mutation {
-        addcoop(name: "${name}", status: ${status},email: "${email}", a_mngrId: ${acc_mnger_id}, BMid: ${buying_markup_id} ) {
+        addcoop(name: "${name}", status: ${status},email: "${email}", a_mngrId: ${acc_mnger_id},
+      whatsapp: "${whatsappCode || ""}${whatsapp || ""}"
+       BMid: ${buying_markup_id} ) {
             message
         }
       }
@@ -121,7 +132,33 @@ const AddCorporate = ({ getCorporate, handleCancel }) => {
             : ""
         }
         className="border-black w-full"
-      />
+      />{" "}
+      <label className="labelStyle mt-1">whatsapp</label>
+      <Input.Group compact>
+        <Select
+          showSearch
+          value={whatsappCode}
+          filterOption={(input, option) =>
+            (option?.label?.toLowerCase() ?? "").includes(input?.toLowerCase())
+          }
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, whatsappCode: value }))
+          }
+          options={countryList?.map((item) => ({
+            value: item.phone,
+            label: `${item.value} (+${item.phone})`,
+          }))}
+          style={{ width: "50%" }}
+        />
+        <Input
+          style={{ width: "50%" }}
+          name="whatsapp"
+          value={whatsapp}
+          onChange={onChange}
+          placeholder="Number"
+          className="input-style"
+        />
+      </Input.Group>
       <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>

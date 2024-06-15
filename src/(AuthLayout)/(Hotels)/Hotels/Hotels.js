@@ -279,71 +279,71 @@ const Hotels = () => {
       dataIndex: "email",
       key: "email",
     },
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button
-                  onClick={() => {
-                    const recordString = encodeURIComponent(
-                      JSON.stringify(record)
-                    );
-                    router(`/Static-Contract?record=${recordString}`);
-                  }}
-                  className="action-btn"
-                >
-                  Add contracts
-                </Button>
-                <Button
-                  onClick={() => showTable("combine")}
-                  className="action-btn"
-                >
-                  Add DMC
-                </Button>{" "}
-                <Button
-                  onClick={() => {
-                    const recordString = encodeURIComponent(
-                      JSON.stringify(record)
-                    );
-                    router(`/Add-Room?record=${recordString}`);
-                  }}
-                  className="action-btn"
-                >
-                  Add Room
-                </Button>
-                <Button
-                  onClick={() => {
-                    const recordString = encodeURIComponent(
-                      JSON.stringify(record)
-                    );
-                    router(`/Edit-Hotel?record=${recordString}`);
-                  }}
-                  className="action-btn"
-                >
-                  Edit
-                </Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-          <Modal
-            maskStyle={{ opacity: 0.2 }}
-            footer={false}
-            open={isModalOpenCombine}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <CombineDmcHotel record={rowData} handleCancel={handleCancel} />
-          </Modal>
-        </span>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   dataIndex: "action",
+    //   key: "action",
+    //   render: (text, record) => (
+    //     <span className="w-full flex justify-center">
+    //       <Popover
+    //         content={
+    //           <div className="flex flex-col gap-3">
+    //             <Button
+    //               onClick={() => {
+    //                 const recordString = encodeURIComponent(
+    //                   JSON.stringify(record)
+    //                 );
+    //                 router(`/Static-Contract?record=${recordString}`);
+    //               }}
+    //               className="action-btn"
+    //             >
+    //               Add contracts
+    //             </Button>
+    //             <Button
+    //               onClick={() => showTable("combine")}
+    //               className="action-btn"
+    //             >
+    //               Add DMC
+    //             </Button>{" "}
+    //             <Button
+    //               onClick={() => {
+    //                 const recordString = encodeURIComponent(
+    //                   JSON.stringify(record)
+    //                 );
+    //                 router(`/Add-Room?record=${recordString}`);
+    //               }}
+    //               className="action-btn"
+    //             >
+    //               Add Room
+    //             </Button>
+    //             <Button
+    //               onClick={() => {
+    //                 const recordString = encodeURIComponent(
+    //                   JSON.stringify(record)
+    //                 );
+    //                 router(`/Edit-Hotel?record=${recordString}`);
+    //               }}
+    //               className="action-btn"
+    //             >
+    //               Edit
+    //             </Button>
+    //           </div>
+    //         }
+    //       >
+    //         {EditIcon}
+    //       </Popover>
+    //       <Modal
+    //         maskStyle={{ opacity: 0.2 }}
+    //         footer={false}
+    //         open={isModalOpenCombine}
+    //         onOk={handleCancel}
+    //         onCancel={handleCancel}
+    //       >
+    //         <CombineDmcHotel record={rowData} handleCancel={handleCancel} />
+    //       </Modal>
+    //     </span>
+    //   ),
+    // },
   ];
 
   return (
@@ -361,13 +361,13 @@ const Hotels = () => {
             Filter
           </Button>
         </div>
-        <Button
+        {/* <Button
           onClick={() => router("/Add-Hotel")}
           className="button-bar"
           icon={<PlusOutlined />}
         >
           Add Hotel
-        </Button>
+        </Button> */}
       </div>
       <Table
         size="small"

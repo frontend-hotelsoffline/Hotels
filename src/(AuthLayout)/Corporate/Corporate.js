@@ -35,6 +35,7 @@ const Corporate = () => {
         status
         email
         a_mngr
+        whatsapp
         BM
         buyM {
             id
@@ -55,6 +56,7 @@ const Corporate = () => {
           id: item.id,
           name: item.name,
           status: item.status,
+          whatsapp: item.whatsapp,
           markup: item.buyM.markup && (item.buyM.markup * 1).toFixed(2) + "%",
         }));
         setDataSource(tableArray);
@@ -87,6 +89,13 @@ const Corporate = () => {
       dataIndex: "markup",
       key: "markup",
       sorter: (a, b) => (a.markup ? a.markup.localeCompare(b.markup) : ""),
+    },
+    {
+      title: "whatsapp",
+      dataIndex: "whatsapp",
+      key: "whatsapp",
+      sorter: (a, b) =>
+        a.whatsapp ? a.whatsapp.localeCompare(b.whatsapp) : "",
     },
     {
       title: "status",

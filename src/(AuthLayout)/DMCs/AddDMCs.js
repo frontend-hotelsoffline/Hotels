@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { POST_API } from "../components/API/PostAPI";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
+import { countryList } from "../components/Helper/ListOfAllCountries";
 
 const AddDMCs = ({ getDMCs, handleCancel }) => {
   const router = useNavigate();
@@ -17,6 +18,8 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
     default_markup_id,
     email,
     buying_markup_id,
+    whatsapp,
+    whatsappCode,
   } = formData;
 
   const onChange = (e) => {
@@ -37,6 +40,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
           SMid: ${default_markup_id}
           BMid: ${buying_markup_id}
           email: "${email}"
+      whatsapp: "${whatsappCode || ""}${whatsapp || ""}"
         ) {
           message
         }
@@ -103,40 +107,72 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         }
         className="border-black w-full"
       />
-      <label className="labelStyle">default selling markup</label>
-      <Select
-        value={default_markup_id}
-        onChange={(value) =>
-          setFormData((prev) => ({ ...prev, default_markup_id: value }))
-        }
-        options={
-          MarkUpValue
-            ? MarkUpValue.map((item) => ({
-                key: item.id,
-                label: item.name,
-                value: Number(item.id),
-              }))
-            : ""
-        }
-        className="border-black w-full"
-      />
-      <label className="labelStyle">default buying markup</label>
-      <Select
-        value={buying_markup_id}
-        onChange={(value) =>
-          setFormData((prev) => ({ ...prev, buying_markup_id: value }))
-        }
-        options={
-          MarkUpValue
-            ? MarkUpValue.map((item) => ({
-                key: item.id,
-                label: item.name,
-                value: Number(item.id),
-              }))
-            : ""
-        }
-        className="border-black w-full"
-      />
+      <span className="flex justify-between gap-4">
+        <label className="labelStyle w-full">
+          default selling markup
+          <Select
+            value={default_markup_id}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, default_markup_id: value }))
+            }
+            options={
+              MarkUpValue
+                ? MarkUpValue.map((item) => ({
+                    key: item.id,
+                    label: item.name,
+                    value: Number(item.id),
+                  }))
+                : ""
+            }
+            className="border-black w-full"
+          />
+        </label>
+        <label className="labelStyle w-full">
+          default buying markup
+          <Select
+            value={buying_markup_id}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, buying_markup_id: value }))
+            }
+            options={
+              MarkUpValue
+                ? MarkUpValue.map((item) => ({
+                    key: item.id,
+                    label: item.name,
+                    value: Number(item.id),
+                  }))
+                : ""
+            }
+            className="border-black w-full"
+          />
+        </label>
+      </span>
+      <label className="labelStyle mt-1">whatsapp</label>
+      <Input.Group compact>
+        <Select
+          showSearch
+          value={whatsappCode}
+          filterOption={(input, option) =>
+            (option?.label?.toLowerCase() ?? "").includes(input?.toLowerCase())
+          }
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, whatsappCode: value }))
+          }
+          options={countryList?.map((item) => ({
+            value: item.phone,
+            label: `${item.value} (+${item.phone})`,
+          }))}
+          style={{ width: "50%" }}
+        />
+        <Input
+          style={{ width: "50%" }}
+          name="whatsapp"
+          value={whatsapp}
+          onChange={onChange}
+          placeholder="Number"
+          className="input-style"
+        />
+      </Input.Group>
       <label className="labelStyle">email</label>
       <Input
         name="email"

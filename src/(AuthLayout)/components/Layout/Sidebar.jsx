@@ -102,6 +102,11 @@ const Sidebar = () => {
     getItem(<Link to={"/Channel"}>Channel</Link>, "Channel", <FaUsersGear />),
     getItem(<Link to={"/Packages"}>Packages</Link>, "Packages", <FaGift />),
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "Wallet", <FaWallet />),
+    getItem(
+      <Link to={"/Incentive-Override"}>Incentive Override</Link>,
+      "Incentive-Override",
+      <FaWallet />
+    ),
   ];
   return (
     <div className="w-full h-full flex flex-col justify-between p-3">
