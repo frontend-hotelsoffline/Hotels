@@ -199,7 +199,7 @@ const EditHotel = () => {
       if (res.data) {
         setLoading(false);
         message.success("Hotel has been Updated Successfully");
-        router("/Hotels");
+        router("/Registed-Hotels");
       } else {
         message.error(res.errors[0].message);
       }

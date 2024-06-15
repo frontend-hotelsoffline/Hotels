@@ -204,7 +204,7 @@ const AddHotel = () => {
       if (res.data.addHotel?.message === "success") {
         setLoading(false);
         message.success("Hotel has been Added Successfully");
-        router("/Hotels");
+        router("/Registed-Hotels");
       } else {
         message.error(res.data.addHotel?.message);
       }
@@ -476,8 +476,8 @@ const AddHotel = () => {
                     input.toLowerCase()
                   )
                 }
-                style={{ width: 500 }}
                 options={filteredPlaceOfInterest}
+                className="w-full"
                 onChange={(value) => {
                   setFormData((prevData) => ({
                     ...prevData,
