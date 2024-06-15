@@ -13,13 +13,14 @@ const EditChannel = ({ getChannel, handleCancel, record }) => {
   };
 
   useEffect(() => {
-    setFormData({
-      id: record.id || "",
-      band: record.band || "",
-      resT: record.resT || "",
-      mId: record.mId || "",
-    });
-  }, []);
+    record &&
+      setFormData({
+        id: record.id || "",
+        band: record.band || "",
+        resT: record.resT || "",
+        mId: record.mId || "",
+      });
+  }, [record]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
