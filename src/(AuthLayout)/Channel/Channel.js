@@ -8,9 +8,11 @@ import { EditIcon } from "../components/Customized/EditIcon";
 
 const Channel = () => {
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const [rowData, setRowData] = useState([]);
 
-  const showModalEdit = () => {
+  const showModalEdit = (record) => {
     setIsModalOpenEdit(true);
+    setRowData(record);
   };
   const handleCancel = () => {
     setIsModalOpenEdit(false);
@@ -50,8 +52,8 @@ const Channel = () => {
           name: item.name || "",
           resT: item.resT || "",
           band: item.band || "",
+          mId: item.mId || "",
           markup: item.markup?.markup || "",
-          description: item.type || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -113,7 +115,10 @@ const Channel = () => {
           <Popover
             content={
               <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
+                <Button
+                  onClick={() => showModalEdit(record)}
+                  className="action-btn"
+                >
                   edit
                 </Button>
               </div>
@@ -121,18 +126,6 @@ const Channel = () => {
           >
             {EditIcon}
           </Popover>
-          <Modal
-            footer={false}
-            open={isModalOpenEdit}
-            onOk={handleCancel}
-            onCancel={handleCancel}
-          >
-            <EditChannel
-              record={record}
-              getChannel={getChannel}
-              handleCancel={handleCancel}
-            />
-          </Modal>
         </span>
       ),
     },
@@ -140,6 +133,18 @@ const Channel = () => {
 
   return (
     <section>
+      <Modal
+        footer={false}
+        open={isModalOpenEdit}
+        onOk={handleCancel}
+        onCancel={handleCancel}
+      >
+        <EditChannel
+          record={rowData}
+          getChannel={getChannel}
+          handleCancel={handleCancel}
+        />
+      </Modal>
       <div className="flex justify-between mb-2">
         <div className="flex">
           <Input
