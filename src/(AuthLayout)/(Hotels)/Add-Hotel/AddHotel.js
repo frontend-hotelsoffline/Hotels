@@ -28,6 +28,7 @@ import AddFacility from "../Facility/AddFacility";
 import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import GetAllPricingMarkUp from "../../components/Helper/GetAllPricingMarkUp";
+import { countryList } from "../../components/Helper/ListOfAllCountries";
 
 const formData2 = new FormData();
 
@@ -84,7 +85,6 @@ const AddHotel = () => {
   });
 
   const {
-    id,
     name,
     country,
     city,
@@ -95,7 +95,6 @@ const AddHotel = () => {
     star_rating,
     hotel_status,
     phone_no,
-    website,
     email,
     id_acc_mngr,
     id_of_place_of_intrst,
@@ -104,6 +103,8 @@ const AddHotel = () => {
     address,
     google_place_id,
     default_markup_id,
+    whatsapp,
+    whatsappCode,
   } = FormData;
 
   const onChange = (e) => {
@@ -158,6 +159,7 @@ const AddHotel = () => {
       p_inte_id: ${id_of_place_of_intrst ? id_of_place_of_intrst : ""},
       chainId: ${id_of_hotel_chain ? id_of_hotel_chain : ""},
       SM_id: ${default_markup_id || 0}
+      whatsapp: "${whatsappCode || ""}${whatsapp || ""}"
       ${JSON.stringify(FacilityVariables)
         .replace(/"([^(")"]+)":/g, "$1:")
         .replace(/^\s*{|\}\s*$/g, "")}
@@ -329,7 +331,7 @@ const AddHotel = () => {
     }));
 
   return (
-    <section className="capitalize">
+    <section className="capitalize mb-10">
       {loading ? (
         <Spin />
       ) : (
@@ -528,6 +530,34 @@ const AddHotel = () => {
                 onKeyPress={handleKeyPress}
                 placeholder=""
               />
+              <label className="labelStyle mt-1">whatsapp</label>
+              <Input.Group compact>
+                <Select
+                  showSearch
+                  value={whatsappCode}
+                  filterOption={(input, option) =>
+                    (option?.label?.toLowerCase() ?? "").includes(
+                      input?.toLowerCase()
+                    )
+                  }
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, whatsappCode: value }))
+                  }
+                  options={countryList?.map((item) => ({
+                    value: item.phone,
+                    label: `${item.value} (+${item.phone})`,
+                  }))}
+                  style={{ width: "50%" }}
+                />
+                <Input
+                  style={{ width: "50%" }}
+                  name="whatsapp"
+                  value={whatsapp}
+                  onChange={onChange}
+                  placeholder="Number"
+                  className="input-style"
+                />
+              </Input.Group>
               <label className="labelStyle mt-1">Account Manager</label>
               <Select
                 showSearch
@@ -551,33 +581,7 @@ const AddHotel = () => {
                 }
                 className="input-style w-full"
               />
-              <label className="labelStyle mt-1">Email</label>
-              <Input
-                name="email"
-                value={email}
-                onChange={onChange}
-                className="input-style"
-                type="email"
-                placeholder="start typing an email"
-              />
-              <label className="labelStyle mt-1">
-                Website <span className=" text-blue-800">(Optional)</span>
-              </label>
-              <Input
-                name="website"
-                value={website}
-                onChange={onChange}
-                className="input-style"
-                placeholder="start typing a website"
-              />
-              <label className="labelStyle">Description</label>
-              <TextArea
-                name="description"
-                value={description}
-                onChange={onChange}
-                className="w-full mb-5"
-                style={{ height: 110 }}
-              />
+
               <p>Star Rating</p>
               <Rate
                 name="star_rating"
@@ -627,11 +631,25 @@ const AddHotel = () => {
                     ))
                   : ""}
               </Checkbox.Group>
-              <Button htmlType="submit" className="list-btn w-[60%] mt-5 mb-10">
-                Submit
-              </Button>
             </div>
-            <div className="w-full mt-[20px] flex flex-col">
+            <div className="w-full flex flex-col relative">
+              <label className="labelStyle">Email</label>
+              <Input
+                name="email"
+                value={email}
+                onChange={onChange}
+                className="input-style"
+                type="email"
+                placeholder="start typing an email"
+              />
+              <label className="labelStyle">Description</label>
+              <TextArea
+                name="description"
+                value={description}
+                onChange={onChange}
+                className="w-full mb-5"
+                style={{ height: 110 }}
+              />
               <div className="w-full h-[300px] object-contain">
                 <GoogleMap
                   slot="action"
@@ -646,8 +664,7 @@ const AddHotel = () => {
                   ></MarkerF>
                 </GoogleMap>
               </div>
-
-              <div className="flex justify-between mt-2">
+              <div className="flex gap-2 justify-between mt-2">
                 <span>
                   <label>Longitude</label>
                   <Input
@@ -709,6 +726,12 @@ const AddHotel = () => {
                   />
                 </Modal>
               </div>
+              <Button
+                htmlType="submit"
+                className="button-bar absolute -bottom-10 right-0"
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </form>

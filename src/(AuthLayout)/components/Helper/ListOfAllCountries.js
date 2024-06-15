@@ -5,6 +5,7 @@ export const countryList = Country.getAllCountries().map((country) => ({
   value: country.name,
   label: country.name,
   code: country.isoCode, // You might need the isoCode for fetching cities
+  phone: country.phonecode,
 }));
 
 // Generate a unique list of currencies
