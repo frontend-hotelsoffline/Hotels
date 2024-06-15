@@ -25,8 +25,16 @@ const Channel = () => {
     const GET_ALL = `{
       getChannels {
             id
+        name
+        type
+        mId
+        resT
+        band
+        markup {
+            id
             name
-            type
+            markup
+        }
         }
   }`;
     const query = GET_ALL;
@@ -39,8 +47,11 @@ const Channel = () => {
         const tableArray = res.data.getChannels?.map((item) => ({
           key: item.id,
           id: item.id,
-          name: item.name,
-          description: item.type,
+          name: item.name || "",
+          resT: item.resT || "",
+          band: item.band || "",
+          markup: item.markup?.markup || "",
+          description: item.type || "",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -67,6 +78,24 @@ const Channel = () => {
       dataIndex: "name",
       key: "Channel",
       sorter: (a, b) => (a.Channel ? a.Channel.localeCompare(b.Channel) : ""),
+    },
+    {
+      title: "Bandwidth",
+      dataIndex: "band",
+      key: "band",
+      sorter: (a, b) => (a.band ? a.band.localeCompare(b.band) : ""),
+    },
+    {
+      title: "Response time",
+      dataIndex: "resT",
+      key: "resT",
+      sorter: (a, b) => (a.resT ? a.resT.localeCompare(b.resT) : ""),
+    },
+    {
+      title: "markup",
+      dataIndex: "markup",
+      key: "markup",
+      sorter: (a, b) => (a.markup ? a.markup.localeCompare(b.markup) : ""),
     },
     {
       title: "Type",
