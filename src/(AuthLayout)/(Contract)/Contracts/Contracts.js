@@ -46,8 +46,6 @@ const Contracts = () => {
         city
         bMeal
         hId
-        caFrom
-        caT
         sRate
         mId 
         hotel {

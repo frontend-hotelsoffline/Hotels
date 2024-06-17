@@ -207,16 +207,7 @@ const StaticContract = () => {
 
   const onSubmitHeader = async (e) => {
     e.preventDefault();
-    if (
-      !name ||
-      !currency ||
-      !country ||
-      !city ||
-      !hotel_id ||
-      !child_age_from ||
-      !child_age_to ||
-      !base_meal
-    )
+    if (!name || !currency || !country || !city || !hotel_id || !base_meal)
       return;
     const headers = {
       "Content-Type": "application/json",
@@ -228,8 +219,6 @@ const StaticContract = () => {
             cur: ${currency}
             status: ${status}
             hId: ${hotel_id}
-            caFrom: ${child_age_from}
-            caT: ${child_age_to}
             bMeal: ${base_meal}
             ) {
               message
@@ -348,7 +337,9 @@ const StaticContract = () => {
     mutation {
       addMSC(
         cid: ${id_from_contract_id}
-         from :"${meals_from_date}",  to:"${meals_to_date}", roA:${room_only_adult},  
+         from :"${meals_from_date}",  to:"${meals_to_date}", roA:${room_only_adult},
+            caFrom: ${child_age_from}
+            caT: ${child_age_to}
           roC:${room_only_child || ""}, bA:${breakfast_adult || ""}, bC:${
       breakfast_child || ""
     }, 
@@ -945,6 +936,30 @@ const StaticContract = () => {
             onChange={onChange}
             className="w-[70px] h-[25px]"
             onKeyPress={handleKeyPress}
+          />
+        </span>
+      ),
+      childage: (
+        <span className="gap-y-2 ">
+          <label className="labelStyle">From</label>
+          <Input
+            className="w-[70px] h-[25px]"
+            value={child_age_from}
+            name="child_age_from"
+            onChange={onChange}
+            max={17}
+            min={0}
+            type="number"
+          />
+          <label className="labelStyle">To</label>
+          <Input
+            value={child_age_to}
+            name="child_age_to"
+            onChange={onChange}
+            className="w-[70px] h-[25px]"
+            max={17}
+            min={0}
+            type="number"
           />
         </span>
       ),
@@ -1819,7 +1834,7 @@ const StaticContract = () => {
                     input.toLowerCase()
                   )
                 }
-                className="h-[34px] inputfildinsearch-bg w-[170px]"
+                className=" inputfildinsearch-bg w-[170px]"
                 options={hotelValue.map((item) => ({
                   key: item.id,
                   value: item.country ? item.country : "",
@@ -1848,7 +1863,7 @@ const StaticContract = () => {
                     input.toLowerCase()
                   )
                 }
-                className="h-[34px] inputfildinsearch-bg w-[170px]"
+                className=" inputfildinsearch-bg w-[170px]"
                 options={hotelValue.map((item) => ({
                   key: item.id,
                   value: item.city ? item.city : "",
@@ -1876,7 +1891,7 @@ const StaticContract = () => {
               value={name}
               name="name"
               onChange={onChange}
-              className="h-[34px] inputfildinsearch"
+              className=" inputfildinsearch"
             />
           </label>
           <label className="labelStyle">duration(from-to)</label>
@@ -1885,13 +1900,13 @@ const StaticContract = () => {
               readOnly
               placeholder="From Date"
               value={from_date ? formatDate(from_date) : ""}
-              className="inputfildinsearch h-[34px] w-[170px]"
+              className="inputfildinsearch  w-[170px]"
             />
             <Input
               readOnly
               placeholder="To Date"
               value={to_date ? formatDate(to_date) : ""}
-              className="inputfildinsearch h-[34px] w-[170px]"
+              className="inputfildinsearch  w-[170px]"
             />
           </span>
         </span>
@@ -1910,7 +1925,7 @@ const StaticContract = () => {
                 setFormDataHeader((prev) => ({ ...prev, currency: value }))
               }
               options={currencyList}
-              className="h-[34px] inputfildinsearch"
+              className=" inputfildinsearch"
               placeholder="Currency"
             />
           </label>
@@ -1925,41 +1940,14 @@ const StaticContract = () => {
                 { value: "Live", label: "Live" },
                 { value: "Closed", label: "Closed" },
               ]}
-              className="h-[34px] inputfildinsearch"
+              className=" inputfildinsearch"
               placeholder="Status"
             />
           </label>
           <label className="labelStyle">
-            Child age(from-to)
-            <Input
-              className="h-[34px] inputfildinsearch"
-              onKeyPress={handleKeyPress}
-              placeholder="Min Age"
-              value={child_age_from}
-              name="child_age_from"
-              onChange={onChange}
-              max={17}
-              min={0}
-            />
-          </label>
-          <Input
-            value={child_age_to}
-            name="child_age_to"
-            onChange={onChange}
-            className="h-[34px] inputfildinsearch mt-6"
-            onKeyPress={handleKeyPress}
-            placeholder="Max Age"
-            max={17}
-            min={0}
-          />
-        </span>
-      </div>
-      <div className="w-full md:flex justify-between">
-        <span className="flex gap-4">
-          <label className="labelStyle">
             base meal
             <Select
-              className="h-[34px] inputfildinsearch w-[170px]"
+              className=" inputfildinsearch"
               placeholder="base meal"
               value={base_meal}
               onChange={(value) =>
@@ -1980,7 +1968,7 @@ const StaticContract = () => {
           <label className="labelStyle">
             contract ID
             <Input
-              className="h-[34px] inputfildinsearch w-[160px]"
+              className="inputfildinsearch"
               onKeyPress={handleKeyPress}
               placeholder="Contract ID"
               value={id_from_contract_id}
@@ -1990,13 +1978,13 @@ const StaticContract = () => {
             />
           </label>
         </span>
-        <span className="flex w-[500px] items-end">
-          {id_from_contract_id ? null : (
-            <Button onClick={onSubmitHeader} className="list-btn">
-              Save
-            </Button>
-          )}
-        </span>
+      </div>
+      <div className="w-full md:flex justify-between">
+        {id_from_contract_id ? null : (
+          <Button onClick={onSubmitHeader} className="button-bar">
+            Save
+          </Button>
+        )}
       </div>
       <div>
         <ul className="list-none tab-btn  flex justify-between max-w-4xl mt-5">

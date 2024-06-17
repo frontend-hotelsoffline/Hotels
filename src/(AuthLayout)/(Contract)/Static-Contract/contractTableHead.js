@@ -74,6 +74,11 @@ export const measlColumns = [
     key: "date",
   },
   {
+    title: "child age",
+    dataIndex: "childage",
+    key: "childage",
+  },
+  {
     title: "room only",
     dataIndex: "roomonly",
     key: "roomonly",
