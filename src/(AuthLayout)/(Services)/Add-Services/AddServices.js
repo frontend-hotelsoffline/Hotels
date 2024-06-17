@@ -22,6 +22,7 @@ import {
   getAllCitiesOfCountry,
 } from "../../components/Helper/ListOfAllCountries";
 import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -205,6 +206,23 @@ const AddService = () => {
     setActiveItem(index);
   };
 
+  const handleSelectAddress = (newAddress) => {
+    geocodeByAddress(newAddress)
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) =>
+        setFormData((prev) => ({ ...prev, latitude: lat, longitude: lng }))
+      )
+      .catch((error) => message.error("Error", error));
+  };
+  const handleSelectAddressTo = (newAddress) => {
+    geocodeByAddress(newAddress)
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) =>
+        setFormData((prev) => ({ ...prev, tlatitude: lat, tlongitude: lng }))
+      )
+      .catch((error) => message.error("Error", error));
+  };
+
   return (
     <section className="h-full">
       <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
@@ -315,6 +333,7 @@ const AddService = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, fcity: value }))
                     }
+                    onSelect={handleSelectAddress}
                     options={cityList}
                     className="w-full"
                     value={fcity}
@@ -332,6 +351,7 @@ const AddService = () => {
                     onChange={(value) =>
                       setFormData((prev) => ({ ...prev, city: value }))
                     }
+                    onSelect={handleSelectAddressTo}
                     options={cityList}
                     className="w-full"
                     value={city}
@@ -397,7 +417,7 @@ const AddService = () => {
                   <GoogleMap
                     slot="action"
                     center={{ lat: latitude, lng: longitude }}
-                    zoom={4}
+                    zoom={8}
                     map-id="gmpid"
                     mapContainerClassName="map-container"
                   >
@@ -410,7 +430,7 @@ const AddService = () => {
                   <GoogleMap
                     slot="action"
                     center={{ lat: tlatitude, lng: tlongitude }}
-                    zoom={4}
+                    zoom={8}
                     map-id="gmpid"
                     mapContainerClassName="map-container"
                   >
