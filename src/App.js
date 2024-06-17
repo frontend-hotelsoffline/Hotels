@@ -385,7 +385,19 @@ function App() {
             }
           />
           <Route
-            path="/Add-Package"
+            path="/Static-Package"
+            element={
+              isAuthenticated ? (
+                <MainLayout>
+                  <AddPackage />
+                </MainLayout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/Dynamic-Package"
             element={
               isAuthenticated ? (
                 <MainLayout>

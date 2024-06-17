@@ -21,6 +21,7 @@ import {
   currencyList,
   getAllCitiesOfCountry,
 } from "../../components/Helper/ListOfAllCountries";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -32,6 +33,7 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+
 const AddServices = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -57,19 +59,10 @@ const AddServices = () => {
     from_date: null,
     to_date: null,
     location: null,
-    country: null,
-    city: null,
-    description: null,
-    social_media_link: null,
-    youtube_link: null,
-    price_per_adult: null,
-    price_per_kid: null,
-    child_age_from: null,
-    child_age_to: null,
-    discount: null,
-    discount_from: null,
-    discount_to: null,
-    min_pax_discount: null,
+    longitude: 25,
+    latitude: 55,
+    tlongitude: 55,
+    tlatitude: 25,
     nRef: "false",
   });
   const {
@@ -301,23 +294,6 @@ const AddServices = () => {
                   />
                 </label>
                 <label className="labelStyle w-full">
-                  to city
-                  <Select
-                    showSearch
-                    filterOption={(input, option) =>
-                      (option?.label?.toLowerCase() ?? "").includes(
-                        input?.toLowerCase()
-                      )
-                    }
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, city: value }))
-                    }
-                    options={cityList}
-                    className="w-full"
-                    value={city}
-                  />
-                </label>
-                <label className="labelStyle w-full">
                   from city
                   <Select
                     showSearch
@@ -334,6 +310,23 @@ const AddServices = () => {
                     value={fcity}
                   />
                 </label>
+                <label className="labelStyle w-full">
+                  to city
+                  <Select
+                    showSearch
+                    filterOption={(input, option) =>
+                      (option?.label?.toLowerCase() ?? "").includes(
+                        input?.toLowerCase()
+                      )
+                    }
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, city: value }))
+                    }
+                    options={cityList}
+                    className="w-full"
+                    value={city}
+                  />
+                </label>
               </span>
               <label className="labelStyle">
                 location
@@ -347,7 +340,7 @@ const AddServices = () => {
               </label>
               <span className="flex gap-3 w-full">
                 <label className="labelStyle w-full">
-                  longitude
+                  From longitude
                   <Input
                     onKeyPress={handleKeyPress}
                     name="longitude"
@@ -358,11 +351,11 @@ const AddServices = () => {
                   />
                 </label>
                 <label className="labelStyle w-full">
-                  latitude
+                  to longitude
                   <Input
                     onKeyPress={handleKeyPress}
-                    name="latitude"
-                    value={latitude}
+                    name="tlongitude"
+                    value={tlongitude}
                     onChange={onChange}
                     placeholder=""
                     className="w-full border-black"
@@ -371,11 +364,11 @@ const AddServices = () => {
               </span>
               <span className="flex gap-3 w-full">
                 <label className="labelStyle w-full">
-                  to longitude
+                  From latitude
                   <Input
                     onKeyPress={handleKeyPress}
-                    name="tlongitude"
-                    value={tlongitude}
+                    name="latitude"
+                    value={latitude}
                     onChange={onChange}
                     placeholder=""
                     className="w-full border-black"
@@ -392,6 +385,34 @@ const AddServices = () => {
                     className="w-full border-black"
                   />
                 </label>
+              </span>
+              <span className="flex gap-3 w-full">
+                <div className="w-full h-[200px] object-contain">
+                  <GoogleMap
+                    slot="action"
+                    center={{ lat: latitude, lng: longitude }}
+                    zoom={4}
+                    map-id="gmpid"
+                    mapContainerClassName="map-container"
+                  >
+                    <MarkerF
+                      position={{ lat: latitude, lng: longitude }}
+                    ></MarkerF>
+                  </GoogleMap>
+                </div>
+                <div className="w-full h-[200px] object-contain">
+                  <GoogleMap
+                    slot="action"
+                    center={{ lat: tlatitude, lng: tlongitude }}
+                    zoom={4}
+                    map-id="gmpid"
+                    mapContainerClassName="map-container"
+                  >
+                    <MarkerF
+                      position={{ lat: tlatitude, lng: tlongitude }}
+                    ></MarkerF>
+                  </GoogleMap>
+                </div>
               </span>
             </div>
             <div className="w-full">

@@ -200,12 +200,50 @@ const Packages = () => {
           </Button>
         </div>
         <Button
-          onClick={() => router("/Add-Package")}
+          onClick={showModal}
           className="button-bar"
           icon={<PlusOutlined />}
         >
           Add Packages
         </Button>
+        <Modal
+          className=""
+          footer={false}
+          open={isModalOpen}
+          onOk={handleCancel}
+          onCancel={handleCancel}
+          style={{
+            width: "400px",
+            height: "300px",
+            display: "flex",
+            gap: "30px",
+          }}
+        >
+          <h1 className="m-2 text-2xl font-semibold text-center capitalize">
+            Select Package type
+          </h1>
+          <div className="w-[400px] h-[160px] flex items-center justify-evenly">
+            <Button
+              onClick={() => router("/Static-Package")}
+              className="contract-modal"
+            >
+              Static <br /> Package
+            </Button>
+            <Button
+              onClick={() => router("/Dynamic-Package")}
+              className="contract-modal"
+            >
+              Dynamic
+              <br /> Package
+            </Button>
+          </div>
+          <Button
+            className="list-btn right-5 bottom-2 absolute"
+            onClick={handleCancel}
+          >
+            Close
+          </Button>
+        </Modal>
       </div>
       <Table
         size="small"
