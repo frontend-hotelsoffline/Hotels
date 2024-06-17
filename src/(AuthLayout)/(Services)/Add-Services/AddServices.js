@@ -21,7 +21,7 @@ import {
   currencyList,
   getAllCitiesOfCountry,
 } from "../../components/Helper/ListOfAllCountries";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 const formData2 = new FormData();
 const timestamp = new Date().toLocaleDateString();
 const minDate = new Date(timestamp);
@@ -34,7 +34,17 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-const AddServices = () => {
+export default function AddServices() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_PUBLIC_MAPS_API_KEY,
+    libraries: ["places"],
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+  return <AddService />;
+}
+
+const AddService = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
@@ -101,7 +111,7 @@ const AddServices = () => {
     } else {
       setCityList([]);
     }
-  }, [country]);
+  }, [country, tlongitude, tlatitude, longitude, latitude]);
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -342,7 +352,6 @@ const AddServices = () => {
                 <label className="labelStyle w-full">
                   From longitude
                   <Input
-                    onKeyPress={handleKeyPress}
                     name="longitude"
                     value={longitude}
                     onChange={onChange}
@@ -353,7 +362,6 @@ const AddServices = () => {
                 <label className="labelStyle w-full">
                   to longitude
                   <Input
-                    onKeyPress={handleKeyPress}
                     name="tlongitude"
                     value={tlongitude}
                     onChange={onChange}
@@ -366,7 +374,6 @@ const AddServices = () => {
                 <label className="labelStyle w-full">
                   From latitude
                   <Input
-                    onKeyPress={handleKeyPress}
                     name="latitude"
                     value={latitude}
                     onChange={onChange}
@@ -377,7 +384,6 @@ const AddServices = () => {
                 <label className="labelStyle w-full">
                   to latitude
                   <Input
-                    onKeyPress={handleKeyPress}
                     name="tlatitude"
                     value={tlatitude}
                     onChange={onChange}
@@ -669,5 +675,3 @@ const AddServices = () => {
     </section>
   );
 };
-
-export default AddServices;
