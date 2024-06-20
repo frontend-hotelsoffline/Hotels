@@ -129,6 +129,7 @@ const StaticContract = () => {
     child_age_from,
     child_age_to,
     base_meal,
+    VAT,
   } = formDataHeader;
 
   const {
@@ -222,6 +223,7 @@ const StaticContract = () => {
             status: ${status}
             hId: ${hotel_id}
             bMeal: ${base_meal}
+            VAT: ${VAT}
             ) {
               message
           }            
@@ -1981,7 +1983,17 @@ const StaticContract = () => {
           </label>
         </span>
       </div>
-      <div className="w-full flex justify-end items-end">
+      <div className="w-full flex justify-between items-end">
+        <label className="labelStyle">
+          VAT
+          <Input
+            className="inputfildinsearch w-[170px]"
+            onKeyPress={handleKeyPress}
+            value={VAT}
+            name="VAT"
+            onChange={onChange}
+          />
+        </label>
         {id_from_contract_id || ProfileValue.lev === 1 ? null : (
           <Button onClick={onSubmitHeader} className="button-bar">
             Save
