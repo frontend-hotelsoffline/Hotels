@@ -64,8 +64,8 @@ const GetAllContracts = (
             city
             bMeal
             hId
-            caFrom
-            caT
+            from
+        To
             sRate
             mId
             hotel {
@@ -576,10 +576,10 @@ const GetAllContracts = (
           childage: (
             <span>
               <ul>
-                <li> {item.cafrom || ""}</li>
+                <li> {item.from || ""}</li>
               </ul>
               <ul>
-                <li> {item.cato}</li>
+                <li> {item.To}</li>
               </ul>
             </span>
           ),
