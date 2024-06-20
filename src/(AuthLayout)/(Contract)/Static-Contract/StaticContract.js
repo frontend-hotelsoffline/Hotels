@@ -791,8 +791,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, price_from_date: isoString }));
             }}
             bordered={false}
@@ -808,8 +809,9 @@ const StaticContract = () => {
             }
             placeholder="To Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, price_to_date: isoString }));
             }}
             bordered={false}
@@ -899,8 +901,9 @@ const StaticContract = () => {
             placeholder="From Date:"
             bordered={false}
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, meals_from_date: isoString }));
             }}
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
@@ -915,8 +918,9 @@ const StaticContract = () => {
             placeholder="To Date:"
             bordered={false}
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, meals_to_date: isoString }));
             }}
             suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
@@ -1177,8 +1181,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, offer_stay_from: isoString }));
             }}
             bordered={false}
@@ -1193,8 +1198,9 @@ const StaticContract = () => {
             }
             placeholder="To Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, offer_stay_to: isoString }));
             }}
             bordered={false}
@@ -1211,8 +1217,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({
                 ...prev,
                 booking_window_from: isoString,
@@ -1230,8 +1237,9 @@ const StaticContract = () => {
             }
             placeholder="To Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({
                 ...prev,
                 booking_window_to: isoString,
@@ -1466,8 +1474,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, stay_from: isoString }));
             }}
             bordered={false}
@@ -1480,8 +1489,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < new Date(stay_from)}
             placeholder="To Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, stay_to: isoString }));
             }}
             bordered={false}
@@ -1599,8 +1609,10 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < minDate}
             placeholder="From Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
+              console.log(isoString);
               setFormData((prev) => ({ ...prev, date_from: isoString }));
             }}
             bordered={false}
@@ -1613,8 +1625,9 @@ const StaticContract = () => {
             disabledDate={(current) => current && current < new Date(date_from)}
             placeholder="To Date:"
             onChange={(value, dateString) => {
-              const dateObject = new Date(dateString ? dateString : null);
-              const isoString = dateObject.toISOString();
+              const isoString = value
+                ? dayjs(value).format("YYYY-MM-DD")
+                : null;
               setFormData((prev) => ({ ...prev, date_to: isoString }));
             }}
             bordered={false}
