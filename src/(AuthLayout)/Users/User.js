@@ -6,9 +6,11 @@ import AddUser from "./AddUser";
 import { formatDate } from "../components/Helper/FormatDate";
 import { EditIcon } from "../components/Customized/EditIcon";
 import { BsFilter } from "react-icons/bs";
+import GetProfile from "../components/Helper/GetProfile";
 
 const User = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { ProfileValue } = GetProfile();
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [activeItem, setActiveItem] = useState("");
   const showModal = () => {
@@ -133,27 +135,28 @@ const User = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button onClick={showModalEdit} className="action-btn">
-                  edit
-                </Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-          {/* <Modal
+      render: (text, record) =>
+        ProfileValue.lev !== 4 && (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button onClick={showModalEdit} className="action-btn">
+                    edit
+                  </Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+            {/* <Modal
             footer={false}
             open={isModalOpenEdit}
             onOk={handleCancel}
             onCancel={handleCancel}
           ></Modal> */}
-        </span>
-      ),
+          </span>
+        ),
     },
   ];
 
@@ -196,13 +199,15 @@ const User = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={showModal}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add User
-        </Button>
+        {ProfileValue.lev !== 4 && (
+          <Button
+            onClick={showModal}
+            className="button-bar"
+            icon={<PlusOutlined />}
+          >
+            Add User
+          </Button>
+        )}
         <Modal
           footer={false}
           open={isModalOpen}

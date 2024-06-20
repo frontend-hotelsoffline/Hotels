@@ -45,6 +45,7 @@ import RegionsForCountries from "../../components/Helper/RegionsForCountries";
 import { useLocation } from "react-router-dom";
 import MarkupSC from "./MarkupSC";
 import { BiTrash } from "react-icons/bi";
+import GetProfile from "../../components/Helper/GetProfile";
 
 const StaticContract = () => {
   const { Option } = Select;
@@ -53,6 +54,7 @@ const StaticContract = () => {
   const [Occupancy_and_category_cross, setOccupancy_and_category_cross] =
     useState([]);
   const { userAgent } = GetAllUsers();
+  const { ProfileValue } = GetProfile();
   const [categoryData, setCategoryData] = useState([]);
   const [rowData, setRowData] = useState({});
   const { DMCsValue } = GetAllDMCs();
@@ -1979,8 +1981,8 @@ const StaticContract = () => {
           </label>
         </span>
       </div>
-      <div className="w-full md:flex justify-between">
-        {id_from_contract_id ? null : (
+      <div className="w-full flex justify-end items-end">
+        {id_from_contract_id || ProfileValue.lev === 1 ? null : (
           <Button onClick={onSubmitHeader} className="button-bar">
             Save
           </Button>

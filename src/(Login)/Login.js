@@ -1,17 +1,26 @@
 import { Button, Checkbox, Input, message } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
   const router = useNavigate();
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  const [formData, setFormData] = useState({});
-  const { uname, pswd } = formData;
+  const [formData, setFormData] = useState({ rememberMe: false });
+  const { uname, pswd, rememberMe } = formData;
 
   useEffect(() => {
-    isAuthenticated && router("/Dashboard");
+    if (isAuthenticated) {
+      router("/Dashboard");
+    } else {
+      localStorage.clear("isAuthenticated");
+    }
+    const savedCredentials = localStorage.getItem("credentials");
+    if (savedCredentials) {
+      const { uname, pswd } = JSON.parse(savedCredentials);
+      setFormData((prev) => ({ ...prev, uname, pswd }));
+    }
   }, [isAuthenticated]);
 
   const onChange = (e) => {
@@ -44,6 +53,11 @@ const Login = () => {
       if (res?.data?.login?.message === "success") {
         message.success(res.data.login?.message);
         router("/Dashboard");
+        if (rememberMe) {
+          localStorage.setItem("credentials", JSON.stringify({ uname, pswd }));
+        } else {
+          localStorage.removeItem("credentials");
+        }
         setIsAuthenticated(localStorage.setItem("isAuthenticated", "success"));
       } else message.error(res?.data?.login?.message);
     } catch (error) {
@@ -70,6 +84,7 @@ const Login = () => {
           value={uname}
           className="mb-2 h-10"
           type="text"
+          required
         />
         <label htmlFor="password">Password</label>
         <Input.Password
@@ -78,9 +93,17 @@ const Login = () => {
           value={pswd}
           className="mb-3 h-10"
           type="password"
+          required
         />
         <div className="flex mb-6 items-center justify-between">
-          <Checkbox className="flex">Remember me</Checkbox>
+          <Checkbox
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, rememberMe: e.target.checked }))
+            }
+            className="flex"
+          >
+            Remember me
+          </Checkbox>
           <Link className="text-blue-600 mb-3 underline font-bold" to="/">
             Forgot password?
           </Link>

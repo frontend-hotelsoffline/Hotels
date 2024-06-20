@@ -57,16 +57,6 @@ const Sidebar = () => {
         "Corporate",
         <MdCorporateFare />
       ),
-    getItem("Rooms", "rooms", <MdOutlineBedroomParent />, [
-      getItem(<Link to="/Rooms">Rooms</Link>, "Rooms", <FaMinus />),
-      getItem(
-        <Link to="/Categories">Category</Link>,
-        "Categories",
-        <FaMinus />
-      ),
-      getItem(<Link to="/Amenities">Amenities</Link>, "Amenities", <FaMinus />),
-      getItem(<Link to="/Room-View">Room view</Link>, "Room-View", <FaMinus />),
-    ]),
     getItem(<Link to="/Search">Search</Link>, "Search", <SearchOutlined />),
     getItem("Hotels", "hHtels", <MdOutlineHomeWork />, [
       getItem(
@@ -82,6 +72,16 @@ const Sidebar = () => {
         <FaMinus />
       ),
       getItem(<Link to={"/Chains"}>Chains</Link>, "Chains", <FaMinus />),
+    ]),
+    getItem("Rooms", "rooms", <MdOutlineBedroomParent />, [
+      getItem(<Link to="/Rooms">Rooms</Link>, "Rooms", <FaMinus />),
+      getItem(
+        <Link to="/Categories">Category</Link>,
+        "Categories",
+        <FaMinus />
+      ),
+      getItem(<Link to="/Amenities">Amenities</Link>, "Amenities", <FaMinus />),
+      getItem(<Link to="/Room-View">Room view</Link>, "Room-View", <FaMinus />),
     ]),
     getItem(
       <Link to="/Contracts">Contracts</Link>,
@@ -157,7 +157,7 @@ const Sidebar = () => {
                   : ProfileValue.lev === 2
                   ? "Account manager"
                   : ProfileValue.lev === 4
-                  ? "dmc"
+                  ? "DMC"
                   : ProfileValue.lev === 6
                   ? "hotel"
                   : ProfileValue.lev === 9

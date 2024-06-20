@@ -7,6 +7,7 @@ import GetAllHotels from "../components/Helper/GetAllHotels";
 import GetAllCorporates from "../components/Helper/GetAllCorporate";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
+import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
 const AddUser = ({ getUser, ac_m, handleCancel }) => {
   const { DMCsValue } = GetAllDMCs();
@@ -293,7 +294,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
               name="phone"
               onChange={onChange}
               className=""
-              type="phone"
+              onKeyPress={handleKeyPress}
             />
           </label>
         </span>

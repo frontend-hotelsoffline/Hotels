@@ -28,10 +28,52 @@ const Wallet = () => {
   });
   const getWallet = async () => {
     const GET_ALL = `{
-      get_all_Wallet {
-        id
-        name
-        description
+      getAllWallets {
+        ownUser {
+            uname
+            id
+        }
+        ownDmc {
+            id
+            name
+        }
+        ownCoop {
+            id
+            name
+        }
+        ownHtl {
+            id
+            name
+        }
+        walletInfo {
+            totalBal {
+                curr
+                availableHolding
+                availableNonHolding
+            }
+            deposits {
+                curr
+                data {
+                    amount
+                    curr
+                }
+            }
+            withdraws {
+                curr
+                data {
+                    amount
+                    curr
+                }
+            }
+            transactions {
+                curr
+                data {
+                    Tamount
+                    VAT
+                    book_type
+                }
+            }
+        }
     }
   }`;
     const query = GET_ALL;

@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import { useEffect } from "react";
 import GetAllUsers from "../(AuthLayout)/components/Helper/GetAllUsers";
+import { handleKeyPress } from "../(AuthLayout)/components/Helper/ValidateInputNumber";
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -337,7 +338,7 @@ const Register = () => {
               name="phone"
               onChange={onChange}
               className=""
-              type="phone"
+              onKeyPress={handleKeyPress}
             />
           </label>
         </span>

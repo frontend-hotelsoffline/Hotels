@@ -8,8 +8,10 @@ import AddDMCs from "./AddDMCs";
 import PopUpContract from "./PopUpContract";
 import PopUpHotel from "./PopUpHotel";
 import { EditIcon } from "../components/Customized/EditIcon";
+import GetProfile from "../components/Helper/GetProfile";
 
 const DMCs = () => {
+  const { ProfileValue } = GetProfile();
   const [rowData, setRowData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenContract, setIsModalOpenContract] = useState(false);
@@ -200,19 +202,20 @@ const DMCs = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button className="action-btn">edit</Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-        </span>
-      ),
+      render: (text, record) =>
+        ProfileValue.lev !== 4 && (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button className="action-btn">edit</Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+          </span>
+        ),
     },
   ];
 
@@ -231,13 +234,15 @@ const DMCs = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={() => showTable("hotels")}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add DMCs
-        </Button>
+        {ProfileValue.lev !== 4 && (
+          <Button
+            onClick={() => showTable("hotels")}
+            className="button-bar"
+            icon={<PlusOutlined />}
+          >
+            Add DMCs
+          </Button>
+        )}
         <Modal
           className=""
           footer={false}

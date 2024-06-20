@@ -10,9 +10,11 @@ import PopUpForContract from "./PopUpForContract";
 import PopUpForDMC from "./PopUpForDMC";
 import PopUpForHotel from "./PopUpForHotel";
 import { EditIcon } from "../components/Customized/EditIcon";
+import GetProfile from "../components/Helper/GetProfile";
 
 const AccountOwners = () => {
   const { accManager, getAllUsers } = GetAllUsers();
+  const { ProfileValue } = GetProfile();
   const [dataSource, setDataSource] = useState([]);
   const [rowData, setRowData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -46,7 +48,11 @@ const AccountOwners = () => {
           key: item.id ? item.id : "",
           id: item.id ? item.id : "",
           name: item.name ? item.name : "",
-          email: item.uname ? item.uname : "",
+          email: item.uname ? (
+            <a href={`mailto:${item.uname}`}>{item.uname}</a>
+          ) : (
+            ""
+          ),
           type: item.ulevel || "",
           country: item.country || "",
           commission: item.Commission_if_acc_mngr || "",
@@ -211,19 +217,20 @@ const AccountOwners = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button className="action-btn">Edit</Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-        </span>
-      ),
+      render: (text, record) =>
+        ProfileValue.lev !== 4 && (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button className="action-btn">Edit</Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+          </span>
+        ),
     },
   ];
 
@@ -242,13 +249,15 @@ const AccountOwners = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={() => showTable("combine")}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add Account Manager
-        </Button>
+        {ProfileValue.lev !== 4 && (
+          <Button
+            onClick={() => showTable("combine")}
+            className="button-bar"
+            icon={<PlusOutlined />}
+          >
+            Add Account Manager
+          </Button>
+        )}
         <Modal
           footer={false}
           open={isModalOpenCombine}

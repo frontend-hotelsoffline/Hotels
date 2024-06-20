@@ -168,6 +168,20 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
           style={{ width: "50%" }}
           name="whatsapp"
           value={whatsapp}
+          onKeyPress={(e) => {
+            const charCode = e.which || e.keyCode;
+            const charStr = String.fromCharCode(charCode);
+
+            // Check if the character is a digit
+            if (!/^[0-9]$/.test(charStr)) {
+              e.preventDefault();
+            }
+
+            // Check if the first character is not zero
+            if (e.target.value.length === 0 && charStr === "0") {
+              e.preventDefault();
+            }
+          }}
           onChange={onChange}
           placeholder="Number"
           className="input-style"
