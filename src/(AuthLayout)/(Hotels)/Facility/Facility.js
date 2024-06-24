@@ -7,8 +7,10 @@ import { GET_API } from "../../components/API/GetAPI";
 import AddFacility from "./AddFacility";
 import EditFacility from "./EditFacility";
 import { EditIcon } from "../../components/Customized/EditIcon";
+import GetProfile from "../../components/Helper/GetProfile";
 
 const Facility = () => {
+  const { ProfileValue } = GetProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [rowData, setRowData] = useState([]);
@@ -85,24 +87,25 @@ const Facility = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: (text, record) => (
-        <span className="w-full flex justify-center">
-          <Popover
-            content={
-              <div className="flex flex-col gap-3">
-                <Button
-                  onClick={() => showModalEdit(record)}
-                  className="action-btn"
-                >
-                  edit
-                </Button>
-              </div>
-            }
-          >
-            {EditIcon}
-          </Popover>
-        </span>
-      ),
+      render: (text, record) =>
+        ProfileValue.lev !== 4 && (
+          <span className="w-full flex justify-center">
+            <Popover
+              content={
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={() => showModalEdit(record)}
+                    className="action-btn"
+                  >
+                    edit
+                  </Button>
+                </div>
+              }
+            >
+              {EditIcon}
+            </Popover>
+          </span>
+        ),
     },
   ];
 
@@ -133,13 +136,15 @@ const Facility = () => {
             Filter
           </Button>
         </div>
-        <Button
-          onClick={() => setIsModalOpen(true)}
-          className="button-bar"
-          icon={<PlusOutlined />}
-        >
-          Add Facility
-        </Button>
+        {ProfileValue.lev !== 4 && (
+          <Button
+            onClick={() => setIsModalOpen(true)}
+            className="button-bar"
+            icon={<PlusOutlined />}
+          >
+            Add Facility
+          </Button>
+        )}
         <Modal
           footer={false}
           open={isModalOpen}

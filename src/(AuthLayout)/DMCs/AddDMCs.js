@@ -10,6 +10,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
   const router = useNavigate();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const { accManager } = GetAllUsers();
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({ name: "", status: "" });
   const {
     name,
@@ -160,12 +161,12 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
           }
           options={countryList?.map((item) => ({
             value: item.phone,
-            label: `${item.value} (+${item.phone})`,
+            label: `${item.code} (+${item.phone})`,
           }))}
-          style={{ width: "50%" }}
+          style={{ width: "30%" }}
         />
         <Input
-          style={{ width: "50%" }}
+          style={{ width: "70%" }}
           name="whatsapp"
           value={whatsapp}
           onKeyPress={(e) => {
@@ -175,17 +176,23 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
             // Check if the character is a digit
             if (!/^[0-9]$/.test(charStr)) {
               e.preventDefault();
+              return;
             }
 
             // Check if the first character is not zero
             if (e.target.value.length === 0 && charStr === "0") {
               e.preventDefault();
+              setErrorMessage("Number cannot start with 0");
+              return;
             }
+
+            setErrorMessage(""); // Clear error message if input is valid
           }}
           onChange={onChange}
           placeholder="Number"
           className="input-style"
         />
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </Input.Group>
       <label className="labelStyle">email</label>
       <Input

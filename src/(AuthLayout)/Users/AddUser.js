@@ -68,6 +68,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
       );
       if (res?.data?.addUser?.message === "success") {
         message.success(res.data.addUser?.message);
+        setFormData({});
         getUser();
         handleCancel();
       } else message.error(res?.data?.addUser?.message);

@@ -49,7 +49,9 @@ const AccountOwners = () => {
           id: item.id ? item.id : "",
           name: item.name ? item.name : "",
           email: item.uname ? (
-            <a href={`mailto:${item.uname}`}>{item.uname}</a>
+            <a className="text-blue-700" href={`mailto:${item.uname}`}>
+              {item.uname}
+            </a>
           ) : (
             ""
           ),
@@ -119,6 +121,33 @@ const AccountOwners = () => {
       sorter: (a, b) => (a.commission ? a.commission - b.commission : ""),
     },
     {
+      title: "DMCS",
+      dataIndex: "dmcs",
+      key: "dmcs",
+      sorter: (a, b) => (a.dmcs ? a.dmcs - b.dmcs : ""),
+      render: (text, record) => (
+        <ul>
+          {record?.dmcs > 0 ? (
+            <div>
+              <Button onClick={() => showTable("dmcs")} className="hotel-btn">
+                {record?.dmcs || ""}
+              </Button>
+              <Modal
+                footer={false}
+                open={isModalOpenDmcs}
+                onOk={handleCancel}
+                onCancel={handleCancel}
+              >
+                <PopUpForDMC record={rowData} />
+              </Modal>
+            </div>
+          ) : (
+            <Button className="hotel-btn-red">0</Button>
+          )}
+        </ul>
+      ),
+    },
+    {
       title: "hotels",
       dataIndex: "hotels",
       key: "hotels",
@@ -175,33 +204,6 @@ const AccountOwners = () => {
                 <PopUpForContract record={rowData} />
               </Modal>
             </span>
-          ) : (
-            <Button className="hotel-btn-red">0</Button>
-          )}
-        </ul>
-      ),
-    },
-    {
-      title: "DMCS",
-      dataIndex: "dmcs",
-      key: "dmcs",
-      sorter: (a, b) => (a.dmcs ? a.dmcs - b.dmcs : ""),
-      render: (text, record) => (
-        <ul>
-          {record?.dmcs > 0 ? (
-            <div>
-              <Button onClick={() => showTable("dmcs")} className="hotel-btn">
-                {record?.dmcs || ""}
-              </Button>
-              <Modal
-                footer={false}
-                open={isModalOpenDmcs}
-                onOk={handleCancel}
-                onCancel={handleCancel}
-              >
-                <PopUpForDMC record={rowData} />
-              </Modal>
-            </div>
           ) : (
             <Button className="hotel-btn-red">0</Button>
           )}

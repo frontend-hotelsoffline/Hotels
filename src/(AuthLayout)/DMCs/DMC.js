@@ -89,7 +89,13 @@ const DMCs = () => {
           id: item.id || "",
           name: item.name || "",
           status: item.status || "",
-          email: item.email || "",
+          email:
+            (item.email && (
+              <a className="text-blue-700" href={`mailto:${item.email}`}>
+                {item.email}
+              </a>
+            )) ||
+            "",
           whatsapp: item.whatsapp || "",
           hotlsIfAccMngr: item?.ac_mngr?.hotlsIfAccMngr || "",
           account_manager: item?.ac_mngr?.name || "",
@@ -130,6 +136,12 @@ const DMCs = () => {
         a.account_manager
           ? a.account_manager.localeCompare(b.account_manager)
           : "",
+    },
+    {
+      title: "email",
+      dataIndex: "email",
+      key: "email",
+      sorter: (a, b) => (a.email ? a.email.localeCompare(b.email) : ""),
     },
     {
       title: "whatsapp",

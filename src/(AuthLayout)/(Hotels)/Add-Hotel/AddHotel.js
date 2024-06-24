@@ -62,6 +62,7 @@ const AddHotel = () => {
   const [openHotelChainModal, setOpenHotelChainModal] = useState(false);
   const [openFacilityModal, setOpenFacilityModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const showPlaceOfInterestModal = () => {
     setOpenPlaceOfInterestModal(true);
@@ -545,12 +546,12 @@ const AddHotel = () => {
                   }
                   options={countryList?.map((item) => ({
                     value: item.phone,
-                    label: `${item.value} (+${item.phone})`,
+                    label: `${item.code} (+${item.phone})`,
                   }))}
-                  style={{ width: "50%" }}
+                  style={{ width: "30%" }}
                 />
                 <Input
-                  style={{ width: "50%" }}
+                  style={{ width: "70%" }}
                   name="whatsapp"
                   value={whatsapp}
                   onKeyPress={(e) => {
@@ -560,17 +561,23 @@ const AddHotel = () => {
                     // Check if the character is a digit
                     if (!/^[0-9]$/.test(charStr)) {
                       e.preventDefault();
+                      return;
                     }
 
                     // Check if the first character is not zero
                     if (e.target.value.length === 0 && charStr === "0") {
                       e.preventDefault();
+                      setErrorMessage("Number cannot start with 0");
+                      return;
                     }
+
+                    setErrorMessage(""); // Clear error message if input is valid
                   }}
                   onChange={onChange}
                   placeholder="Number"
                   className="input-style"
                 />
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
               </Input.Group>
               <label className="labelStyle mt-1">Account Manager</label>
               <Select
