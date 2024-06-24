@@ -52,7 +52,14 @@ const User = () => {
           id: item.id ? item.id : "",
           dateadded: item.CRT && formatDate(item.CRT || null),
           username: item.name ? item.name : "",
-          email: item.uname ? item.uname : "",
+          email: item.uname ? (
+            <a className="text-blue-700" href={`mailto:${item.uname}`}>
+              {item.uname}
+            </a>
+          ) : (
+            ""
+          ),
+          phone: item.phone ? item.phone : "",
           ulevel: item.lev || "",
           accounttype:
             item.lev === 1
@@ -105,6 +112,12 @@ const User = () => {
       dataIndex: "email",
       key: "email",
       sorter: (a, b) => (a.email ? a.email.localeCompare(b.email) : ""),
+    },
+    {
+      title: "phone",
+      dataIndex: "phone",
+      key: "phone",
+      sorter: (a, b) => (a.phone ? a.phone.localeCompare(b.phone) : ""),
     },
     {
       title: "account type",

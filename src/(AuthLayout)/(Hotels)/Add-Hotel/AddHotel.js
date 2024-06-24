@@ -95,7 +95,8 @@ const AddHotel = () => {
     description,
     star_rating,
     hotel_status,
-    phone_no,
+    phone,
+    phoneCode,
     email,
     id_acc_mngr,
     id_of_place_of_intrst,
@@ -154,7 +155,7 @@ const AddHotel = () => {
       categ: "${star_rating}",
       status: ${hotel_status},
       address: "${address || ""}",
-      phone: "${phone_no ? phone_no : ""}",
+      phone: "${phoneCode || ""}${phone || ""}",
       email: "${email ? email : ""}",
       a_mngr_id: ${id_acc_mngr ? id_acc_mngr : ""},
       p_inte_id: ${id_of_place_of_intrst ? id_of_place_of_intrst : ""},
@@ -523,14 +524,53 @@ const AddHotel = () => {
                 }}
               />
               <label className="labelStyle mt-1">Phone Number</label>
-              <Input
-                name="phone_no"
-                value={phone_no}
-                onChange={onChange}
-                className="input-style"
-                onKeyPress={handleKeyPress}
-                placeholder=""
-              />
+              <Input.Group compact>
+                <Select
+                  showSearch
+                  value={phoneCode}
+                  filterOption={(input, option) =>
+                    (option?.label?.toLowerCase() ?? "").includes(
+                      input?.toLowerCase()
+                    )
+                  }
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, phoneCode: value }))
+                  }
+                  options={countryList?.map((item) => ({
+                    value: item.phone,
+                    label: `${item.code} (+${item.phone})`,
+                  }))}
+                  style={{ width: "40%" }}
+                />
+                <Input
+                  style={{ width: "60%" }}
+                  name="phone"
+                  value={phone}
+                  onKeyPress={(e) => {
+                    const charCode = e.which || e.keyCode;
+                    const charStr = String.fromCharCode(charCode);
+
+                    // Check if the character is a digit
+                    if (!/^[0-9]$/.test(charStr)) {
+                      e.preventDefault();
+                      return;
+                    }
+
+                    // Check if the first character is not zero
+                    if (e.target.value.length === 0 && charStr === "0") {
+                      e.preventDefault();
+                      setErrorMessage("Number cannot start with 0");
+                      return;
+                    }
+
+                    setErrorMessage(""); // Clear error message if input is valid
+                  }}
+                  onChange={onChange}
+                  placeholder="Number"
+                  className="input-style"
+                />
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+              </Input.Group>
               <label className="labelStyle mt-1">whatsapp</label>
               <Input.Group compact>
                 <Select

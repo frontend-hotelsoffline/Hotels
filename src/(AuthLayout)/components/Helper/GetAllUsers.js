@@ -21,6 +21,11 @@ const GetAllUsers = () => {
         cID
         name
         phone
+        infoIfa_mngr {
+            BM
+            SM
+            dPkgM
+        }
         dmcsIfAccMngr {
           id
           name

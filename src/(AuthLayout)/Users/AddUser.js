@@ -7,7 +7,6 @@ import GetAllHotels from "../components/Helper/GetAllHotels";
 import GetAllCorporates from "../components/Helper/GetAllCorporate";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
-import { handleKeyPress } from "../components/Helper/ValidateInputNumber";
 
 const AddUser = ({ getUser, ac_m, handleCancel }) => {
   const { DMCsValue } = GetAllDMCs();
@@ -15,10 +14,12 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
   const { CorporatesValue } = GetAllCorporates();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const { accManager } = GetAllUsers();
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({ ulevel: ac_m || "" });
   const {
     uname,
     phone,
+    phoneCode,
     email,
     s_markup_id_if_acc_mngr,
     b_markup_id_if_acc_mngr,
@@ -45,7 +46,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
       pswd: "${pswd}"
       ulevel: ${ulevel}
       comp_id: ${comp_id || 0}
-      phone: "${phone || 0}"
+      phone: "${phoneCode || ""}${phone || ""}"
       email: "${email || ""}"
       b_markup_id_if_agent: ${buying_markup_id_if_agent_or_traveller || 0}
       s_markup_id_if_acc_mngr: ${s_markup_id_if_acc_mngr || 0}
@@ -267,17 +268,17 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
             </span>
           </div>
         )}
-        <label>
-          Username
-          <Input
-            value={uname}
-            name="uname"
-            onChange={onChange}
-            className=""
-            type="text"
-          />
-        </label>
         <span className="flex justify-between gap-2">
+          <label>
+            Username
+            <Input
+              value={uname}
+              name="uname"
+              onChange={onChange}
+              className=""
+              type="text"
+            />
+          </label>
           <label>
             Email
             <Input
@@ -288,17 +289,57 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
               type="email"
             />
           </label>
-          <label>
-            Phone
-            <Input
-              value={phone}
-              name="phone"
-              onChange={onChange}
-              className=""
-              onKeyPress={handleKeyPress}
-            />
-          </label>
         </span>
+        <label>
+          Phone
+          <Input.Group compact>
+            <Select
+              showSearch
+              value={phoneCode}
+              filterOption={(input, option) =>
+                (option?.label?.toLowerCase() ?? "").includes(
+                  input?.toLowerCase()
+                )
+              }
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, phoneCode: value }))
+              }
+              options={countryList?.map((item) => ({
+                value: item.phone,
+                label: `${item.code} (+${item.phone})`,
+              }))}
+              style={{ width: "40%" }}
+            />
+            <Input
+              style={{ width: "60%" }}
+              name="phone"
+              value={phone}
+              onKeyPress={(e) => {
+                const charCode = e.which || e.keyCode;
+                const charStr = String.fromCharCode(charCode);
+
+                // Check if the character is a digit
+                if (!/^[0-9]$/.test(charStr)) {
+                  e.preventDefault();
+                  return;
+                }
+
+                // Check if the first character is not zero
+                if (e.target.value.length === 0 && charStr === "0") {
+                  e.preventDefault();
+                  setErrorMessage("Number cannot start with 0");
+                  return;
+                }
+
+                setErrorMessage(""); // Clear error message if input is valid
+              }}
+              onChange={onChange}
+              placeholder="Number"
+              className="input-style"
+            />
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+          </Input.Group>
+        </label>
         <label htmlFor="password">
           Password
           <Input.Password
