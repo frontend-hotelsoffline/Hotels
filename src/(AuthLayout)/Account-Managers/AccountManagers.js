@@ -115,10 +115,24 @@ const AccountOwners = () => {
       ),
     },
     {
-      title: "Commission",
+      title: "Dynamic Package Commission",
       dataIndex: "commission",
       key: "commission",
       sorter: (a, b) => (a.commission ? a.commission - b.commission : ""),
+    },
+    {
+      title: "buying Commission",
+      dataIndex: "buyingcommission",
+      key: "buyingcommission",
+      sorter: (a, b) =>
+        a.buyingcommission ? a.buyingcommission - b.buyingcommission : "",
+    },
+    {
+      title: "selling Commission",
+      dataIndex: "sellingcommission",
+      key: "sellingcommission",
+      sorter: (a, b) =>
+        a.sellingcommission ? a.sellingcommission - b.sellingcommission : "",
     },
     {
       title: "DMCS",

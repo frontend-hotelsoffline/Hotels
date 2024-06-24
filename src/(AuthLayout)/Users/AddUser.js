@@ -150,7 +150,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
         {ulevel === 10 && (
           <span>
             <label>
-              Buying markup
+              Buying Commission
               <Select
                 value={buying_markup_id_if_agent_or_traveller}
                 onChange={(value) =>
@@ -198,7 +198,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
         {ulevel === 2 && (
           <div>
             <label>
-              Dynamic package markup
+              Dynamic package Commission
               <Select
                 value={dPckgMarkupid_if_acc_mngr}
                 onChange={(value) =>
@@ -221,7 +221,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
             </label>
             <span className="flex justify-between">
               <label>
-                Buying markup
+                Buying Commission
                 <Select
                   value={b_markup_id_if_acc_mngr}
                   onChange={(value) =>

@@ -241,7 +241,7 @@ const Register = () => {
         {ulevel === 2 && (
           <div>
             <label>
-              Dynamic package markup
+              Dynamic package Commission
               <Select
                 value={dPckgMarkupid_if_acc_mngr}
                 onChange={(value) =>
@@ -264,7 +264,7 @@ const Register = () => {
             </label>
             <span className="flex justify-between">
               <label>
-                Buying markup
+                Buying Commission
                 <Select
                   value={b_markup_id_if_acc_mngr}
                   onChange={(value) =>
@@ -286,7 +286,7 @@ const Register = () => {
                 />
               </label>
               <label>
-                Selling markup
+                Selling Commission
                 <Select
                   value={s_markup_id_if_acc_mngr}
                   onChange={(value) =>
