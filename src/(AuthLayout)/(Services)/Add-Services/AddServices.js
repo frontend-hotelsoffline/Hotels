@@ -225,7 +225,7 @@ const AddService = () => {
 
   return (
     <section className="h-full">
-      <ul className="list-none tab-btn  flex justify-between my-2 max-w-[180px]">
+      <ul className="list-none tab-btn  flex justify-between my-4 max-w-[180px]">
         {items.map((item, index) => (
           <li
             key={index}

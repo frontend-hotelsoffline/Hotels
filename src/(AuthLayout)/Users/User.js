@@ -231,7 +231,7 @@ const User = () => {
         </Modal>
       </div>
       <div>
-        <ul className="list-none tab-btn  flex justify-between my-2 max-w-[600px]">
+        <ul className="list-none tab-btn  flex justify-between my-4 max-w-[600px]">
           <li
             className={`cursor-pointer ${
               activeItem === "" ? "font-bold tab-btn-active" : ""

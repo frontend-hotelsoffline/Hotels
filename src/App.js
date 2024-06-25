@@ -366,7 +366,7 @@ function App() {
             }
           />
           <Route
-            path="/Channel"
+            path="/Channels"
             element={
               isAuthenticated ? (
                 <MainLayout>

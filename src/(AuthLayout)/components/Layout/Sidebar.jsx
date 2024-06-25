@@ -99,7 +99,11 @@ const Sidebar = () => {
       "Services",
       <FaUsersGear />
     ),
-    getItem(<Link to={"/Channel"}>Channel</Link>, "Channel", <FaUsersGear />),
+    getItem(
+      <Link to={"/Channels"}>Channels</Link>,
+      "Channels",
+      <FaUsersGear />
+    ),
     getItem(<Link to={"/Packages"}>Packages</Link>, "Packages", <FaGift />),
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "Wallet", <FaWallet />),
     getItem(
