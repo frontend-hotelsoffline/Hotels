@@ -5,6 +5,8 @@ import { BsFilter } from "react-icons/bs";
 
 import { GET_API } from "../components/API/GetAPI";
 import { EditIcon } from "../components/Customized/EditIcon";
+import AddMoneyByAdmin from "./AddMoneyByAdmin";
+import TransferMoneyToUserByAdmin from "./TransferMoneyToUserByAdmin";
 
 const Wallet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +26,7 @@ const Wallet = () => {
   const [nameFilter, setNameFilter] = useState("");
   const [activeItem, setActiveItem] = useState(0);
   const filteredData = dataSource?.filter((item) => {
-    return item.Wallet.toLowerCase().includes(nameFilter.toLocaleLowerCase());
+    // return item.Wallet.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getWallet = async () => {
     const GET_ALL = `{
@@ -78,16 +80,17 @@ const Wallet = () => {
   }`;
     const query = GET_ALL;
     const path = "";
-    // setLoading(true);
+    setLoading(true);
     try {
       const res = await GET_API(path, { params: { query } });
 
       if (res.data) {
-        const tableArray = res.data.get_all_Wallet.map((item) => ({
+        const tableArray = res.data.getAllWallets?.map((item) => ({
           key: item.id,
           id: item.id,
-          Wallet: item.name,
-          description: item.description,
+          deposit: item.walletInfo.deposits.data?.amount,
+          withdraw: item.walletInfo.withdraws.data?.amount,
+          transaction: item.walletInfo.transactions.data?.amount,
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -116,17 +119,24 @@ const Wallet = () => {
     },
 
     {
-      title: "Wallet",
-      dataIndex: "Wallet",
-      key: "Wallet",
-      sorter: (a, b) => (a.Wallet ? a.Wallet.localeCompare(b.Wallet) : ""),
+      title: "deposit",
+      dataIndex: "deposit",
+      key: "deposit",
+      sorter: (a, b) => (a.deposit ? a.deposit.localeCompare(b.deposit) : ""),
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "Description",
+      title: "withdraw",
+      dataIndex: "withdraw",
+      key: "withdraw",
       sorter: (a, b) =>
-        a.description ? a.description.localeCompare(b.description) : "",
+        a.withdraw ? a.withdraw.localeCompare(b.withdraw) : "",
+    },
+    {
+      title: "transaction",
+      dataIndex: "transaction",
+      key: "transaction",
+      sorter: (a, b) =>
+        a.transaction ? a.transaction.localeCompare(b.transaction) : "",
     },
     {
       title: "Action",
@@ -205,10 +215,18 @@ const Wallet = () => {
           onOk={handleCancel}
           onCancel={handleCancel}
         >
-          {/* <AddWallet
-            getFacilities={getFacilities}
-            handleCancel={handleCancel}
-          /> */}
+          {activeItem === 1 && (
+            <AddMoneyByAdmin
+              getWallet={getWallet}
+              handleCancel={handleCancel}
+            />
+          )}
+          {activeItem === 2 && (
+            <TransferMoneyToUserByAdmin
+              getWallet={getWallet}
+              handleCancel={handleCancel}
+            />
+          )}
         </Modal>
       </div>
       <ul className="list-none tab-btn  flex justify-between my-2 max-w-[300px]">

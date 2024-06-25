@@ -8,7 +8,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "./AuthProvider";
 import User from "./(AuthLayout)/Users/User";
 import DMCs from "./(AuthLayout)/DMCs/DMC";
-import Wallet from "./(AuthLayout)/Wallet/page";
+import Wallet from "./(AuthLayout)/Wallet/Wallet";
 import Packages from "./(AuthLayout)/(Packages)/Packages/Package";
 import Channel from "./(AuthLayout)/Channel/Channel";
 import Services from "./(AuthLayout)/(Services)/Services";

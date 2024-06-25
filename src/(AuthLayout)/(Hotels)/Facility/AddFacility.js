@@ -2,10 +2,8 @@ import { Button, Input, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 import { POST_API } from "../../components/API/PostAPI";
-import { useNavigate } from "react-router-dom";
 
 const AddFacility = ({ getFacilities, handleCancel }) => {
-  const router = useNavigate();
   const [formData, setFormData] = useState({ name: "", description: "" });
   const { name, description } = formData;
 

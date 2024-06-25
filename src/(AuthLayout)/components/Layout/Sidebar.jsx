@@ -109,7 +109,7 @@ const Sidebar = () => {
     ),
   ];
   return (
-    <div className="w-full h-full flex flex-col justify-between p-3">
+    <div className="w-full h-full flex flex-col justify-between">
       <span>
         <h1 className={`${lightOrDark === "dark" && "dark-mode"} logo-title`}>
           HotelsOffline

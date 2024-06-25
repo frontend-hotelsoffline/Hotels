@@ -402,6 +402,10 @@ table {
   border-spacing: 0 5px !important;
 }
 
+.ant-drawer-body {
+  padding: 10px !important;
+}
+
 .ant-table-container {
   position: relative;
   overflow-y: auto;

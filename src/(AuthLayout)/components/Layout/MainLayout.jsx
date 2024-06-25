@@ -1,4 +1,4 @@
-import { Layout, Select } from "antd";
+import { Drawer, Layout, Select } from "antd";
 import Sidebar from "./Sidebar";
 import { LuBellDot } from "react-icons/lu";
 import HeaderTitle from "./HeaderTitle";
@@ -9,6 +9,10 @@ const { Header, Content } = Layout;
 
 const MainLayout = ({ children }) => {
   const [closeSidebar, setCloseSidebar] = useState(false);
+
+  const onClose = () => {
+    setCloseSidebar(false);
+  };
   const { lightOrDark } = useContext(AuthContext);
   return (
     <Layout
@@ -16,10 +20,17 @@ const MainLayout = ({ children }) => {
         lightOrDark === "dark" && "dark-mode"
       } w-full overflow-auto h-full flex flex-row`}
     >
-      <div className="max-w-[200px] h-screen border-r-[1px] border-gray-200">
-        <div className={`${closeSidebar && "hidden"} h-full`}>
+      <div className="max-w-[200px] h-full border-r-[1px] border-gray-200">
+        <Drawer
+          title={null}
+          closeIcon={null}
+          placement="left"
+          onClose={onClose}
+          open={closeSidebar}
+          width="200"
+        >
           <Sidebar />
-        </div>
+        </Drawer>
       </div>
       <div
         className={`${lightOrDark === "dark" && "dark-mode"}
