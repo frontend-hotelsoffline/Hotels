@@ -25,7 +25,6 @@ import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import AddPlacesOfInterest from "../Places-of-Interest/AddPlacesOfInterest";
 import AddChains from "../Chains/AddChains";
 import AddFacility from "../Facility/AddFacility";
-import { handleKeyPress } from "../../components/Helper/ValidateInputNumber";
 import GetAllUsers from "../../components/Helper/GetAllUsers";
 import GetAllPricingMarkUp from "../../components/Helper/GetAllPricingMarkUp";
 import { countryList } from "../../components/Helper/ListOfAllCountries";

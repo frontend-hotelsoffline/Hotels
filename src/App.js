@@ -38,10 +38,15 @@ import AcMDetail from "./(AuthLayout)/Account-Managers/Details";
 import RegisteredHotels from "./(AuthLayout)/(Hotels)/Hotels/RegisteredHotels";
 
 function App() {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
+
   useEffect(() => {
-    !isAuthenticated &&
-      setIsAuthenticated(localStorage.getItem("isAuthenticated"));
+    const authStatus = localStorage.getItem("isAuthenticated") === "success";
+    if (!isAuthenticated && authStatus) {
+      window.location.reload();
+    } else if (!authStatus) {
+      window.location.reload();
+    }
   }, [isAuthenticated]);
 
   return (
