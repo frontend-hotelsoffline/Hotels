@@ -40,14 +40,14 @@ import RegisteredHotels from "./(AuthLayout)/(Hotels)/Hotels/RegisteredHotels";
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
 
+  const authStatus = localStorage.getItem("isAuthenticated") === "success";
   useEffect(() => {
-    const authStatus = localStorage.getItem("isAuthenticated") === "success";
     if (!isAuthenticated && authStatus) {
       window.location.reload();
     } else if (!authStatus) {
       window.location.reload();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, authStatus]);
 
   return (
     <div>
