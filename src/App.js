@@ -43,9 +43,9 @@ function App() {
   const authStatus = localStorage.getItem("isAuthenticated") === "success";
   useEffect(() => {
     if (!isAuthenticated && authStatus) {
-      window.location.reload();
+      <Navigate to="/" />;
     } else if (!authStatus) {
-      window.location.reload();
+      <Navigate to="/" />;
     }
   }, [isAuthenticated, authStatus]);
 
