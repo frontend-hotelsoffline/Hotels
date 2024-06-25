@@ -26,7 +26,7 @@ const Wallet = () => {
   const [nameFilter, setNameFilter] = useState("");
   const [activeItem, setActiveItem] = useState(0);
   const filteredData = dataSource?.filter((item) => {
-    // return item.Wallet.toLowerCase().includes(nameFilter.toLocaleLowerCase());
+    return item.deposit?.toLowerCase().includes(nameFilter.toLocaleLowerCase());
   });
   const getWallet = async () => {
     const GET_ALL = `{
@@ -85,12 +85,24 @@ const Wallet = () => {
       const res = await GET_API(path, { params: { query } });
 
       if (res.data) {
+        // console.log(res.data.getAllWallets);
         const tableArray = res.data.getAllWallets?.map((item) => ({
           key: item.id,
           id: item.id,
-          deposit: item.walletInfo.deposits.data?.amount,
-          withdraw: item.walletInfo.withdraws.data?.amount,
-          transaction: item.walletInfo.transactions.data?.amount,
+          deposit:
+            item.walletInfo.deposits
+              ?.flatMap((deposit) => deposit.data?.map((a) => a.amount) || [])
+              .join(", ") || "No deposits",
+          withdraw:
+            item.walletInfo.withdraws
+              ?.flatMap((withdraw) => withdraw.data?.map((a) => a.amount) || [])
+              .join(", ") || "No withdrawals",
+          transaction:
+            item.walletInfo.transactions
+              ?.flatMap(
+                (transaction) => transaction.data?.map((a) => a.amount) || []
+              )
+              .join(", ") || "No transactions",
         }));
         setDataSource(tableArray);
         setLoading(false);
@@ -111,12 +123,12 @@ const Wallet = () => {
   };
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      sorter: (a, b) => a.id - b.id,
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   sorter: (a, b) => a.id - b.id,
+    // },
 
     {
       title: "deposit",
