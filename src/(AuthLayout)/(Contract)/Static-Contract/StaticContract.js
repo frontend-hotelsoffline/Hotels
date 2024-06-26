@@ -244,7 +244,7 @@ const StaticContract = () => {
           id_from_contract_id: res?.data?.addSCHead?.id,
         }));
       } else {
-        message.error(res.data.addSCHead?.message);
+        message.error(res.data.addSCHead?.message || res.errors[0].message);
       }
     } catch (error) {
       message.error("Failed");
