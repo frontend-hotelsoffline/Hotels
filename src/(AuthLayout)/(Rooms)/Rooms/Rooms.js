@@ -91,7 +91,7 @@ const Rooms = () => {
           hotels: item?.hotel || "",
           no_of_units: item?.units || "",
           view: item?.view || "",
-          priority: item?.prio || "",
+          priority: item?.prio || "0",
           amenities: item?.amenities || "",
           occupancies: item.occupancies || [],
           room_size: item?.size || "",
