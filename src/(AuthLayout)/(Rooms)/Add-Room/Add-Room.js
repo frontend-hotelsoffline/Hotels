@@ -198,7 +198,7 @@ const AddRoom = () => {
         message.success("Room has been added Successfully");
         router("/Rooms");
       } else {
-        message.error(res?.data.addRoom?.message);
+        message.error(res?.data.addRoom?.message || res.errors[0].message);
       }
     } catch (error) {
       message.error("Failed");
@@ -539,7 +539,7 @@ const AddRoom = () => {
                   </Select>
                 </label>
                 <label className="labelStyle">
-                  beds
+                  Base beds
                   <Select
                     value={Beds}
                     onChange={(value) =>
@@ -565,14 +565,17 @@ const AddRoom = () => {
                 </label>
 
                 <label className="labelStyle">
-                  extra bed suppliment:
-                  <Input
+                  no. of extra beds
+                  <Select
                     value={ebeds}
-                    name="ebeds"
-                    onChange={onChange}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, ebeds: value }))
+                    }
                     className="w-full"
                     onKeyPress={handleKeyPress}
-                  />
+                  >
+                    {options}
+                  </Select>
                 </label>
               </span>
               <label className="labelStyle">Description</label>
