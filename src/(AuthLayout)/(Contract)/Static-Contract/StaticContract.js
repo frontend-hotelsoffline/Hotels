@@ -321,7 +321,7 @@ const StaticContract = () => {
         getAllContractData();
         setFormData(initialData);
       } else {
-        message.error(res.data?.addPSC?.message);
+        message.error(res.data?.addPSC?.message || res.errors[0].message);
       }
     } catch (error) {
       message.error("Failed to Add Contract, Please check and try again");
