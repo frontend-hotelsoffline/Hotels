@@ -552,19 +552,6 @@ const AddRoom = () => {
                 </label>
 
                 <label className="labelStyle">
-                  max age in extra bed
-                  <Select
-                    value={maieb}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, maieb: value }))
-                    }
-                    className="relative w-full"
-                  >
-                    {options}
-                  </Select>
-                </label>
-
-                <label className="labelStyle">
                   no. of extra beds
                   <Select
                     value={ebeds}
@@ -573,6 +560,18 @@ const AddRoom = () => {
                     }
                     className="w-full"
                     onKeyPress={handleKeyPress}
+                  >
+                    {options}
+                  </Select>
+                </label>
+                <label className="labelStyle">
+                  max age in extra bed
+                  <Select
+                    value={maieb}
+                    onChange={(value) =>
+                      setFormData((prev) => ({ ...prev, maieb: value }))
+                    }
+                    className="relative w-full"
                   >
                     {options}
                   </Select>
