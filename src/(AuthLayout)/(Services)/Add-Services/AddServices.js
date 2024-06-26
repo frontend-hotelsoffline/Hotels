@@ -102,6 +102,7 @@ const AddService = () => {
     min_pax_discount,
     nRef,
     curr,
+    VAT,
   } = formData;
   const [cityList, setCityList] = useState([]);
 
@@ -152,6 +153,7 @@ const AddService = () => {
           nRef: ${nRef}
           curr: ${curr}
           almt: ${almt}
+          VAT: ${VAT}
           images: $images
       ) {
           message
@@ -559,6 +561,17 @@ const AddService = () => {
                   onKeyPress={handleKeyPress}
                   name="child_age_to"
                   value={child_age_to}
+                  onChange={onChange}
+                  placeholder=""
+                  className="w-full border-black"
+                />
+              </label>
+              <label className="labelStyle">
+                VAT
+                <Input
+                  onKeyPress={handleKeyPress}
+                  name="VAT"
+                  value={VAT}
                   onChange={onChange}
                   placeholder=""
                   className="w-full border-black"
