@@ -225,10 +225,12 @@ const Search = () => {
           suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
           onChange={(value, dateString) => {
             console.log(dateString[0]);
-            const dateObject = new Date(dateString ? dateString[0] : null);
-            const dateObject1 = new Date(dateString ? dateString[1] : null);
-            const isoString = dateObject.toISOString();
-            const isoString1 = dateObject1.toISOString();
+            const isoString = value
+              ? dayjs(value[0]).format("YYYY-MM-DD")
+              : null;
+            const isoString1 = value
+              ? dayjs(value[1]).format("YYYY-MM-DD")
+              : null;
             setFormData((prev) => ({
               ...prev,
               checkin: isoString,

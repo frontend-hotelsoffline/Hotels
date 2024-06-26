@@ -235,8 +235,9 @@ const DynamicContract = () => {
               placeholder="From"
               className="h-[34px] inputfildinsearch"
               onChange={(value, dateString) => {
-                const dateObject = new Date(dateString ? dateString : null);
-                const isoString = dateObject.toISOString();
+                const isoString = value
+                  ? dayjs(value).format("YYYY-MM-DD")
+                  : null;
                 setFormData((prev) => ({ ...prev, from_date: isoString }));
               }}
               suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
@@ -245,8 +246,9 @@ const DynamicContract = () => {
               allowClear={false}
               placeholder="To"
               onChange={(value, dateString) => {
-                const dateObject = new Date(dateString ? dateString : null);
-                const isoString = dateObject.toISOString();
+                const isoString = value
+                  ? dayjs(value).format("YYYY-MM-DD")
+                  : null;
                 setFormData((prev) => ({ ...prev, to_date: isoString }));
               }}
               className="h-[34px] inputfildinsearch"

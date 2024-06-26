@@ -71,8 +71,7 @@ const RelAndAllotment = ({
           disabledDate={(current) => current && current < minDate}
           placeholder="From Date:"
           onChange={(value, dateString) => {
-            const dateObject = new Date(dateString ? dateString : null);
-            const isoString = dateObject.toISOString();
+            const isoString = value ? dayjs(value).format("YYYY-MM-DD") : null;
             setFormData((prev) => ({ ...prev, from_date: isoString }));
           }}
           suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
@@ -84,8 +83,7 @@ const RelAndAllotment = ({
           disabledDate={(current) => current && current < new Date(from_date)}
           placeholder="To Date:"
           onChange={(value, dateString) => {
-            const dateObject = new Date(dateString ? dateString : null);
-            const isoString = dateObject.toISOString();
+            const isoString = value ? dayjs(value).format("YYYY-MM-DD") : null;
             setFormData((prev) => ({ ...prev, to_date: isoString }));
           }}
           suffixIcon={<CalendarOutlined style={{ color: "black" }} />}

@@ -271,10 +271,9 @@ const AddService = () => {
                     className="w-full border-black"
                     placeholder="From Date:"
                     onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
+                      const isoString = value
+                        ? dayjs(value).format("YYYY-MM-DD")
+                        : null;
                       setFormData((prev) => ({
                         ...prev,
                         from_date: isoString,
@@ -295,10 +294,9 @@ const AddService = () => {
                     className="w-full border-black"
                     placeholder="To Date:"
                     onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
+                      const isoString = value
+                        ? dayjs(value).format("YYYY-MM-DD")
+                        : null;
                       setFormData((prev) => ({ ...prev, to_date: isoString }));
                     }}
                     suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
@@ -603,10 +601,9 @@ const AddService = () => {
                     className="w-full border-black"
                     placeholder="discount from:"
                     onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
+                      const isoString = value
+                        ? dayjs(value).format("YYYY-MM-DD")
+                        : null;
                       setFormData((prev) => ({
                         ...prev,
                         discount_from: isoString,
@@ -627,10 +624,9 @@ const AddService = () => {
                     className="w-full border-black"
                     placeholder="discount to"
                     onChange={(value, dateString) => {
-                      const dateObject = new Date(
-                        dateString ? dateString : null
-                      );
-                      const isoString = dateObject.toISOString();
+                      const isoString = value
+                        ? dayjs(value).format("YYYY-MM-DD")
+                        : null;
                       setFormData((prev) => ({
                         ...prev,
                         discount_to: isoString,

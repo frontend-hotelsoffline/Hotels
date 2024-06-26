@@ -644,8 +644,9 @@ const EditPackage = () => {
                   className="w-full border-black"
                   placeholder="From Date:"
                   onChange={(value, dateString) => {
-                    const dateObject = new Date(dateString ? dateString : null);
-                    const isoString = dateObject.toISOString();
+                    const isoString = value
+                      ? dayjs(value).format("YYYY-MM-DD")
+                      : null;
                     setFormData((prev) => ({
                       ...prev,
                       from_date: isoString,
@@ -666,8 +667,9 @@ const EditPackage = () => {
                   className="w-full border-black"
                   placeholder="To Date:"
                   onChange={(value, dateString) => {
-                    const dateObject = new Date(dateString ? dateString : null);
-                    const isoString = dateObject.toISOString();
+                    const isoString = value
+                      ? dayjs(value).format("YYYY-MM-DD")
+                      : null;
                     setFormData((prev) => ({ ...prev, to_date: isoString }));
                   }}
                   suffixIcon={<CalendarOutlined style={{ color: "black" }} />}
