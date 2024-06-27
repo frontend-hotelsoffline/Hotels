@@ -189,7 +189,6 @@ const EditRoom = () => {
         status: ${room_status}
         hId: ${hotel_id ?? 0}
         prio: ${priority ?? 0}
-        images: $images
         tPax: ${tPax || -1}
         minA: ${minA || -1}
         maxA: ${maxA || -1}
@@ -199,9 +198,6 @@ const EditRoom = () => {
         mcas: ${mcas || ""}
         ebeds: ${ebeds || ""}
         maieb: ${maieb || ""}
-      ${JSON.stringify(variables)
-        .replace(/"([^(")"]+)":/g, "$1:")
-        .replace(/^\s*{|\}\s*$/g, "")}
     ) {
         message
     } }
@@ -551,7 +547,7 @@ const EditRoom = () => {
                   }));
                 }}
               />
-              <p className="mt-5">
+              {/* <p className="mt-5">
                 Choose Amenities
                 <Button
                   className="border-none capitalize"
@@ -586,7 +582,7 @@ const EditRoom = () => {
                       </Checkbox>
                     ))
                   : ""}
-              </Checkbox.Group>
+              </Checkbox.Group> */}
             </div>
             <div className="w-full relative">
               <span className="w-full grid grid-cols-2 gap-x-5">
@@ -677,6 +673,16 @@ const EditRoom = () => {
                     {options1000}
                   </Select>
                 </label>
+                <label className="labelStyle">
+                  no. of extra beds
+                  <Input
+                    value={ebeds}
+                    name="ebeds"
+                    onChange={onChange}
+                    className="w-full"
+                    onKeyPress={handleKeyPress}
+                  />
+                </label>
 
                 <label className="labelStyle">
                   max age in extra bed
@@ -689,17 +695,6 @@ const EditRoom = () => {
                   >
                     {options}
                   </Select>
-                </label>
-
-                <label className="labelStyle">
-                  extra bed suppliment:
-                  <Input
-                    value={ebeds}
-                    name="ebeds"
-                    onChange={onChange}
-                    className="w-full"
-                    onKeyPress={handleKeyPress}
-                  />
                 </label>
               </span>
               <label className="labelStyle">Description</label>
