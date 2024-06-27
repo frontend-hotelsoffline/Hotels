@@ -33,8 +33,9 @@ const Contracts = () => {
     const GET_ALL = `{
       getSCs {
         from
-            To
-            renewal
+        To
+        VAT
+        renewal
         id
         CRT
         name
@@ -81,6 +82,7 @@ const Contracts = () => {
           child_age_from: item.caFrom || "",
           child_age_to: item.caT || "",
           base_meal: item.bMeal || "",
+          VAT: item.VAT || "",
           duration: item.from && (
             <span>
               {formatDate(item.from)}

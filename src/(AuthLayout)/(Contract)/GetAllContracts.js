@@ -52,6 +52,7 @@ const GetAllContracts = (
         getSC(id: ${id_from_contract_id}) {
             from
             To
+            VAT
             renewal
             id
             CRT

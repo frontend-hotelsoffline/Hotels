@@ -97,6 +97,7 @@ const StaticContract = () => {
     child_age_to: parsedRecord?.child_age_to || "",
     name: parsedRecord?.contract || "",
     base_meal: parsedRecord?.base_meal || "",
+    VAT: parsedRecord?.VAT || "",
   });
   const initialData = {
     is_room: false,
