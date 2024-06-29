@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GET_API } from "../API/GetAPI";
+import { useNavigate } from "react-router-dom";
 
 const GetProfile = () => {
   const [ProfileValue, setProfileValue] = useState([]);
+  const router = useNavigate();
 
   const getProfile = async () => {
     const GET_ALL = `{
@@ -23,14 +25,19 @@ const GetProfile = () => {
 
     try {
       const res = await GET_API(path, { params: { query } });
-
-      if (res.data.getMyProfile) {
+      if (res.errors) {
+        localStorage.clear("isAuthenticated");
+        router("/");
+      }
+      if (res.data.getMyProfile && !res.errors) {
         const dataArray = res.data.getMyProfile;
         setProfileValue(dataArray);
       } else {
         localStorage.clear("isAuthenticated");
+        router("/");
       }
     } catch (error) {
+      router("/");
       localStorage.clear("isAuthenticated");
     }
   };

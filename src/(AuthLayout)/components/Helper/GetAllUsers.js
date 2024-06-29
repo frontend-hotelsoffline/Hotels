@@ -22,9 +22,18 @@ const GetAllUsers = () => {
         name
         phone
         infoIfa_mngr {
-            BM
-            SM
-            dPkgM
+             buyM {
+                name
+                markup
+            }
+            selM {
+                markup
+                id
+            }
+            dPkgMkup {
+                id
+                markup
+            }
         }
         dmcsIfAccMngr {
           id
