@@ -39,6 +39,18 @@ const User = () => {
           cID
           name
           phone
+          DMCifany {
+            id
+            name
+        }
+        COOPifany {
+            id
+            name
+        }
+        HOtelifany {
+            id
+            name
+        }
         }
     }`;
     const query = GET_ALL;
@@ -73,7 +85,11 @@ const User = () => {
               : item.lev === 9
               ? "Corporate"
               : "",
-          compid: item.cID ? item.cID : "",
+          compid: item.cID
+            ? item.DMCifany?.name ||
+              item.COOPifany?.name ||
+              item.HOtelifany?.name
+            : "",
           country: item.country ? item.country : "",
         }));
         setDataSource(tableArray);

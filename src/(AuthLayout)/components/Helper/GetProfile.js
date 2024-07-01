@@ -25,28 +25,24 @@ const GetProfile = () => {
 
     try {
       const res = await GET_API(path, { params: { query } });
-      if (res.errors) {
-        localStorage.clear("isAuthenticated");
+      if (res.errors && res.errors.length > 0) {
+        localStorage.removeItem("isAuthenticated");
         router("/");
-      }
-      if (res.data.getMyProfile && !res.errors) {
+      } else if (res.data.getMyProfile && !res.errors) {
         const dataArray = res.data.getMyProfile;
         setProfileValue(dataArray);
       } else {
-        localStorage.clear("isAuthenticated");
+        localStorage.removeItem("isAuthenticated");
         router("/");
       }
     } catch (error) {
+      localStorage.removeItem("isAuthenticated");
       router("/");
-      localStorage.clear("isAuthenticated");
     }
   };
 
   useEffect(() => {
     getProfile();
-    if (!ProfileValue) {
-      getProfile();
-    }
   }, []);
 
   return { ProfileValue };
