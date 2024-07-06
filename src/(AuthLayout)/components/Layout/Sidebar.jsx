@@ -9,7 +9,7 @@ import {
   MdCorporateFare,
   MdOutlineLightMode,
 } from "react-icons/md";
-import { BiSolidDashboard } from "react-icons/bi";
+import { BiBookOpen, BiSolidDashboard } from "react-icons/bi";
 import { FiUsers, FiUser } from "react-icons/fi";
 import { FaHandshake, FaMinus } from "react-icons/fa";
 import { FaUsersGear, FaGift, FaWallet } from "react-icons/fa6";
@@ -17,6 +17,8 @@ import { Link, useLocation } from "react-router-dom";
 import { IoMoonOutline } from "react-icons/io5";
 import { AuthContext } from "../../../AuthProvider";
 import GetProfile from "../Helper/GetProfile";
+import { BsCashCoin } from "react-icons/bs";
+import { GrChannel } from "react-icons/gr";
 
 const Sidebar = () => {
   const { lightOrDark, setLightOrDark } = useContext(AuthContext);
@@ -58,6 +60,11 @@ const Sidebar = () => {
         <MdCorporateFare />
       ),
     getItem(<Link to="/Search">Search</Link>, "Search", <SearchOutlined />),
+    getItem(
+      <Link to="/Boookings">Boookings</Link>,
+      "Boookings",
+      <BiBookOpen />
+    ),
     getItem("Hotels", "hHtels", <MdOutlineHomeWork />, [
       getItem(
         <Link to="/Registed-Hotels">Registed Hotels</Link>,
@@ -99,17 +106,13 @@ const Sidebar = () => {
       "Services",
       <FaUsersGear />
     ),
-    getItem(
-      <Link to={"/Channels"}>Channels</Link>,
-      "Channels",
-      <FaUsersGear />
-    ),
+    getItem(<Link to={"/Channels"}>Channels</Link>, "Channels", <GrChannel />),
     getItem(<Link to={"/Packages"}>Packages</Link>, "Packages", <FaGift />),
     getItem(<Link to={"/Wallet"}>Wallet</Link>, "Wallet", <FaWallet />),
     getItem(
       <Link to={"/Incentive-Override"}>Incentive Override</Link>,
       "Incentive-Override",
-      <FaWallet />
+      <BsCashCoin />
     ),
   ];
   return (

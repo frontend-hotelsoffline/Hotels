@@ -88,10 +88,11 @@ const Login = () => {
         />
         <label htmlFor="password">Password</label>
         <Input.Password
+          size="small"
           onChange={onChange}
           name="pswd"
           value={pswd}
-          className="mb-3 h-10"
+          className="mb-3"
           type="password"
           required
         />

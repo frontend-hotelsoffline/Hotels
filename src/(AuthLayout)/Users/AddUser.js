@@ -220,7 +220,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
                 className="w-full"
               />
             </label>
-            <span className="flex justify-between">
+            <span className="flex items-center gap-2 justify-between">
               <label>
                 Buying Commission
                 <Select
@@ -244,7 +244,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
                 />
               </label>
               <label>
-                Selling markup
+                Selling Commission
                 <Select
                   value={s_markup_id_if_acc_mngr}
                   onChange={(value) =>
@@ -343,6 +343,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
         <label htmlFor="password">
           Password
           <Input.Password
+            size="small"
             value={pswd}
             name="pswd"
             onChange={onChange}

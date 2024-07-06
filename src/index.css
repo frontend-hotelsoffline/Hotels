@@ -260,6 +260,9 @@
 .ant-select-arrow {
   color: #000 !important;
 }
+.ant-input-affix-wrapper {
+  border: 1px solid black;
+}
 
 .inactive {
   border: 1px solid #000 !important;

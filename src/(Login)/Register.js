@@ -48,6 +48,10 @@ const Register = () => {
     buying_markup_id_if_agent_or_traveller,
     a_mngrIdifAgent,
     dPckgMarkupid_if_acc_mngr,
+    Address,
+    idPic,
+    Psport,
+    OtherPic,
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -72,6 +76,10 @@ const Register = () => {
       a_mngrIdifAgent: ${a_mngrIdifAgent || 0}
       dPckgMarkupid_if_acc_mngr: ${dPckgMarkupid_if_acc_mngr || 0}
       country: "${country}"
+      Address: ${Address}, 
+      idPic: ${idPic}, 
+      Psport: ${Psport}, 
+      OtherPic: ${OtherPic}
   ) {
       message
   }
@@ -240,7 +248,7 @@ const Register = () => {
           </span>
         )}
         {ulevel === 2 && (
-          <div>
+          <div className="flex items-center gap-2 justify-between">
             <label>
               Dynamic package Commission
               <Select
@@ -263,52 +271,50 @@ const Register = () => {
                 className="w-full"
               />
             </label>
-            <span className="flex justify-between">
-              <label>
-                Buying Commission
-                <Select
-                  value={b_markup_id_if_acc_mngr}
-                  onChange={(value) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      b_markup_id_if_acc_mngr: value,
-                    }))
-                  }
-                  options={
-                    MarkUpValue
-                      ? MarkUpValue.map((item) => ({
-                          key: item.id,
-                          label: item.name,
-                          value: Number(item.id),
-                        }))
-                      : ""
-                  }
-                  className="w-full"
-                />
-              </label>
-              <label>
-                Selling Commission
-                <Select
-                  value={s_markup_id_if_acc_mngr}
-                  onChange={(value) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      s_markup_id_if_acc_mngr: value,
-                    }))
-                  }
-                  options={
-                    MarkUpValue
-                      ? MarkUpValue.map((item) => ({
-                          key: item.id,
-                          label: item.name,
-                          value: Number(item.id),
-                        }))
-                      : ""
-                  }
-                  className="w-full"
-                />
-              </label>
-            </span>
+            <label>
+              Buying Commission
+              <Select
+                value={b_markup_id_if_acc_mngr}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    b_markup_id_if_acc_mngr: value,
+                  }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
+            <label>
+              Selling Commission
+              <Select
+                value={s_markup_id_if_acc_mngr}
+                onChange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    s_markup_id_if_acc_mngr: value,
+                  }))
+                }
+                options={
+                  MarkUpValue
+                    ? MarkUpValue.map((item) => ({
+                        key: item.id,
+                        label: item.name,
+                        value: Number(item.id),
+                      }))
+                    : ""
+                }
+                className="w-full"
+              />
+            </label>
           </div>
         )}
         <span className="flex justify-between gap-2">
@@ -387,20 +393,22 @@ const Register = () => {
           <label htmlFor="password">
             Password
             <Input.Password
+              size="small"
               value={pswd}
               name="pswd"
               onChange={onChange}
-              className="w-full border border-black"
+              className="w-full"
               type="password"
             />
           </label>
           <label htmlFor="password">
             confirm Password
             <Input.Password
+              size="small"
               value={confirmpswd}
               name="confirmpswd"
               onChange={onChange}
-              className="w-full border border-black"
+              className="w-full"
               type="password"
             />
           </label>
