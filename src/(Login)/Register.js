@@ -3,7 +3,7 @@ import GetAllDMCs from "../(AuthLayout)/components/Helper/GetAllDMCs";
 import GetAllHotels from "../(AuthLayout)/components/Helper/GetAllHotels";
 import GetAllPricingMarkUp from "../(AuthLayout)/components/Helper/GetAllPricingMarkUp";
 import { countryList } from "../(AuthLayout)/components/Helper/ListOfAllCountries";
-import { Button, Checkbox, Input, Select, message } from "antd";
+import { Button, Form, Upload, Input, Select, message } from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { POST_API } from "../(AuthLayout)/components/API/PostAPI";
@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../AuthProvider";
 import { useEffect } from "react";
 import GetAllUsers from "../(AuthLayout)/components/Helper/GetAllUsers";
+import { UploadOutlined } from "@ant-design/icons";
 
 const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -55,6 +56,14 @@ const Register = () => {
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleFileChange = (info, fieldName) => {
+    if (info.file.status === "done") {
+      setFormData((prev) => ({
+        ...prev,
+        [fieldName]: info.file.originFileObj,
+      }));
+    }
   };
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -413,6 +422,42 @@ const Register = () => {
             />
           </label>
         </span>
+        <label>
+          Address
+          <Input
+            value={Address}
+            name="Address"
+            onChange={onChange}
+            className="w-full"
+          />
+        </label>
+        <Form className="flex justify-between">
+          <Form.Item label="ID">
+            <Upload
+              beforeUpload={() => false} // Prevent automatic upload
+              onChange={(info) => handleFileChange(info, "idPic")}
+            >
+              <UploadOutlined />
+            </Upload>
+          </Form.Item>
+          <Form.Item label="PASSPORT">
+            <Upload
+              beforeUpload={() => false}
+              onChange={(info) => handleFileChange(info, "Psport")}
+            >
+              <UploadOutlined />
+            </Upload>
+          </Form.Item>
+          <Form.Item label="OTHER">
+            <Upload
+              beforeUpload={() => false}
+              onChange={(info) => handleFileChange(info, "OtherPic")}
+            >
+              <UploadOutlined />
+            </Upload>
+          </Form.Item>
+        </Form>
+
         <Button
           htmlType="submit"
           className="w-full h-10 bg-blue-600 text-white text-lg mt-2 font-semibold"
