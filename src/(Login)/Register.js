@@ -462,7 +462,7 @@ const Register = () => {
             value={Address}
             name="Address"
             onChange={onChange}
-            className="w-full"
+            className="w-full mb-2"
           />
         </label>
         <Form.Item
