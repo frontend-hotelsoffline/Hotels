@@ -53,7 +53,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
       "Content-Type": "multipart/form-data",
     };
     const mutation = `
-  mutation ( $images: [Upload]){
+  mutation ( $idPic: Upload, $Psport: Upload , $OtherPic: Upload){
     addUser(
       name: "${uname}"
       pswd: "${pswd}"
@@ -67,7 +67,7 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
       a_mngrIdifAgent: ${a_mngrIdifAgent || 0}
       dPckgMarkupid_if_acc_mngr: ${dPckgMarkupid_if_acc_mngr || 0}
       country: "${country}"
-      Address: ${Address}, 
+      Address: "${Address}", 
       idPic: $idPic
       Psport: $Psport
       OtherPic: $OtherPic
