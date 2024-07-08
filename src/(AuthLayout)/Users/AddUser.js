@@ -32,9 +32,6 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
     a_mngrIdifAgent,
     dPckgMarkupid_if_acc_mngr,
     Address,
-    idPic,
-    Psport,
-    OtherPic,
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -99,17 +96,17 @@ const AddUser = ({ getUser, ac_m, handleCancel }) => {
       formDataToSend.append("map", JSON.stringify(map));
 
       if (values.idPic && values.idPic[0] && values.idPic[0].originFileObj) {
-        formDataToSend.append("0", values.idPic[0].originFileObj);
+        formDataToSend.append("0", values.idPic[0].originFileObj.toString());
       }
       if (values.Psport && values.Psport[0] && values.Psport[0].originFileObj) {
-        formDataToSend.append("1", values.Psport[0].originFileObj);
+        formDataToSend.append("1", values.Psport[0].originFileObj.toString());
       }
       if (
         values.OtherPic &&
         values.OtherPic[0] &&
         values.OtherPic[0].originFileObj
       ) {
-        formDataToSend.append("2", values.OtherPic[0].originFileObj);
+        formDataToSend.append("2", values.OtherPic[0].originFileObj.toString());
       }
 
       const res = await POST_API(path, formDataToSend, headers);

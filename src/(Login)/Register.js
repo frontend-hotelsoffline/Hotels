@@ -50,28 +50,25 @@ const Register = () => {
     a_mngrIdifAgent,
     dPckgMarkupid_if_acc_mngr,
     Address,
-    idPic,
-    Psport,
-    OtherPic,
   } = formData;
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const handleFileChange = (info, fieldName) => {
-    if (info.file.status === "done") {
-      setFormData((prev) => ({
-        ...prev,
-        [fieldName]: info.file.originFileObj,
-      }));
+  const [form] = Form.useForm();
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
     }
+    return e && e.fileList;
   };
   const onSubmit = async (e) => {
     e.preventDefault();
+    const values = await form.validateFields();
     const headers = {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     };
     const mutation = `
-  mutation {
+  mutation ( $idPic: Upload, $Psport: Upload , $OtherPic: Upload){
     addUser(
       name: "${uname}"
       pswd: "${pswd}"
@@ -86,9 +83,9 @@ const Register = () => {
       dPckgMarkupid_if_acc_mngr: ${dPckgMarkupid_if_acc_mngr || 0}
       country: "${country}"
       Address: ${Address}, 
-      idPic: ${idPic}, 
-      Psport: ${Psport}, 
-      OtherPic: ${OtherPic}
+      idPic: $idPic
+      Psport: $Psport
+      OtherPic: $OtherPic
   ) {
       message
   }
@@ -102,11 +99,47 @@ const Register = () => {
           "Password does not match. Please check your password and try again."
         );
       } else {
-        const res = await POST_API(
-          path,
-          JSON.stringify({ query: mutation }),
-          headers
-        );
+        const operations = {
+          query: mutation,
+          variables: {
+            idPic: null,
+            Psport: null,
+            OtherPic: null,
+          },
+        };
+
+        const map = {
+          0: ["variables.idPic"],
+          1: ["variables.Psport"],
+          2: ["variables.OtherPic"],
+        };
+
+        const formDataToSend = new FormData();
+        formDataToSend.append("operations", JSON.stringify(operations));
+        formDataToSend.append("map", JSON.stringify(map));
+
+        if (values.idPic && values.idPic[0] && values.idPic[0].originFileObj) {
+          formDataToSend.append("0", values.idPic[0].originFileObj.toString());
+        }
+        if (
+          values.Psport &&
+          values.Psport[0] &&
+          values.Psport[0].originFileObj
+        ) {
+          formDataToSend.append("1", values.Psport[0].originFileObj.toString());
+        }
+        if (
+          values.OtherPic &&
+          values.OtherPic[0] &&
+          values.OtherPic[0].originFileObj
+        ) {
+          formDataToSend.append(
+            "2",
+            values.OtherPic[0].originFileObj.toString()
+          );
+        }
+
+        const res = await POST_API(path, formDataToSend, headers);
         if (res?.data?.addUser?.message === "success") {
           message.success(res.data.addUser?.message);
           router("/Dashboard");
@@ -126,8 +159,9 @@ const Register = () => {
       style={{ backgroundImage: "url(/background.png)" }}
       className="h-screen flex items-center justify-center overflow-hidden"
     >
-      <form
-        onSubmit={onSubmit}
+      <Form
+        form={form}
+        onFinish={onSubmit}
         className="w-[600px] h-[550px] bg-white overflow-auto rounded-3xl py-2 px-[120px]"
       >
         <h1 className="logo-title">HotelsOffline</h1>
@@ -431,33 +465,38 @@ const Register = () => {
             className="w-full"
           />
         </label>
-        <Form className="flex justify-between">
-          <Form.Item label="ID">
-            <Upload
-              beforeUpload={() => false} // Prevent automatic upload
-              onChange={(info) => handleFileChange(info, "idPic")}
-            >
-              <UploadOutlined />
-            </Upload>
-          </Form.Item>
-          <Form.Item label="PASSPORT">
-            <Upload
-              beforeUpload={() => false}
-              onChange={(info) => handleFileChange(info, "Psport")}
-            >
-              <UploadOutlined />
-            </Upload>
-          </Form.Item>
-          <Form.Item label="OTHER">
-            <Upload
-              beforeUpload={() => false}
-              onChange={(info) => handleFileChange(info, "OtherPic")}
-            >
-              <UploadOutlined />
-            </Upload>
-          </Form.Item>
-        </Form>
-
+        <Form.Item
+          name="idPic"
+          label="ID"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          rules={[{ required: true, message: "Please upload the ID!" }]}
+        >
+          <Upload beforeUpload={() => false} listType="picture">
+            <Button icon={<UploadOutlined />}>upload</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item
+          name="Psport"
+          label="PASSPORT"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+          rules={[{ required: true, message: "Please upload the passport!" }]}
+        >
+          <Upload beforeUpload={() => false} listType="picture">
+            <Button icon={<UploadOutlined />}>upload</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item
+          name="OtherPic"
+          label="OTHER"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload beforeUpload={() => false} listType="picture">
+            <Button icon={<UploadOutlined />}>upload</Button>
+          </Upload>
+        </Form.Item>
         <Button
           htmlType="submit"
           className="w-full h-10 bg-blue-600 text-white text-lg mt-2 font-semibold"
@@ -470,7 +509,7 @@ const Register = () => {
             Login
           </Link>
         </div>
-      </form>
+      </Form>
     </div>
   );
 };
