@@ -38,10 +38,10 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
   const onSubmit = async () => {
     const values = await form.validateFields();
     const headers = {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     };
     const mutation = `
-      mutation ( $idPic: Upload, $Psport: Upload , $OtherPic: Upload) {
+      mutation ( $idPic: Upload, $Psport: Upload , $OtherPic: Upload, $tradeLic: Upload) {
         addDMC(
           name: "${name ? name : ""}",
           status: ${status ? status : ""},
