@@ -1,13 +1,12 @@
-import { Button, Input, Select, message } from "antd";
+import { Button, Form, Input, Select, Upload, message } from "antd";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { POST_API } from "../components/API/PostAPI";
+import { UploadOutlined } from "@ant-design/icons";
 import GetAllPricingMarkUp from "../components/Helper/GetAllPricingMarkUp";
 import GetAllUsers from "../components/Helper/GetAllUsers";
 import { countryList } from "../components/Helper/ListOfAllCountries";
+import { POST_API } from "../components/API/PostAPI";
 
 const AddDMCs = ({ getDMCs, handleCancel }) => {
-  const router = useNavigate();
   const { MarkUpValue } = GetAllPricingMarkUp();
   const { accManager } = GetAllUsers();
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,19 +20,28 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
     buying_markup_id,
     whatsapp,
     whatsappCode,
+    Address,
   } = formData;
 
   const onChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const [form] = Form.useForm();
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  const onSubmit = async () => {
+    const values = await form.validateFields();
     const headers = {
       "Content-Type": "application/json",
     };
     const mutation = `
-      mutation {
+      mutation ( $idPic: Upload, $Psport: Upload , $OtherPic: Upload) {
         addDMC(
           name: "${name ? name : ""}",
           status: ${status ? status : ""},
@@ -42,6 +50,11 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
           BMid: ${buying_markup_id}
           email: "${email}"
       whatsapp: "${whatsappCode || ""}${whatsapp || ""}"
+      Address: "${Address}", 
+      idPic: $idPic
+      tradeLic: $tradeLic
+      Psport: $Psport
+      OtherPic: $OtherPic
         ) {
           message
         }
@@ -50,11 +63,48 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
 
     const path = "";
     try {
-      const res = await POST_API(
-        path,
-        JSON.stringify({ query: mutation }),
-        headers
-      );
+      const operations = {
+        query: mutation,
+        variables: {
+          idPic: null,
+          Psport: null,
+          OtherPic: null,
+          tradeLic: null,
+        },
+      };
+
+      const map = {
+        0: ["variables.idPic"],
+        1: ["variables.Psport"],
+        2: ["variables.OtherPic"],
+        3: ["variables.tradeLic"],
+      };
+
+      const formDataToSend = new FormData();
+      formDataToSend.append("operations", JSON.stringify(operations));
+      formDataToSend.append("map", JSON.stringify(map));
+
+      if (values.idPic && values.idPic[0] && values.idPic[0].originFileObj) {
+        formDataToSend.append("0", values.idPic[0].originFileObj.toString());
+      }
+      if (values.Psport && values.Psport[0] && values.Psport[0].originFileObj) {
+        formDataToSend.append("1", values.Psport[0].originFileObj.toString());
+      }
+      if (
+        values.OtherPic &&
+        values.OtherPic[0] &&
+        values.OtherPic[0].originFileObj
+      ) {
+        formDataToSend.append("2", values.OtherPic[0].originFileObj.toString());
+      }
+      if (
+        values.tradeLic &&
+        values.tradeLic[0] &&
+        values.tradeLic[0].originFileObj
+      ) {
+        formDataToSend.append("3", values.tradeLic[0].originFileObj.toString());
+      }
+      const res = await POST_API(path, formDataToSend, headers);
       if (res) {
         message.success(res.data.addDMC?.message);
         getDMCs();
@@ -68,7 +118,7 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full h-full p-4">
+    <Form form={form} onFinish={onSubmit} className="w-full h-full p-4">
       <h1 className="title capitalize">add DMCs</h1>
       <label className="labelStyle">DMCs</label>
       <Input
@@ -202,10 +252,62 @@ const AddDMCs = ({ getDMCs, handleCancel }) => {
         type="email"
         className="border-black w-full"
       />
+      <label>
+        Address
+        <Input
+          value={Address}
+          name="Address"
+          onChange={onChange}
+          className="w-full mb-2"
+        />
+      </label>
+      <Form.Item
+        name="idPic"
+        label="ID"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        rules={[{ required: true, message: "Please upload the ID!" }]}
+      >
+        <Upload beforeUpload={() => false} listType="picture">
+          <Button icon={<UploadOutlined />}>upload</Button>
+        </Upload>
+      </Form.Item>
+      <Form.Item
+        name="tradeLic"
+        label="Trade License"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        rules={[{ required: true, message: "Please upload the ID!" }]}
+      >
+        <Upload beforeUpload={() => false} listType="picture">
+          <Button icon={<UploadOutlined />}>upload</Button>
+        </Upload>
+      </Form.Item>
+      <Form.Item
+        name="Psport"
+        label="PASSPORT"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        rules={[{ required: true, message: "Please upload the passport!" }]}
+      >
+        <Upload beforeUpload={() => false} listType="picture">
+          <Button icon={<UploadOutlined />}>upload</Button>
+        </Upload>
+      </Form.Item>
+      <Form.Item
+        name="OtherPic"
+        label="OTHER"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+      >
+        <Upload beforeUpload={() => false} listType="picture">
+          <Button icon={<UploadOutlined />}>upload</Button>
+        </Upload>
+      </Form.Item>
       <Button htmlType="submit" className="m-5 button-bar float-right">
         Save
       </Button>
-    </form>
+    </Form>
   );
 };
 
